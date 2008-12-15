@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternSpace", "Western Space\WesternSpace.csproj", "{CCFD85DF-E138-4AE5-B44E-BF13AE4F09C0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CCFD85DF-E138-4AE5-B44E-BF13AE4F09C0}.Debug|x86.ActiveCfg = Debug|x86
+		{CCFD85DF-E138-4AE5-B44E-BF13AE4F09C0}.Debug|x86.Build.0 = Debug|x86
+		{CCFD85DF-E138-4AE5-B44E-BF13AE4F09C0}.Release|x86.ActiveCfg = Release|x86
+		{CCFD85DF-E138-4AE5-B44E-BF13AE4F09C0}.Release|x86.Build.0 = Release|x86
+		{8FF2AD5E-E0B9-4F61-A2A8-DD282461EE82}.Debug|x86.ActiveCfg = Debug|x86
+		{8FF2AD5E-E0B9-4F61-A2A8-DD282461EE82}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

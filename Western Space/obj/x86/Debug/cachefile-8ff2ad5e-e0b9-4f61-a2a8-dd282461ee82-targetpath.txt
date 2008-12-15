@@ -1,0 +1,5 @@
+Content\Fonts\Pala.xnb
+Content\Music\rave.xnb
+Content\Music\rave.wma
+Content\Sprites\1down.xnb
+Content\Sprites\1up.xnb
