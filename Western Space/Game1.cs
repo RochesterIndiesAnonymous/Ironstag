@@ -13,9 +13,9 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace WesternSpace
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
+    /*
+     * Default Game Class
+     */
     public class Game1 : Microsoft.Xna.Framework.Game
     {
 
@@ -33,7 +33,12 @@ namespace WesternSpace
         Song rave;
         SpriteFont font;
         Vector2 fontPos;
+        PlayerObject megaFly = new PlayerObject();
+        List<FlyingObject> flyObjList = new List<FlyingObject>();
 
+        /*
+         * Default Constructor
+         */
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -48,7 +53,7 @@ namespace WesternSpace
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            //Initialization Logic
             base.Initialize();
 
             //Get "old" keyboard state
@@ -58,18 +63,14 @@ namespace WesternSpace
             mouseCursor = new Cursor(Content.Load<Texture2D>("Sprites\\1down"));
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
+        /*
+         * LoadContent will be called once per game and is the place to load
+         * all of your content.
+         */ 
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            //Initialize
-
-            // TODO: use this.Content to load your game content here
 
             //Setup the font
             font = Content.Load<SpriteFont>("Fonts\\Pala");
@@ -78,8 +79,10 @@ namespace WesternSpace
             //Create 5000 game objects and add them to a list.
             for (int count = 0; count < 2500; count++)
             {
-                GameObject megaSmile = new GameObject(Content.Load<Texture2D>("Sprites\\1up"));
-                GameObject megaFrown = new GameObject(Content.Load<Texture2D>("Sprites\\1down"));
+                GameObject megaSmile = new GameObject();
+                megaSmile.LoadContent(Content.Load<Texture2D>("Sprites\\1up"));
+                GameObject megaFrown = new GameObject();
+                megaFrown.LoadContent(Content.Load<Texture2D>("Sprites\\1down"));
                 megaSmile.position = new Vector2(random.Next(MIN_SIZE, this.graphics.GraphicsDevice.Viewport.Width),
                                                  random.Next(MIN_SIZE, this.graphics.GraphicsDevice.Viewport.Height));
                 megaFrown.position = new Vector2(random.Next(MIN_SIZE, this.graphics.GraphicsDevice.Viewport.Width),
@@ -88,25 +91,45 @@ namespace WesternSpace
                 gameObjList.Add(megaFrown);
             }
 
+            //Create the Movable Character
+            megaFly.loadContent(Content.Load<Texture2D>("Sprites\\rushFrown"));
+
+            //Create 20 flying graphics and add them to a list.
+            for (int count = 0; count < 10; count++)
+            {
+                FlyingObject metaFly = new FlyingObject(new Vector2(0, 0), new Vector2(-1, 0));
+                metaFly.loadContent(Content.Load<Texture2D>("Sprites\\flyingMeta"), Content.Load<SoundEffect>("Sounds\\hBump"), Content.Load<SoundEffect>("Sounds\\wBump"));
+                metaFly.position = new Vector2(random.Next(MIN_SIZE + 1, graphics.GraphicsDevice.Viewport.Width-(metaFly.size.Width-1)),
+                                               random.Next(MIN_SIZE + 1, graphics.GraphicsDevice.Viewport.Height-(metaFly.size.Height-1)));
+                FlyingObject copterJoe = new FlyingObject(new Vector2(random.Next(MIN_SIZE, graphics.GraphicsDevice.Viewport.Width),
+                                                                      random.Next(MIN_SIZE, graphics.GraphicsDevice.Viewport.Height)), new Vector2(0, -1));
+                copterJoe.loadContent(Content.Load<Texture2D>("Sprites\\CopterJoe"), Content.Load<SoundEffect>("Sounds\\hBump"), Content.Load<SoundEffect>("Sounds\\wBump"));
+                copterJoe.position = new Vector2(random.Next(MIN_SIZE+1, graphics.GraphicsDevice.Viewport.Width-(copterJoe.size.Width-1)), 
+                                                 random.Next(MIN_SIZE+1, graphics.GraphicsDevice.Viewport.Height-(copterJoe.size.Height-1)));
+                flyObjList.Add(metaFly);
+                flyObjList.Add(copterJoe);
+            }
+
             //Setup the music
             rave = Content.Load<Song>("Music\\rave");
             MediaPlayer.Play(rave);
             MediaPlayer.Pause();
         }
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
+        /*
+         * UnloadContent will be called once per game and is the place to unload
+         * all content.
+         */
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        /*
+         * Allows the game to run logic such as updating the world,
+         * checking for collisions, gathering input, and playing audio.
+         *
+         * <param name="gameTime">Provides a snapshot of timing values.</param>
+         */
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
@@ -119,30 +142,40 @@ namespace WesternSpace
             //Update Mouse Position
             mouseCursor.Update();
 
-            // Toggles between fullscreen and windowed mode with the 'F' key
+            //Update the player character
+            megaFly.Update(gameTime);
 
+            //Should be handled in the Update method of the particular object, but I did not pass the graphics object to that class.
+            megaFly.position.X = MathHelper.Clamp(megaFly.position.X, MIN_SIZE, graphics.GraphicsDevice.Viewport.Width - megaFly.size.Width);
+            megaFly.position.Y = MathHelper.Clamp(megaFly.position.Y, MIN_SIZE, graphics.GraphicsDevice.Viewport.Height - megaFly.size.Height);
 
-            // TODO: Add your update logic here
-
+            //Update the movement for all of the Flying objects --Clamp should probably go in their Update as well.
+            foreach (FlyingObject currObj in flyObjList)
+            {
+                currObj.UpdateMovement(gameTime, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+                currObj.position.Y = MathHelper.Clamp(currObj.position.Y, MIN_SIZE, graphics.GraphicsDevice.Viewport.Height - currObj.size.Height);
+            }
+            
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        /*
+         * This is called when the game should draw itself.
+         *
+         * <param name="gameTime">Provides a snapshot of timing values.</param>
+         */
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            //Draw the list of game objects
+            //Draw the 5000 background sprites
             foreach (GameObject currObj in gameObjList)
             {
                 if (raveParty)
                 {
+                    //If it is time for an amazing rave party, randomly update the positions for each sprite
                     currObj.position = new Vector2(random.Next(MIN_SIZE, this.graphics.GraphicsDevice.Viewport.Width),
                                                    random.Next(MIN_SIZE, this.graphics.GraphicsDevice.Viewport.Height));
                 }
@@ -152,6 +185,15 @@ namespace WesternSpace
             //Draw the Font
             String output = mouseCursor.getPosition().X +", "+ mouseCursor.getPosition().Y;
             spriteBatch.DrawString(font, output, fontPos, Color.Red);
+
+            //Draw all of the flying objects in their list
+            foreach (FlyingObject currObj in flyObjList)
+            {
+                currObj.Draw(this.spriteBatch);
+            }
+
+            //Draw the player character object
+            megaFly.Draw(spriteBatch);
 
             //Draw the Mouse Cursor
             mouseCursor.Draw(this.spriteBatch);
@@ -212,12 +254,14 @@ namespace WesternSpace
 
             if (raveParty)
             {
-                mouseCursor.setSprite(Content.Load<Texture2D>("Sprites\\1up"));
+                mouseCursor.Sprite = (Content.Load<Texture2D>("Sprites\\1up"));
+                megaFly.Sprite = (Content.Load<Texture2D>("Sprites\\rushSmile"));
                 MediaPlayer.Resume();
             }
             else
             {
-                mouseCursor.setSprite(Content.Load<Texture2D>("Sprites\\1down"));
+                mouseCursor.Sprite = (Content.Load<Texture2D>("Sprites\\1down"));
+                megaFly.Sprite = (Content.Load<Texture2D>("Sprites\\rushFrown"));
                 MediaPlayer.Pause();
             }
         }

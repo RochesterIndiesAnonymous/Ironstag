@@ -42,10 +42,16 @@ namespace WesternSpace
         /*
          * Set's the cursor's image to the new texture
          */
-        public void setSprite(Texture2D newSprite)
+        public Texture2D Sprite
+        {
+            set { spriteTexture = value; }
+        }
+      
+        /*public void setSprite(Texture2D newSprite)
         {
             spriteTexture = newSprite;
         }
+         */
 
         /*
          * Returns the cursor's current position
