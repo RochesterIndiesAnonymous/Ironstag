@@ -36,6 +36,10 @@ namespace WesternSpace
         PlayerObject megaFly = new PlayerObject();
         List<FlyingObject> flyObjList = new List<FlyingObject>();
 
+        // tjw6445 - Variables for maintaining and displaying framerate. 
+        double fps;
+        Vector2 fpsStringPos;
+
         /*
          * Default Constructor
          */
@@ -75,6 +79,7 @@ namespace WesternSpace
             //Setup the font
             font = Content.Load<SpriteFont>("Fonts\\Pala");
             fontPos = new Vector2(MIN_SIZE, MIN_SIZE);
+            fpsStringPos = new Vector2(fontPos.X, fontPos.Y + font.LineSpacing);
 
             //Create 5000 game objects and add them to a list.
             for (int count = 0; count < 2500; count++)
@@ -166,6 +171,9 @@ namespace WesternSpace
          */
         protected override void Draw(GameTime gameTime)
         {
+            // tjw6445 - Calculate frames per second. 
+            fps = 1000/gameTime.ElapsedGameTime.TotalMilliseconds;
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
@@ -185,6 +193,10 @@ namespace WesternSpace
             //Draw the Font
             String output = mouseCursor.getPosition().X +", "+ mouseCursor.getPosition().Y;
             spriteBatch.DrawString(font, output, fontPos, Color.Red);
+
+            // tjw6445 - Display the framerate.
+            output = "FPS: " + fps;
+            spriteBatch.DrawString(font, output, fpsStringPos, Color.Red);
 
             //Draw all of the flying objects in their list
             foreach (FlyingObject currObj in flyObjList)
