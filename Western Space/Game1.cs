@@ -41,7 +41,7 @@ namespace WesternSpace
         //            dictionary as Texture2Ds where the key for them
         //            is their filename without the "Sprites\\" part
         //            or extension.
-        public Dictionary<String, Texture2D> textures = new Dictionary<String, Texture2D>();
+        public Dictionary<String, Texture2D> textures;
         
 
         // tjw6445 - Variables for maintaining and displaying framerate. 
@@ -55,6 +55,7 @@ namespace WesternSpace
         {
             graphics = new GraphicsDeviceManager(this);
             flyObjList = new List<FlyingObject>();
+            textures = new Dictionary<String, Texture2D>();
             Content.RootDirectory = "Content";
         }
 
