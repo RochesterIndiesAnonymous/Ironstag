@@ -31,11 +31,9 @@ namespace WesternSpace
         Vector2 speed = Vector2.Zero;
         KeyboardState oldKeyboardState;
 
-        public void loadContent(Texture2D loadedTexture)
-	    {
-            position = Vector2.Zero;
-
-            base.LoadContent(loadedTexture);
+        public PlayerObject(Game1 game, String contentName)
+            : base(game, contentName)
+        { 
         }
 
         public void Update(GameTime gameTime)

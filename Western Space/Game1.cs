@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -33,8 +34,15 @@ namespace WesternSpace
         Song rave;
         SpriteFont font;
         Vector2 fontPos;
-        PlayerObject megaFly = new PlayerObject();
-        List<FlyingObject> flyObjList = new List<FlyingObject>();
+        PlayerObject megaFly; 
+        List<FlyingObject> flyObjList;
+
+        // lra4691 - All sprite will be contained in the following
+        //            dictionary as Texture2Ds where the key for them
+        //            is their filename without the "Sprites\\" part
+        //            or extension.
+        public Dictionary<String, Texture2D> textures = new Dictionary<String, Texture2D>();
+        
 
         // tjw6445 - Variables for maintaining and displaying framerate. 
         double fps;
@@ -46,6 +54,7 @@ namespace WesternSpace
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            flyObjList = new List<FlyingObject>();
             Content.RootDirectory = "Content";
         }
 
@@ -64,7 +73,7 @@ namespace WesternSpace
             oldState = Keyboard.GetState();
 
             //Setup cursor
-            mouseCursor = new Cursor(Content.Load<Texture2D>("Sprites\\1down"));
+            mouseCursor = new Cursor(textures["1down"]);
         }
 
         /*
@@ -73,6 +82,19 @@ namespace WesternSpace
          */ 
         protected override void LoadContent()
         {
+            // lra4691 - Load each image from the "Sprites" content directory.
+            //           NOTE: Here we assume all files in "Sprites" can be loaded
+            //                  properly with Content.Load<Texture2D>()!
+
+            DirectoryInfo di = new DirectoryInfo("Content\\Sprites");
+            FileInfo[] files = di.GetFiles("*.xnb");
+
+            foreach (FileInfo file in files) 
+            {
+                String path = file.Name.Substring(0, file.Name.Length - 4);
+                textures.Add(path, Content.Load<Texture2D>("Sprites\\"+path));
+            }
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -81,13 +103,13 @@ namespace WesternSpace
             fontPos = new Vector2(MIN_SIZE, MIN_SIZE);
             fpsStringPos = new Vector2(fontPos.X, fontPos.Y + font.LineSpacing);
 
+            megaFly = new PlayerObject(this, "rushFrown");
+
             //Create 5000 game objects and add them to a list.
             for (int count = 0; count < 2500; count++)
             {
-                GameObject megaSmile = new GameObject();
-                megaSmile.LoadContent(Content.Load<Texture2D>("Sprites\\1up"));
-                GameObject megaFrown = new GameObject();
-                megaFrown.LoadContent(Content.Load<Texture2D>("Sprites\\1down"));
+                GameObject megaSmile = new GameObject(this, "1up");
+                GameObject megaFrown = new GameObject(this, "1down");
                 megaSmile.position = new Vector2(random.Next(MIN_SIZE, this.graphics.GraphicsDevice.Viewport.Width),
                                                  random.Next(MIN_SIZE, this.graphics.GraphicsDevice.Viewport.Height));
                 megaFrown.position = new Vector2(random.Next(MIN_SIZE, this.graphics.GraphicsDevice.Viewport.Width),
@@ -96,19 +118,16 @@ namespace WesternSpace
                 gameObjList.Add(megaFrown);
             }
 
-            //Create the Movable Character
-            megaFly.loadContent(Content.Load<Texture2D>("Sprites\\rushFrown"));
-
             //Create 20 flying graphics and add them to a list.
             for (int count = 0; count < 10; count++)
             {
-                FlyingObject metaFly = new FlyingObject(new Vector2(0, 0), new Vector2(-1, 0));
-                metaFly.loadContent(Content.Load<Texture2D>("Sprites\\flyingMeta"), Content.Load<SoundEffect>("Sounds\\hBump"), Content.Load<SoundEffect>("Sounds\\wBump"));
+                FlyingObject metaFly = new FlyingObject(this, "flyingMeta", new Vector2(0, 0), new Vector2(-1, 0),
+                    Content.Load<SoundEffect>("Sounds\\hBump"), Content.Load<SoundEffect>("Sounds\\wBump") );
                 metaFly.position = new Vector2(random.Next(MIN_SIZE + 1, graphics.GraphicsDevice.Viewport.Width-(metaFly.size.Width-1)),
                                                random.Next(MIN_SIZE + 1, graphics.GraphicsDevice.Viewport.Height-(metaFly.size.Height-1)));
-                FlyingObject copterJoe = new FlyingObject(new Vector2(random.Next(MIN_SIZE, graphics.GraphicsDevice.Viewport.Width),
-                                                                      random.Next(MIN_SIZE, graphics.GraphicsDevice.Viewport.Height)), new Vector2(0, -1));
-                copterJoe.loadContent(Content.Load<Texture2D>("Sprites\\CopterJoe"), Content.Load<SoundEffect>("Sounds\\hBump"), Content.Load<SoundEffect>("Sounds\\wBump"));
+                FlyingObject copterJoe = new FlyingObject(this, "CopterJoe", new Vector2(random.Next(MIN_SIZE, graphics.GraphicsDevice.Viewport.Width),
+                                                                      random.Next(MIN_SIZE, graphics.GraphicsDevice.Viewport.Height)), new Vector2(0, -1),
+                                                                      Content.Load<SoundEffect>("Sounds\\hBump"), Content.Load<SoundEffect>("Sounds\\wBump"));
                 copterJoe.position = new Vector2(random.Next(MIN_SIZE+1, graphics.GraphicsDevice.Viewport.Width-(copterJoe.size.Width-1)), 
                                                  random.Next(MIN_SIZE+1, graphics.GraphicsDevice.Viewport.Height-(copterJoe.size.Height-1)));
                 flyObjList.Add(metaFly);

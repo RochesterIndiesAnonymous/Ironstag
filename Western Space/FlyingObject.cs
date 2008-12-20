@@ -35,8 +35,13 @@ namespace WesternSpace
         SoundEffect sideFx;
         SoundEffect topFx;
 
-        public FlyingObject(Vector2 initPos, Vector2 initDir)
+        public FlyingObject(Game1 game, String contentName, Vector2 initPos, Vector2 initDir, 
+            SoundEffect top, SoundEffect side)
+            : base(game, contentName)
         {
+            sideFx = side;
+            topFx = top;
+
             position = initPos;
             direction = initDir;
 
@@ -48,13 +53,6 @@ namespace WesternSpace
             {
                 speed.Y = FLYING_SPEED;
             }
-        }
-
-        public void loadContent(Texture2D loadedTexture, SoundEffect top, SoundEffect side)
-        {
-            sideFx = side;
-            topFx = top;
-            base.LoadContent(loadedTexture);
         }
 
         public void UpdateMovement(GameTime gameTime, int viewWidth, int viewHeight)
