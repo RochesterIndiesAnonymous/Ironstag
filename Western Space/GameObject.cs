@@ -30,6 +30,8 @@ namespace WesternSpace
             this.game = game;
             this.contentName = contentName;
             spriteTexture = game.textures[contentName];
+            size = new Rectangle(0, 0, (int)(spriteTexture.Width * scale),
+                                 (int)(spriteTexture.Height * scale));
         }
 
         //Getters and Setters
@@ -61,16 +63,6 @@ namespace WesternSpace
         {
             get { return position; }
             set { position = value; }
-        }
-
-        /*
-         * Loads the object's content
-         */
-        public void LoadContent(Texture2D loadedTexture)
-        {
-            spriteTexture = loadedTexture;
-            size = new Rectangle(0, 0, (int)(spriteTexture.Width * scale),
-                                 (int)(spriteTexture.Height * scale));
         }
 
         /*
