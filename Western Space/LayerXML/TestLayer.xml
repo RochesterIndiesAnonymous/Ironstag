@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Layer>
+  <Textures>
+    <Texture FileName="Textures\Camouflage" ColorRed="255" ColorGreen="0" ColorBlue="0" />
+    <Texture FileName="Textures\ConcreteBunker" ColorRed="0" ColorGreen="255" ColorBlue="0" />
+    <Texture FileName="Textures\WaterStream" ColorRed="0" ColorGreen="0" ColorBlue="255" />
+  </Textures>
+</Layer>
