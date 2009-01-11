@@ -14,9 +14,14 @@ namespace WesternSpace
             //    game.Run();
             //}
 
-            using (TilingEngineTest test = new TilingEngineTest())
+            //using (TilingEngineTest test = new TilingEngineTest())
+            //{
+            //    test.Run();
+            //}
+
+            using (ScreenManager.Instance)
             {
-                test.Run();
+                ScreenManager.Instance.Run();
             }
         }
     }

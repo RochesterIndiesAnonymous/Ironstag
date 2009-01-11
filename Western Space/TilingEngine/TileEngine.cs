@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using System.Xml.Linq;
+using WesternSpace.ServiceInterfaces;
 
 namespace WesternSpace.TilingEngine
 {
@@ -21,29 +22,40 @@ namespace WesternSpace.TilingEngine
         private Game game;
         private Dictionary<string, Texture2D> loadedTextures;
 
-        public TileEngine(Game game, Dictionary<string, Texture2D> loadedTextures)
+        public TileEngine(Game game)
         {
             this.game = game;
-            this.loadedTextures = loadedTextures;
+
+            ITextureService textureService = (ITextureService)game.Services.GetService(typeof(ITextureService));
+            this.loadedTextures = textureService.Textures;
         }
 
-        public Layer LoadLayer(string imageFileName, string settingsFileName)
+        public TileMap LoadLayer(string imageFileName, string settingsFileName)
         {
             Texture2D layer = game.Content.Load<Texture2D>(imageFileName);
 
             Color[] allPixels = new Color[(layer.Width * layer.Height)];
 
             layer.GetData<Color>(allPixels);
-            Dictionary<Color, string> lookupTable = LoadSettingsFile(settingsFileName);
+            Dictionary<Color, Tile> lookupTable = LoadSettingsFile(settingsFileName);
+            TileMap tm = new TileMap(game, layer.Width, layer.Height, 100, 100);
 
-            Layer result = new Layer(game, loadedTextures, allPixels, lookupTable, layer.Height, layer.Width, 100, 100);
+            for (int i = 0; i < allPixels.Length; i++)
+            {
+                int x = i % layer.Width;
+                int y = i / layer.Width;
 
-            return result;
+                Tile t = lookupTable[allPixels[i]];
+
+                tm.SetTile(t, x, y);
+            }
+
+            return tm;
         }
 
-        private Dictionary<Color, string> LoadSettingsFile(string settingsFileName)
+        private Dictionary<Color, Tile> LoadSettingsFile(string settingsFileName)
         {
-            Dictionary<Color, string> lookupTable = new Dictionary<Color, string>();
+            Dictionary<Color, Tile> lookupTable = new Dictionary<Color, Tile>();
 
             XElement rootLayerElement = XElement.Load(settingsFileName);
 
@@ -63,7 +75,7 @@ namespace WesternSpace.TilingEngine
                     loadedTextures.Add(li.Name, game.Content.Load<Texture2D>(li.Name));
                 }
 
-                lookupTable.Add(li.Color, li.Name);
+                lookupTable.Add(li.Color, new Tile(loadedTextures[li.Name]));
             }
 
             return lookupTable;

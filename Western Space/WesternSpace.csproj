@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Western_Space</RootNamespace>
+    <RootNamespace>WesternSpace</RootNamespace>
     <AssemblyName>Western Space</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <XnaFrameworkVersion>v3.0</XnaFrameworkVersion>
@@ -84,17 +84,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FlyingObject.cs" />
-    <Compile Include="Cursor.cs" />
-    <Compile Include="PlayerObject.cs" />
-    <Compile Include="Game1.cs" />
+    <Compile Include="DrawableComponents\Misc\FPSComponent.cs" />
+    <Compile Include="DrawableGameObject.cs" />
+    <Compile Include="LegacyCode\FlyingObject.cs" />
+    <Compile Include="LegacyCode\Cursor.cs" />
+    <Compile Include="LegacyCode\PlayerObject.cs" />
+    <Compile Include="LegacyCode\Game1.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TilingEngineTest.cs" />
-    <Compile Include="TilingEngine\Layer.cs" />
+    <Compile Include="ScreenManager.cs" />
+    <Compile Include="Screens\GameScreen.cs" />
+    <Compile Include="ServiceInterfaces\IGraphicsDeviceManagerService.cs" />
+    <Compile Include="ServiceInterfaces\ITextureService.cs" />
+    <Compile Include="Services\GraphicsDeviceMangerService.cs" />
+    <Compile Include="Services\TextureService.cs" />
+    <Compile Include="LegacyCode\TilingEngineTest.cs" />
+    <Compile Include="LegacyCode\Layer.cs" />
     <Compile Include="TilingEngine\LayerInformation.cs" />
+    <Compile Include="TilingEngine\Tile.cs" />
     <Compile Include="TilingEngine\TileEngine.cs" />
+    <Compile Include="TilingEngine\TileMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
