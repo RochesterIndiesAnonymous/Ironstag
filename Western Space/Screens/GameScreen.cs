@@ -5,6 +5,7 @@ using System.Text;
 using WesternSpace.DrawableComponents.Misc;
 using Microsoft.Xna.Framework;
 using WesternSpace.TilingEngine;
+using WesternSpace.Services;
 
 namespace WesternSpace.Screens
 {
@@ -31,13 +32,18 @@ namespace WesternSpace.Screens
 
             // Create our FPSComponent
             FPSComponent fps = new FPSComponent(this.Game);
-            fps.DrawOrder = 1;
+            fps.DrawOrder = 2;
             this.Game.Components.Add(fps);
 
             // Create our tilemap
             TileMap tm = tileEngine.LoadLayer("Layers\\TestLayer", "LayerXML\\TestLayer.xml");
-            tm.DrawOrder = 0;
+            tm.DrawOrder = 1;
             this.Game.Components.Add(tm);
+
+            Camera camera = new Camera(this.Game);
+            camera.UpdateOrder = 0;
+            camera.DrawOrder = 0;
+            this.Game.Components.Add(camera);
 
             // Initialize all components
             base.Initialize();
