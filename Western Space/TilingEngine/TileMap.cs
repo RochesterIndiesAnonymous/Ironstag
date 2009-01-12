@@ -40,10 +40,9 @@ namespace WesternSpace.TilingEngine
 
             for (int x = 0, y = 0; x < tiles.GetLength(0) && y < tiles.GetLength(1); x++)
             {
-                Texture2D t = tiles[x, y].Texture;
                 Vector2 position = new Vector2(x * gridCellWidth, y * gridCellHeight);
 
-                sb.Draw(t, position, Color.White);
+                tiles[x, y].Draw(sb, position);
 
                 if (x != 0 && x % (tiles.GetLength(0) - 1) == 0)
                 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace WesternSpace.TilingEngine
 {
@@ -23,6 +24,11 @@ namespace WesternSpace.TilingEngine
         public Tile(Texture2D texture)
         {
             this.texture = texture;
+        }
+
+        public void Draw(SpriteBatch sb, Vector2 drawPosition)
+        {
+            sb.Draw(this.Texture, drawPosition, Color.White);
         }
     }
 }
