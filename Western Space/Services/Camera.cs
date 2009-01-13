@@ -9,12 +9,13 @@ using Microsoft.Xna.Framework;
 
 namespace WesternSpace.Services
 {
-    class Camera : DrawableGameObject, ICamera
+    class Camera : GameObject, ICamera
     {
         private KeyboardState oldKeyboardState;
         private int xCameraOffset;
+        private int yCameraOffset;
 
-        private const int SCROLL_SPEED = 1;
+        private const int SCROLL_SPEED = 5;
 
         public Camera(Game game)
             : base(game)
@@ -48,12 +49,18 @@ namespace WesternSpace.Services
             base.Update(gameTime);
         }
 
-        public override void Draw(GameTime gameTime)
-        {
-            Viewport vp = this.Game.GraphicsDevice.Viewport;
-            vp.X += xCameraOffset;
+        #region ICamera Members
 
-            base.Draw(gameTime);
+        public int XOffset
+        {
+            get { return xCameraOffset; }
         }
+
+        public int YOffset
+        {
+            get { return yCameraOffset; }
+        }
+
+        #endregion
     }
 }

@@ -6,6 +6,7 @@ using WesternSpace.DrawableComponents.Misc;
 using Microsoft.Xna.Framework;
 using WesternSpace.TilingEngine;
 using WesternSpace.Services;
+using WesternSpace.ServiceInterfaces;
 
 namespace WesternSpace.Screens
 {
@@ -42,7 +43,7 @@ namespace WesternSpace.Screens
 
             Camera camera = new Camera(this.Game);
             camera.UpdateOrder = 0;
-            camera.DrawOrder = 0;
+            this.Game.Services.AddService(typeof(ICamera), camera);
             this.Game.Components.Add(camera);
 
             // Initialize all components

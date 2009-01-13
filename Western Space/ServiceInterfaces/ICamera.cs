@@ -7,5 +7,14 @@ namespace WesternSpace.ServiceInterfaces
 {
     interface ICamera
     {
+        public int XOffset
+        {
+            get;
+        }
+
+        public int YOffset
+        {
+            get;
+        }
     }
 }

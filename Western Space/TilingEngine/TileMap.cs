@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using WesternSpace.ServiceInterfaces;
 
 namespace WesternSpace.TilingEngine
 {
@@ -17,12 +18,16 @@ namespace WesternSpace.TilingEngine
 
         private Tile[,] tiles;
 
+        private ICamera camera;
+
         public TileMap(Game game, int cellX, int cellY, int tileWidth, int tileHeight)
             : base(game)
         {
             this.Enabled = false;
 
             sb = new SpriteBatch(game.GraphicsDevice);
+
+            camera = (ICamera)game.Services.GetService(typeof(ICamera));
 
             tiles = new Tile[cellX,cellY];
             gridCellWidth = tileWidth;
@@ -42,6 +47,7 @@ namespace WesternSpace.TilingEngine
             {
                 Vector2 position = new Vector2(x * gridCellWidth, y * gridCellHeight);
 
+                
                 tiles[x, y].Draw(sb, position);
 
                 if (x != 0 && x % (tiles.GetLength(0) - 1) == 0)
