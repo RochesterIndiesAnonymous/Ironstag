@@ -86,7 +86,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DrawableComponents\Misc\FPSComponent.cs" />
+    <Compile Include="DrawableComponents\Misc\MapCoordinateComponent.cs" />
+    <Compile Include="DrawableComponents\Misc\MouseScreenCoordinatesComponent.cs" />
+    <Compile Include="DrawableComponents\Misc\MouseWorldCoordinatesComponent.cs" />
     <Compile Include="DrawableGameObject.cs" />
+    <Compile Include="Interfaces\IMapCoordinates.cs" />
     <Compile Include="LegacyCode\FlyingObject.cs" />
     <Compile Include="LegacyCode\Cursor.cs" />
     <Compile Include="LegacyCode\PlayerObject.cs" />

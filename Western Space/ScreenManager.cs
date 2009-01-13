@@ -56,6 +56,7 @@ namespace WesternSpace
         protected override void Initialize()
         {
             //Initialization Logic
+            this.IsMouseVisible = true;
 
             // Set our XNA content directory
             Content.RootDirectory = "Content";

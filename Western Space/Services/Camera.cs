@@ -7,12 +7,14 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Drawing;
+using WesternSpace.Interfaces;
 
 namespace WesternSpace.Services
 {
     class Camera : GameObject, ICamera
     {
         private KeyboardState oldKeyboardState;
+        private MouseState oldMouseState;
         private Vector2 position;
         private Vector2 offset;
         private RectangleF visibleArea;
@@ -82,6 +84,7 @@ namespace WesternSpace.Services
         public override void Initialize()
         {
             oldKeyboardState = Keyboard.GetState();
+            oldMouseState = Mouse.GetState();
             position = Vector2.Zero;
             offset = Vector2.Zero;
             viewMatrix = Matrix.Identity;
@@ -118,6 +121,7 @@ namespace WesternSpace.Services
             }
 
             oldKeyboardState = newKeyboardState;
+            oldMouseState = Mouse.GetState();
 
             CreateViewTransformationMatrix();
 
@@ -141,5 +145,25 @@ namespace WesternSpace.Services
 
             viewMatrix = Matrix.CreateTranslation(-matrixRotationOrigin) * Matrix.CreateTranslation(matrixScreenPosition);
         }
+
+        #region ICamera Members
+
+
+        public Vector2 GetMouseWorldCoordinates()
+        {
+            return new Vector2(Offset.X + oldMouseState.X, Offset.Y + oldMouseState.Y);
+        }
+
+        public Vector2 GetScreenCoordinates()
+        {
+            return new Vector2(oldMouseState.X, oldMouseState.Y);
+        }
+
+        public Vector2 GetMapCoordinates(IMapCoordinates coordinateSystem)
+        {
+            return coordinateSystem.CalculateMapCoordinatesFromMouse(new Vector2(oldMouseState.X, oldMouseState.Y));
+        }
+
+        #endregion
     }
 }

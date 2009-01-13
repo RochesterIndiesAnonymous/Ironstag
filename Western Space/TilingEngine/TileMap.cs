@@ -5,10 +5,11 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.ServiceInterfaces;
+using WesternSpace.Interfaces;
 
 namespace WesternSpace.TilingEngine
 {
-    public class TileMap : DrawableGameObject
+    public class TileMap : DrawableGameObject, IMapCoordinates
     {
         private SpriteBatch sb;
 
@@ -65,5 +66,17 @@ namespace WesternSpace.TilingEngine
 
             base.Draw(gameTime);
         }
+
+        #region IMapCoordinates Members
+
+        public Vector2 CalculateMapCoordinatesFromMouse(Vector2 atPoint)
+        {
+            float x = (camera.Offset.X / gridCellWidth) + atPoint.X / gridCellWidth;
+            float y = camera.Offset.Y + atPoint.Y / gridCellHeight;
+
+            return new Vector2(x, y);
+        }
+
+        #endregion
     }
 }

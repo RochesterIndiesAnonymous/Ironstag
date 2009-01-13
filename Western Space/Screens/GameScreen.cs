@@ -36,10 +36,25 @@ namespace WesternSpace.Screens
             fps.DrawOrder = 2;
             this.Game.Components.Add(fps);
 
+            MouseScreenCoordinatesComponent mscc = new MouseScreenCoordinatesComponent(this.Game);
+            mscc.UpdateOrder = 2;
+            mscc.DrawOrder = 4;
+            this.Game.Components.Add(mscc);
+
             // Create our tilemap
             TileMap tm = tileEngine.LoadLayer("Layers\\TestLayer", "LayerXML\\TestLayer.xml");
             tm.DrawOrder = 1;
             this.Game.Components.Add(tm);
+
+            MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, tm);
+            mcc.UpdateOrder = 1;
+            mcc.DrawOrder = 3;
+            this.Game.Components.Add(mcc);
+
+            MouseWorldCoordinatesComponent mwcc = new MouseWorldCoordinatesComponent(this.Game);
+            mwcc.UpdateOrder = 2;
+            mwcc.DrawOrder = 4;
+            this.Game.Components.Add(mwcc);
 
             Camera camera = new Camera(this.Game);
             camera.UpdateOrder = 0;

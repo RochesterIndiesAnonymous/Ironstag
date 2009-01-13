@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Drawing;
+using WesternSpace.Interfaces;
 
 namespace WesternSpace.ServiceInterfaces
 {
@@ -35,5 +36,11 @@ namespace WesternSpace.ServiceInterfaces
         {
             get;
         }
+
+        Vector2 GetMouseWorldCoordinates();
+
+        Vector2 GetScreenCoordinates();
+
+        Vector2 GetMapCoordinates(IMapCoordinates coordinateSystem);
     }
 }
