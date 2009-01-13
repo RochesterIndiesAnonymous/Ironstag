@@ -27,8 +27,6 @@ namespace WesternSpace.TilingEngine
 
             sb = new SpriteBatch(game.GraphicsDevice);
 
-            camera = (ICamera)game.Services.GetService(typeof(ICamera));
-
             tiles = new Tile[cellX,cellY];
             gridCellWidth = tileWidth;
             gridCellHeight = tileHeight;
@@ -39,15 +37,21 @@ namespace WesternSpace.TilingEngine
             tiles[x,y] = tile;
         }
 
+        public override void Initialize()
+        {
+            camera = (ICamera)this.Game.Services.GetService(typeof(ICamera));
+
+            base.Initialize();
+        }
+
         public override void Draw(GameTime gameTime)
         {
-            sb.Begin();
+            sb.Begin(SpriteBlendMode.None, SpriteSortMode.BackToFront, SaveStateMode.None, camera.CurrentViewMatrix);
 
             for (int x = 0, y = 0; x < tiles.GetLength(0) && y < tiles.GetLength(1); x++)
             {
                 Vector2 position = new Vector2(x * gridCellWidth, y * gridCellHeight);
 
-                
                 tiles[x, y].Draw(sb, position);
 
                 if (x != 0 && x % (tiles.GetLength(0) - 1) == 0)
