@@ -8,9 +8,27 @@ namespace WesternSpace.Interfaces
 {
     interface IMapCoordinates
     {
-        Vector2 CalculateMapCoordinatesFromMouse(Vector2 atPoint);
+        float MinimumX
+        {
+            get;
+        }
 
-        bool IsValidCameraPosition(Vector2 position);
+        float MaximumX
+        {
+            get;
+        }
+
+        float MinimumY
+        {
+            get;
+        }
+
+        float MaximumY
+        {
+            get;
+        }
+
+        Vector2 CalculateMapCoordinatesFromMouse(Vector2 atPoint);
     }
 
 

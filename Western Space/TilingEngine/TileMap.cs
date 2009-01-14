@@ -21,6 +21,30 @@ namespace WesternSpace.TilingEngine
 
         private ICameraService camera;
 
+        #region IMapCoordinates Members
+
+        public float MinimumX
+        {
+            get { return 0; }
+        }
+
+        public float MaximumX
+        {
+            get { return gridCellWidth * tiles.GetLength(0); }
+        }
+
+        public float MinimumY
+        {
+            get { return 0; }
+        }
+
+        public float MaximumY
+        {
+            get { return gridCellHeight * tiles.GetLength(1); }
+        }
+
+        #endregion
+
         public TileMap(Game game, int cellX, int cellY, int tileWidth, int tileHeight)
             : base(game)
         {
@@ -75,30 +99,6 @@ namespace WesternSpace.TilingEngine
             float y = camera.Position.Y + atPoint.Y / gridCellHeight;
 
             return new Vector2(x, y);
-        }
-
-        
-
-        #endregion
-
-        #region IMapCoordinates Members
-
-
-        public bool IsValidCameraPosition(Vector2 position)
-        {
-            bool returnValue = true;
-
-            if ( (position.X > gridCellWidth * tiles.GetLength(0)) || position.X < 0)
-            {
-                returnValue = false;
-            }
-
-            if ( (position.Y >= gridCellHeight * tiles.GetLength(1)) || position.Y <= 0)
-            {
-                returnValue = false;
-            }
-
-            return returnValue;
         }
 
         #endregion

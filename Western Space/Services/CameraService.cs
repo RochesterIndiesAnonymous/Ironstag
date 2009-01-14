@@ -84,68 +84,67 @@ namespace WesternSpace.Services
         {
             if (inputManager.KeyboardState.IsKeyDown(Keys.D) || inputManager.KeyboardState.IsKeyDown(Keys.Right))
             {
+                float newX = position.X + SCROLL_SPEED;
+
                 foreach (IMapCoordinates map in layerService.Layers.Values)
                 {
-                    if(map.IsValidCameraPosition(new Vector2(position.X, position.Y)))
-                    {
-                        this.position.X += SCROLL_SPEED;
-                    }
+                    newX = MathHelper.Clamp(newX, map.MinimumX, map.MaximumX - this.visibleArea.Width);
+                    this.position.X = newX;
                 }
             }
 
             if (inputManager.KeyboardState.IsKeyDown(Keys.A) || inputManager.KeyboardState.IsKeyDown(Keys.Left))
             {
+                float newX = position.X - SCROLL_SPEED;
+
                 foreach (IMapCoordinates map in layerService.Layers.Values)
                 {
-                    if (map.IsValidCameraPosition(new Vector2(position.X, position.Y)))
-                    {
-                        this.position.X -= SCROLL_SPEED;
-                    }
+                    newX = MathHelper.Clamp(newX, map.MinimumX, map.MaximumX - this.visibleArea.Width);
+                    this.position.X = newX;
                 }
             }
 
             if (inputManager.KeyboardState.IsKeyDown(Keys.W) || inputManager.KeyboardState.IsKeyDown(Keys.Up))
             {
+                float newY = position.Y - SCROLL_SPEED;
+
                 foreach (IMapCoordinates map in layerService.Layers.Values)
                 {
-                    if (map.IsValidCameraPosition(new Vector2(position.X, position.Y)))
-                    {
-                        this.position.Y -= SCROLL_SPEED;
-                    }
+                    newY = MathHelper.Clamp(newY, map.MinimumY, map.MaximumY - this.visibleArea.Height);
+                    this.position.Y = newY;
                 }
             }
 
             if (inputManager.KeyboardState.IsKeyDown(Keys.S) || inputManager.KeyboardState.IsKeyDown(Keys.Down))
             {
+                float newY = position.Y + SCROLL_SPEED;
+
                 foreach (IMapCoordinates map in layerService.Layers.Values)
                 {
-                    if (map.IsValidCameraPosition(new Vector2(position.X, position.Y)))
-                    {
-                        this.position.Y += SCROLL_SPEED;
-                    }
+                    newY = MathHelper.Clamp(newY, map.MinimumY, map.MaximumY - this.visibleArea.Height);
+                    this.position.Y = newY;
                 }
             }
 
             // XBOX360 controllers
             if (inputManager.GamePadState.ThumbSticks.Left.X != 0)
             {
+                float newX = inputManager.GamePadState.ThumbSticks.Left.X * SCROLL_SPEED;
                 foreach (IMapCoordinates map in layerService.Layers.Values)
                 {
-                    if (map.IsValidCameraPosition(new Vector2(position.X, position.Y)))
-                    {
-                        this.position.X += inputManager.GamePadState.ThumbSticks.Left.X * SCROLL_SPEED;
-                    }
+                    newX = MathHelper.Clamp(newX, map.MinimumX, map.MaximumX - this.visibleArea.Width);
+                    this.position.X = newX;
                 }
             }
 
             if (inputManager.GamePadState.ThumbSticks.Left.Y != 0)
             {
+                float newY = inputManager.GamePadState.ThumbSticks.Left.Y * SCROLL_SPEED;
+
                 foreach (IMapCoordinates map in layerService.Layers.Values)
                 {
-                    if (map.IsValidCameraPosition(new Vector2(position.X, position.Y)))
-                    {
-                        this.position.Y -= inputManager.GamePadState.ThumbSticks.Left.Y * SCROLL_SPEED;
-                    }
+                    newY = MathHelper.Clamp(newY, map.MinimumY, map.MaximumY - this.visibleArea.Height);
+                    this.position.Y = newY;
                 }
             }
 

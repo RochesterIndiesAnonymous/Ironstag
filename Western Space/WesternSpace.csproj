@@ -105,10 +105,10 @@
     <Compile Include="ServiceInterfaces\ILayerService.cs" />
     <Compile Include="ServiceInterfaces\ITextureService.cs" />
     <Compile Include="Services\CameraService.cs" />
-    <Compile Include="Services\LayerService.cs" />
     <Compile Include="Services\GraphicsDeviceMangerService.cs" />
     <Compile Include="ServiceInterfaces\ICameraService.cs" />
     <Compile Include="Services\InputManagerService.cs" />
+    <Compile Include="Services\LayerService.cs" />
     <Compile Include="Services\TextureService.cs" />
     <Compile Include="LegacyCode\TilingEngineTest.cs" />
     <Compile Include="LegacyCode\Layer.cs" />
