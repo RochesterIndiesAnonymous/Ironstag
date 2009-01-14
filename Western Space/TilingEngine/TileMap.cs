@@ -72,17 +72,27 @@ namespace WesternSpace.TilingEngine
         public override void Draw(GameTime gameTime)
         {
             sb.Begin(SpriteBlendMode.None, SpriteSortMode.BackToFront, SaveStateMode.None, camera.CurrentViewMatrix);
+            float cam_x = camera.Position.X;
+            float cam_y = camera.Position.Y;
+            float cam_w = camera.VisibleArea.Width;
+            float cam_h = camera.VisibleArea.Height;
 
-            for (int x = 0, y = 0; x < tiles.GetLength(0) && y < tiles.GetLength(1); x++)
+            int start_x, end_x, start_y, end_y;
+
+            start_x = (int)MathHelper.Clamp((float)Math.Floor((cam_x / gridCellWidth)), 0.0f, (float)tiles.GetLength(0));
+            start_y = (int)MathHelper.Clamp((float)Math.Floor((cam_y / gridCellHeight)), 0.0f, (float)tiles.GetLength(1));
+
+            end_x = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_x+cam_w) / gridCellWidth)), 0.0f, (float)tiles.GetLength(0));
+            end_y = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_y+cam_h) / gridCellWidth)), 0.0f, (float)tiles.GetLength(1));
+
+
+            for (int x = start_x; x < end_x; ++x)
             {
-                Vector2 position = new Vector2(x * gridCellWidth, y * gridCellHeight);
-
-                tiles[x, y].Draw(sb, position);
-
-                if (x != 0 && x % (tiles.GetLength(0) - 1) == 0)
+                for (int y = start_y; y < end_y; ++y)
                 {
-                    y++;
-                    x = -1;
+                    Vector2 position = new Vector2(x * gridCellWidth, y * gridCellHeight);
+
+                    tiles[x, y].Draw(sb, position);
                 }
             }
 
@@ -95,9 +105,8 @@ namespace WesternSpace.TilingEngine
 
         public Vector2 CalculateMapCoordinatesFromMouse(Vector2 atPoint)
         {
-            float x = (camera.Position.X / gridCellWidth) + atPoint.X / gridCellWidth;
-            float y = camera.Position.Y + atPoint.Y / gridCellHeight;
-
+            int x = (int)Math.Floor((camera.Position.X / gridCellWidth) + atPoint.X / gridCellWidth);
+            int y = (int)Math.Floor((camera.Position.Y / gridCellHeight) + atPoint.Y / gridCellHeight);
             return new Vector2(x, y);
         }
 

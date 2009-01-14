@@ -18,5 +18,6 @@ Content\Textures\water_sheets_100.xnb
 Content\Textures\reptile_eggfarm_100.xnb
 Content\Sounds\hBump.xnb
 Content\Sounds\wBump.xnb
+Content\Layers\BigTestLayer.xnb
 Content\Music\rave.wma
 LayerXML\TestLayer.xml
