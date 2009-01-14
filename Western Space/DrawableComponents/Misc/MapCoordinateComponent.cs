@@ -12,7 +12,7 @@ namespace WesternSpace.DrawableComponents.Misc
     class MapCoordinateComponent : DrawableGameObject
     {
         private IMapCoordinates map;
-        private ICamera camera;
+        private IInputManagerService inputManager;
 
         private const int MIN_SIZE = 1;
 
@@ -38,15 +38,15 @@ namespace WesternSpace.DrawableComponents.Misc
 
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
 
-            camera = (ICamera)this.Game.Services.GetService(typeof(ICamera));
+            inputManager = (IInputManagerService)this.Game.Services.GetService(typeof(IInputManagerService));
 
             base.Initialize();
         }
 
         public override void Update(GameTime gameTime)
         {
-            mapCoordinates = camera.GetMapCoordinates(map);
-
+            mapCoordinates = map.CalculateMapCoordinatesFromMouse(new Vector2(inputManager.MouseState.X, inputManager.MouseState.Y));
+            
             base.Update(gameTime);
         }
 

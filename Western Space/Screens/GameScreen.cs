@@ -29,8 +29,16 @@ namespace WesternSpace.Screens
         {
             tileEngine = new TileEngine(this.Game);
 
-            // create and add any necessary components
+            CreateServices();
+            CreateLayerComponents();
+            CreateDebuggingInformationComponents();
+            
+            // Initialize all components
+            base.Initialize();
+        }
 
+        private void CreateDebuggingInformationComponents()
+        {
             // Create our FPSComponent
             FPSComponent fps = new FPSComponent(this.Game);
             fps.DrawOrder = 2;
@@ -38,31 +46,40 @@ namespace WesternSpace.Screens
 
             MouseScreenCoordinatesComponent mscc = new MouseScreenCoordinatesComponent(this.Game);
             mscc.UpdateOrder = 2;
-            mscc.DrawOrder = 4;
+            mscc.DrawOrder = 2;
             this.Game.Components.Add(mscc);
 
+            MouseWorldCoordinatesComponent mwcc = new MouseWorldCoordinatesComponent(this.Game);
+            mwcc.UpdateOrder = 2;
+            mwcc.DrawOrder = 2;
+            this.Game.Components.Add(mwcc);
+        }
+
+        private void CreateLayerComponents()
+        {
             // Create our tilemap
             TileMap tm = tileEngine.LoadLayer("Layers\\TestLayer", "LayerXML\\TestLayer.xml");
             tm.DrawOrder = 1;
             this.Game.Components.Add(tm);
 
             MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, tm);
-            mcc.UpdateOrder = 1;
-            mcc.DrawOrder = 3;
+            mcc.UpdateOrder = 2;
+            mcc.DrawOrder = 2;
             this.Game.Components.Add(mcc);
+        }
 
-            MouseWorldCoordinatesComponent mwcc = new MouseWorldCoordinatesComponent(this.Game);
-            mwcc.UpdateOrder = 2;
-            mwcc.DrawOrder = 4;
-            this.Game.Components.Add(mwcc);
+        private void CreateServices()
+        {
+            InputManagerService input = new InputManagerService(this.Game);
+            input.UpdateOrder = 0;
+            this.Game.Services.AddService(typeof(IInputManagerService), input);
+            this.Game.Components.Add(input);
 
-            Camera camera = new Camera(this.Game);
-            camera.UpdateOrder = 0;
-            this.Game.Services.AddService(typeof(ICamera), camera);
+            // create and add any necessary components
+            CameraService camera = new CameraService(this.Game);
+            camera.UpdateOrder = 1;
+            this.Game.Services.AddService(typeof(ICameraService), camera);
             this.Game.Components.Add(camera);
-
-            // Initialize all components
-            base.Initialize();
         }
     }
 }

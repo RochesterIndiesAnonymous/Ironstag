@@ -8,7 +8,7 @@ using WesternSpace.Interfaces;
 
 namespace WesternSpace.ServiceInterfaces
 {
-    interface ICamera
+    interface ICameraService
     {
         Vector2 Position
         {
@@ -36,11 +36,5 @@ namespace WesternSpace.ServiceInterfaces
         {
             get;
         }
-
-        Vector2 GetMouseWorldCoordinates();
-
-        Vector2 GetScreenCoordinates();
-
-        Vector2 GetMapCoordinates(IMapCoordinates coordinateSystem);
     }
 }

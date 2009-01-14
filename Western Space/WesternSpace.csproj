@@ -101,10 +101,12 @@
     <Compile Include="ScreenManager.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="ServiceInterfaces\IGraphicsDeviceManagerService.cs" />
+    <Compile Include="ServiceInterfaces\IInputManagerService.cs" />
     <Compile Include="ServiceInterfaces\ITextureService.cs" />
-    <Compile Include="Services\Camera.cs" />
+    <Compile Include="Services\CameraService.cs" />
     <Compile Include="Services\GraphicsDeviceMangerService.cs" />
-    <Compile Include="ServiceInterfaces\ICamera.cs" />
+    <Compile Include="ServiceInterfaces\ICameraService.cs" />
+    <Compile Include="Services\InputManagerService.cs" />
     <Compile Include="Services\TextureService.cs" />
     <Compile Include="LegacyCode\TilingEngineTest.cs" />
     <Compile Include="LegacyCode\Layer.cs" />

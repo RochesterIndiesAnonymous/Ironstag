@@ -19,7 +19,7 @@ namespace WesternSpace.TilingEngine
 
         private Tile[,] tiles;
 
-        private ICamera camera;
+        private ICameraService camera;
 
         public TileMap(Game game, int cellX, int cellY, int tileWidth, int tileHeight)
             : base(game)
@@ -40,7 +40,7 @@ namespace WesternSpace.TilingEngine
 
         public override void Initialize()
         {
-            camera = (ICamera)this.Game.Services.GetService(typeof(ICamera));
+            camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
 
             base.Initialize();
         }

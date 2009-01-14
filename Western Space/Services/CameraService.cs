@@ -11,14 +11,14 @@ using WesternSpace.Interfaces;
 
 namespace WesternSpace.Services
 {
-    class Camera : GameObject, ICamera
+    class CameraService : GameObject, ICameraService
     {
-        private KeyboardState oldKeyboardState;
-        private MouseState oldMouseState;
         private Vector2 position;
         private Vector2 offset;
         private RectangleF visibleArea;
         private Matrix viewMatrix;
+
+        private IInputManagerService inputManager;
 
         private const int SCROLL_SPEED = 5;
 
@@ -54,9 +54,6 @@ namespace WesternSpace.Services
         {
             get
             {
-                Viewport vp = this.Game.GraphicsDevice.Viewport;
-
-                //return new Vector2(vp.Width / 2, vp.Height / 2);
                 return new Vector2(0, 0);
             }
         }
@@ -76,15 +73,13 @@ namespace WesternSpace.Services
 
         #endregion
 
-        public Camera(Game game)
+        public CameraService(Game game)
             : base(game)
         {
         }
 
         public override void Initialize()
         {
-            oldKeyboardState = Keyboard.GetState();
-            oldMouseState = Mouse.GetState();
             position = Vector2.Zero;
             offset = Vector2.Zero;
             viewMatrix = Matrix.Identity;
@@ -93,36 +88,45 @@ namespace WesternSpace.Services
 
             visibleArea = new RectangleF(vp.X, vp.Y, vp.Width, vp.Height);
 
+            inputManager = (IInputManagerService)this.Game.Services.GetService(typeof(IInputManagerService));
+
             base.Initialize();
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            KeyboardState newKeyboardState = Keyboard.GetState();
-
-            if (newKeyboardState.IsKeyDown(Keys.Right))
+            if (inputManager.KeyboardState.IsKeyDown(Keys.D) || inputManager.KeyboardState.IsKeyDown(Keys.Right))
             {
-                offset.X += SCROLL_SPEED;
+                this.offset.X += SCROLL_SPEED;
             }
 
-            if (newKeyboardState.IsKeyDown(Keys.Left))
+            if (inputManager.KeyboardState.IsKeyDown(Keys.A) || inputManager.KeyboardState.IsKeyDown(Keys.Left))
             {
-                offset.X -= SCROLL_SPEED;
+                this.offset.X -= SCROLL_SPEED;
             }
 
-            if (newKeyboardState.IsKeyDown(Keys.Up))
+            if (inputManager.KeyboardState.IsKeyDown(Keys.W) || inputManager.KeyboardState.IsKeyDown(Keys.Up))
             {
-                offset.Y -= SCROLL_SPEED;
+                this.offset.Y -= SCROLL_SPEED;
             }
 
-            if (newKeyboardState.IsKeyDown(Keys.Down))
+            if (inputManager.KeyboardState.IsKeyDown(Keys.S) || inputManager.KeyboardState.IsKeyDown(Keys.Down))
             {
-                offset.Y += SCROLL_SPEED;
+                this.offset.Y += SCROLL_SPEED;
             }
 
-            oldKeyboardState = newKeyboardState;
-            oldMouseState = Mouse.GetState();
+            // XBOX360 controllers
+            if (inputManager.GamePadState.ThumbSticks.Left.X != 0)
+            {
+                this.offset.X += inputManager.GamePadState.ThumbSticks.Left.X * SCROLL_SPEED;
+            }
 
+            if (inputManager.GamePadState.ThumbSticks.Left.Y != 0)
+            {
+                this.offset.Y -= inputManager.GamePadState.ThumbSticks.Left.Y * SCROLL_SPEED;
+            }
+
+            UpdateVisibleArea();
             CreateViewTransformationMatrix();
 
             base.Update(gameTime);
@@ -145,25 +149,5 @@ namespace WesternSpace.Services
 
             viewMatrix = Matrix.CreateTranslation(-matrixRotationOrigin) * Matrix.CreateTranslation(matrixScreenPosition);
         }
-
-        #region ICamera Members
-
-
-        public Vector2 GetMouseWorldCoordinates()
-        {
-            return new Vector2(Offset.X + oldMouseState.X, Offset.Y + oldMouseState.Y);
-        }
-
-        public Vector2 GetScreenCoordinates()
-        {
-            return new Vector2(oldMouseState.X, oldMouseState.Y);
-        }
-
-        public Vector2 GetMapCoordinates(IMapCoordinates coordinateSystem)
-        {
-            return coordinateSystem.CalculateMapCoordinatesFromMouse(new Vector2(oldMouseState.X, oldMouseState.Y));
-        }
-
-        #endregion
     }
 }

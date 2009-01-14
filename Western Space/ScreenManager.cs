@@ -18,7 +18,7 @@ namespace WesternSpace
     public class ScreenManager : Game
     {
         /// <summary>
-        /// holds our single reference to our game
+        /// Holds our single reference to our game
         /// </summary>
         private static ScreenManager instance;
         private GameScreen gameScreen;
@@ -85,11 +85,6 @@ namespace WesternSpace
          */
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
-
             base.Update(gameTime);
         }
 

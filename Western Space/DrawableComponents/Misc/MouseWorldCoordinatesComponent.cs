@@ -10,7 +10,8 @@ namespace WesternSpace.DrawableComponents.Misc
 {
     class MouseWorldCoordinatesComponent : DrawableGameObject
     {
-        private ICamera camera;
+        private ICameraService camera;
+        private IInputManagerService inputManager;
 
         private const int MIN_SIZE = 1;
 
@@ -36,14 +37,15 @@ namespace WesternSpace.DrawableComponents.Misc
 
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
 
-            camera = (ICamera)this.Game.Services.GetService(typeof(ICamera));
+            camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
+            inputManager = (IInputManagerService)this.Game.Services.GetService(typeof(IInputManagerService));
 
             base.Initialize();
         }
 
         public override void Update(GameTime gameTime)
         {
-            mouseCoordinates = camera.GetMouseWorldCoordinates();
+            mouseCoordinates = new Vector2(camera.Position.X + camera.Offset.X + inputManager.MouseState.X, camera.Position.Y + camera.Offset.Y + inputManager.MouseState.Y);
 
             base.Update(gameTime);
         }
