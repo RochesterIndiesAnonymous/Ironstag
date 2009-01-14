@@ -20,7 +20,7 @@ namespace WesternSpace.Services
 
         private IInputManagerService inputManager;
 
-        private const int SCROLL_SPEED = 5;
+        private const int SCROLL_SPEED = 50;
 
         #region ICamera Members
 
@@ -129,7 +129,7 @@ namespace WesternSpace.Services
             // XBOX360 controllers
             if (inputManager.GamePadState.ThumbSticks.Left.X != 0)
             {
-                float newX = inputManager.GamePadState.ThumbSticks.Left.X * SCROLL_SPEED;
+                float newX = position.X + inputManager.GamePadState.ThumbSticks.Left.X * SCROLL_SPEED;
                 foreach (IMapCoordinates map in layerService.Layers.Values)
                 {
                     newX = MathHelper.Clamp(newX, map.MinimumX, map.MaximumX - this.visibleArea.Width);
@@ -139,7 +139,7 @@ namespace WesternSpace.Services
 
             if (inputManager.GamePadState.ThumbSticks.Left.Y != 0)
             {
-                float newY = inputManager.GamePadState.ThumbSticks.Left.Y * SCROLL_SPEED;
+                float newY = position.Y - inputManager.GamePadState.ThumbSticks.Left.Y * SCROLL_SPEED;
 
                 foreach (IMapCoordinates map in layerService.Layers.Values)
                 {
