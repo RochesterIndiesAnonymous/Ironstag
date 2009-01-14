@@ -9,5 +9,9 @@ namespace WesternSpace.Interfaces
     interface IMapCoordinates
     {
         Vector2 CalculateMapCoordinatesFromMouse(Vector2 atPoint);
+
+        bool IsValidCameraPosition(Vector2 position);
     }
+
+
 }

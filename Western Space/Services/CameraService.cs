@@ -14,9 +14,9 @@ namespace WesternSpace.Services
     class CameraService : GameObject, ICameraService
     {
         private Vector2 position;
-        private Vector2 offset;
         private RectangleF visibleArea;
         private Matrix viewMatrix;
+        private ILayerService layerService;
 
         private IInputManagerService inputManager;
 
@@ -33,19 +33,6 @@ namespace WesternSpace.Services
             set
             {
                 position = value;
-                UpdateVisibleArea();
-            }
-        }
-
-        public Vector2 Offset
-        {
-            get
-            {
-                return offset;
-            }
-            set
-            {
-                offset = value;
                 UpdateVisibleArea();
             }
         }
@@ -81,7 +68,6 @@ namespace WesternSpace.Services
         public override void Initialize()
         {
             position = Vector2.Zero;
-            offset = Vector2.Zero;
             viewMatrix = Matrix.Identity;
 
             Viewport vp = this.Game.GraphicsDevice.Viewport;
@@ -89,6 +75,7 @@ namespace WesternSpace.Services
             visibleArea = new RectangleF(vp.X, vp.Y, vp.Width, vp.Height);
 
             inputManager = (IInputManagerService)this.Game.Services.GetService(typeof(IInputManagerService));
+            layerService = (ILayerService)this.Game.Services.GetService(typeof(ILayerService));
 
             base.Initialize();
         }
@@ -97,33 +84,69 @@ namespace WesternSpace.Services
         {
             if (inputManager.KeyboardState.IsKeyDown(Keys.D) || inputManager.KeyboardState.IsKeyDown(Keys.Right))
             {
-                this.offset.X += SCROLL_SPEED;
+                foreach (IMapCoordinates map in layerService.Layers.Values)
+                {
+                    if(map.IsValidCameraPosition(new Vector2(position.X, position.Y)))
+                    {
+                        this.position.X += SCROLL_SPEED;
+                    }
+                }
             }
 
             if (inputManager.KeyboardState.IsKeyDown(Keys.A) || inputManager.KeyboardState.IsKeyDown(Keys.Left))
             {
-                this.offset.X -= SCROLL_SPEED;
+                foreach (IMapCoordinates map in layerService.Layers.Values)
+                {
+                    if (map.IsValidCameraPosition(new Vector2(position.X, position.Y)))
+                    {
+                        this.position.X -= SCROLL_SPEED;
+                    }
+                }
             }
 
             if (inputManager.KeyboardState.IsKeyDown(Keys.W) || inputManager.KeyboardState.IsKeyDown(Keys.Up))
             {
-                this.offset.Y -= SCROLL_SPEED;
+                foreach (IMapCoordinates map in layerService.Layers.Values)
+                {
+                    if (map.IsValidCameraPosition(new Vector2(position.X, position.Y)))
+                    {
+                        this.position.Y -= SCROLL_SPEED;
+                    }
+                }
             }
 
             if (inputManager.KeyboardState.IsKeyDown(Keys.S) || inputManager.KeyboardState.IsKeyDown(Keys.Down))
             {
-                this.offset.Y += SCROLL_SPEED;
+                foreach (IMapCoordinates map in layerService.Layers.Values)
+                {
+                    if (map.IsValidCameraPosition(new Vector2(position.X, position.Y)))
+                    {
+                        this.position.Y += SCROLL_SPEED;
+                    }
+                }
             }
 
             // XBOX360 controllers
             if (inputManager.GamePadState.ThumbSticks.Left.X != 0)
             {
-                this.offset.X += inputManager.GamePadState.ThumbSticks.Left.X * SCROLL_SPEED;
+                foreach (IMapCoordinates map in layerService.Layers.Values)
+                {
+                    if (map.IsValidCameraPosition(new Vector2(position.X, position.Y)))
+                    {
+                        this.position.X += inputManager.GamePadState.ThumbSticks.Left.X * SCROLL_SPEED;
+                    }
+                }
             }
 
             if (inputManager.GamePadState.ThumbSticks.Left.Y != 0)
             {
-                this.offset.Y -= inputManager.GamePadState.ThumbSticks.Left.Y * SCROLL_SPEED;
+                foreach (IMapCoordinates map in layerService.Layers.Values)
+                {
+                    if (map.IsValidCameraPosition(new Vector2(position.X, position.Y)))
+                    {
+                        this.position.Y -= inputManager.GamePadState.ThumbSticks.Left.Y * SCROLL_SPEED;
+                    }
+                }
             }
 
             UpdateVisibleArea();
@@ -136,15 +159,15 @@ namespace WesternSpace.Services
         {
             Viewport vp = this.Game.GraphicsDevice.Viewport;
 
-            float left = position.X + offset.X - visibleArea.Width / 2;
-            float top = position.Y + offset.Y - visibleArea.Height / 2;
+            float left = position.X - visibleArea.Width / 2;
+            float top = position.Y - visibleArea.Height / 2;
 
             visibleArea = new RectangleF(left, top, vp.Width, vp.Height);
         }
 
         private void CreateViewTransformationMatrix()
         {
-            Vector3 matrixRotationOrigin = new Vector3(Position + Offset, 0);
+            Vector3 matrixRotationOrigin = new Vector3(Position, 0);
             Vector3 matrixScreenPosition = new Vector3(ScreenPosition, 0.0f);
 
             viewMatrix = Matrix.CreateTranslation(-matrixRotationOrigin) * Matrix.CreateTranslation(matrixScreenPosition);

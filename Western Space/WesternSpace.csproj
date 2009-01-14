@@ -102,8 +102,10 @@
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="ServiceInterfaces\IGraphicsDeviceManagerService.cs" />
     <Compile Include="ServiceInterfaces\IInputManagerService.cs" />
+    <Compile Include="ServiceInterfaces\ILayerService.cs" />
     <Compile Include="ServiceInterfaces\ITextureService.cs" />
     <Compile Include="Services\CameraService.cs" />
+    <Compile Include="Services\LayerService.cs" />
     <Compile Include="Services\GraphicsDeviceMangerService.cs" />
     <Compile Include="ServiceInterfaces\ICameraService.cs" />
     <Compile Include="Services\InputManagerService.cs" />

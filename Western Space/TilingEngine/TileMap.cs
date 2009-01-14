@@ -71,10 +71,34 @@ namespace WesternSpace.TilingEngine
 
         public Vector2 CalculateMapCoordinatesFromMouse(Vector2 atPoint)
         {
-            float x = (camera.Offset.X / gridCellWidth) + atPoint.X / gridCellWidth;
-            float y = camera.Offset.Y + atPoint.Y / gridCellHeight;
+            float x = (camera.Position.X / gridCellWidth) + atPoint.X / gridCellWidth;
+            float y = camera.Position.Y + atPoint.Y / gridCellHeight;
 
             return new Vector2(x, y);
+        }
+
+        
+
+        #endregion
+
+        #region IMapCoordinates Members
+
+
+        public bool IsValidCameraPosition(Vector2 position)
+        {
+            bool returnValue = true;
+
+            if ( (position.X > gridCellWidth * tiles.GetLength(0)) || position.X < 0)
+            {
+                returnValue = false;
+            }
+
+            if ( (position.Y >= gridCellHeight * tiles.GetLength(1)) || position.Y <= 0)
+            {
+                returnValue = false;
+            }
+
+            return returnValue;
         }
 
         #endregion

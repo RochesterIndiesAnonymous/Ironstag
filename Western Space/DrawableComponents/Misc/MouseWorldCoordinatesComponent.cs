@@ -45,7 +45,7 @@ namespace WesternSpace.DrawableComponents.Misc
 
         public override void Update(GameTime gameTime)
         {
-            mouseCoordinates = new Vector2(camera.Position.X + camera.Offset.X + inputManager.MouseState.X, camera.Position.Y + camera.Offset.Y + inputManager.MouseState.Y);
+            mouseCoordinates = new Vector2(camera.Position.X + inputManager.MouseState.X, camera.Position.Y + inputManager.MouseState.Y);
 
             base.Update(gameTime);
         }

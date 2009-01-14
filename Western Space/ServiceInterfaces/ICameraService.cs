@@ -16,12 +16,6 @@ namespace WesternSpace.ServiceInterfaces
             set;
         }
 
-        Vector2 Offset
-        {
-            get;
-            set;
-        }
-
         Vector2 ScreenPosition
         {
             get;

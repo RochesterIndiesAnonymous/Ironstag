@@ -13,6 +13,7 @@ namespace WesternSpace.Screens
     class GameScreen : DrawableGameObject
     {
         private TileEngine tileEngine;
+        private ILayerService layerService;
 
         public GameScreen(Game game)
             : base(game)
@@ -30,6 +31,7 @@ namespace WesternSpace.Screens
             tileEngine = new TileEngine(this.Game);
 
             CreateServices();
+            layerService = (ILayerService)this.Game.Services.GetService(typeof(ILayerService));
             CreateLayerComponents();
             CreateDebuggingInformationComponents();
             
@@ -62,6 +64,8 @@ namespace WesternSpace.Screens
             tm.DrawOrder = 1;
             this.Game.Components.Add(tm);
 
+            layerService.Layers["TestLayer"] = tm;
+
             MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, tm);
             mcc.UpdateOrder = 2;
             mcc.DrawOrder = 2;
@@ -74,6 +78,9 @@ namespace WesternSpace.Screens
             input.UpdateOrder = 0;
             this.Game.Services.AddService(typeof(IInputManagerService), input);
             this.Game.Components.Add(input);
+
+            LayerService layer = new LayerService();
+            this.Game.Services.AddService(typeof(ILayerService), layer);
 
             // create and add any necessary components
             CameraService camera = new CameraService(this.Game);
