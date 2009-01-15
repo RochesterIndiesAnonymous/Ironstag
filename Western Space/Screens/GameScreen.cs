@@ -61,12 +61,16 @@ namespace WesternSpace.Screens
         {
             // Create our tilemap
             TileMap tm = tileEngine.LoadLayer("Layers\\BigTestLayer", "LayerXML\\TestLayer.xml");
-            tm.DrawOrder = 1;
-            this.Game.Components.Add(tm);
+            TileMapLayer tml = new TileMapLayer(this.Game, tm, 0);
+            TileMapLayer background = new TileMapLayer(this.Game, tm, 0, 0.25f);
+            tml.DrawOrder = 1;
+            background.DrawOrder = -10;
+            this.Game.Components.Add(tml);
+            this.Game.Components.Add(background);
 
-            layerService.Layers["TestLayer"] = tm;
+            layerService.Layers["TestLayer"] = tml;
 
-            MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, tm);
+            MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, tml);
             mcc.UpdateOrder = 2;
             mcc.DrawOrder = 2;
             this.Game.Components.Add(mcc);

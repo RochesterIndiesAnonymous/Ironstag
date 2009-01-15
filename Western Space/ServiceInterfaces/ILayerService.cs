@@ -8,7 +8,7 @@ namespace WesternSpace.ServiceInterfaces
 {
     interface ILayerService
     {
-        Dictionary<string, TileMap> Layers
+        Dictionary<string, TileMapLayer> Layers
         {
             get;
         }

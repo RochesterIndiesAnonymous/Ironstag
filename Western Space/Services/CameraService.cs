@@ -20,7 +20,7 @@ namespace WesternSpace.Services
 
         private IInputManagerService inputManager;
 
-        private const int SCROLL_SPEED = 50;
+        private const int SCROLL_SPEED = 14;
 
         #region ICamera Members
 

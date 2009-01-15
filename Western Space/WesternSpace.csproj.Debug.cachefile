@@ -7,6 +7,8 @@ Content\Sprites\flyingMeta.xnb
 Content\Sprites\flyingMeta2.xnb
 Content\Sprites\rushFrown.xnb
 Content\Sprites\rushSmile.xnb
+Content\Sounds\hBump.xnb
+Content\Sounds\wBump.xnb
 Content\Textures\Camouflage.xnb
 Content\Textures\ConcreteBunker.xnb
 Content\Textures\WaterStream.xnb
@@ -16,8 +18,6 @@ Content\Textures\amazon_skins_100.xnb
 Content\Textures\hidden_caverocks_100.xnb
 Content\Textures\water_sheets_100.xnb
 Content\Textures\reptile_eggfarm_100.xnb
-Content\Sounds\hBump.xnb
-Content\Sounds\wBump.xnb
 Content\Layers\BigTestLayer.xnb
 Content\Music\rave.wma
 LayerXML\TestLayer.xml

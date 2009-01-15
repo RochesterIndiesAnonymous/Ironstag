@@ -9,26 +9,31 @@ namespace WesternSpace.TilingEngine
 {
     public class Tile
     {
-        private Texture2D texture;
+        private Texture2D[,] textures;
 
-        public Texture2D Texture
+        public Texture2D[,] Textures
         {
-            get { return texture; }
-            set { texture = value; }
+            get { return textures; }
+            set { textures = value; }
+        }
+
+        public int LayerCount
+        {
+            get { return textures.GetLength(0); }
+        }
+
+        public int SubLayerCount
+        {
+            get { return textures.GetLength(1); }
         }
 
         public Tile()
         {
         }
 
-        public Tile(Texture2D texture)
+        public Tile(Texture2D[,] textures)
         {
-            this.texture = texture;
-        }
-
-        public void Draw(SpriteBatch sb, Vector2 drawPosition)
-        {
-            sb.Draw(this.Texture, drawPosition, Color.White);
+            this.textures = textures;
         }
     }
 }

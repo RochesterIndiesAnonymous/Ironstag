@@ -38,7 +38,7 @@ namespace WesternSpace.TilingEngine
 
             layer.GetData<Color>(allPixels);
             Dictionary<Color, Tile> lookupTable = LoadSettingsFile(settingsFileName);
-            TileMap tm = new TileMap(game, layer.Width, layer.Height, 100, 100);
+            TileMap tm = new TileMap(layer.Width, layer.Height, 100, 100, 1, 1); // For now just 1 layer and 1 sublayer. (1 total texture per tile)
 
             for (int i = 0; i < allPixels.Length; i++)
             {
@@ -56,7 +56,10 @@ namespace WesternSpace.TilingEngine
         private Dictionary<Color, Tile> LoadSettingsFile(string settingsFileName)
         {
             Dictionary<Color, Tile> lookupTable = new Dictionary<Color, Tile>();
-
+            Texture2D empty = new Texture2D(this.game.GraphicsDevice, 1, 1);
+            Texture2D[,] tmp = new Texture2D[1, 1];
+            tmp[0, 0] = empty;
+            lookupTable.Add(Color.Black, new Tile(tmp));
             XElement rootLayerElement = XElement.Load(settingsFileName);
 
             IEnumerable<LayerInformation> textureInformation = from texture in rootLayerElement.Descendants("Texture")
@@ -74,8 +77,9 @@ namespace WesternSpace.TilingEngine
                 {
                     loadedTextures.Add(li.Name, game.Content.Load<Texture2D>(li.Name));
                 }
-
-                lookupTable.Add(li.Color, new Tile(loadedTextures[li.Name]));
+                Texture2D[,] textures = new Texture2D[1,1];
+                textures[0,0] = loadedTextures[li.Name];
+                lookupTable.Add(li.Color, new Tile(textures));
             }
 
             return lookupTable;

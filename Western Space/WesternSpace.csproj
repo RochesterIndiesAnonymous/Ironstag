@@ -112,6 +112,7 @@
     <Compile Include="Services\TextureService.cs" />
     <Compile Include="LegacyCode\TilingEngineTest.cs" />
     <Compile Include="LegacyCode\Layer.cs" />
+    <Compile Include="TilingEngine\TileMapLayer.cs" />
     <Compile Include="TilingEngine\LayerInformation.cs" />
     <Compile Include="TilingEngine\Tile.cs" />
     <Compile Include="TilingEngine\TileEngine.cs" />
