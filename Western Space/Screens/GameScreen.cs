@@ -33,7 +33,7 @@ namespace WesternSpace.Screens
         /// </summary>
         public override void Initialize()
         {
-            tileEngine = new TileEngine(this.Game);
+            tileEngine = new TileEngine();
 
             CreateServices();
 
@@ -56,14 +56,9 @@ namespace WesternSpace.Screens
 
         private void CreateSprites()
         {
-            if (!textureService.Textures.ContainsKey("Textures\\DiddyKongWalk.png"))
-            {
-                textureService.Textures["Textures\\DiddyKongWalk.png"] = this.Game.Content.Load<Texture2D>("Textures\\DiddyKongWalk");
-            }
+            Texture2D diddyKong = textureService.GetTexture("Textures\\DiddyKongWalk");
 
-            Texture2D diddyKong = textureService.Textures["Textures\\DiddyKongWalk.png"];
-
-            animationDataService.AnimationData[diddyKong] = new AnimationData(this.Game, diddyKong, 44, 50, "SpriteXML\\DiddyKong");
+            animationDataService.AnimationData[diddyKong] = new AnimationData(diddyKong, 44, 50, "SpriteXML\\DiddyKong");
 
             AnimatedComponent diddyComponent = new DiddyKongSprite(this.Game, animationDataService.AnimationData[diddyKong]);
             diddyComponent.UpdateOrder = 2;

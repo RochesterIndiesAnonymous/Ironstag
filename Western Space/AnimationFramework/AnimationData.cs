@@ -63,19 +63,19 @@ namespace WesternSpace.AnimationFramework
         /// <param name="frameWidth">The width of each sprite frame</param>
         /// <param name="frameHeight">The height of each sprite frame</param>
         /// <param name="animationXmlFile">The file name to load the animation sequences from</param>
-        public AnimationData(Game game, Texture2D spriteSheet, int frameWidth, int frameHeight, string animationXmlFile)
+        public AnimationData(Texture2D spriteSheet, int frameWidth, int frameHeight, string animationXmlFile)
         {
             this.spriteSheet = spriteSheet;
             this.frameWidth = frameWidth;
             this.frameHeight = frameHeight;
             this.sequences = new Dictionary<string, IList<Frame>>();
 
-            LoadAnimationXmlFile(game, animationXmlFile);
+            LoadAnimationXmlFile(animationXmlFile);
         }
 
-        private void LoadAnimationXmlFile(Game game, string fileName)
+        private void LoadAnimationXmlFile(string fileName)
         {
-            XDocument fileContents = game.Content.Load<XDocument>(fileName);
+            XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(fileName);
 
             IEnumerable<XElement> allSequences = from sequences in fileContents.Descendants("Sequence")
                                                  select sequences;

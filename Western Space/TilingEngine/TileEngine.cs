@@ -19,20 +19,16 @@ namespace WesternSpace.TilingEngine
 {
     public class TileEngine
     {
-        private Game game;
-        private Dictionary<string, Texture2D> loadedTextures;
+        private ITextureService textureService;
 
-        public TileEngine(Game game)
+        public TileEngine()
         {
-            this.game = game;
-
-            ITextureService textureService = (ITextureService)game.Services.GetService(typeof(ITextureService));
-            this.loadedTextures = textureService.Textures;
+            textureService = (ITextureService)ScreenManager.Instance.Services.GetService(typeof(ITextureService));
         }
 
         public TileMap LoadLayer(string imageFileName, string settingsFileName)
         {
-            Texture2D layer = game.Content.Load<Texture2D>(imageFileName);
+            Texture2D layer = ScreenManager.Instance.Content.Load<Texture2D>(imageFileName);
 
             Color[] allPixels = new Color[(layer.Width * layer.Height)];
 
@@ -56,11 +52,11 @@ namespace WesternSpace.TilingEngine
         private Dictionary<Color, Tile> LoadSettingsFile(string settingsFileName)
         {
             Dictionary<Color, Tile> lookupTable = new Dictionary<Color, Tile>();
-            Texture2D empty = new Texture2D(this.game.GraphicsDevice, 1, 1);
+            Texture2D empty = new Texture2D(ScreenManager.Instance.GraphicsDevice, 1, 1);
             Texture2D[,] tmp = new Texture2D[1, 1];
             tmp[0, 0] = empty;
             lookupTable.Add(Color.Black, new Tile(tmp));
-            XDocument rootLayerElement = this.game.Content.Load<XDocument>(settingsFileName);
+            XDocument rootLayerElement = ScreenManager.Instance.Content.Load<XDocument>(settingsFileName);
 
             IEnumerable<LayerInformation> textureInformation = from texture in rootLayerElement.Descendants("Texture")
                                                                  select new LayerInformation
@@ -73,12 +69,9 @@ namespace WesternSpace.TilingEngine
 
             foreach (LayerInformation li in textureInformation)
             {
-                if (!loadedTextures.ContainsKey(li.Name))
-                {
-                    loadedTextures.Add(li.Name, game.Content.Load<Texture2D>(li.Name));
-                }
+                Texture2D texture = textureService.GetTexture(li.Name);
                 Texture2D[,] textures = new Texture2D[1,1];
-                textures[0,0] = loadedTextures[li.Name];
+                textures[0,0] = texture;
                 lookupTable.Add(li.Color, new Tile(textures));
             }
 

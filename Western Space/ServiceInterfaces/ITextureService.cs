@@ -9,5 +9,7 @@ namespace WesternSpace.ServiceInterfaces
         {
             get;
         }
+
+        Texture2D GetTexture(string assetName);
     }
 }

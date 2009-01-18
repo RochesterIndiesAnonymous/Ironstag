@@ -23,6 +23,16 @@ namespace WesternSpace.Services
             get { return textures; }
         }
 
+        public Texture2D GetTexture(string assetName)
+        {
+            if (!this.Textures.ContainsKey(assetName) || this.Textures[assetName] == null)
+            {
+                this.Textures[assetName] = ScreenManager.Instance.Content.Load<Texture2D>(assetName);
+            }
+
+            return this.Textures[assetName];
+        }
+
         #endregion
     }
 }
