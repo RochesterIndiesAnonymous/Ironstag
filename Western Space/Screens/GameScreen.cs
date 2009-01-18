@@ -56,11 +56,8 @@ namespace WesternSpace.Screens
 
         private void CreateSprites()
         {
-            Texture2D diddyKong = textureService.GetTexture("Textures\\DiddyKongWalk");
-
-            animationDataService.AnimationData[diddyKong] = new AnimationData(diddyKong, 44, 50, "SpriteXML\\DiddyKong");
-
-            AnimatedComponent diddyComponent = new DiddyKongSprite(this.Game, animationDataService.AnimationData[diddyKong]);
+            AnimationData data = animationDataService.GetAnimationData(textureService.GetTexture(DiddyKongSprite.TEXTURE_NAME), DiddyKongSprite.XML_NAME);
+            AnimatedComponent diddyComponent = new DiddyKongSprite(this.Game, data);
             diddyComponent.UpdateOrder = 2;
             diddyComponent.DrawOrder = 2;
             this.Game.Components.Add(diddyComponent);

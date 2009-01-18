@@ -25,5 +25,20 @@ namespace WesternSpace.Services
         {
             data = new Dictionary<Texture2D, AnimationData>();
         }
+
+        #region IAnimationDataService Members
+
+
+        public AnimationData GetAnimationData(Texture2D spriteSheet, string xmlName)
+        {
+            if (!data.ContainsKey(spriteSheet))
+            {
+                data[spriteSheet] = new AnimationData(spriteSheet, xmlName);
+            }
+
+            return data[spriteSheet];
+        }
+
+        #endregion
     }
 }

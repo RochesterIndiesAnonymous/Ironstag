@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Sequences>
+<Sequences FrameWidth="44" FrameHeight="50">
   <Sequence AnimationKey="Walk">
     <Frame DisplayTime="100" SheetIndex="0" />
     <Frame DisplayTime="100" SheetIndex="1" />

@@ -5,11 +5,15 @@ using System.Text;
 using WesternSpace.AnimationFramework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using WesternSpace.ServiceInterfaces;
 
 namespace WesternSpace.DrawableComponents.Sprites
 {
     class DiddyKongSprite : AnimatedComponent
     {
+        public static string TEXTURE_NAME = "Textures\\DiddyKongWalk";
+        public static string XML_NAME = "SpriteXML\\DiddyKong";
+
         public DiddyKongSprite(Game game, AnimationData data)
             : base(game, data)
         {
@@ -18,8 +22,7 @@ namespace WesternSpace.DrawableComponents.Sprites
 
         public override void Initialize()
         {
-            this.CurrentFrame = this.AnimationData.Sequences["Walk"][0];
-            this.AnimationKey = "Walk";
+            this.SetFrame("Walk", 0);
 
             base.Initialize();
         }

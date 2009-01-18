@@ -127,6 +127,7 @@ namespace WesternSpace.AnimationFramework
         /// <param name="frameIndex">The index of the frame to be drawn</param>
         protected void SetFrame(string animationKey, int frameIndex)
         {
+            this.animationKey = animationKey;
             currentFrame = this.animationData.Sequences[animationKey][frameIndex];
         }
 

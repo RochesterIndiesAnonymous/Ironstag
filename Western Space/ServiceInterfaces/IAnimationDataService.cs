@@ -13,5 +13,7 @@ namespace WesternSpace.ServiceInterfaces
         {
             get;
         }
+
+        AnimationData GetAnimationData(Texture2D textureName, string xmlName);
     }
 }
