@@ -13,6 +13,8 @@ namespace WesternSpace.DrawableComponents.Sprites
     {
         public static string XML_NAME = "SpriteXML\\DiddyKong";
 
+        private ICameraService camera;
+
         public DiddyKongSprite(Game game, AnimationData data)
             : base(game, data)
         {
@@ -22,6 +24,7 @@ namespace WesternSpace.DrawableComponents.Sprites
         public override void Initialize()
         {
             this.SetFrame("Walk", 0);
+            camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
 
             base.Initialize();
         }
@@ -39,7 +42,7 @@ namespace WesternSpace.DrawableComponents.Sprites
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch sb = new SpriteBatch(this.Game.GraphicsDevice);
-            sb.Begin();
+            sb.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None, camera.CurrentViewMatrix);
 
             sb.Draw(this.AnimationData.SpriteSheet, new Vector2(500, 500),this.CalculateFrameRectangleFromIndex(this.CurrentFrame.SheetIndex), Color.White);
 
