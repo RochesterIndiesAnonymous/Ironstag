@@ -61,6 +61,12 @@ namespace WesternSpace.Screens
             diddyComponent.UpdateOrder = 2;
             diddyComponent.DrawOrder = 2;
             this.Game.Components.Add(diddyComponent);
+
+            AnimationData data2 = animationDataService.GetAnimationData(ToadManSprite.XML_NAME);
+            AnimatedComponent toadmanComponent = new ToadManSprite(this.Game, data2);
+            toadmanComponent.UpdateOrder = 2;
+            toadmanComponent.DrawOrder = 2;
+            this.Game.Components.Add(toadmanComponent);
         }
 
         private void CreateDebuggingInformationComponents()

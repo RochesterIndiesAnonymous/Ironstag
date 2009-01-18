@@ -1,0 +1,7 @@
+Z:\Development\Projects\western-space\XnaXmlContentPipeline\bin\Debug\XnaXmlContentPipeline.dll
+Z:\Development\Projects\western-space\XnaXmlContentPipeline\bin\Debug\XnaXmlContentPipeline.pdb
+Z:\Development\Projects\western-space\XnaXmlContentPipeline\obj\Debug\ResolveAssemblyReference.cache
+Z:\Development\Projects\western-space\XnaXmlContentPipeline\obj\Debug\XnaXmlContentPipeline.Properties.Resources.resources
+Z:\Development\Projects\western-space\XnaXmlContentPipeline\obj\Debug\XnaXmlContentPipeline.csproj.GenerateResource.Cache
+Z:\Development\Projects\western-space\XnaXmlContentPipeline\obj\Debug\XnaXmlContentPipeline.dll
+Z:\Development\Projects\western-space\XnaXmlContentPipeline\obj\Debug\XnaXmlContentPipeline.pdb

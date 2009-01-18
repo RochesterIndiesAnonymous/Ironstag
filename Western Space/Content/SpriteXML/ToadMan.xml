@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Sequences SpriteSheet="Textures\\toadmandance" FrameWidth="34" FrameHeight="38">
+  <Sequence AnimationKey="Dance">
+    <Frame DisplayTime="100" SheetIndex="0" />
+    <Frame DisplayTime="100" SheetIndex="1" />
+    <Frame DisplayTime="100" SheetIndex="2" />
+    <Frame DisplayTime="100" SheetIndex="3" />
+  </Sequence>
+</Sequences>
