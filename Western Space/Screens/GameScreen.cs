@@ -60,7 +60,7 @@ namespace WesternSpace.Screens
         private void CreateLayerComponents()
         {
             // Create our tilemap
-            TileMap tm = tileEngine.LoadLayer("Layers\\BigTestLayer", "LayerXML\\TestLayer.xml");
+            TileMap tm = tileEngine.LoadLayer("Layers\\BigTestLayer", "LayerXML\\TestLayer");
             TileMapLayer tml = new TileMapLayer(this.Game, tm, 0);
             TileMapLayer background = new TileMapLayer(this.Game, tm, 0, 0.25f);
             tml.DrawOrder = 1;

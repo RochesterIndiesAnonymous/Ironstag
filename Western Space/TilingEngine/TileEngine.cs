@@ -60,7 +60,7 @@ namespace WesternSpace.TilingEngine
             Texture2D[,] tmp = new Texture2D[1, 1];
             tmp[0, 0] = empty;
             lookupTable.Add(Color.Black, new Tile(tmp));
-            XElement rootLayerElement = XElement.Load(settingsFileName);
+            XDocument rootLayerElement = this.game.Content.Load<XDocument>(settingsFileName);
 
             IEnumerable<LayerInformation> textureInformation = from texture in rootLayerElement.Descendants("Texture")
                                                                  select new LayerInformation
