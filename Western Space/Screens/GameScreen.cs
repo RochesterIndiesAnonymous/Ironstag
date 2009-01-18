@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework;
 using WesternSpace.TilingEngine;
 using WesternSpace.Services;
 using WesternSpace.ServiceInterfaces;
+using Microsoft.Xna.Framework.Graphics;
+using WesternSpace.AnimationFramework;
+using WesternSpace.DrawableComponents.Sprites;
 
 namespace WesternSpace.Screens
 {
@@ -14,6 +17,8 @@ namespace WesternSpace.Screens
     {
         private TileEngine tileEngine;
         private ILayerService layerService;
+        private IAnimationDataService animationDataService;
+        private ITextureService textureService;
 
         public GameScreen(Game game)
             : base(game)
@@ -31,29 +36,56 @@ namespace WesternSpace.Screens
             tileEngine = new TileEngine(this.Game);
 
             CreateServices();
+
+            // CreateLayerComponents needs the layer service
             layerService = (ILayerService)this.Game.Services.GetService(typeof(ILayerService));
+
+            // CreateSprites needs the animation data service and texture service
+            animationDataService = (IAnimationDataService)this.Game.Services.GetService(typeof(IAnimationDataService));
+            textureService = (ITextureService)this.Game.Services.GetService(typeof(ITextureService));
+
             CreateLayerComponents();
+
+            CreateSprites();
+
             CreateDebuggingInformationComponents();
             
             // Initialize all components
             base.Initialize();
         }
 
+        private void CreateSprites()
+        {
+            if (!textureService.Textures.ContainsKey("Textures\\DiddyKongWalk.png"))
+            {
+                textureService.Textures["Textures\\DiddyKongWalk.png"] = this.Game.Content.Load<Texture2D>("Textures\\DiddyKongWalk");
+            }
+
+            Texture2D diddyKong = textureService.Textures["Textures\\DiddyKongWalk.png"];
+
+            animationDataService.AnimationData[diddyKong] = new AnimationData(this.Game, diddyKong, 44, 50, "SpriteXML\\DiddyKong");
+
+            AnimatedComponent diddyComponent = new DiddyKongSprite(this.Game, animationDataService.AnimationData[diddyKong]);
+            diddyComponent.UpdateOrder = 2;
+            diddyComponent.DrawOrder = 2;
+            this.Game.Components.Add(diddyComponent);
+        }
+
         private void CreateDebuggingInformationComponents()
         {
             // Create our FPSComponent
             FPSComponent fps = new FPSComponent(this.Game);
-            fps.DrawOrder = 2;
+            fps.DrawOrder = 3;
             this.Game.Components.Add(fps);
 
             MouseScreenCoordinatesComponent mscc = new MouseScreenCoordinatesComponent(this.Game);
-            mscc.UpdateOrder = 2;
-            mscc.DrawOrder = 2;
+            mscc.UpdateOrder = 3;
+            mscc.DrawOrder = 3;
             this.Game.Components.Add(mscc);
 
             MouseWorldCoordinatesComponent mwcc = new MouseWorldCoordinatesComponent(this.Game);
-            mwcc.UpdateOrder = 2;
-            mwcc.DrawOrder = 2;
+            mwcc.UpdateOrder = 3;
+            mwcc.DrawOrder = 3;
             this.Game.Components.Add(mwcc);
         }
 
@@ -83,8 +115,11 @@ namespace WesternSpace.Screens
             this.Game.Services.AddService(typeof(IInputManagerService), input);
             this.Game.Components.Add(input);
 
-            LayerService layer = new LayerService();
+            ILayerService layer = new LayerService();
             this.Game.Services.AddService(typeof(ILayerService), layer);
+
+            IAnimationDataService animationDataService = new AnimationDataService();
+            this.Game.Services.AddService(typeof(IAnimationDataService), animationDataService);            
 
             // create and add any necessary components
             CameraService camera = new CameraService(this.Game);
