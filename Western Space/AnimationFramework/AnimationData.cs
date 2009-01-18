@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
+using WesternSpace.ServiceInterfaces;
 
 namespace WesternSpace.AnimationFramework
 {
@@ -63,9 +64,9 @@ namespace WesternSpace.AnimationFramework
         /// <param name="frameWidth">The width of each sprite frame</param>
         /// <param name="frameHeight">The height of each sprite frame</param>
         /// <param name="animationXmlFile">The file name to load the animation sequences from</param>
-        public AnimationData(Texture2D spriteSheet, string animationXmlFile)
+        public AnimationData(string animationXmlFile)
         {
-            this.spriteSheet = spriteSheet;
+            this.spriteSheet = null;
             this.sequences = new Dictionary<string, IList<Frame>>();
             this.frameHeight = 0;
             this.frameWidth = 0;
@@ -80,6 +81,10 @@ namespace WesternSpace.AnimationFramework
         private void LoadAnimationXmlFile(string fileName)
         {
             XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(fileName);
+
+            string spriteSheetName = fileContents.Root.Attribute("SpriteSheet").Value;
+            ITextureService textureService = (ITextureService)ScreenManager.Instance.Services.GetService(typeof(ITextureService));
+            spriteSheet = textureService.GetTexture(spriteSheetName);
 
             Int32.TryParse(fileContents.Root.Attribute("FrameWidth").Value, out this.frameWidth);
             Int32.TryParse(fileContents.Root.Attribute("FrameHeight").Value, out this.frameHeight);

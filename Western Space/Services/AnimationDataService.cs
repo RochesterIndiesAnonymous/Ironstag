@@ -10,11 +10,11 @@ namespace WesternSpace.Services
 {
     public class AnimationDataService : IAnimationDataService
     {
-        private IDictionary<Texture2D, AnimationData> data;
+        private IDictionary<string, AnimationData> data;
 
         #region IAnimationDataService Members
 
-        public IDictionary<Texture2D, AnimationData> AnimationData
+        public IDictionary<string, AnimationData> AnimationData
         {
             get { return data; }
         }
@@ -23,20 +23,20 @@ namespace WesternSpace.Services
 
         public AnimationDataService()
         {
-            data = new Dictionary<Texture2D, AnimationData>();
+            data = new Dictionary<string, AnimationData>();
         }
 
         #region IAnimationDataService Members
 
 
-        public AnimationData GetAnimationData(Texture2D spriteSheet, string xmlName)
+        public AnimationData GetAnimationData(string xmlName)
         {
-            if (!data.ContainsKey(spriteSheet))
+            if (!data.ContainsKey(xmlName))
             {
-                data[spriteSheet] = new AnimationData(spriteSheet, xmlName);
+                data[xmlName] = new AnimationData(xmlName);
             }
 
-            return data[spriteSheet];
+            return data[xmlName];
         }
 
         #endregion

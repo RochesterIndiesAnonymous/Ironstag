@@ -9,11 +9,11 @@ namespace WesternSpace.ServiceInterfaces
 {
     public interface IAnimationDataService
     {
-        IDictionary<Texture2D, AnimationData> AnimationData
+        IDictionary<string, AnimationData> AnimationData
         {
             get;
         }
 
-        AnimationData GetAnimationData(Texture2D textureName, string xmlName);
+        AnimationData GetAnimationData(string xmlName);
     }
 }

@@ -11,7 +11,6 @@ namespace WesternSpace.DrawableComponents.Sprites
 {
     class DiddyKongSprite : AnimatedComponent
     {
-        public static string TEXTURE_NAME = "Textures\\DiddyKongWalk";
         public static string XML_NAME = "SpriteXML\\DiddyKong";
 
         public DiddyKongSprite(Game game, AnimationData data)
