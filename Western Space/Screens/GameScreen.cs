@@ -19,6 +19,12 @@ namespace WesternSpace.Screens
         private ILayerService layerService;
         private IAnimationDataService animationDataService;
         private ITextureService textureService;
+        private World world;
+
+        public World World
+        {
+            get { return world; }
+        }
 
         public GameScreen(Game game)
             : base(game)
@@ -71,7 +77,7 @@ namespace WesternSpace.Screens
             AnimationData data3 = animationDataService.GetAnimationData(GhastSprite.XML_NAME);
             AnimatedComponent ghastComponent = new GhastSprite(this.Game, data3);
             ghastComponent.UpdateOrder = 2;
-            ghastComponent.DrawOrder = 2;
+            ghastComponent.DrawOrder = 20;
             this.Game.Components.Add(ghastComponent);
 
             AnimationData data4 = animationDataService.GetAnimationData(SunsetSprite.XML_NAME);
@@ -85,36 +91,34 @@ namespace WesternSpace.Screens
         {
             // Create our FPSComponent
             FPSComponent fps = new FPSComponent(this.Game);
-            fps.DrawOrder = 3;
+            fps.DrawOrder = 200;
             this.Game.Components.Add(fps);
 
             MouseScreenCoordinatesComponent mscc = new MouseScreenCoordinatesComponent(this.Game);
             mscc.UpdateOrder = 3;
-            mscc.DrawOrder = 3;
+            mscc.DrawOrder = 200;
             this.Game.Components.Add(mscc);
 
             MouseWorldCoordinatesComponent mwcc = new MouseWorldCoordinatesComponent(this.Game);
             mwcc.UpdateOrder = 3;
-            mwcc.DrawOrder = 3;
+            mwcc.DrawOrder = 200;
             this.Game.Components.Add(mwcc);
         }
 
         private void CreateLayerComponents()
         {
-            // Create our tilemap
-            TileMap tm = tileEngine.LoadLayer("Layers\\BigTestLayer", "LayerXML\\TestLayer");
-            TileMapLayer tml = new TileMapLayer(this.Game, tm, 0);
-            TileMapLayer background = new TileMapLayer(this.Game, tm, 0, 0.25f);
-            tml.DrawOrder = 1;
+            // Create our World
+            world = new World(this.Game, "WorldXML\\TestWorld");
+
+            /*TileMapLayer background = new TileMapLayer(this.Game, World.Map, 0, 0.25f);
             background.DrawOrder = -10;
-            this.Game.Components.Add(tml);
+
             this.Game.Components.Add(background);
+            */
 
-            layerService.Layers["TestLayer"] = tml;
-
-            MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, tml);
+            MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, World.layers[0]);
             mcc.UpdateOrder = 2;
-            mcc.DrawOrder = 2;
+            mcc.DrawOrder = 200;
             this.Game.Components.Add(mcc);
         }
 
