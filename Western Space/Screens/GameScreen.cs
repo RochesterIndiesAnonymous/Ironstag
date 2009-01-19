@@ -67,6 +67,18 @@ namespace WesternSpace.Screens
             toadmanComponent.UpdateOrder = 2;
             toadmanComponent.DrawOrder = 2;
             this.Game.Components.Add(toadmanComponent);
+
+            AnimationData data3 = animationDataService.GetAnimationData(GhastSprite.XML_NAME);
+            AnimatedComponent ghastComponent = new GhastSprite(this.Game, data3);
+            ghastComponent.UpdateOrder = 2;
+            ghastComponent.DrawOrder = 2;
+            this.Game.Components.Add(ghastComponent);
+
+            AnimationData data4 = animationDataService.GetAnimationData(SunsetSprite.XML_NAME);
+            AnimatedComponent sunsetComponent = new SunsetSprite(this.Game, data4);
+            sunsetComponent.UpdateOrder = 2;
+            sunsetComponent.DrawOrder = 2;
+            this.Game.Components.Add(sunsetComponent);
         }
 
         private void CreateDebuggingInformationComponents()

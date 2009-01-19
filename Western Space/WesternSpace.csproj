@@ -92,6 +92,8 @@
     <Compile Include="DrawableComponents\Misc\MapCoordinateComponent.cs" />
     <Compile Include="DrawableComponents\Misc\MouseScreenCoordinatesComponent.cs" />
     <Compile Include="DrawableComponents\Misc\MouseWorldCoordinatesComponent.cs" />
+    <Compile Include="DrawableComponents\Sprites\GhastSprite.cs" />
+    <Compile Include="DrawableComponents\Sprites\SunsetSprite.cs" />
     <Compile Include="DrawableComponents\Sprites\ToadManSprite.cs" />
     <Compile Include="DrawableComponents\Sprites\DiddyKongSprite.cs" />
     <Compile Include="DrawableGameObject.cs" />
