@@ -47,14 +47,14 @@ namespace WesternSpace.Services
         {
             camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
 
-            SpriteBatchDescription cameraSensitive = new SpriteBatchDescription("Camera Sensitive", SpriteBlendMode.AlphaBlend, SpriteSortMode.FrontToBack,
+            SpriteBatchDescription cameraSensitive = new SpriteBatchDescription("Camera Sensitive", SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront,
                 SaveStateMode.None, true);
 
             SpriteBatch cameraSensitiveBatch = new SpriteBatch(this.Game.GraphicsDevice);
             batches[cameraSensitiveBatch] = cameraSensitive;
             reverseBatches[cameraSensitive] = cameraSensitiveBatch;
 
-            SpriteBatchDescription staticBatchDescription = new SpriteBatchDescription("Static", SpriteBlendMode.AlphaBlend, SpriteSortMode.FrontToBack,
+            SpriteBatchDescription staticBatchDescription = new SpriteBatchDescription("Static", SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront,
                 SaveStateMode.None, false);
 
             SpriteBatch staticBatch = new SpriteBatch(this.Game.GraphicsDevice);

@@ -85,6 +85,9 @@ namespace WesternSpace.Screens
         {
             // Create our Debugging output component
             DebuggingOutputComponent doc = new DebuggingOutputComponent(this.Game, batchService.GetSpriteBatch(DebuggingOutputComponent.SpriteBatchName));
+            doc.UpdateOrder = 4;
+            doc.DrawOrder = 400;
+            this.Game.Components.Add(doc);
             // Create our FPSComponent
             FPSComponent fps = new FPSComponent(this.Game);
             fps.DrawOrder = 3;
