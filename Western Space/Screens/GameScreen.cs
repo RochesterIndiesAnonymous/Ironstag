@@ -58,26 +58,26 @@ namespace WesternSpace.Screens
         {
             AnimationData data = animationDataService.GetAnimationData(DiddyKongSprite.XmlAssetName);
             AnimatedComponent diddyComponent = new DiddyKongSprite(this.Game, batchService.GetSpriteBatch(DiddyKongSprite.SpriteBatchName), data);
-            diddyComponent.UpdateOrder = 2;
-            diddyComponent.DrawOrder = -20;
+            diddyComponent.UpdateOrder = 3;
+            diddyComponent.DrawOrder = 5;
             this.Game.Components.Add(diddyComponent);
 
             AnimationData data2 = animationDataService.GetAnimationData(ToadManSprite.XmlAssetName);
             AnimatedComponent toadmanComponent = new ToadManSprite(this.Game, batchService.GetSpriteBatch(ToadManSprite.SpriteBatchName), data2);
-            toadmanComponent.UpdateOrder = 2;
-            toadmanComponent.DrawOrder = 300;
+            toadmanComponent.UpdateOrder = 3;
+            toadmanComponent.DrawOrder = 5;
             this.Game.Components.Add(toadmanComponent);
 
             AnimationData data3 = animationDataService.GetAnimationData(GhastSprite.XmlAssetName);
             AnimatedComponent ghastComponent = new GhastSprite(this.Game, batchService.GetSpriteBatch(GhastSprite.SpriteBatchName), data3);
-            ghastComponent.UpdateOrder = 2;
-            ghastComponent.DrawOrder = 300;
+            ghastComponent.UpdateOrder = 3;
+            ghastComponent.DrawOrder = 5;
             this.Game.Components.Add(ghastComponent);
 
             AnimationData data4 = animationDataService.GetAnimationData(SunsetSprite.XmlAssetName);
             AnimatedComponent sunsetComponent = new SunsetSprite(this.Game, batchService.GetSpriteBatch(SunsetSprite.SpriteBatchName), data4);
-            sunsetComponent.UpdateOrder = 2;
-            sunsetComponent.DrawOrder = 300;
+            sunsetComponent.UpdateOrder = 3;
+            sunsetComponent.DrawOrder = 5;
             this.Game.Components.Add(sunsetComponent);
         }
 
