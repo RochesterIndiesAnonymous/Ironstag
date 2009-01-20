@@ -48,7 +48,7 @@ namespace WesternSpace.Screens
 
             CreateSprites();
 
-            //CreateDebuggingInformationComponents();
+            CreateDebuggingInformationComponents();
             
             // Initialize all components
             base.Initialize();
