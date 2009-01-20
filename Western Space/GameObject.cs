@@ -13,7 +13,9 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace WesternSpace
 {
-
+    /// <summary>
+    /// Adds additional functionality to GameComponent necessary for our game
+    /// </summary>
     public class GameObject : GameComponent
     {
         public GameObject(Game game)

@@ -11,10 +11,21 @@ using WesternSpace.Interfaces;
 
 namespace WesternSpace.Services
 {
+    /// <summary>
+    /// The implementation of the camera service
+    /// </summary>
     class CameraService : GameObject, ICameraService
     {
+        /// <summary>
+        /// The position of the camera within the world
+        /// </summary>
         private Vector2 position;
+
+        /// <summary>
+        /// The visible area of the world in the form of a rectangle
+        /// </summary>
         private RectangleF visibleArea;
+
         private Matrix viewMatrix;
         private ILayerService layerService;
 
@@ -24,6 +35,9 @@ namespace WesternSpace.Services
 
         #region ICamera Members
 
+        /// <summary>
+        /// The position of the camera within the world
+        /// </summary>
         public Vector2 Position
         {
             get
@@ -37,6 +51,9 @@ namespace WesternSpace.Services
             }
         }
 
+        /// <summary>
+        /// The screen position of the camera.
+        /// </summary>
         public Vector2 ScreenPosition
         {
             get
@@ -45,6 +62,9 @@ namespace WesternSpace.Services
             }
         }
 
+        /// <summary>
+        /// The visible area of the world in the form of a rectangle
+        /// </summary>
         public RectangleF VisibleArea
         {
             get
@@ -53,6 +73,9 @@ namespace WesternSpace.Services
             }
         }
 
+        /// <summary>
+        /// The current view transformation matrix for sprite batches
+        /// </summary>
         public Matrix CurrentViewMatrix
         {
             get { return viewMatrix; }
@@ -60,11 +83,18 @@ namespace WesternSpace.Services
 
         #endregion
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="game">The game this camera is associated with</param>
         public CameraService(Game game)
             : base(game)
         {
         }
 
+        /// <summary>
+        /// Initializes the internal state of the camera
+        /// </summary>
         public override void Initialize()
         {
             position = Vector2.Zero;
@@ -80,6 +110,10 @@ namespace WesternSpace.Services
             base.Initialize();
         }
 
+        /// <summary>
+        /// Updates the camera position based on input
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             if (inputManager.KeyboardState.IsKeyDown(Keys.D) || inputManager.KeyboardState.IsKeyDown(Keys.Right))
@@ -154,6 +188,9 @@ namespace WesternSpace.Services
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Updates the visible area rectangle of the camera
+        /// </summary>
         private void UpdateVisibleArea()
         {
             Viewport vp = this.Game.GraphicsDevice.Viewport;
@@ -164,6 +201,9 @@ namespace WesternSpace.Services
             visibleArea = new RectangleF(left, top, vp.Width, vp.Height);
         }
 
+        /// <summary>
+        /// Updates the view transformation matrix
+        /// </summary>
         private void CreateViewTransformationMatrix()
         {
             Vector3 matrixRotationOrigin = new Vector3(Position, 0);

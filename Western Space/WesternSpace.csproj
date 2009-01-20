@@ -88,6 +88,7 @@
     <Compile Include="AnimationFramework\AnimatedComponent.cs" />
     <Compile Include="AnimationFramework\AnimationData.cs" />
     <Compile Include="AnimationFramework\Frame.cs" />
+    <Compile Include="DrawableComponents\Misc\DebuggingOutputComponent.cs" />
     <Compile Include="DrawableComponents\Misc\FPSComponent.cs" />
     <Compile Include="DrawableComponents\Misc\MapCoordinateComponent.cs" />
     <Compile Include="DrawableComponents\Misc\MouseScreenCoordinatesComponent.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="DrawableComponents\Sprites\ToadManSprite.cs" />
     <Compile Include="DrawableComponents\Sprites\DiddyKongSprite.cs" />
     <Compile Include="DrawableGameObject.cs" />
+    <Compile Include="Interfaces\IDebugOutput.cs" />
     <Compile Include="Interfaces\IMapCoordinates.cs" />
     <Compile Include="LegacyCode\FlyingObject.cs" />
     <Compile Include="LegacyCode\Cursor.cs" />
@@ -117,7 +119,9 @@
     <Compile Include="Services\GraphicsDeviceMangerService.cs" />
     <Compile Include="ServiceInterfaces\ICameraService.cs" />
     <Compile Include="Services\InputManagerService.cs" />
+    <Compile Include="ServiceInterfaces\ISpriteBatchService.cs" />
     <Compile Include="Services\LayerService.cs" />
+    <Compile Include="Services\SpriteBatchService.cs" />
     <Compile Include="Services\TextureService.cs" />
     <Compile Include="LegacyCode\TilingEngineTest.cs" />
     <Compile Include="LegacyCode\Layer.cs" />
@@ -126,6 +130,7 @@
     <Compile Include="TilingEngine\Tile.cs" />
     <Compile Include="TilingEngine\TileEngine.cs" />
     <Compile Include="TilingEngine\TileMap.cs" />
+    <Compile Include="Utility\SpriteBatchDescription.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>

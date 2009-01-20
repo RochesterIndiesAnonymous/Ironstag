@@ -5,59 +5,67 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using WesternSpace.ServiceInterfaces;
+using WesternSpace.Interfaces;
 
 namespace WesternSpace.DrawableComponents.Misc
 {
-    class MouseScreenCoordinatesComponent : DrawableGameObject
+    /// <summary>
+    /// Outputs the mouse coordinates to the debugging information
+    /// </summary>
+    public class MouseScreenCoordinatesComponent : GameObject, IDebugOutput
     {
+        /// <summary>
+        /// The inputmanager to get the state of the mouse
+        /// </summary>
         private IInputManagerService inputManager;
 
-        private const int MIN_SIZE = 1;
+        /// <summary>
+        /// The string that will be printed to the debugging area
+        /// </summary>
+        private string output;
 
-        private SpriteFont font;
-        private Vector2 fontPos;
-        private Vector2 stringPos;
+        #region IDebugOutput Members
 
-        private Vector2 mouseCoordinates;
+        /// <summary>
+        /// Gets the string that will be printed out to the screen.
+        /// </summary>
+        public string Output
+        {
+            get { return output; }
+        }
 
-        private SpriteBatch spriteBatch;
+        #endregion
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="game">The game this component is associated with</param>
         public MouseScreenCoordinatesComponent(Game game)
             : base(game)
         {
 
         }
 
+        /// <summary>
+        /// Sets up the internal state of the component
+        /// </summary>
         public override void Initialize()
         {
-            font = this.Game.Content.Load<SpriteFont>("Fonts\\Pala");
-            fontPos = new Vector2(MIN_SIZE, MIN_SIZE + font.LineSpacing + font.LineSpacing);
-            stringPos = new Vector2(fontPos.X, fontPos.Y + font.LineSpacing);
-
-            spriteBatch = new SpriteBatch(Game.GraphicsDevice);
-
             inputManager = (IInputManagerService)this.Game.Services.GetService(typeof(IInputManagerService));
 
             base.Initialize();
         }
 
+        /// <summary>
+        /// Updates the output to the debugging area on every update cycle
+        /// </summary>
+        /// <param name="gameTime">The time relative to the game</param>
         public override void Update(GameTime gameTime)
         {
-            mouseCoordinates = new Vector2(inputManager.MouseState.X, inputManager.MouseState.Y);
+            Vector2 mouseCoordinates = new Vector2(inputManager.MouseState.X, inputManager.MouseState.Y);
+            this.output = "Screen Coords: " + mouseCoordinates.X + ", " + mouseCoordinates.Y;
 
             base.Update(gameTime);
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            spriteBatch.Begin();
-
-            string output = "Screen Coordinates: " + mouseCoordinates.X + ", " + mouseCoordinates.Y;
-            spriteBatch.DrawString(font, output, stringPos, Color.Red);
-
-            spriteBatch.End();
-
-            base.Draw(gameTime);
         }
     }
 }

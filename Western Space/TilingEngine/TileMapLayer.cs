@@ -9,9 +9,16 @@ using WesternSpace.Interfaces;
 
 namespace WesternSpace.TilingEngine
 {
-    class TileMapLayer : DrawableGameObject, IMapCoordinates
+    public class TileMapLayer : DrawableGameObject, IMapCoordinates
     {
-        private SpriteBatch sb;
+        private static string spriteBatchName = "Camera Sensitive";
+
+        public static string SpriteBatchName
+        {
+            get { return TileMapLayer.spriteBatchName; }
+            set { TileMapLayer.spriteBatchName = value; }
+        }
+
         private ICameraService camera;
 
         private TileMap tm;
@@ -49,32 +56,29 @@ namespace WesternSpace.TilingEngine
 
         #endregion
 
-        public TileMapLayer(Game game, TileMap tm, int layerIndex)
-            : base(game)
+        public TileMapLayer(Game game, SpriteBatch spriteBatch, TileMap tm, int layerIndex)
+            : base(game, spriteBatch)
         {
             this.layerIndex = layerIndex;
             scrollSpeed = 1.0f;
             this.tm = tm;
         }
 
-        public TileMapLayer(Game game, TileMap tm, int layerIndex, float scrollSpeed)
-            : base(game)
-        {
-            this.layerIndex = layerIndex;
-            this.scrollSpeed = scrollSpeed;
-            this.tm = tm;
-        }
-
         public override void Initialize()
         {
             camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
-            sb = new SpriteBatch(this.Game.GraphicsDevice);
+
             base.Initialize();
+        }
+
+        public TileMapLayer(Game game, SpriteBatch spriteBatch, TileMap tm, int layerIndex, float scrollSpeed)
+            : this(game, spriteBatch, tm, layerIndex)
+        {
+            this.scrollSpeed = scrollSpeed;
         }
 
         public override void Draw(GameTime gameTime)
         {
-            sb.Begin(SpriteBlendMode.None, SpriteSortMode.BackToFront, SaveStateMode.None, camera.CurrentViewMatrix);
             float cam_x = camera.Position.X*scrollSpeed;
             float cam_y = camera.Position.Y*scrollSpeed;
             float cam_w = camera.VisibleArea.Width;
@@ -96,12 +100,10 @@ namespace WesternSpace.TilingEngine
                     Vector2 position = new Vector2(x * tm.gridCellWidth, y * tm.gridCellHeight) + (camera.Position - camera.Position*scrollSpeed);
                     for (int subLayerIndex = 0; subLayerIndex < tm.SubLayerCount; ++subLayerIndex)
                     {
-                        sb.Draw(tm.Tiles[x, y].Textures[layerIndex, subLayerIndex], position, Color.White);
+                        this.SpriteBatch.Draw(tm.Tiles[x, y].Textures[layerIndex, subLayerIndex], position, Color.White);
                     }
                 }
             }
-
-            sb.End();
 
             base.Draw(gameTime);
         }

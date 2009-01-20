@@ -21,9 +21,21 @@ namespace WesternSpace
         /// Holds our single reference to our game
         /// </summary>
         private static ScreenManager instance;
+
+        /// <summary>
+        /// The game screen component to draw to the screen
+        /// </summary>
         private GameScreen gameScreen;
 
+        /// <summary>
+        /// The graphics device manager our game uses
+        /// </summary>
         private GraphicsDeviceManager graphics;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private SpriteBatchService batchService;
 
         /// <summary>
         /// Gets the current instance of the game.
@@ -41,6 +53,9 @@ namespace WesternSpace
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ScreenManager()
         {
             // XNA does not like it if this is not created here.
@@ -61,15 +76,10 @@ namespace WesternSpace
             // Set our XNA content directory
             Content.RootDirectory = "Content";
 
-            // create our TextureService
-            ITextureService textureService = new TextureService();
-            this.Services.AddService(typeof(ITextureService), textureService);
+            // create our services
+            CreateServices();
 
-            // create our graphics device manager service
-            IGraphicsDeviceManagerService graphicsService = new GraphicsDeviceMangerService(graphics);
-            this.Services.AddService(typeof(IGraphicsDeviceManagerService), graphicsService);
-
-            // create and add any necessary components if needed
+            // create our game screen
             gameScreen = new GameScreen(this);
             this.Components.Add(gameScreen);
 
@@ -97,7 +107,51 @@ namespace WesternSpace
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            batchService.Begin();
+
             base.Draw(gameTime);
+
+            batchService.End();
+        }
+
+        /// <summary>
+        /// Creates all the services our game will use
+        /// </summary>
+        private void CreateServices()
+        {
+            // create our TextureService
+            ITextureService textureService = new TextureService();
+            this.Services.AddService(typeof(ITextureService), textureService);
+
+            // create our graphics device manager service
+            IGraphicsDeviceManagerService graphicsService = new GraphicsDeviceMangerService(graphics);
+            this.Services.AddService(typeof(IGraphicsDeviceManagerService), graphicsService);
+
+            // create out input manager
+            InputManagerService input = new InputManagerService(this);
+            input.UpdateOrder = 0;
+            this.Services.AddService(typeof(IInputManagerService), input);
+            this.Components.Add(input);
+
+            // create our layer service
+            ILayerService layer = new LayerService();
+            this.Services.AddService(typeof(ILayerService), layer);
+
+            // create our animation data service
+            IAnimationDataService animationDataService = new AnimationDataService();
+            this.Services.AddService(typeof(IAnimationDataService), animationDataService);
+
+            // create our camera service
+            CameraService camera = new CameraService(this);
+            camera.UpdateOrder = 1;
+            this.Services.AddService(typeof(ICameraService), camera);
+            this.Components.Add(camera);
+
+            // create our batch service
+            this.batchService = new SpriteBatchService(this);
+            batchService.UpdateOrder = 2;
+            this.Services.AddService(typeof(ISpriteBatchService), batchService);
+            this.Components.Add(batchService);
         }
     }
 }

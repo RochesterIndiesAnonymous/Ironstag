@@ -71,8 +71,8 @@ namespace WesternSpace.AnimationFramework
         /// </summary>
         /// <param name="game">The Game object to be passed to the GameComponent class</param>
         /// <param name="data">The data that this component will use for animation</param>
-        public AnimatedComponent(Game game, AnimationData data)
-            : base(game)
+        public AnimatedComponent(Game game, SpriteBatch spriteBatch, AnimationData data)
+            : base(game, spriteBatch)
         {
             this.animationData = data;
             this.animationKey = String.Empty;

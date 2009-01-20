@@ -5,61 +5,71 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.ServiceInterfaces;
+using WesternSpace.Interfaces;
 
 namespace WesternSpace.DrawableComponents.Misc
 {
-    class MouseWorldCoordinatesComponent : DrawableGameObject
+    public class MouseWorldCoordinatesComponent : GameObject, IDebugOutput
     {
+        /// <summary>
+        /// The camera that is used to calculate the mouse world coordinates
+        /// </summary>
         private ICameraService camera;
+
+        /// <summary>
+        /// The input manager to get the state of the mouse
+        /// </summary>
         private IInputManagerService inputManager;
 
-        private const int MIN_SIZE = 1;
+        /// <summary>
+        /// The output that will be printed to the debugging area
+        /// </summary>
+        private string output;
 
-        private SpriteFont font;
-        private Vector2 fontPos;
-        private Vector2 stringPos;
+        #region IDebugOutput Members
 
-        private Vector2 mouseCoordinates;
+        /// <summary>
+        /// Gets the output that will be printed to the debugging area
+        /// </summary>
+        public string Output
+        {
+            get { return output; }
+        }
 
-        private SpriteBatch spriteBatch;
+        #endregion
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="game">The game object this component is associated with</param>
         public MouseWorldCoordinatesComponent(Game game)
             : base(game)
         {
 
         }
 
+        /// <summary>
+        /// Initializes the internal state of the component
+        /// </summary>
         public override void Initialize()
         {
-            font = this.Game.Content.Load<SpriteFont>("Fonts\\Pala");
-            fontPos = new Vector2(MIN_SIZE, MIN_SIZE);
-            stringPos = new Vector2(fontPos.X, fontPos.Y);
-
-            spriteBatch = new SpriteBatch(Game.GraphicsDevice);
-
             camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
             inputManager = (IInputManagerService)this.Game.Services.GetService(typeof(IInputManagerService));
 
             base.Initialize();
         }
 
+
+        /// <summary>
+        /// Updates the output of the component
+        /// </summary>
+        /// <param name="gameTime">The time realative to the game</param>
         public override void Update(GameTime gameTime)
         {
-            mouseCoordinates = new Vector2(camera.Position.X + inputManager.MouseState.X, camera.Position.Y + inputManager.MouseState.Y);
+            Vector2 mouseCoordinates = new Vector2(camera.Position.X + inputManager.MouseState.X, camera.Position.Y + inputManager.MouseState.Y);
+            this.output = "Mouse World Coords: " + mouseCoordinates.X + ", " + mouseCoordinates.Y;
 
             base.Update(gameTime);
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            spriteBatch.Begin();
-
-            string output = "Mouse World Coordinates: " + mouseCoordinates.X + ", " + mouseCoordinates.Y;
-            spriteBatch.DrawString(font, output, stringPos, Color.Red);
-
-            spriteBatch.End();
-
-            base.Draw(gameTime);
         }
     }
 }

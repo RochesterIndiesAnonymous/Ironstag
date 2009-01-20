@@ -8,24 +8,39 @@ using WesternSpace.Interfaces;
 
 namespace WesternSpace.ServiceInterfaces
 {
-    interface ICameraService
+    /// <summary>
+    /// The interface for accessing the camera service
+    /// </summary>
+    public interface ICameraService
     {
+        /// <summary>
+        /// The position of the camera within the world
+        /// </summary>
         Vector2 Position
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The screen position of the camera.
+        /// </summary>
         Vector2 ScreenPosition
         {
             get;
         }
 
+        /// <summary>
+        /// The visible area of the world in the form of a rectangle
+        /// </summary>
         RectangleF VisibleArea
         {
             get;
         }
 
+        /// <summary>
+        /// The current view transformation matrix for sprite batches
+        /// </summary>
         Matrix CurrentViewMatrix
         {
             get;

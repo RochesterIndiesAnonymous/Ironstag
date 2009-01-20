@@ -4,62 +4,42 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using WesternSpace.Interfaces;
 
 namespace WesternSpace.DrawableComponents.Misc
 {
     /// <summary>
     /// Draws the current frames per second at the specific coordinates
     /// </summary>
-    class FPSComponent : DrawableGameObject
+    public class FPSComponent : DrawableGameObject, IDebugOutput
     {
-        /// <summary>
-        /// The coordinates to draw the string at.
-        /// </summary>
-        private const int MIN_SIZE = 1;
+        private string output;
+
+        #region IDebugOutput Members
 
         /// <summary>
-        /// The font to use to draw the string
+        /// The output that will be printed by the DebuggingOutputComponent
         /// </summary>
-        private SpriteFont font;
+        public string Output
+        {
+            get { return output; }
+        }
 
-        /// <summary>
-        /// The X Y coordinates to draw the font at
-        /// </summary>
-        private Vector2 fontPos;
-
-        /// <summary>
-        /// The calculated position of string
-        /// </summary>
-        private Vector2 fpsStringPos;
-
-        /// <summary>
-        /// The batch used to draw the string to the screen
-        /// </summary>
-        private SpriteBatch spriteBatch;
+        #endregion
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="game">The game object that this component is part of</param>
         public FPSComponent(Game game)
-            : base(game)
+            : base(game, null)
         {
         }
 
-        /// <summary>
-        /// Initializes the component
-        /// </summary>
         public override void Initialize()
         {
             // turn off calling update
             this.Enabled = false;
-
-            //Setup the font
-            font = this.Game.Content.Load<SpriteFont>("Fonts\\Pala");
-            fontPos = new Vector2(MIN_SIZE, MIN_SIZE);
-            fpsStringPos = new Vector2(fontPos.X, fontPos.Y + font.LineSpacing);
-
-            spriteBatch = new SpriteBatch(Game.GraphicsDevice);
 
             base.Initialize();
         }
@@ -71,16 +51,12 @@ namespace WesternSpace.DrawableComponents.Misc
         public override void Draw(GameTime gameTime)
         {
             double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
-
-            spriteBatch.Begin();
-
-            string output = "FPS: " + Math.Ceiling(fps);
-            spriteBatch.DrawString(font, output, fpsStringPos, Color.Red);
-
-            spriteBatch.End();
+            this.output = "FPS: " + Math.Ceiling(fps);
 
             base.Draw(gameTime);
         }
+
+
         
     }
 }

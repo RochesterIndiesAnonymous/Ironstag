@@ -10,8 +10,10 @@ using System.Xml.Linq;
 
 namespace WesternSpace
 {
-    class World : GameObject
+    public class World : GameObject
     {
+        private ISpriteBatchService batchService;
+
         // The actual map that objects interact with.
         TileMap map;
 
@@ -31,6 +33,7 @@ namespace WesternSpace
         {
             //this.camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
             this.layers = new Dictionary<int, TileMapLayer>();
+            batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
             LoadWorldXmlFile(fileName);
         }
 
@@ -64,7 +67,7 @@ namespace WesternSpace
                 Int32.TryParse(mapLayer.Attribute("LayerIndex").Value, out LayerIndex);
                 Int32.TryParse(mapLayer.Attribute("ZIndex").Value, out ZIndex);
 
-                layers[ZIndex] = new TileMapLayer(this.Game, map, LayerIndex);
+                layers[ZIndex] = new TileMapLayer(this.Game, batchService.GetSpriteBatch(TileMapLayer.SpriteBatchName), map, LayerIndex);
                 layers[ZIndex].DrawOrder = ZIndex;
 
                 Game.Components.Add(layers[ZIndex]);
@@ -97,7 +100,7 @@ namespace WesternSpace
                     Int32.TryParse(parallaxLayer.Attribute("LayerIndex").Value, out LayerIndex);
                     Int32.TryParse(parallaxLayer.Attribute("ZIndex").Value, out ZIndex);
 
-                    layers[ZIndex] = new TileMapLayer(this.Game, map, LayerIndex, ScrollSpeed);
+                    layers[ZIndex] = new TileMapLayer(this.Game, batchService.GetSpriteBatch(TileMapLayer.SpriteBatchName), map, LayerIndex, ScrollSpeed);
                     layers[ZIndex].DrawOrder = ZIndex;
 
                     Game.Components.Add(layers[ZIndex]);

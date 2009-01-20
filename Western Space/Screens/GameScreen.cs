@@ -13,12 +13,11 @@ using WesternSpace.DrawableComponents.Sprites;
 
 namespace WesternSpace.Screens
 {
-    class GameScreen : DrawableGameObject
+    public class GameScreen : DrawableGameObject
     {
         private TileEngine tileEngine;
-        private ILayerService layerService;
         private IAnimationDataService animationDataService;
-        private ITextureService textureService;
+        private ISpriteBatchService batchService;
         private World world;
 
         public World World
@@ -27,7 +26,7 @@ namespace WesternSpace.Screens
         }
 
         public GameScreen(Game game)
-            : base(game)
+            : base(game, null)
         {
         }
 
@@ -41,14 +40,9 @@ namespace WesternSpace.Screens
         {
             tileEngine = new TileEngine();
 
-            CreateServices();
-
-            // CreateLayerComponents needs the layer service
-            layerService = (ILayerService)this.Game.Services.GetService(typeof(ILayerService));
-
-            // CreateSprites needs the animation data service and texture service
+            // CreateSprites needs the animation data service
             animationDataService = (IAnimationDataService)this.Game.Services.GetService(typeof(IAnimationDataService));
-            textureService = (ITextureService)this.Game.Services.GetService(typeof(ITextureService));
+            batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
 
             CreateLayerComponents();
 
@@ -62,47 +56,50 @@ namespace WesternSpace.Screens
 
         private void CreateSprites()
         {
-            AnimationData data = animationDataService.GetAnimationData(DiddyKongSprite.XML_NAME);
-            AnimatedComponent diddyComponent = new DiddyKongSprite(this.Game, data);
+            AnimationData data = animationDataService.GetAnimationData(DiddyKongSprite.XmlAssetName);
+            AnimatedComponent diddyComponent = new DiddyKongSprite(this.Game, batchService.GetSpriteBatch(DiddyKongSprite.SpriteBatchName), data);
             diddyComponent.UpdateOrder = 2;
-            diddyComponent.DrawOrder = 2;
+            diddyComponent.DrawOrder = -20;
             this.Game.Components.Add(diddyComponent);
 
-            AnimationData data2 = animationDataService.GetAnimationData(ToadManSprite.XML_NAME);
-            AnimatedComponent toadmanComponent = new ToadManSprite(this.Game, data2);
+            AnimationData data2 = animationDataService.GetAnimationData(ToadManSprite.XmlAssetName);
+            AnimatedComponent toadmanComponent = new ToadManSprite(this.Game, batchService.GetSpriteBatch(ToadManSprite.SpriteBatchName), data2);
             toadmanComponent.UpdateOrder = 2;
-            toadmanComponent.DrawOrder = 2;
+            toadmanComponent.DrawOrder = 300;
             this.Game.Components.Add(toadmanComponent);
 
-            AnimationData data3 = animationDataService.GetAnimationData(GhastSprite.XML_NAME);
-            AnimatedComponent ghastComponent = new GhastSprite(this.Game, data3);
+            AnimationData data3 = animationDataService.GetAnimationData(GhastSprite.XmlAssetName);
+            AnimatedComponent ghastComponent = new GhastSprite(this.Game, batchService.GetSpriteBatch(GhastSprite.SpriteBatchName), data3);
             ghastComponent.UpdateOrder = 2;
-            ghastComponent.DrawOrder = 20;
+            ghastComponent.DrawOrder = 300;
             this.Game.Components.Add(ghastComponent);
 
-            AnimationData data4 = animationDataService.GetAnimationData(SunsetSprite.XML_NAME);
-            AnimatedComponent sunsetComponent = new SunsetSprite(this.Game, data4);
+            AnimationData data4 = animationDataService.GetAnimationData(SunsetSprite.XmlAssetName);
+            AnimatedComponent sunsetComponent = new SunsetSprite(this.Game, batchService.GetSpriteBatch(SunsetSprite.SpriteBatchName), data4);
             sunsetComponent.UpdateOrder = 2;
-            sunsetComponent.DrawOrder = 2;
+            sunsetComponent.DrawOrder = 300;
             this.Game.Components.Add(sunsetComponent);
         }
 
         private void CreateDebuggingInformationComponents()
         {
+            // Create our Debugging output component
+            DebuggingOutputComponent doc = new DebuggingOutputComponent(this.Game, batchService.GetSpriteBatch(DebuggingOutputComponent.SpriteBatchName));
             // Create our FPSComponent
             FPSComponent fps = new FPSComponent(this.Game);
-            fps.DrawOrder = 200;
+            fps.DrawOrder = 3;
             this.Game.Components.Add(fps);
+            doc.DebugLines.Add(fps);
 
             MouseScreenCoordinatesComponent mscc = new MouseScreenCoordinatesComponent(this.Game);
             mscc.UpdateOrder = 3;
-            mscc.DrawOrder = 200;
             this.Game.Components.Add(mscc);
+            doc.DebugLines.Add(mscc);
 
             MouseWorldCoordinatesComponent mwcc = new MouseWorldCoordinatesComponent(this.Game);
             mwcc.UpdateOrder = 3;
-            mwcc.DrawOrder = 200;
             this.Game.Components.Add(mwcc);
+            doc.DebugLines.Add(mwcc);
         }
 
         private void CreateLayerComponents()
@@ -117,29 +114,8 @@ namespace WesternSpace.Screens
             */
 
             MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, World.layers[0]);
-            mcc.UpdateOrder = 2;
-            mcc.DrawOrder = 200;
+            mcc.UpdateOrder = 3;
             this.Game.Components.Add(mcc);
-        }
-
-        private void CreateServices()
-        {
-            InputManagerService input = new InputManagerService(this.Game);
-            input.UpdateOrder = 0;
-            this.Game.Services.AddService(typeof(IInputManagerService), input);
-            this.Game.Components.Add(input);
-
-            ILayerService layer = new LayerService();
-            this.Game.Services.AddService(typeof(ILayerService), layer);
-
-            IAnimationDataService animationDataService = new AnimationDataService();
-            this.Game.Services.AddService(typeof(IAnimationDataService), animationDataService);            
-
-            // create and add any necessary components
-            CameraService camera = new CameraService(this.Game);
-            camera.UpdateOrder = 1;
-            this.Game.Services.AddService(typeof(ICameraService), camera);
-            this.Game.Components.Add(camera);
         }
     }
 }
