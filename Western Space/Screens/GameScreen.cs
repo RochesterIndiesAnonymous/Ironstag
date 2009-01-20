@@ -48,7 +48,7 @@ namespace WesternSpace.Screens
 
             CreateSprites();
 
-            CreateDebuggingInformationComponents();
+            //CreateDebuggingInformationComponents();
             
             // Initialize all components
             base.Initialize();
@@ -59,25 +59,25 @@ namespace WesternSpace.Screens
             AnimationData data = animationDataService.GetAnimationData(DiddyKongSprite.XmlAssetName);
             AnimatedComponent diddyComponent = new DiddyKongSprite(this.Game, batchService.GetSpriteBatch(DiddyKongSprite.SpriteBatchName), data);
             diddyComponent.UpdateOrder = 3;
-            diddyComponent.DrawOrder = 5;
+            diddyComponent.DrawOrder = 0;
             this.Game.Components.Add(diddyComponent);
 
             AnimationData data2 = animationDataService.GetAnimationData(ToadManSprite.XmlAssetName);
             AnimatedComponent toadmanComponent = new ToadManSprite(this.Game, batchService.GetSpriteBatch(ToadManSprite.SpriteBatchName), data2);
             toadmanComponent.UpdateOrder = 3;
-            toadmanComponent.DrawOrder = 5;
+            toadmanComponent.DrawOrder = 0;
             this.Game.Components.Add(toadmanComponent);
 
             AnimationData data3 = animationDataService.GetAnimationData(GhastSprite.XmlAssetName);
             AnimatedComponent ghastComponent = new GhastSprite(this.Game, batchService.GetSpriteBatch(GhastSprite.SpriteBatchName), data3);
             ghastComponent.UpdateOrder = 3;
-            ghastComponent.DrawOrder = 5;
+            ghastComponent.DrawOrder = 0;
             this.Game.Components.Add(ghastComponent);
 
             AnimationData data4 = animationDataService.GetAnimationData(SunsetSprite.XmlAssetName);
             AnimatedComponent sunsetComponent = new SunsetSprite(this.Game, batchService.GetSpriteBatch(SunsetSprite.SpriteBatchName), data4);
             sunsetComponent.UpdateOrder = 3;
-            sunsetComponent.DrawOrder = 5;
+            sunsetComponent.DrawOrder = 0;
             this.Game.Components.Add(sunsetComponent);
         }
 
@@ -103,6 +103,11 @@ namespace WesternSpace.Screens
             mwcc.UpdateOrder = 3;
             this.Game.Components.Add(mwcc);
             doc.DebugLines.Add(mwcc);
+
+            MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, World.layers[0]);
+            mcc.UpdateOrder = 3;
+            this.Game.Components.Add(mcc);
+            doc.DebugLines.Add(mcc);
         }
 
         private void CreateLayerComponents()
@@ -115,10 +120,6 @@ namespace WesternSpace.Screens
 
             this.Game.Components.Add(background);
             */
-
-            MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, World.layers[0]);
-            mcc.UpdateOrder = 3;
-            this.Game.Components.Add(mcc);
         }
     }
 }
