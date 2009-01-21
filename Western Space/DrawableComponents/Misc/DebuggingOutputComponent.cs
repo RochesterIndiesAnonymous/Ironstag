@@ -8,10 +8,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace WesternSpace.DrawableComponents.Misc
 {
+    /// <summary>
+    /// Outputs debugging information to the given position on the screen.
+    /// </summary>
     public class DebuggingOutputComponent : DrawableGameObject
     {
+        /// <summary>
+        /// The name of the sprite batch that this class uses to draw itself
+        /// </summary>
         private static string spriteBatchName = "Static";
 
+        /// <summary>
+        /// The name of the sprite batch that this class uses to draw itself
+        /// </summary>
         public static string SpriteBatchName
         {
             get { return DebuggingOutputComponent.spriteBatchName; }
@@ -23,6 +32,9 @@ namespace WesternSpace.DrawableComponents.Misc
         /// </summary>
         private IList<IDebugOutput> debugLines;
 
+        /// <summary>
+        /// The collection of lines to output
+        /// </summary>
         public IList<IDebugOutput> DebugLines
         {
             get { return debugLines; }
@@ -30,27 +42,18 @@ namespace WesternSpace.DrawableComponents.Misc
         }
 
         /// <summary>
-        /// The x coordinate to start drawing the string.
-        /// </summary>
-        private const int XOFFSET = 1;
-
-        /// <summary>
-        /// The y coordinate to start drawing the string
-        /// </summary>
-        private const int YOFFSET = 1;
-
-        /// <summary>
         /// The font to use to draw the string
         /// </summary>
         private SpriteFont font;
 
         /// <summary>
-        /// The X Y coordinates to draw the font at
+        /// Constructor
         /// </summary>
-        private Vector2 fontPos;
-
-        public DebuggingOutputComponent(Game game, SpriteBatch spriteBatch)
-            : base(game, spriteBatch)
+        /// <param name="game">The game object this component is associated with</param>
+        /// <param name="spriteBatch">The sprite batch instance to use to draw on the screen</param>
+        /// <param name="position">The position of this component on the screen</param>
+        public DebuggingOutputComponent(Game game, SpriteBatch spriteBatch, Vector2 position)
+            : base(game, spriteBatch, position)
         {
             debugLines = new List<IDebugOutput>();
         }
@@ -65,16 +68,19 @@ namespace WesternSpace.DrawableComponents.Misc
 
             //Setup the font
             font = this.Game.Content.Load<SpriteFont>("Fonts\\Pala");
-            fontPos = new Vector2(XOFFSET, YOFFSET);
 
             base.Initialize();
         }
 
+        /// <summary>
+        /// Draws the debugging information to the screen
+        /// </summary>
+        /// <param name="gameTime">Time relative to the game</param>
         public override void Draw(GameTime gameTime)
         {
             for (int i = 0; i < this.debugLines.Count; i++)
             {
-                this.SpriteBatch.DrawString(this.font, this.debugLines[i].Output + "\n", new Vector2(XOFFSET, (i + 1) * font.LineSpacing), Color.Red);
+                this.SpriteBatch.DrawString(this.font, this.debugLines[i].Output + "\n", new Vector2(this.Position.X, (i + 1) * font.LineSpacing), Color.Red);
             }
 
             base.Draw(gameTime);

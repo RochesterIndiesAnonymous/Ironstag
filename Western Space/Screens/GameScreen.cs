@@ -13,7 +13,7 @@ using WesternSpace.DrawableComponents.Sprites;
 
 namespace WesternSpace.Screens
 {
-    public class GameScreen : DrawableGameObject
+    public class GameScreen : GameObject
     {
         private TileEngine tileEngine;
         private IAnimationDataService animationDataService;
@@ -26,7 +26,7 @@ namespace WesternSpace.Screens
         }
 
         public GameScreen(Game game)
-            : base(game, null)
+            : base(game)
         {
         }
 
@@ -57,25 +57,29 @@ namespace WesternSpace.Screens
         private void CreateSprites()
         {
             AnimationData data = animationDataService.GetAnimationData(DiddyKongSprite.XmlAssetName);
-            AnimatedComponent diddyComponent = new DiddyKongSprite(this.Game, batchService.GetSpriteBatch(DiddyKongSprite.SpriteBatchName), data);
+            Vector2 position = new Vector2(500, 500);
+            AnimatedComponent diddyComponent = new DiddyKongSprite(this.Game, batchService.GetSpriteBatch(DiddyKongSprite.SpriteBatchName), position, data);
             diddyComponent.UpdateOrder = 3;
             diddyComponent.DrawOrder = 0;
             this.Game.Components.Add(diddyComponent);
 
             AnimationData data2 = animationDataService.GetAnimationData(ToadManSprite.XmlAssetName);
-            AnimatedComponent toadmanComponent = new ToadManSprite(this.Game, batchService.GetSpriteBatch(ToadManSprite.SpriteBatchName), data2);
+            position = new Vector2(1000, 200);
+            AnimatedComponent toadmanComponent = new ToadManSprite(this.Game, batchService.GetSpriteBatch(ToadManSprite.SpriteBatchName), position, data2);
             toadmanComponent.UpdateOrder = 3;
             toadmanComponent.DrawOrder = 0;
             this.Game.Components.Add(toadmanComponent);
 
             AnimationData data3 = animationDataService.GetAnimationData(GhastSprite.XmlAssetName);
-            AnimatedComponent ghastComponent = new GhastSprite(this.Game, batchService.GetSpriteBatch(GhastSprite.SpriteBatchName), data3);
+            position = new Vector2(400, 300);
+            AnimatedComponent ghastComponent = new GhastSprite(this.Game, batchService.GetSpriteBatch(GhastSprite.SpriteBatchName), position, data3);
             ghastComponent.UpdateOrder = 3;
             ghastComponent.DrawOrder = 0;
             this.Game.Components.Add(ghastComponent);
 
             AnimationData data4 = animationDataService.GetAnimationData(SunsetSprite.XmlAssetName);
-            AnimatedComponent sunsetComponent = new SunsetSprite(this.Game, batchService.GetSpriteBatch(SunsetSprite.SpriteBatchName), data4);
+            position = new Vector2(200, 1500);
+            AnimatedComponent sunsetComponent = new SunsetSprite(this.Game, batchService.GetSpriteBatch(SunsetSprite.SpriteBatchName), position, data4);
             sunsetComponent.UpdateOrder = 3;
             sunsetComponent.DrawOrder = 0;
             this.Game.Components.Add(sunsetComponent);
@@ -84,7 +88,8 @@ namespace WesternSpace.Screens
         private void CreateDebuggingInformationComponents()
         {
             // Create our Debugging output component
-            DebuggingOutputComponent doc = new DebuggingOutputComponent(this.Game, batchService.GetSpriteBatch(DebuggingOutputComponent.SpriteBatchName));
+            Vector2 position = new Vector2(1,1);
+            DebuggingOutputComponent doc = new DebuggingOutputComponent(this.Game, batchService.GetSpriteBatch(DebuggingOutputComponent.SpriteBatchName), position);
             doc.UpdateOrder = 4;
             doc.DrawOrder = 400;
             this.Game.Components.Add(doc);

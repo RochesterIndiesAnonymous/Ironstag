@@ -9,7 +9,7 @@ using WesternSpace.Interfaces;
 namespace WesternSpace.DrawableComponents.Misc
 {
     /// <summary>
-    /// Draws the current frames per second at the specific coordinates
+    /// Measures the current frames per second and reports it to the debugging component
     /// </summary>
     public class FPSComponent : DrawableGameObject, IDebugOutput
     {
@@ -32,7 +32,7 @@ namespace WesternSpace.DrawableComponents.Misc
         /// </summary>
         /// <param name="game">The game object that this component is part of</param>
         public FPSComponent(Game game)
-            : base(game, null)
+            : base(game, null, Vector2.Zero)
         {
         }
 
@@ -54,9 +54,6 @@ namespace WesternSpace.DrawableComponents.Misc
             this.output = "FPS: " + Math.Ceiling(fps);
 
             base.Draw(gameTime);
-        }
-
-
-        
+        }        
     }
 }

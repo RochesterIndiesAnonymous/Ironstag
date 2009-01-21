@@ -47,9 +47,10 @@ namespace WesternSpace.DrawableComponents.Sprites
         /// </summary>
         /// <param name="game">The game that this sprite is associated with</param>
         /// <param name="spriteBatch">The sprite batch that this sprite is to use to draw itself</param>
+        /// <param name="position">The world coordinates of this sprite</param>
         /// <param name="data">The animation information that is used to animate this sprite</param>
-        public DiddyKongSprite(Game game, SpriteBatch spriteBatch, AnimationData data)
-            : base(game, spriteBatch, data)
+        public DiddyKongSprite(Game game, SpriteBatch spriteBatch, Vector2 position, AnimationData data)
+            : base(game, spriteBatch, position, data)
         {
             
         }
@@ -84,7 +85,7 @@ namespace WesternSpace.DrawableComponents.Sprites
         /// <param name="gameTime">The time relative to the game</param>
         public override void Draw(GameTime gameTime)
         {
-            this.SpriteBatch.Draw(this.AnimationData.SpriteSheet, new Vector2(500, 500),
+            this.SpriteBatch.Draw(this.AnimationData.SpriteSheet, this.Position,
                 this.CalculateFrameRectangleFromIndex(this.CurrentFrame.SheetIndex), Color.White);
 
             base.Draw(gameTime);

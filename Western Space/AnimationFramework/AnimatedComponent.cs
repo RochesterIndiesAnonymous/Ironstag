@@ -70,9 +70,11 @@ namespace WesternSpace.AnimationFramework
         /// Constructor
         /// </summary>
         /// <param name="game">The Game object to be passed to the GameComponent class</param>
+        /// <param name="spriteBatch">The sprite batch to use to draw itself</param>
+        /// <param name="position">The world coordinates of this sprite</param>
         /// <param name="data">The data that this component will use for animation</param>
-        public AnimatedComponent(Game game, SpriteBatch spriteBatch, AnimationData data)
-            : base(game, spriteBatch)
+        public AnimatedComponent(Game game, SpriteBatch spriteBatch, Vector2 position, AnimationData data)
+            : base(game, spriteBatch, position)
         {
             this.animationData = data;
             this.animationKey = String.Empty;

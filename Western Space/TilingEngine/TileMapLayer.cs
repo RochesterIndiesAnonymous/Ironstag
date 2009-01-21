@@ -57,11 +57,17 @@ namespace WesternSpace.TilingEngine
         #endregion
 
         public TileMapLayer(Game game, SpriteBatch spriteBatch, TileMap tm, int layerIndex)
-            : base(game, spriteBatch)
+            : base(game, spriteBatch, Vector2.Zero)
         {
             this.layerIndex = layerIndex;
             scrollSpeed = 1.0f;
             this.tm = tm;
+        }
+
+        public TileMapLayer(Game game, SpriteBatch spriteBatch, TileMap tm, int layerIndex, float scrollSpeed)
+            : this(game, spriteBatch, tm, layerIndex)
+        {
+            this.scrollSpeed = scrollSpeed;
         }
 
         public override void Initialize()
@@ -69,12 +75,6 @@ namespace WesternSpace.TilingEngine
             camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
 
             base.Initialize();
-        }
-
-        public TileMapLayer(Game game, SpriteBatch spriteBatch, TileMap tm, int layerIndex, float scrollSpeed)
-            : this(game, spriteBatch, tm, layerIndex)
-        {
-            this.scrollSpeed = scrollSpeed;
         }
 
         public override void Draw(GameTime gameTime)

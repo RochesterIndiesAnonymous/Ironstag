@@ -27,14 +27,30 @@ namespace WesternSpace
         }
 
         /// <summary>
+        /// The coordinates that this component is to be drawn at
+        /// </summary>
+        private Vector2 position;
+
+        /// <summary>
+        /// The coordinates that this component is to be drawn at
+        /// </summary>
+        protected Vector2 Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="game">The game object this component is associated with</param>
         /// <param name="spriteBatch">The sprite batch that this component is to use to draw itself</param>
-        public DrawableGameObject(Game game, SpriteBatch spriteBatch)
+        /// <param name="position">The coordinates that this component is to be drawn at</param>
+        public DrawableGameObject(Game game, SpriteBatch spriteBatch, Vector2 position)
             : base(game)
         {
             this.spriteBatch = spriteBatch;
+            this.position = position;
         }
     }
 }
