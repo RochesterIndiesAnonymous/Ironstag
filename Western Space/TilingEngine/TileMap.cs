@@ -115,10 +115,21 @@ namespace WesternSpace.TilingEngine
 
             foreach (Texture2D texture in tile.Textures)
             {
+                int power = 1;
+                int edges = 0;
+                foreach (bool edge in tile.Edges)
+                {
+                    if (edge)
+                    {
+                        edges += (int)Math.Pow(2, power);
+                    }
+                    ++power;
+                }
+
                 // Note: Texture2D.Name is useless normally, but the TextureService will
                 //       automatically set the Name parameter to be the asset name so they can
                 //       easily be retrieved.
-                returnVal.Add(new XElement("x", new XAttribute("n", texture.Name)));
+                returnVal.Add(new XElement("x", new XAttribute("n", texture.Name), new XAttribute("e", edges)));
             }
             return returnVal;
         }
@@ -145,7 +156,11 @@ namespace WesternSpace.TilingEngine
                     j = 0;
                 }
             }
-            return new Tile(texturesArray);
+            // TODO: ADD REAL EDGE SUPPORT LOL
+            bool[] edges = new bool[4];
+
+            edges[0] = edges[1] = edges[2] = edges[3] = true;
+            return new Tile(texturesArray, edges);
         }
 
         #endregion
