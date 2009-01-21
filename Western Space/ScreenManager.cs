@@ -60,6 +60,10 @@ namespace WesternSpace
         {
             // XNA does not like it if this is not created here.
             graphics = new GraphicsDeviceManager(this);
+
+            // Set the native resolution of the game
+            graphics.PreferredBackBufferWidth = 320;
+            graphics.PreferredBackBufferHeight = 240;
         }
 
         /// <summary>
