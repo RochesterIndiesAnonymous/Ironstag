@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using WesternSpace.Interfaces;
+using WesternSpace.ServiceInterfaces;
+using System.Xml.Linq;
 
 namespace WesternSpace.TilingEngine
 {

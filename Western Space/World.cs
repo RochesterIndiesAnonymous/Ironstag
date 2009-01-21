@@ -31,6 +31,18 @@ namespace WesternSpace
         public World(Game game, string fileName)
             : base(game)
         {
+            #region FOR TESTING ONLY - REMOVE ME LATER
+            /*
+            // Convert our tilemap images to giant XML files.
+            TileEngine te = new TileEngine();
+            TileMap btm = te.LoadTileMap("Layers\\BigTestLayer", "LayerXML\\TestLayer");
+            TileMap tm = te.LoadTileMap("Layers\\TestLayer", "LayerXML\\TestLayer");
+
+            XDocument doc = new XDocument(btm.ToXElement());
+            doc.Save("BigTestLayer.xml", SaveOptions.DisableFormatting);
+            */
+            #endregion
+
             //this.camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
             this.layers = new Dictionary<int, TileMapLayer>();
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
@@ -48,15 +60,15 @@ namespace WesternSpace
             XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(fileName);
 
             // Load the interactive TileMap:
-            map = tileEngine.LoadLayer(fileContents.Root.Attribute("MapFileName").Value,
-                                       fileContents.Root.Attribute("MapSettingsFileName").Value);
+            map = new TileMap(fileContents.Root.Attribute("InteractiveMapFileName").Value);
+
+            map.ToXElement();
 
             // The Camera currently looks at the layers contained in layerService.
             // This can be removed later when the camera is smarter.
             ILayerService layerService = (ILayerService)Game.Services.GetService(typeof(ILayerService));
 
-            IEnumerable<XElement> allMapLayers = from world in fileContents.Descendants("MapLayer")
-                                                 select world;
+            IEnumerable<XElement> allMapLayers = fileContents.Descendants("MapLayer");
 
             foreach (XElement mapLayer in allMapLayers)
             {
@@ -74,21 +86,19 @@ namespace WesternSpace
                 layerService.Layers[LayerName] = layers[ZIndex];
             }
 
-            IEnumerable<XElement> allParallaxMaps = from world in fileContents.Descendants("Parallax")
-                                                    select world;
+            IEnumerable<XElement> allParallaxMaps = fileContents.Descendants("Parallax");
 
             // A parallaxMap is made up of a tileMap just like the interactive map,
             //  so it can have multiple layers in and of itself. This might not be common
             //  but the functionality is there.
             foreach (XElement parallaxMap in allParallaxMaps)
             {
-                IEnumerable<XElement> allParallaxLayers = from world in parallaxMap.Descendants("Layer")
-                                                     select world;
+                IEnumerable<XElement> allParallaxLayers = parallaxMap.Descendants("Layer");
                 float ScrollSpeed;
                 TileMap tileMap;
 
-                tileMap = tileEngine.LoadLayer(parallaxMap.Attribute("MapFileName").Value,
-                                                       parallaxMap.Attribute("MapSettingsFileName").Value);
+                tileMap = new TileMap(parallaxMap.Attribute("MapFileName").Value);
+
                 float.TryParse(parallaxMap.Attribute("ScrollSpeed").Value, out ScrollSpeed);
 
                 foreach (XElement parallaxLayer in allParallaxLayers)
@@ -100,7 +110,7 @@ namespace WesternSpace
                     Int32.TryParse(parallaxLayer.Attribute("LayerIndex").Value, out LayerIndex);
                     Int32.TryParse(parallaxLayer.Attribute("ZIndex").Value, out ZIndex);
 
-                    layers[ZIndex] = new TileMapLayer(this.Game, batchService.GetSpriteBatch(TileMapLayer.SpriteBatchName), map, LayerIndex, ScrollSpeed);
+                    layers[ZIndex] = new TileMapLayer(this.Game, batchService.GetSpriteBatch(TileMapLayer.SpriteBatchName), tileMap, LayerIndex, ScrollSpeed);
                     layers[ZIndex].DrawOrder = ZIndex;
 
                     Game.Components.Add(layers[ZIndex]);

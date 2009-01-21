@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TileMap Width="24" Height="6" TileWidth="100" TileHeight="100" LayerCount="1" SubLayerCount="1">
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\amazon_skins_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\reptile_eggfarm_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\cloud_scan_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\water_sheets_100" />
+  </T>
+  <T>
+    <x n="Textures\hidden_caverocks_100" />
+  </T>
+</TileMap>

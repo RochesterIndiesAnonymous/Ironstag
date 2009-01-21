@@ -100,6 +100,7 @@
     <Compile Include="DrawableGameObject.cs" />
     <Compile Include="Interfaces\IDebugOutput.cs" />
     <Compile Include="Interfaces\IMapCoordinates.cs" />
+    <Compile Include="Interfaces\IXElementOutput.cs" />
     <Compile Include="LegacyCode\FlyingObject.cs" />
     <Compile Include="LegacyCode\Cursor.cs" />
     <Compile Include="LegacyCode\PlayerObject.cs" />

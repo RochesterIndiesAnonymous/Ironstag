@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<World MapFileName="Layers\\BigTestLayer" MapSettingsFileName="LayerXML\\TestLayer">
-  
-  <Parallax MapFileName="Layers\\BigTestLayer" MapSettingsFileName="LayerXML\\TestLayer" ScrollSpeed="3.25">
+<World InteractiveMapFileName="TileMapXML\\TestTileMap">
+  <Parallax MapFileName="TileMapXML\\BigTileMap" ScrollSpeed="2.25">
     <Layer LayerName="ForegroundParallax" LayerIndex="0" ZIndex="10" />
   </Parallax>
-  
+
   <MapLayer LayerName="MapForeground" LayerIndex="0" ZIndex="0" />
-  
-  <Parallax MapFileName="Layers\\BigTestLayer" MapSettingsFileName="LayerXML\\TestLayer" ScrollSpeed="0.25">
+
+  <Parallax MapFileName="TileMapXML\\BigTileMap" ScrollSpeed="0.25">
     <Layer LayerName="BackgroundParallax" LayerIndex="0" ZIndex="-10" />
   </Parallax>
   

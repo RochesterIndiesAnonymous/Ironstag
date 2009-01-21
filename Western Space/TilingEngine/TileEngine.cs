@@ -26,7 +26,7 @@ namespace WesternSpace.TilingEngine
             textureService = (ITextureService)ScreenManager.Instance.Services.GetService(typeof(ITextureService));
         }
 
-        public TileMap LoadLayer(string imageFileName, string settingsFileName)
+        public TileMap LoadTileMap(string imageFileName, string settingsFileName)
         {
             Texture2D layer = ScreenManager.Instance.Content.Load<Texture2D>(imageFileName);
 

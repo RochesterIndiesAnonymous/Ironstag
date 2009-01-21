@@ -41,7 +41,7 @@ namespace WesternSpace.TilingEngine
 
         public float MaximumX
         {
-            get { return tm.gridCellWidth * tm.Tiles.GetLength(0); }
+            get { return tm.tileWidth * tm.Tiles.GetLength(0); }
         }
 
         public float MinimumY
@@ -51,7 +51,7 @@ namespace WesternSpace.TilingEngine
 
         public float MaximumY
         {
-            get { return tm.gridCellHeight * tm.Tiles.GetLength(1); }
+            get { return tm.tileHeight * tm.Tiles.GetLength(1); }
         }
 
         #endregion
@@ -86,21 +86,24 @@ namespace WesternSpace.TilingEngine
 
             int start_x, end_x, start_y, end_y;
 
-            start_x = (int)MathHelper.Clamp((float)Math.Floor((cam_x / tm.gridCellWidth)), 0.0f, (float)tm.Width);
-            start_y = (int)MathHelper.Clamp((float)Math.Floor((cam_y / tm.gridCellHeight)), 0.0f, (float)tm.Height);
+            start_x = (int)MathHelper.Clamp((float)Math.Floor((cam_x / tm.tileWidth)), 0.0f, (float)tm.Width);
+            start_y = (int)MathHelper.Clamp((float)Math.Floor((cam_y / tm.tileHeight)), 0.0f, (float)tm.Height);
 
-            end_x = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_x + cam_w) / tm.gridCellWidth)), 0.0f, (float)tm.Width);
-            end_y = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_y + cam_h) / tm.gridCellWidth)), 0.0f, (float)tm.Height);
+            end_x = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_x + cam_w) / tm.tileWidth)), 0.0f, (float)tm.Width);
+            end_y = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_y + cam_h) / tm.tileWidth)), 0.0f, (float)tm.Height);
 
 
             for (int x = start_x; x < end_x; ++x)
             {
                 for (int y = start_y; y < end_y; ++y)
                 {
-                    Vector2 position = new Vector2(x * tm.gridCellWidth, y * tm.gridCellHeight) + (camera.Position - camera.Position*scrollSpeed);
+                    Vector2 position = new Vector2(x * tm.tileWidth, y * tm.tileHeight) + (camera.Position - camera.Position*scrollSpeed);
                     for (int subLayerIndex = 0; subLayerIndex < tm.SubLayerCount; ++subLayerIndex)
                     {
-                        this.SpriteBatch.Draw(tm.Tiles[x, y].Textures[layerIndex, subLayerIndex], position, Color.White);
+                        if (tm.Tiles[x, y].Textures[layerIndex, subLayerIndex] != null)
+                        {
+                            this.SpriteBatch.Draw(tm.Tiles[x, y].Textures[layerIndex, subLayerIndex], position, Color.White);
+                        }
                     }
                 }
             }
@@ -112,8 +115,8 @@ namespace WesternSpace.TilingEngine
 
         public Vector2 CalculateMapCoordinatesFromMouse(Vector2 atPoint)
         {
-            int x = (int)Math.Floor((camera.Position.X / tm.gridCellWidth) + atPoint.X / tm.gridCellWidth);
-            int y = (int)Math.Floor((camera.Position.Y / tm.gridCellHeight) + atPoint.Y / tm.gridCellHeight);
+            int x = (int)Math.Floor((camera.Position.X / tm.tileWidth) + atPoint.X / tm.tileWidth);
+            int y = (int)Math.Floor((camera.Position.Y / tm.tileHeight) + atPoint.Y / tm.tileHeight);
             return new Vector2(x, y);
         }
 
