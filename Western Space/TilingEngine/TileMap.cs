@@ -58,9 +58,66 @@ namespace WesternSpace.TilingEngine
             this.tileHeight = tileHeight;
         }
 
+        /// <summary>
+        /// Sets the tile at given x,y.
+        /// Automatically removes edges of adjacent tiles.
+        /// </summary>
         public void SetTile(Tile tile, int x, int y)
         {
-            tiles[x,y] = tile;
+            // Modulo math prevents out-of-bounds errors, and makes for
+            //  easy "warping". But if things are behaving somewhat unusual,
+            //  (ie. tiles from the other side of the map are appearing) it's
+            //  because you're indexes are too high/low.
+
+            
+
+            Tile above = y > 0 ? tiles[x, (y - 1)] : null;
+            Tile left = x > 0 ? tiles[(x - 1), y] : null;
+            Tile below = y < Height - 1 ? tiles[x, (y + 1)] : null;
+            Tile right = x < Width - 1 ? tiles[(x + 1), y] : null;
+            
+            // We're "removing" a tile, so we restore
+            //  adjacent tiles' adjacent edges to their initial values.
+            if (tile == null)
+            {
+                if (above != null)
+                    above.BottomEdge = above.InitialBottomEdge;
+                if (left != null)
+                    left.RightEdge = left.InitialRightEdge;
+                if (below != null)
+                    below.TopEdge = below.InitialTopEdge;
+                if (right != null)
+                    right.LeftEdge = right.InitialLeftEdge;
+            }
+            else
+            {
+                // Else, we're adding a tile, so we clear all adjacent
+                //  edges that we have solid edges for.
+                if (above != null && tile.TopEdge && above.BottomEdge)
+                {
+                    tile.TopEdge = false;
+                    tiles[x, (y - 1)].BottomEdge = false;
+                }
+
+                if (left != null && tile.LeftEdge && tiles[(x - 1), y].RightEdge)
+                {
+                    tile.LeftEdge = false;
+                    tiles[(x - 1), y].RightEdge = false;
+                }
+
+                if (below != null && tile.BottomEdge && tiles[x, (y + 1)].TopEdge)
+                {
+                    tile.BottomEdge = false;
+                    tiles[x, (y + 1)].TopEdge = false;
+                }
+
+                if (right != null && tile.RightEdge && tiles[(x + 1), y].LeftEdge)
+                {
+                    tile.RightEdge = false;
+                    tiles[(x + 1), y].TopEdge = false;
+                }
+            }
+            tiles[x, y] = tile;
         }
 
         public TileMap(string fileName)
@@ -86,10 +143,11 @@ namespace WesternSpace.TilingEngine
             int i = 0, j = 0;
             
             // This is kind of dangerous, here. We assume that the XML is properly formatted.
-            //  If it is not, our program will crash. This is not a huge deal
+            //  If it is not, our program will crash. This is not a huge deal, but if the debugger
+            //  is highlighting a line below, you can blame Lou, unless you tried to hack a TileMap XML file by hand.
             foreach (XElement tileElement in allTileElements)
             {
-                tiles[i, j] = TileFromXElement(tileElement);
+                this.SetTile(TileFromXElement(tileElement), i, j);
 
                 if (j < height - 1)
                 {
@@ -107,35 +165,47 @@ namespace WesternSpace.TilingEngine
 
         private XElement TileToXElement(Tile tile)
         {
+            // Empty tiles are represented as having -1 edges. (nonsense)
+            if (tile == null)
+            {
+                return new XElement("T", new XAttribute("e", -1));
+            }
+
             // TODO: - add Type attribute (Solid, Empty, or Custom) 
             //         and Top/Bottom/Left/RighEdge attributes when Type="Custom"
             //       - optimize for space/time so saving/loading isn't too slow.
             //         perhaps return a binary string (base64 or the like)
-            XElement returnVal = new XElement("T");
+            int power = 0;
+            int edges = 0;
 
+            // We save the InitialEdges and let the TileMap take care of the rest.
+            foreach (bool edge in tile.InitialEdges)
+            {
+                if (edge)
+                {
+                    edges += (int)Math.Pow(2, power);
+                }
+                ++power;
+            }
+
+            XElement returnVal = new XElement("T", new XAttribute("e", edges));
             foreach (Texture2D texture in tile.Textures)
             {
-                int power = 1;
-                int edges = 0;
-                foreach (bool edge in tile.Edges)
-                {
-                    if (edge)
-                    {
-                        edges += (int)Math.Pow(2, power);
-                    }
-                    ++power;
-                }
-
                 // Note: Texture2D.Name is useless normally, but the TextureService will
                 //       automatically set the Name parameter to be the asset name so they can
                 //       easily be retrieved.
-                returnVal.Add(new XElement("x", new XAttribute("n", texture.Name), new XAttribute("e", edges)));
+                returnVal.Add(new XElement("x", new XAttribute("n", texture.Name) ));
             }
             return returnVal;
         }
 
         private Tile TileFromXElement(XElement xelement)
         {
+            if (xelement.Attribute("e").Value == "-1")
+            {
+                return null;
+            }
+
             IEnumerable<Texture2D> textures = from element in xelement.Descendants("x") 
                                    select textureService.GetTexture(element.Attribute("n").Value);
 
@@ -156,10 +226,16 @@ namespace WesternSpace.TilingEngine
                     j = 0;
                 }
             }
-            // TODO: ADD REAL EDGE SUPPORT LOL
-            bool[] edges = new bool[4];
 
-            edges[0] = edges[1] = edges[2] = edges[3] = true;
+            int edgeInt;
+            Int32.TryParse(xelement.Attribute("e").Value, out edgeInt);
+
+            bool[] edges = new bool[4];
+            for (int k = 0; k < 4; ++k)
+            {
+                edges[k] = (edgeInt & (int)Math.Pow(2, k)) != 0;
+            }
+
             return new Tile(texturesArray, edges);
         }
 

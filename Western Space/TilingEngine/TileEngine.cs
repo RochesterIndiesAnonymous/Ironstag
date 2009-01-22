@@ -52,10 +52,8 @@ namespace WesternSpace.TilingEngine
         private Dictionary<Color, Tile> LoadSettingsFile(string settingsFileName)
         {
             Dictionary<Color, Tile> lookupTable = new Dictionary<Color, Tile>();
-            Texture2D empty = new Texture2D(ScreenManager.Instance.GraphicsDevice, 1, 1);
-            Texture2D[,] tmp = new Texture2D[1, 1];
-            tmp[0, 0] = empty;
-            lookupTable.Add(Color.Black, new Tile(tmp));
+            
+            lookupTable.Add(Color.Black, null);
             XDocument rootLayerElement = ScreenManager.Instance.Content.Load<XDocument>(settingsFileName);
 
             IEnumerable<LayerInformation> textureInformation = from texture in rootLayerElement.Descendants("Texture")

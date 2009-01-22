@@ -97,10 +97,12 @@ namespace WesternSpace.TilingEngine
             {
                 for (int y = start_y; y < end_y; ++y)
                 {
-                    Vector2 position = new Vector2(x * tm.tileWidth, y * tm.tileHeight) + (camera.Position - camera.Position*scrollSpeed);
-                    for (int subLayerIndex = 0; subLayerIndex < tm.SubLayerCount; ++subLayerIndex)
+                    Vector2 position = new Vector2(x * tm.tileWidth, y * tm.tileHeight) + 
+                        (camera.Position - camera.Position*scrollSpeed);
+
+                    if (tm.Tiles[x, y] != null)
                     {
-                        if (tm.Tiles[x, y].Textures[layerIndex, subLayerIndex] != null)
+                        for (int subLayerIndex = 0; subLayerIndex < tm.SubLayerCount; ++subLayerIndex)
                         {
                             this.SpriteBatch.Draw(tm.Tiles[x, y].Textures[layerIndex, subLayerIndex], position, Color.White);
                         }

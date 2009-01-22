@@ -38,8 +38,11 @@ namespace WesternSpace
             TileMap btm = te.LoadTileMap("Layers\\BigTestLayer", "LayerXML\\TestLayer");
             TileMap tm = te.LoadTileMap("Layers\\TestLayer", "LayerXML\\TestLayer");
 
-            XDocument doc = new XDocument(btm.ToXElement());
-            doc.Save("BigTestLayer.xml", SaveOptions.DisableFormatting);
+            XDocument doc = new XDocument(tm.ToXElement());
+            doc.Save("TestTileMap.xml", SaveOptions.DisableFormatting);
+
+            XDocument doc2 = new XDocument(btm.ToXElement());
+            doc2.Save("BigTileMap.xml", SaveOptions.DisableFormatting);
             */
             #endregion
 

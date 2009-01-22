@@ -17,6 +17,35 @@ namespace WesternSpace.TilingEngine
         private bool[] initialEdges;
         private bool[] edges;
 
+
+        // InitialEdges are the original edge data of the tile, before
+        //  the tilemap removed adjacent edges from it. This is so we can
+        //  restore it's state when removing an adjacent tile.
+        public bool[] InitialEdges
+        {
+            get { return initialEdges; }
+        }
+
+        public bool InitialTopEdge
+        {
+            get { return initialEdges[0]; }
+        }
+
+        public bool InitialLeftEdge
+        {
+            get { return initialEdges[1]; }
+        }
+
+        public bool InitialBottomEdge
+        {
+            get { return initialEdges[2]; }
+        }
+
+        public bool InitialRightEdge
+        {
+            get { return initialEdges[3]; }
+        }
+
         public bool[] Edges
         {
             get { return edges; }
