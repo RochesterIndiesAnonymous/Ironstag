@@ -69,7 +69,6 @@ namespace WesternSpace.TilingEngine
             //  (ie. tiles from the other side of the map are appearing) it's
             //  because you're indexes are too high/low.
 
-            
 
             Tile above = y > 0 ? tiles[x, (y - 1)] : null;
             Tile left = x > 0 ? tiles[(x - 1), y] : null;
@@ -91,30 +90,49 @@ namespace WesternSpace.TilingEngine
             }
             else
             {
+                // Special edge cases (no pun intended):
+                if (x == 0) // left edge of the map
+                {
+                    tile.LeftEdge = false;
+                }
+                else if (x == (Width - 1)) // right edge of the map
+                {
+                    tile.RightEdge = false;
+                }
+
+                if (y == 0) // top edge of the map
+                {
+                    tile.TopEdge = false;
+                }
+                else if (y == (Height - 1)) // bottom edge of the map
+                {
+                    tile.BottomEdge = false;
+                }
+
                 // Else, we're adding a tile, so we clear all adjacent
                 //  edges that we have solid edges for.
                 if (above != null && tile.TopEdge && above.BottomEdge)
                 {
                     tile.TopEdge = false;
-                    tiles[x, (y - 1)].BottomEdge = false;
+                    above.BottomEdge = false;
                 }
 
-                if (left != null && tile.LeftEdge && tiles[(x - 1), y].RightEdge)
+                if (left != null && tile.LeftEdge && left.RightEdge)
                 {
                     tile.LeftEdge = false;
-                    tiles[(x - 1), y].RightEdge = false;
+                    left.RightEdge = false;
                 }
 
-                if (below != null && tile.BottomEdge && tiles[x, (y + 1)].TopEdge)
+                if (below != null && tile.BottomEdge && below.TopEdge)
                 {
                     tile.BottomEdge = false;
-                    tiles[x, (y + 1)].TopEdge = false;
+                    below.TopEdge = false;
                 }
 
-                if (right != null && tile.RightEdge && tiles[(x + 1), y].LeftEdge)
+                if (right != null && tile.RightEdge && right.LeftEdge)
                 {
                     tile.RightEdge = false;
-                    tiles[(x + 1), y].TopEdge = false;
+                    right.LeftEdge = false;
                 }
             }
             tiles[x, y] = tile;
@@ -183,7 +201,7 @@ namespace WesternSpace.TilingEngine
             {
                 if (edge)
                 {
-                    edges += (int)Math.Pow(2, power);
+                    edges |= (int)Math.Pow(2, power);
                 }
                 ++power;
             }

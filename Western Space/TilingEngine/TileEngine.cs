@@ -33,7 +33,7 @@ namespace WesternSpace.TilingEngine
             Color[] allPixels = new Color[(layer.Width * layer.Height)];
 
             layer.GetData<Color>(allPixels);
-            Dictionary<Color, Tile> lookupTable = LoadSettingsFile(settingsFileName);
+            Dictionary<Color, Texture2D> lookupTable = LoadSettingsFile(settingsFileName);
             TileMap tm = new TileMap(layer.Width, layer.Height, 100, 100, 1, 1); // For now just 1 layer and 1 sublayer. (1 total texture per tile)
 
             for (int i = 0; i < allPixels.Length; i++)
@@ -41,7 +41,10 @@ namespace WesternSpace.TilingEngine
                 int x = i % layer.Width;
                 int y = i / layer.Width;
 
-                Tile t = lookupTable[allPixels[i]];
+                Texture2D[,] textures = new Texture2D[1,1];
+                textures[0, 0] = lookupTable[allPixels[i]];
+                Tile t;
+                t = textures[0,0] != null ? new Tile(textures) : null;
 
                 tm.SetTile(t, x, y);
             }
@@ -49,9 +52,9 @@ namespace WesternSpace.TilingEngine
             return tm;
         }
 
-        private Dictionary<Color, Tile> LoadSettingsFile(string settingsFileName)
+        private Dictionary<Color, Texture2D> LoadSettingsFile(string settingsFileName)
         {
-            Dictionary<Color, Tile> lookupTable = new Dictionary<Color, Tile>();
+            Dictionary<Color, Texture2D> lookupTable = new Dictionary<Color, Texture2D>();
             
             lookupTable.Add(Color.Black, null);
             XDocument rootLayerElement = ScreenManager.Instance.Content.Load<XDocument>(settingsFileName);
@@ -67,10 +70,7 @@ namespace WesternSpace.TilingEngine
 
             foreach (LayerInformation li in textureInformation)
             {
-                Texture2D texture = textureService.GetTexture(li.Name);
-                Texture2D[,] textures = new Texture2D[1,1];
-                textures[0,0] = texture;
-                lookupTable.Add(li.Color, new Tile(textures));
+                lookupTable.Add(li.Color, textureService.GetTexture(li.Name));
             }
 
             return lookupTable;

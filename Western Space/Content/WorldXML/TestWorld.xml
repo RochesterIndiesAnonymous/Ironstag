@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <World InteractiveMapFileName="TileMapXML\\TestTileMap">
-  <Parallax MapFileName="TileMapXML\\BigTileMap" ScrollSpeed="2.25">
-    <Layer LayerName="ForegroundParallax" LayerIndex="0" ZIndex="10" />
+  <Parallax MapFileName="TileMapXML\\BigTileMap" ScrollSpeed="0">
+    <Layer LayerName="ForegroundParallax" LayerIndex="0" ZIndex="-100" />
   </Parallax>
 
   <MapLayer LayerName="MapForeground" LayerIndex="0" ZIndex="0" />

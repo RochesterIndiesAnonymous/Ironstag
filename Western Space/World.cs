@@ -28,6 +28,13 @@ namespace WesternSpace
         // int represents the Z-index the layer is drawn at.
         public Dictionary<int, TileMapLayer> layers;
 
+        public World(Game game)
+            : base(game)
+        {
+            this.layers = new Dictionary<int, TileMapLayer>();
+            batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
+        }
+
         public World(Game game, string fileName)
             : base(game)
         {

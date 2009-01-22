@@ -126,11 +126,11 @@ namespace WesternSpace
          */
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
-
             PresentationParameters pp = graphics.GraphicsDevice.PresentationParameters;
             RenderTarget2D renderTarget = new RenderTarget2D(graphics.GraphicsDevice, screenSizeWidth, screenSizeHeight, 1, SurfaceFormat.Color);
             graphics.GraphicsDevice.SetRenderTarget(0, renderTarget);
+
+            GraphicsDevice.Clear(Color.Azure);
 
             batchService.Begin();
 

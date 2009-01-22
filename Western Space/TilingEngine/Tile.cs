@@ -98,18 +98,20 @@ namespace WesternSpace.TilingEngine
 
         public Tile(Texture2D[,] textures)
         {
-            bool[] edges = new bool[4];
-
-            edges[0] = edges[1] = edges[2] = edges[3] = true;
-            this.edges = edges;
-            this.initialEdges = this.edges;
+            this.initialEdges = new bool[4];
+            this.initialEdges[0] = this.initialEdges[1] =
+                this.initialEdges[2] = this.initialEdges[3] = true;
+            this.edges = new bool[4];
+            this.initialEdges.CopyTo(this.edges, 0);
             this.textures = textures;
         }
 
         public Tile(Texture2D[,] textures, bool[] edges)
         {
-            this.edges = edges;
-            this.initialEdges = this.edges;
+            this.initialEdges = new bool[4];
+            edges.CopyTo(initialEdges, 0);
+            this.edges = new bool[4];
+            this.initialEdges.CopyTo(this.edges, 0);
             this.textures = textures;
         }
     }

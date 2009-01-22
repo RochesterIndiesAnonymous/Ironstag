@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.Interfaces;
+using WesternSpace.Utility;
 
 namespace WesternSpace.TilingEngine
 {
@@ -26,6 +28,30 @@ namespace WesternSpace.TilingEngine
         private float scrollSpeed;
 
         private int layerIndex;
+
+
+        // The integer index ranges of the last tiles that were drawn.
+        private int startX, startY, endX, endY;
+
+        public int StartX
+        {
+            get { return startX; }
+        }
+
+        public int EndX
+        {
+            get { return endX; }
+        }
+
+        public int StartY
+        {
+            get { return startY; }
+        }
+
+        public int EndY
+        {
+            get { return endY; }
+        }
 
         public int LayerIndex
         {
@@ -84,18 +110,16 @@ namespace WesternSpace.TilingEngine
             float cam_w = camera.VisibleArea.Width;
             float cam_h = camera.VisibleArea.Height;
 
-            int start_x, end_x, start_y, end_y;
+            startX = (int)MathHelper.Clamp((float)Math.Floor((cam_x / tm.tileWidth)), 0.0f, (float)tm.Width);
+            startY = (int)MathHelper.Clamp((float)Math.Floor((cam_y / tm.tileHeight)), 0.0f, (float)tm.Height);
 
-            start_x = (int)MathHelper.Clamp((float)Math.Floor((cam_x / tm.tileWidth)), 0.0f, (float)tm.Width);
-            start_y = (int)MathHelper.Clamp((float)Math.Floor((cam_y / tm.tileHeight)), 0.0f, (float)tm.Height);
-
-            end_x = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_x + cam_w) / tm.tileWidth)), 0.0f, (float)tm.Width);
-            end_y = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_y + cam_h) / tm.tileWidth)), 0.0f, (float)tm.Height);
+            endX = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_x + cam_w) / tm.tileWidth)), 0.0f, (float)tm.Width);
+            endY = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_y + cam_h) / tm.tileWidth)), 0.0f, (float)tm.Height);
 
 
-            for (int x = start_x; x < end_x; ++x)
+            for (int x = startX; x < endX; ++x)
             {
-                for (int y = start_y; y < end_y; ++y)
+                for (int y = startY; y < endY; ++y)
                 {
                     Vector2 position = new Vector2(x * tm.tileWidth, y * tm.tileHeight) + 
                         (camera.Position - camera.Position*scrollSpeed);
@@ -110,7 +134,49 @@ namespace WesternSpace.TilingEngine
                 }
             }
 
+            DrawEdges();
+
             base.Draw(gameTime);
+        }
+
+        // Useful for debugging and the Editor, draw all solid edges on our tiles.
+        //  Presumably, this will be called after all the tiles themselves are drawn.
+        public void DrawEdges()
+        {
+            Vector2 topLeft, topRight, bottomLeft, bottomRight;
+            Tile tile;
+            PrimitiveDrawer drawer = PrimitiveDrawer.Instance;
+            for (int x = startX; x < endX; ++x)
+            {
+                for (int y = startY; y < endY; ++y)
+                {
+                    topLeft = new Vector2(x * tm.tileWidth, y * tm.tileHeight)+(camera.Position - camera.Position * scrollSpeed);
+                    topRight = topLeft + (new Vector2((float)tm.tileWidth, .0f));
+                    bottomLeft = topLeft + (new Vector2(.0f, (float)tm.tileHeight));
+                    bottomRight = bottomLeft + (new Vector2((float)tm.tileWidth, .0f));
+
+                    tile = tm.Tiles[x, y];
+                    if (tile != null) 
+                    {
+                        if(tile.TopEdge)
+                        {
+                            drawer.DrawLine(this.SpriteBatch, topLeft, topRight, Color.Red);
+                        }
+                        if (tile.LeftEdge)
+                        {
+                            drawer.DrawLine(this.SpriteBatch, topLeft, bottomLeft, Color.Red);
+                        }
+                        if (tile.BottomEdge)
+                        {
+                            drawer.DrawLine(this.SpriteBatch, bottomLeft, bottomRight, Color.Red);
+                        }
+                        if (tile.RightEdge)
+                        {
+                            drawer.DrawLine(this.SpriteBatch, bottomRight, topRight, Color.Red);
+                        }
+                    }
+                }
+            }
         }
 
         #region IMapCoordinates Members
