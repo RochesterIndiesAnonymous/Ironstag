@@ -17,6 +17,9 @@ namespace WesternSpace
     /// </summary>
     public class ScreenManager : Game
     {
+        private static int screenSizeWidth = 320;
+        private static int screenSizeHeight = 240; 
+
         /// <summary>
         /// Holds our single reference to our game
         /// </summary>
@@ -36,6 +39,8 @@ namespace WesternSpace
         /// 
         /// </summary>
         private SpriteBatchService batchService;
+
+        private ScreenResolutionService resolutionService;
 
         /// <summary>
         /// Gets the current instance of the game.
@@ -60,10 +65,9 @@ namespace WesternSpace
         {
             // XNA does not like it if this is not created here.
             graphics = new GraphicsDeviceManager(this);
+            
 
             // Set the native resolution of the game
-            graphics.PreferredBackBufferWidth = 320;
-            graphics.PreferredBackBufferHeight = 240;
         }
 
         /// <summary>
@@ -82,6 +86,19 @@ namespace WesternSpace
 
             // create our services
             CreateServices();
+
+            
+
+            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            Viewport vp = GraphicsDevice.Viewport;
+
+            vp.Width = graphics.GraphicsDevice.DisplayMode.Width;
+            vp.Height = graphics.GraphicsDevice.DisplayMode.Height;
+            GraphicsDevice.Viewport = vp;
+            
+            resolutionService = new ScreenResolutionService(graphics, screenSizeWidth, screenSizeHeight);
+            graphics.ToggleFullScreen();
 
             // create our game screen
             gameScreen = new GameScreen(this);
@@ -109,13 +126,28 @@ namespace WesternSpace
          */
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
+
+            PresentationParameters pp = graphics.GraphicsDevice.PresentationParameters;
+            RenderTarget2D renderTarget = new RenderTarget2D(graphics.GraphicsDevice, screenSizeWidth, screenSizeHeight, 1, SurfaceFormat.Color);
+            graphics.GraphicsDevice.SetRenderTarget(0, renderTarget);
 
             batchService.Begin();
 
             base.Draw(gameTime);
 
             batchService.End();
+
+            GraphicsDevice.SetRenderTarget(0, null);
+
+            Texture2D screen = renderTarget.GetTexture();
+
+            graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 0.0f, 0);
+
+            SpriteBatch sb = new SpriteBatch(GraphicsDevice);
+            sb.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Deferred, SaveStateMode.None);
+            sb.Draw(screen, resolutionService.ScaleRectangle, Color.White);
+            sb.End();
         }
 
         /// <summary>
