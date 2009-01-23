@@ -9,10 +9,6 @@ namespace WesternSpace.ServiceInterfaces
         Rectangle ScaleRectangle { get; set; }
         int StartTextureHeight { get; set; }
         int StartTextureWidth { get; set; }
-
-        float AspectRatio { get; }
-        int AspectRatioNumerator { get; }
-        int AspectRatioDenominator { get; }
         int ScaleFactor { get; }
     }
 }

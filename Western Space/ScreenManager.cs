@@ -9,6 +9,7 @@ using WesternSpace.Screens;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.DrawableComponents.Misc;
+using WesternSpace.Utility;
 
 namespace WesternSpace
 {
@@ -17,8 +18,16 @@ namespace WesternSpace
     /// </summary>
     public class ScreenManager : Game
     {
-        private static int screenSizeWidth = 320;
-        private static int screenSizeHeight = 240; 
+        private static ResolutionSettings windowedSettings = new ResolutionSettings(1024, 768, 1024, 768); 
+        private static ResolutionSettings fullScreenSettings;
+        private static ResolutionSettings currentResolutionSettings;
+
+        private bool isFullScreen;
+
+        public bool IsFullScreen
+        {
+            get { return isFullScreen; }
+        }
 
         /// <summary>
         /// Holds our single reference to our game
@@ -84,23 +93,13 @@ namespace WesternSpace
             // Set our XNA content directory
             Content.RootDirectory = "Content";
 
+            fullScreenSettings = new ResolutionSettings(320, 240, GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height);
+
+            SetScreenMode(false);
+
+
             // create our services
             CreateServices();
-
-            
-
-            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            Viewport vp = GraphicsDevice.Viewport;
-
-            vp.Width = graphics.GraphicsDevice.DisplayMode.Width;
-            vp.Height = graphics.GraphicsDevice.DisplayMode.Height;
-            GraphicsDevice.Viewport = vp;
-
-            resolutionService = new ScreenResolutionService(graphics, screenSizeWidth, screenSizeHeight);
-            this.Services.AddService(typeof(IScreenResolutionService), resolutionService);
-
-            graphics.ToggleFullScreen();
 
             // create our game screen
             gameScreen = new GameScreen(this);
@@ -129,7 +128,7 @@ namespace WesternSpace
         protected override void Draw(GameTime gameTime)
         {
             PresentationParameters pp = graphics.GraphicsDevice.PresentationParameters;
-            RenderTarget2D renderTarget = new RenderTarget2D(graphics.GraphicsDevice, screenSizeWidth, screenSizeHeight, 1, SurfaceFormat.Color);
+            RenderTarget2D renderTarget = new RenderTarget2D(graphics.GraphicsDevice, currentResolutionSettings.RenderTargetWidth, currentResolutionSettings.RenderTargetHeight, 1, SurfaceFormat.Color);
             graphics.GraphicsDevice.SetRenderTarget(0, renderTarget);
 
             GraphicsDevice.Clear(Color.Azure);
@@ -175,9 +174,8 @@ namespace WesternSpace
             ILayerService layer = new LayerService();
             this.Services.AddService(typeof(ILayerService), layer);
 
-            // create our animation data service
-           // IAnimationDataService animationDataService = new AnimationDataService();
-           // this.Services.AddService(typeof(IAnimationDataService), animationDataService);
+            // Create ResolutionService
+            this.Services.AddService(typeof(IScreenResolutionService), this.resolutionService);
 
             // create our camera service
             CameraService camera = new CameraService(this);
@@ -190,6 +188,46 @@ namespace WesternSpace
             batchService.UpdateOrder = 2;
             this.Services.AddService(typeof(ISpriteBatchService), batchService);
             this.Components.Add(batchService);
+        }
+
+        public void SetScreenMode(bool fullScreen)
+        {
+            if (fullScreen)
+            {
+                currentResolutionSettings = fullScreenSettings;
+      
+                graphics.PreferredBackBufferWidth = fullScreenSettings.BackBufferWidth;
+                graphics.PreferredBackBufferHeight = fullScreenSettings.BackBufferHeight;
+
+                Viewport vp = GraphicsDevice.Viewport;
+                vp.Width = fullScreenSettings.BackBufferWidth;
+                vp.Height = fullScreenSettings.BackBufferHeight;
+                GraphicsDevice.Viewport = vp;
+
+                resolutionService = new ScreenResolutionService(graphics, fullScreenSettings.RenderTargetWidth, fullScreenSettings.RenderTargetHeight);
+
+                graphics.ToggleFullScreen();
+
+                isFullScreen = true;
+            }
+            else
+            {
+                currentResolutionSettings = windowedSettings;
+
+                graphics.PreferredBackBufferWidth = windowedSettings.BackBufferWidth;
+                graphics.PreferredBackBufferHeight = windowedSettings.BackBufferHeight;
+
+                Viewport vp = GraphicsDevice.Viewport;
+                vp.Width = windowedSettings.BackBufferWidth;
+                vp.Height = windowedSettings.BackBufferHeight;
+                GraphicsDevice.Viewport = vp;
+
+                resolutionService = new ScreenResolutionService(graphics, windowedSettings.RenderTargetWidth, windowedSettings.RenderTargetHeight);
+
+                graphics.ApplyChanges();
+
+                isFullScreen = false;
+            }
         }
     }
 }

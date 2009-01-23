@@ -33,23 +33,6 @@ namespace WesternSpace.Services
             set { startTextureHeight = value; }
         }
 
-        private float aspectRatio;
-
-        public float AspectRatio
-        {
-            get { return aspectRatio; }
-        }
-
-        public int AspectRatioNumerator
-        {
-            get { return 4; }
-        }
-
-        public int AspectRatioDenominator
-        {
-            get { return 3; }
-        }
-
         public int ScaleFactor
         {
             get { return (scaleRectangle.Width / startTextureWidth); }
@@ -59,7 +42,6 @@ namespace WesternSpace.Services
         {
             scaleRectangle = CalculateResolution(graphics, startingTextureWidth, startingTextureHeight);
 
-            this.aspectRatio = (float)scaleRectangle.Width / scaleRectangle.Height;
             this.startTextureWidth = startingTextureWidth;
             this.startTextureHeight = startingTextureHeight;
         }
