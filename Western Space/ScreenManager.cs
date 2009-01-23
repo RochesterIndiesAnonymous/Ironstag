@@ -99,7 +99,6 @@ namespace WesternSpace
 
             SetScreenMode(false);
 
-            renderTarget = new RenderTarget2D(graphics.GraphicsDevice, currentResolutionSettings.RenderTargetWidth, currentResolutionSettings.RenderTargetHeight, 1, SurfaceFormat.Color);
             // create our services
             CreateServices();
 
@@ -128,9 +127,7 @@ namespace WesternSpace
          * <param name="gameTime">Provides a snapshot of timing values.</param>
          */
         protected override void Draw(GameTime gameTime)
-        {
-            PresentationParameters pp = graphics.GraphicsDevice.PresentationParameters;
-            
+        {            
             graphics.GraphicsDevice.SetRenderTarget(0, renderTarget);
 
             GraphicsDevice.Clear(Color.Azure);
@@ -208,7 +205,7 @@ namespace WesternSpace
 
                 resolutionService = new ScreenResolutionService(graphics, fullScreenSettings.RenderTargetWidth, fullScreenSettings.RenderTargetHeight);
 
-                graphics.ToggleFullScreen();
+                graphics.IsFullScreen = true;
 
                 isFullScreen = true;
             }
@@ -226,10 +223,14 @@ namespace WesternSpace
 
                 resolutionService = new ScreenResolutionService(graphics, windowedSettings.RenderTargetWidth, windowedSettings.RenderTargetHeight);
 
-                graphics.ApplyChanges();
+                graphics.IsFullScreen = false;
 
                 isFullScreen = false;
             }
+
+            graphics.ApplyChanges();
+
+            renderTarget = new RenderTarget2D(graphics.GraphicsDevice, currentResolutionSettings.RenderTargetWidth, currentResolutionSettings.RenderTargetHeight, 1, SurfaceFormat.Color);
         }
     }
 }
