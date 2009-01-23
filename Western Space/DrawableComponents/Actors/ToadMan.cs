@@ -20,7 +20,7 @@ namespace WesternSpace.DrawableComponents.Actors
             name = "Toad Man";
 
             //Create all of the Animations for Toad Man
-            setUpAnimation(xmlFile);
+            SetUpAnimation(xmlFile);
 
             //Create the Animation Player and give it the Idle Animation
             this.animationPlayer = new AnimationPlayer(game, spriteBatch, animationMap["Idle"]);
@@ -41,14 +41,12 @@ namespace WesternSpace.DrawableComponents.Actors
         // Sets up all of the Animations associated with the particular character
         // and adds them to the collection mapping states to animations.
         // param: xmlFile - The XML file name which stores the Character's Animation data.
-        public override void setUpAnimation(String xmlFile)
+        public override void SetUpAnimation(String xmlFile)
         {
             Animation idle = new Animation(xmlFile, "Idle");
             Animation walking = new Animation(xmlFile, "Walking");
             //Animation jumping = new Animation(xmlFile, "Jumping");
            // Animation shooting = new Animation(xmlFile, "Shooting");
-
-            System.Diagnostics.Debug.WriteLine("The Frame Width is: " + idle.FrameWidth + " The Frame Width is: " + idle.FrameHeight + " Frame Count is: " + idle.FrameCount);
 
             this.animationMap.Add("Idle", idle);
             this.animationMap.Add("Walking", walking);
@@ -64,14 +62,9 @@ namespace WesternSpace.DrawableComponents.Actors
             //Let the Animation Player Update the Frame
             animationPlayer.Update(gameTime);
 
-            System.Diagnostics.Debug.WriteLine("Time: " + gameTime.TotalRealTime);
-            System.Diagnostics.Debug.WriteLine("State: " + currentState);
-
             if (gameTime.TotalRealTime.Seconds >= 10)
             {
-
-                currentState = "Walking";
-                animationPlayer.PlayAnimation(animationMap["Walking"]);
+                ChangeState("Walking");
             }
         }
 

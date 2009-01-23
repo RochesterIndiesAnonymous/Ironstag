@@ -14,6 +14,7 @@ namespace WesternSpace.DrawableComponents.Actors
 {
     public abstract class Character : DrawableGameObject
     {
+
         // The name used to identify the specific character.
         protected String name;
 
@@ -21,6 +22,26 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             get { return name; }
             set { name = value; }
+        }
+
+        // The character's maximum health. All characters
+        // will have health, but non-enemy NPCs will not be able to
+        // have their health drained.
+        protected int maxHealth;
+
+        public int MaxHealth
+        {
+            get { return maxHealth; }
+            set { maxHealth = value; }
+        }
+
+        //The character's current health.
+        protected int currentHealth;
+
+        public int CurrentHealth
+        {
+            get { return currentHealth; }
+            set { currentHealth = value; }
         }
 
         // The character's current state. A state determines
@@ -66,7 +87,7 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         // The character's velocity vector. Determine's the
-        // character's movement.
+        // character's movement direction.
         protected Vector2 velocity;
 
         public Vector2 Velocity
@@ -101,7 +122,29 @@ namespace WesternSpace.DrawableComponents.Actors
         // Sets up all of the Animations associated with the particular character
         // and adds them to the collection mapping states to animations.
         // param: xmlFile - The XML file name which stores the Character's Animation data.
-        public abstract void setUpAnimation(String xmlFile);
+        public abstract void SetUpAnimation(String xmlFile);
 
+        // Modifies the Character's current Health based on the value given. The given
+        // value may either be positive or negative, denoting healing and taking damage
+        // respectively.
+        // param: modifier - Amount to change health by; Positive if healing
+        //                   Negative if taking damage.
+        public void ChangeHealth(int modifier)
+        {
+            this.currentHealth = currentHealth + modifier;
+        }
+
+        // Changes both the Character's state and animation to the given state.
+        // If the character is already in the given state, no change is to be
+        // made.
+        // param: state - The state to change to.
+        public void ChangeState(String newState)
+        {
+            if (!currentState.Equals(newState))
+            {
+                currentState = newState;
+                animationPlayer.PlayAnimation(animationMap[newState]);
+            }
+        }
     }
 }

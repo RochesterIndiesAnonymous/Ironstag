@@ -89,6 +89,7 @@
     <Compile Include="AnimationFramework\AnimationPlayer.cs" />
     <Compile Include="AnimationFramework\Frame.cs" />
     <Compile Include="DrawableComponents\Actors\Character.cs" />
+    <Compile Include="DrawableComponents\Actors\Player.cs" />
     <Compile Include="DrawableComponents\Actors\ToadMan.cs" />
     <Compile Include="DrawableComponents\EditorUI\TileSelector.cs" />
     <Compile Include="DrawableComponents\EditorUI\EditorUIComponent.cs" />

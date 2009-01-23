@@ -155,7 +155,10 @@ namespace WesternSpace
             graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 0.0f, 0);
 
             SpriteBatch sb = new SpriteBatch(GraphicsDevice);
-            sb.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Deferred, SaveStateMode.None);
+            sb.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
+            GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.Point;
+            GraphicsDevice.SamplerStates[0].MinFilter = TextureFilter.Point;
+            GraphicsDevice.SamplerStates[0].MipFilter = TextureFilter.Point;
             sb.Draw(screen, resolutionService.ScaleRectangle, Color.White);
             sb.End();
         }

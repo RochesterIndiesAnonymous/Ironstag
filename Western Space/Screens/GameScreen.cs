@@ -84,10 +84,15 @@ namespace WesternSpace.Screens
             sunsetComponent.DrawOrder = 0;
             this.Game.Components.Add(sunsetComponent);
              */
-            ToadMan player = new ToadMan(this.Game, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(100, 100), "SpriteXML\\ToadMan");
-            player.UpdateOrder = 3;
-            player.DrawOrder = 0;
-            this.Game.Components.Add(player);
+            ToadMan toadMan = new ToadMan(this.Game, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(100, 100), "SpriteXML\\ToadMan");
+            toadMan.UpdateOrder = 3;
+            toadMan.DrawOrder = 0;
+            this.Game.Components.Add(toadMan);
+
+            Player flint = new Player(this.Game, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(300, 100), "SpriteXML\\ToadMan");
+            flint.UpdateOrder = 3;
+            flint.DrawOrder = -11;
+            this.Game.Components.Add(flint);
         }
 
         private void CreateDebuggingInformationComponents()
