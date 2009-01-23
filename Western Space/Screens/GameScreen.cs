@@ -91,7 +91,7 @@ namespace WesternSpace.Screens
 
             Player flint = new Player(this.Game, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(300, 100), "SpriteXML\\ToadMan");
             flint.UpdateOrder = 3;
-            flint.DrawOrder = -11;
+            flint.DrawOrder = 0;
             this.Game.Components.Add(flint);
         }
 
