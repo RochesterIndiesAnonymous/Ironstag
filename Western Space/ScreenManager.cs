@@ -22,7 +22,9 @@ namespace WesternSpace
         private static ResolutionSettings fullScreenSettings;
         private static ResolutionSettings currentResolutionSettings;
 
-        private static RenderTarget2D renderTarget;
+        private RenderTarget2D renderTarget;
+
+        private CameraService cameraService;
 
         private bool isFullScreen;
 
@@ -173,14 +175,11 @@ namespace WesternSpace
             ILayerService layer = new LayerService();
             this.Services.AddService(typeof(ILayerService), layer);
 
-            // Create ResolutionService
-            this.Services.AddService(typeof(IScreenResolutionService), this.resolutionService);
-
             // create our camera service
-            CameraService camera = new CameraService(this);
-            camera.UpdateOrder = 1;
-            this.Services.AddService(typeof(ICameraService), camera);
-            this.Components.Add(camera);
+            cameraService = new CameraService(this);
+            cameraService.UpdateOrder = 1;
+            this.Services.AddService(typeof(ICameraService), cameraService);
+            this.Components.Add(cameraService);
 
             // create our batch service
             this.batchService = new SpriteBatchService(this);
@@ -226,6 +225,15 @@ namespace WesternSpace
                 graphics.IsFullScreen = false;
 
                 isFullScreen = false;
+            }
+
+            // Update our screen resolution service
+            this.Services.RemoveService(typeof(IScreenResolutionService));
+            this.Services.AddService(typeof(IScreenResolutionService), resolutionService);
+
+            if (cameraService != null)
+            {
+                cameraService.UpdateResolutionService();
             }
 
             graphics.ApplyChanges();

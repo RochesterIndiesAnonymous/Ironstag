@@ -28,9 +28,9 @@ namespace WesternSpace.Services
 
         private Matrix viewMatrix;
         private ILayerService layerService;
+        private IScreenResolutionService resolutionService;
 
         private IInputManagerService inputManager;
-        private IScreenResolutionService resolutionService;
 
         private const int SCROLL_SPEED = 14;
 
@@ -105,10 +105,7 @@ namespace WesternSpace.Services
             layerService = (ILayerService)this.Game.Services.GetService(typeof(ILayerService));
             resolutionService = (IScreenResolutionService)this.Game.Services.GetService(typeof(IScreenResolutionService));
 
-            Viewport vp = this.Game.GraphicsDevice.Viewport;
-
-            visibleArea = new RectangleF(position.X, position.Y, 
-                resolutionService.StartTextureWidth, resolutionService.StartTextureHeight);
+            UpdateVisibleArea();
 
             base.Initialize();
         }
@@ -188,6 +185,12 @@ namespace WesternSpace.Services
             CreateViewTransformationMatrix();
 
             base.Update(gameTime);
+        }
+
+        public void UpdateResolutionService()
+        {
+            resolutionService = (IScreenResolutionService)this.Game.Services.GetService(typeof(IScreenResolutionService));
+            CreateViewTransformationMatrix();
         }
 
         /// <summary>
