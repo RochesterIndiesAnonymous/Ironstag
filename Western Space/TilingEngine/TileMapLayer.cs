@@ -186,10 +186,11 @@ namespace WesternSpace.TilingEngine
 
         public Vector2 CalculateMapCoordinatesFromScreenPoint(Vector2 atPoint)
         {
-
-            int x = (int)Math.Floor((camera.Position.X - resolutionService.ScaleRectangle.X + (atPoint.X / 5)) / tm.tileWidth);
-            int y = (int)Math.Floor((camera.Position.Y / tm.tileHeight) + atPoint.Y / tm.tileHeight);
-            return new Vector2(x, y);
+            Vector2 offset = new Vector2(resolutionService.ScaleRectangle.X, resolutionService.ScaleRectangle.Y);
+            atPoint = (((atPoint - offset) / resolutionService.ScaleFactor) + camera.Position)/(new Vector2(tm.tileWidth, tm.tileHeight));
+            atPoint.X = (int)Math.Floor(atPoint.X);
+            atPoint.Y = (int)Math.Floor(atPoint.Y);
+            return atPoint;
         }
 
         #endregion

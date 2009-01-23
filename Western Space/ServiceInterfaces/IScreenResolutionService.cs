@@ -13,5 +13,6 @@ namespace WesternSpace.ServiceInterfaces
         float AspectRatio { get; }
         int AspectRatioNumerator { get; }
         int AspectRatioDenominator { get; }
+        int ScaleFactor { get; }
     }
 }

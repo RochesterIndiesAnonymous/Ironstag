@@ -50,6 +50,11 @@ namespace WesternSpace.Services
             get { return 3; }
         }
 
+        public int ScaleFactor
+        {
+            get { return (scaleRectangle.Width / startTextureWidth); }
+        }
+
         public ScreenResolutionService(GraphicsDeviceManager graphics, int startingTextureWidth, int startingTextureHeight)
         {
             scaleRectangle = CalculateResolution(graphics, startingTextureWidth, startingTextureHeight);
