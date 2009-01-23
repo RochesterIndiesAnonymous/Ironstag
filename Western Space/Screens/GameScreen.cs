@@ -9,14 +9,13 @@ using WesternSpace.Services;
 using WesternSpace.ServiceInterfaces;
 using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.AnimationFramework;
-using WesternSpace.DrawableComponents.Sprites;
+using WesternSpace.DrawableComponents.Actors;
 
 namespace WesternSpace.Screens
 {
     public class GameScreen : GameObject
     {
         private TileEngine tileEngine;
-        private IAnimationDataService animationDataService;
         private ISpriteBatchService batchService;
         private World world;
 
@@ -41,7 +40,7 @@ namespace WesternSpace.Screens
             tileEngine = new TileEngine();
 
             // CreateSprites needs the animation data service
-            animationDataService = (IAnimationDataService)this.Game.Services.GetService(typeof(IAnimationDataService));
+           // animationDataService = (IAnimationDataService)this.Game.Services.GetService(typeof(IAnimationDataService));
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
 
             CreateLayerComponents();
@@ -56,6 +55,7 @@ namespace WesternSpace.Screens
 
         private void CreateSprites()
         {
+            /*
             AnimationData data = animationDataService.GetAnimationData(DiddyKongSprite.XmlAssetName);
             Vector2 position = new Vector2(500, 500);
             AnimatedComponent diddyComponent = new DiddyKongSprite(this.Game, batchService.GetSpriteBatch(DiddyKongSprite.SpriteBatchName), position, data);
@@ -83,6 +83,11 @@ namespace WesternSpace.Screens
             sunsetComponent.UpdateOrder = 3;
             sunsetComponent.DrawOrder = 0;
             this.Game.Components.Add(sunsetComponent);
+             */
+            ToadMan player = new ToadMan(this.Game, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(100, 100), "SpriteXML\\ToadMan");
+            player.UpdateOrder = 3;
+            player.DrawOrder = 0;
+            this.Game.Components.Add(player);
         }
 
         private void CreateDebuggingInformationComponents()

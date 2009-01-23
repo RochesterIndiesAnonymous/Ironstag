@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Sequences SpriteSheet="Textures\\toadmandance" FrameWidth="34" FrameHeight="38">
-  <Sequence AnimationKey="Dance">
+<Animations>
+  <Animation AnimationKey="Idle" IsLoop="1" SpriteSheet="Textures\\toadmandance" FrameWidth="34" FrameHeight="38">
     <Frame DisplayTime="100" SheetIndex="0" />
     <Frame DisplayTime="100" SheetIndex="1" />
     <Frame DisplayTime="100" SheetIndex="2" />
     <Frame DisplayTime="100" SheetIndex="3" />
-  </Sequence>
-</Sequences>
+  </Animation>
+  <Animation AnimationKey="Walking" IsLoop="1" SpriteSheet="Textures\\ghastslash" FrameWidth="120" FrameHeight="64">
+    <Frame DisplayTime="500" SheetIndex="0" />
+    <Frame DisplayTime="50" SheetIndex="1" />
+    <Frame DisplayTime="50" SheetIndex="2" />
+    <Frame DisplayTime="40" SheetIndex="3" />
+    <Frame DisplayTime="40" SheetIndex="4" />
+    <Frame DisplayTime="50" SheetIndex="5" />
+    <Frame DisplayTime="60" SheetIndex="6" />
+  </Animation>
+</Animations>

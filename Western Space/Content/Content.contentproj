@@ -199,13 +199,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpriteXML\ToadMan.xml">
-      <Name>ToadMan</Name>
-      <Importer>XDocumentImporter</Importer>
-      <Processor>XDocumentProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\toadmandance.png">
       <Name>toadmandance</Name>
       <Importer>TextureImporter</Importer>
@@ -253,6 +246,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SpriteXML\ToadMan.xml">
+      <Name>ToadMan</Name>
+      <Importer>XDocumentImporter</Importer>
+      <Processor>XDocumentProcessor</Processor>
+    </Compile>
     <Compile Include="TileMapXML\BigTileMap.xml">
       <Name>BigTileMap</Name>
       <Importer>XDocumentImporter</Importer>

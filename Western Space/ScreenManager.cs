@@ -174,8 +174,8 @@ namespace WesternSpace
             this.Services.AddService(typeof(ILayerService), layer);
 
             // create our animation data service
-            IAnimationDataService animationDataService = new AnimationDataService();
-            this.Services.AddService(typeof(IAnimationDataService), animationDataService);
+           // IAnimationDataService animationDataService = new AnimationDataService();
+           // this.Services.AddService(typeof(IAnimationDataService), animationDataService);
 
             // create our camera service
             CameraService camera = new CameraService(this);
