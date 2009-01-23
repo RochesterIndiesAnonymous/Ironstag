@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
 
+using WesternSpace.Input;
+
 namespace WesternSpace.ServiceInterfaces
 {
     /// <summary>
@@ -27,6 +29,10 @@ namespace WesternSpace.ServiceInterfaces
             get;
         }
 
+        BetterMouse BetterMouse
+        {
+            get;
+        }
 
         /// <summary>
         /// The current state of the game pad

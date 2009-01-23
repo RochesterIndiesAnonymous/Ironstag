@@ -6,6 +6,8 @@ using WesternSpace.ServiceInterfaces;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 
+using WesternSpace.Input;
+
 namespace WesternSpace.Services
 {
     /// <summary>
@@ -22,6 +24,8 @@ namespace WesternSpace.Services
         /// The old mouse state before the latest update
         /// </summary>
         private MouseState oldMouseState;
+
+        private BetterMouse betterMouse;
 
         /// <summary>
         /// The old game pad state before the latest update
@@ -44,6 +48,11 @@ namespace WesternSpace.Services
         public Microsoft.Xna.Framework.Input.MouseState MouseState
         {
             get { return oldMouseState; }
+        }
+
+        public BetterMouse BetterMouse
+        {
+            get { return betterMouse; }
         }
 
         /// <summary>
@@ -73,6 +82,8 @@ namespace WesternSpace.Services
             oldKeyboardState = Keyboard.GetState();
             oldMouseState = Mouse.GetState();
             oldGamePadState = GamePad.GetState(Microsoft.Xna.Framework.PlayerIndex.One);
+            betterMouse = new BetterMouse(Game);
+            betterMouse.Initialize();
 
             base.Initialize();
         }
@@ -102,6 +113,8 @@ namespace WesternSpace.Services
             oldKeyboardState = newKeyboardState;
             oldMouseState = newMouseState;
             oldGamePadState = newGamePadState;
+
+            betterMouse.Update(gameTime);
 
             base.Update(gameTime);
         }

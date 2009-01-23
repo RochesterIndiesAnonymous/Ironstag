@@ -90,6 +90,8 @@
     <Compile Include="AnimationFramework\Frame.cs" />
     <Compile Include="DrawableComponents\Actors\Character.cs" />
     <Compile Include="DrawableComponents\Actors\ToadMan.cs" />
+    <Compile Include="DrawableComponents\EditorUI\EditorUIComponent.cs" />
+    <Compile Include="DrawableComponents\EditorUI\TextureSelector.cs" />
     <Compile Include="DrawableComponents\Misc\DebuggingOutputComponent.cs" />
     <Compile Include="DrawableComponents\Misc\FPSComponent.cs" />
     <Compile Include="DrawableComponents\Misc\MapCoordinateComponent.cs" />
@@ -99,6 +101,7 @@
     <Compile Include="EventSystem\Event.cs" />
     <Compile Include="EventSystem\Trigger.cs" />
     <Compile Include="EventSystem\Triggerable.cs" />
+    <Compile Include="Input\BetterMouse.cs" />
     <Compile Include="Interfaces\IDebugOutput.cs" />
     <Compile Include="Interfaces\IMapCoordinates.cs" />
     <Compile Include="Interfaces\IXElementOutput.cs" />
