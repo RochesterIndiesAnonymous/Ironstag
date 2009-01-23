@@ -30,6 +30,7 @@ namespace WesternSpace.Services
         private ILayerService layerService;
 
         private IInputManagerService inputManager;
+        private IScreenResolutionService resolutionService;
 
         private const int SCROLL_SPEED = 14;
 
@@ -100,12 +101,14 @@ namespace WesternSpace.Services
             position = Vector2.Zero;
             viewMatrix = Matrix.Identity;
 
-            Viewport vp = this.Game.GraphicsDevice.Viewport;
-
-            visibleArea = new RectangleF(vp.X, vp.Y, vp.Width, vp.Height);
-
             inputManager = (IInputManagerService)this.Game.Services.GetService(typeof(IInputManagerService));
             layerService = (ILayerService)this.Game.Services.GetService(typeof(ILayerService));
+            resolutionService = (IScreenResolutionService)this.Game.Services.GetService(typeof(IScreenResolutionService));
+
+            Viewport vp = this.Game.GraphicsDevice.Viewport;
+
+            visibleArea = new RectangleF(position.X, position.Y, 
+                resolutionService.StartTextureWidth, resolutionService.StartTextureHeight);
 
             base.Initialize();
         }
@@ -123,7 +126,7 @@ namespace WesternSpace.Services
                 foreach (IMapCoordinates map in layerService.Layers.Values)
                 {
                     newX = MathHelper.Clamp(newX, map.MinimumX, map.MaximumX - this.visibleArea.Width);
-                    this.position.X = newX;
+                    this.Position = new Vector2(newX, this.Position.Y);
                 }
             }
 
@@ -134,7 +137,7 @@ namespace WesternSpace.Services
                 foreach (IMapCoordinates map in layerService.Layers.Values)
                 {
                     newX = MathHelper.Clamp(newX, map.MinimumX, map.MaximumX - this.visibleArea.Width);
-                    this.position.X = newX;
+                    this.Position = new Vector2(newX, this.Position.Y);
                 }
             }
 
@@ -145,7 +148,7 @@ namespace WesternSpace.Services
                 foreach (IMapCoordinates map in layerService.Layers.Values)
                 {
                     newY = MathHelper.Clamp(newY, map.MinimumY, map.MaximumY - this.visibleArea.Height);
-                    this.position.Y = newY;
+                    this.Position = new Vector2(this.Position.X, newY);
                 }
             }
 
@@ -156,7 +159,7 @@ namespace WesternSpace.Services
                 foreach (IMapCoordinates map in layerService.Layers.Values)
                 {
                     newY = MathHelper.Clamp(newY, map.MinimumY, map.MaximumY - this.visibleArea.Height);
-                    this.position.Y = newY;
+                    this.Position = new Vector2(this.Position.X, newY);
                 }
             }
 
@@ -167,7 +170,7 @@ namespace WesternSpace.Services
                 foreach (IMapCoordinates map in layerService.Layers.Values)
                 {
                     newX = MathHelper.Clamp(newX, map.MinimumX, map.MaximumX - this.visibleArea.Width);
-                    this.position.X = newX;
+                    this.Position = new Vector2(newX, this.Position.Y);
                 }
             }
 
@@ -178,11 +181,10 @@ namespace WesternSpace.Services
                 foreach (IMapCoordinates map in layerService.Layers.Values)
                 {
                     newY = MathHelper.Clamp(newY, map.MinimumY, map.MaximumY - this.visibleArea.Height);
-                    this.position.Y = newY;
+                    this.Position = new Vector2(this.Position.X, newY);
                 }
             }
 
-            UpdateVisibleArea();
             CreateViewTransformationMatrix();
 
             base.Update(gameTime);
@@ -193,12 +195,7 @@ namespace WesternSpace.Services
         /// </summary>
         private void UpdateVisibleArea()
         {
-            Viewport vp = this.Game.GraphicsDevice.Viewport;
-
-            float left = position.X - visibleArea.Width / 2;
-            float top = position.Y - visibleArea.Height / 2;
-
-            visibleArea = new RectangleF(left, top, vp.Width, vp.Height);
+            visibleArea = new RectangleF(position.X, position.Y, resolutionService.StartTextureWidth, resolutionService.StartTextureHeight);
         }
 
         /// <summary>

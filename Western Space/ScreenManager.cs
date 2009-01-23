@@ -96,8 +96,10 @@ namespace WesternSpace
             vp.Width = graphics.GraphicsDevice.DisplayMode.Width;
             vp.Height = graphics.GraphicsDevice.DisplayMode.Height;
             GraphicsDevice.Viewport = vp;
-            
+
             resolutionService = new ScreenResolutionService(graphics, screenSizeWidth, screenSizeHeight);
+            this.Services.AddService(typeof(IScreenResolutionService), resolutionService);
+
             graphics.ToggleFullScreen();
 
             // create our game screen

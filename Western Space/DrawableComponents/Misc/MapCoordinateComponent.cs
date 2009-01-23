@@ -68,7 +68,7 @@ namespace WesternSpace.DrawableComponents.Misc
         /// <param name="gameTime">The amount of time elapsed relative to the game</param>
         public override void Update(GameTime gameTime)
         {
-            Vector2 mapCoordinates = map.CalculateMapCoordinatesFromMouse(new Vector2(inputManager.MouseState.X, inputManager.MouseState.Y));
+            Vector2 mapCoordinates = map.CalculateMapCoordinatesFromScreenPoint(new Vector2(inputManager.MouseState.X, inputManager.MouseState.Y));
 
             this.output = "Map Coords: " + mapCoordinates.X + "," + mapCoordinates.Y;
 

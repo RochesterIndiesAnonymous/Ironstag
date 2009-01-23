@@ -120,6 +120,7 @@
     <Compile Include="ServiceInterfaces\ICameraService.cs" />
     <Compile Include="Services\InputManagerService.cs" />
     <Compile Include="ServiceInterfaces\ISpriteBatchService.cs" />
+    <Compile Include="ServiceInterfaces\IScreenResolutionService.cs" />
     <Compile Include="Services\LayerService.cs" />
     <Compile Include="Services\ScreenResolutionService.cs" />
     <Compile Include="Services\SpriteBatchService.cs" />

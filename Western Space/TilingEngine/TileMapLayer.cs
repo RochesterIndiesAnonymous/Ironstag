@@ -23,6 +23,8 @@ namespace WesternSpace.TilingEngine
 
         private ICameraService camera;
 
+        private IScreenResolutionService resolutionService;
+
         private TileMap tm;
 
         private float scrollSpeed;
@@ -99,6 +101,7 @@ namespace WesternSpace.TilingEngine
         public override void Initialize()
         {
             camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
+            resolutionService = (IScreenResolutionService)this.Game.Services.GetService(typeof(IScreenResolutionService));
 
             base.Initialize();
         }
@@ -181,9 +184,10 @@ namespace WesternSpace.TilingEngine
 
         #region IMapCoordinates Members
 
-        public Vector2 CalculateMapCoordinatesFromMouse(Vector2 atPoint)
+        public Vector2 CalculateMapCoordinatesFromScreenPoint(Vector2 atPoint)
         {
-            int x = (int)Math.Floor((camera.Position.X / tm.tileWidth) + atPoint.X / tm.tileWidth);
+
+            int x = (int)Math.Floor((camera.Position.X - resolutionService.ScaleRectangle.X + (atPoint.X / 5)) / tm.tileWidth);
             int y = (int)Math.Floor((camera.Position.Y / tm.tileHeight) + atPoint.Y / tm.tileHeight);
             return new Vector2(x, y);
         }

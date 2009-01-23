@@ -48,7 +48,7 @@ namespace WesternSpace.Interfaces
         /// </summary>
         /// <param name="atPoint">The point that needs to be converted to map coordinates</param>
         /// <returns>The coordinates of the point within the map</returns>
-        Vector2 CalculateMapCoordinatesFromMouse(Vector2 atPoint);
+        Vector2 CalculateMapCoordinatesFromScreenPoint(Vector2 atPoint);
     }
 
 

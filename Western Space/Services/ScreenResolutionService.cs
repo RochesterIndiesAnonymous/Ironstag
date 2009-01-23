@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using WesternSpace.ServiceInterfaces;
 
 namespace WesternSpace.Services
 {
-    public class ScreenResolutionService
+    public class ScreenResolutionService : IScreenResolutionService
     {
         private Rectangle scaleRectangle;
 
@@ -32,10 +33,28 @@ namespace WesternSpace.Services
             set { startTextureHeight = value; }
         }
 
+        private float aspectRatio;
+
+        public float AspectRatio
+        {
+            get { return aspectRatio; }
+        }
+
+        public int AspectRatioNumerator
+        {
+            get { return 4; }
+        }
+
+        public int AspectRatioDenominator
+        {
+            get { return 3; }
+        }
+
         public ScreenResolutionService(GraphicsDeviceManager graphics, int startingTextureWidth, int startingTextureHeight)
         {
             scaleRectangle = CalculateResolution(graphics, startingTextureWidth, startingTextureHeight);
 
+            this.aspectRatio = (float)scaleRectangle.Width / scaleRectangle.Height;
             this.startTextureWidth = startingTextureWidth;
             this.startTextureHeight = startingTextureHeight;
         }
