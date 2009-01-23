@@ -22,6 +22,8 @@ namespace WesternSpace
         private static ResolutionSettings fullScreenSettings;
         private static ResolutionSettings currentResolutionSettings;
 
+        private static RenderTarget2D renderTarget;
+
         private bool isFullScreen;
 
         public bool IsFullScreen
@@ -97,7 +99,7 @@ namespace WesternSpace
 
             SetScreenMode(false);
 
-
+            renderTarget = new RenderTarget2D(graphics.GraphicsDevice, currentResolutionSettings.RenderTargetWidth, currentResolutionSettings.RenderTargetHeight, 1, SurfaceFormat.Color);
             // create our services
             CreateServices();
 
@@ -128,7 +130,7 @@ namespace WesternSpace
         protected override void Draw(GameTime gameTime)
         {
             PresentationParameters pp = graphics.GraphicsDevice.PresentationParameters;
-            RenderTarget2D renderTarget = new RenderTarget2D(graphics.GraphicsDevice, currentResolutionSettings.RenderTargetWidth, currentResolutionSettings.RenderTargetHeight, 1, SurfaceFormat.Color);
+            
             graphics.GraphicsDevice.SetRenderTarget(0, renderTarget);
 
             GraphicsDevice.Clear(Color.Azure);
