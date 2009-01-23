@@ -99,6 +99,9 @@ namespace WesternSpace
 
             fullScreenSettings = new ResolutionSettings(320, 240, GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height);
 
+            resolutionService = new ScreenResolutionService(graphics, windowedSettings.RenderTargetWidth, windowedSettings.RenderTargetHeight);
+            this.Services.AddService(typeof(IScreenResolutionService), resolutionService);
+
             SetScreenMode(false);
 
             // create our services
@@ -202,8 +205,6 @@ namespace WesternSpace
                 vp.Height = fullScreenSettings.BackBufferHeight;
                 GraphicsDevice.Viewport = vp;
 
-                resolutionService = new ScreenResolutionService(graphics, fullScreenSettings.RenderTargetWidth, fullScreenSettings.RenderTargetHeight);
-
                 graphics.IsFullScreen = true;
 
                 isFullScreen = true;
@@ -220,20 +221,19 @@ namespace WesternSpace
                 vp.Height = windowedSettings.BackBufferHeight;
                 GraphicsDevice.Viewport = vp;
 
-                resolutionService = new ScreenResolutionService(graphics, windowedSettings.RenderTargetWidth, windowedSettings.RenderTargetHeight);
-
                 graphics.IsFullScreen = false;
 
                 isFullScreen = false;
             }
 
-            // Update our screen resolution service
-            this.Services.RemoveService(typeof(IScreenResolutionService));
-            this.Services.AddService(typeof(IScreenResolutionService), resolutionService);
+            resolutionService.StartTextureWidth = currentResolutionSettings.RenderTargetWidth;
+            resolutionService.StartTextureHeight = currentResolutionSettings.RenderTargetHeight;
+            resolutionService.ScaleRectangle = resolutionService.CalculateResolution(graphics, currentResolutionSettings.RenderTargetWidth, currentResolutionSettings.RenderTargetHeight);
 
             if (cameraService != null)
             {
-                cameraService.UpdateResolutionService();
+                cameraService.UpdateVisibleArea();
+                cameraService.CreateViewTransformationMatrix();
             }
 
             graphics.ApplyChanges();

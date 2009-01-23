@@ -187,16 +187,10 @@ namespace WesternSpace.Services
             base.Update(gameTime);
         }
 
-        public void UpdateResolutionService()
-        {
-            resolutionService = (IScreenResolutionService)this.Game.Services.GetService(typeof(IScreenResolutionService));
-            CreateViewTransformationMatrix();
-        }
-
         /// <summary>
         /// Updates the visible area rectangle of the camera
         /// </summary>
-        private void UpdateVisibleArea()
+        public void UpdateVisibleArea()
         {
             visibleArea = new RectangleF(position.X, position.Y, resolutionService.StartTextureWidth, resolutionService.StartTextureHeight);
         }
@@ -204,7 +198,7 @@ namespace WesternSpace.Services
         /// <summary>
         /// Updates the view transformation matrix
         /// </summary>
-        private void CreateViewTransformationMatrix()
+        public void CreateViewTransformationMatrix()
         {
             Vector3 matrixRotationOrigin = new Vector3(Position, 0);
             Vector3 matrixScreenPosition = new Vector3(ScreenPosition, 0.0f);

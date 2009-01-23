@@ -46,7 +46,7 @@ namespace WesternSpace.Services
             this.startTextureHeight = startingTextureHeight;
         }
 
-        private Rectangle CalculateResolution(GraphicsDeviceManager graphics, int startingTextureWidth, int startingTextureHeight)
+        public Rectangle CalculateResolution(GraphicsDeviceManager graphics, int startingTextureWidth, int startingTextureHeight)
         {
             int currentCalculatedWidth = startingTextureWidth;
             int currentCalculatedHeight = startingTextureHeight;
