@@ -90,6 +90,7 @@
     <Compile Include="AnimationFramework\Frame.cs" />
     <Compile Include="DrawableComponents\Actors\Character.cs" />
     <Compile Include="DrawableComponents\Actors\ToadMan.cs" />
+    <Compile Include="DrawableComponents\EditorUI\TileSelector.cs" />
     <Compile Include="DrawableComponents\EditorUI\EditorUIComponent.cs" />
     <Compile Include="DrawableComponents\EditorUI\TextureSelector.cs" />
     <Compile Include="DrawableComponents\Misc\DebuggingOutputComponent.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="ServiceInterfaces\ILayerService.cs" />
     <Compile Include="ServiceInterfaces\ITextureService.cs" />
     <Compile Include="Services\CameraService.cs" />
+    <Compile Include="Screens\EditorScreen.cs" />
     <Compile Include="Services\GraphicsDeviceMangerService.cs" />
     <Compile Include="ServiceInterfaces\ICameraService.cs" />
     <Compile Include="Services\InputManagerService.cs" />

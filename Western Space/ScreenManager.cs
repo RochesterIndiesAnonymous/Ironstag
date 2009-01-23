@@ -55,6 +55,11 @@ namespace WesternSpace
 
         private ScreenResolutionService resolutionService;
 
+        public ScreenResolutionService ResolutionService
+        {
+            get { return resolutionService; }
+        }
+
         /// <summary>
         /// Gets the current instance of the game.
         /// </summary>

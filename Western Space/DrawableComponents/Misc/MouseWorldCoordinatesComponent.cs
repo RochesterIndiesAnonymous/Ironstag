@@ -66,8 +66,7 @@ namespace WesternSpace.DrawableComponents.Misc
         /// <param name="gameTime">The time realative to the game</param>
         public override void Update(GameTime gameTime)
         {
-            Vector2 mouseCoordinates = new Vector2(camera.Position.X + inputManager.MouseState.X, camera.Position.Y + inputManager.MouseState.Y);
-            this.output = "Mouse World Coords: " + mouseCoordinates.X + ", " + mouseCoordinates.Y;
+            this.output = "Mouse World Coords: " + inputManager.BetterMouse.WorldPosition;
 
             base.Update(gameTime);
         }

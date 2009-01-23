@@ -43,13 +43,34 @@ namespace WesternSpace.Input
             get { return buttonsUnclicked; }
         }
 
+        // Absolute, ordinary position of the mouse.
         private Vector2 position;
 
         public Vector2 Position
         {
             get { return position; }
-            set { position = value; }
         }
+
+        public Vector2 ScaledPosition
+        { 
+            get 
+            {
+                IScreenResolutionService resolutionService = ScreenManager.Instance.ResolutionService;
+                Vector2 offset = new Vector2(resolutionService.ScaleRectangle.X, resolutionService.ScaleRectangle.Y);
+                return ((position - offset) / resolutionService.ScaleFactor);            
+            }
+        }
+
+        public Vector2 WorldPosition
+        {
+            get 
+            {
+                ICameraService camera = (ICameraService)ScreenManager.Instance.Services.GetService(typeof(ICameraService));
+                return ScaledPosition + camera.Position;
+            }
+        }
+
+
 
         private Vector2 motion;
 

@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.TilingEngine;
 
+
 namespace WesternSpace.DrawableComponents.EditorUI
 {
     public class TextureSelector : EditorUIComponent
@@ -28,18 +29,33 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         public override void OnMouseClick(int button)
         {
-            if (button == 0) // Left click
-            {
-            }
-            else if(button == 2) // Right click
-            {
-            }
             base.OnMouseClick(button);
         }
+
+        public override void OnMouseUnclick(int button)
+        {
+            base.OnMouseUnclick(button);
+        }
+
         public override void OnMouseScroll(int amount)
         { 
             // Basically we just want to switch what texture tile.Textures[layerIndex, subLayerIndex] points
             //  to here.
+        }
+
+        public override void OnMouseEnter()
+        {
+            base.OnMouseEnter();
+        }
+
+        public override void OnMouseLeave()
+        {
+            base.OnMouseLeave();
+        }
+
+        public TextureSelector(Game game, SpriteBatch spriteBatch, RectangleF bounds)
+            : base(game, spriteBatch, bounds)
+        {
         }
 
         public TextureSelector(Game game, SpriteBatch spriteBatch, RectangleF bounds, Tile tile, int layerIndex, int subLayerIndex)
@@ -52,9 +68,20 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         public override void Initialize()
         {
+            this.Color = Microsoft.Xna.Framework.Graphics.Color.White;
             textureService = (ITextureService)Game.Services.GetService(typeof(ITextureService));
             currentTexture = textureService.Textures.Keys.GetEnumerator();
             base.Initialize();
+        }
+
+        public override void Draw(GameTime gameTime)
+
+        {
+            if (tile != null)
+            {
+                this.SpriteBatch.Draw(tile.Textures[layerIndex, subLayerIndex], Position, Microsoft.Xna.Framework.Graphics.Color.White);
+            }
+            base.Draw(gameTime);
         }
     }
 }

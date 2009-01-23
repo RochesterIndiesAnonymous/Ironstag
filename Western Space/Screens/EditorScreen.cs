@@ -11,6 +11,9 @@ using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.AnimationFramework;
 using WesternSpace.DrawableComponents.Actors;
 
+using WesternSpace.DrawableComponents.EditorUI;
+using System.Drawing;
+
 namespace WesternSpace.Screens
 {
     public class EditorScreen : GameObject
@@ -18,8 +21,6 @@ namespace WesternSpace.Screens
         private TileEngine tileEngine;
         private ISpriteBatchService batchService;
         private World world;
-
-        private string mode;
 
         public World World
         {
@@ -29,25 +30,25 @@ namespace WesternSpace.Screens
         public EditorScreen(Game game)
             : base(game)
         {
-
         }
 
-        public override void Update(GameTime gameTime)
-        {
-
-            base.Update(gameTime);
-        }
-
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
         public override void Initialize()
         {
             tileEngine = new TileEngine();
-
-            world = new World(this.Game);
 
             // CreateSprites needs the animation data service
             // animationDataService = (IAnimationDataService)this.Game.Services.GetService(typeof(IAnimationDataService));
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
 
+            world = new World(this.Game, "WorldXML\\TestWorld");
+
+            CreateDebuggingInformationComponents();
             CreateUIComponents();
 
             // Initialize all components
@@ -55,6 +56,14 @@ namespace WesternSpace.Screens
         }
 
         private void CreateUIComponents()
+        {
+            SpriteBatch sb = batchService.GetSpriteBatch(DebuggingOutputComponent.SpriteBatchName);
+            TextureSelector ts = new TextureSelector(this.Game, sb, new RectangleF(20, 20, 100, 100));
+            ts.DrawOrder = 400;
+            this.Game.Components.Add(ts);
+        }
+
+        private void CreateDebuggingInformationComponents()
         {
             // Create our Debugging output component
             Vector2 position = new Vector2(1, 1);
@@ -83,5 +92,6 @@ namespace WesternSpace.Screens
             this.Game.Components.Add(mcc);
             doc.DebugLines.Add(mcc);
         }
+
     }
 }
