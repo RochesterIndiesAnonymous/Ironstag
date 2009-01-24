@@ -27,7 +27,7 @@ namespace WesternSpace
 
         // int represents the Z-index the layer is drawn at.
         public Dictionary<int, TileMapLayer> layers;
-
+        
         public World(Game game)
             : base(game)
         {

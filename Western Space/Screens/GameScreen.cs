@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.AnimationFramework;
 using WesternSpace.DrawableComponents.Actors;
 using System.Xml.Linq;
+using WesternSpace.Collision;
 
 namespace WesternSpace.Screens
 {
@@ -19,7 +20,7 @@ namespace WesternSpace.Screens
         private TileEngine tileEngine;
         private ISpriteBatchService batchService;
         private World world;
-
+        public SpriteTileCollisionManager tileCollisionManager;
         public World World
         {
             get { return world; }
@@ -104,6 +105,8 @@ namespace WesternSpace.Screens
             flint.UpdateOrder = 3;
             flint.DrawOrder = 0;
             this.Game.Components.Add(flint);
+            tileCollisionManager = new SpriteTileCollisionManager(this.Game, this.world);
+            this.Game.Components.Add(tileCollisionManager);
         }
 
         private void CreateDebuggingInformationComponents()
