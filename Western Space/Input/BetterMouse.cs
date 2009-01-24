@@ -28,9 +28,9 @@ namespace WesternSpace.Input
             get { return buttonsClicked; }
         }
 
-        private bool[] buttonsHeld;
+        private int[] buttonsHeld;
 
-        public bool[] ButtonsHeld
+        public int[] ButtonsHeld
         {
             get { return buttonsHeld; }
         }
@@ -51,6 +51,7 @@ namespace WesternSpace.Input
             get { return position; }
         }
 
+        // Position on the texture we draw to.
         public Vector2 ScaledPosition
         { 
             get 
@@ -61,6 +62,7 @@ namespace WesternSpace.Input
             }
         }
 
+        // Position in our world.
         public Vector2 WorldPosition
         {
             get 
@@ -70,13 +72,20 @@ namespace WesternSpace.Input
             }
         }
 
-
-
         private Vector2 motion;
 
         public Vector2 Motion
         {
             get { return motion; }
+        }
+
+        public Vector2 ScaledMotion
+        {
+            get
+            {
+                IScreenResolutionService resolutionService = ScreenManager.Instance.ResolutionService;
+                return motion / resolutionService.ScaleFactor; 
+            }
         }
 
         private int scrollAmount;
@@ -91,7 +100,7 @@ namespace WesternSpace.Input
             : base(game)
         {
             buttonsClicked = new bool[3];
-            buttonsHeld = new bool[3];
+            buttonsHeld = new int[3];
             buttonsUnclicked = new bool[3];
             position = new Vector2();
             motion = new Vector2();
@@ -123,16 +132,17 @@ namespace WesternSpace.Input
                 buttonsUnclicked[i] = false;
                 if ( currentButtons[i] == ButtonState.Pressed)
                 {
-                    buttonsClicked[i] = !buttonsHeld[i];
-                    buttonsHeld[i] = true;
+                    buttonsClicked[i] = buttonsHeld[i] == 0;
+                    buttonsHeld[i] += gameTime.ElapsedGameTime.Milliseconds;
                 }
                 else
                 {
-                    if (buttonsHeld[i])
+                    if (buttonsHeld[i] != 0)
                     {
                         buttonsUnclicked[i] = true;
                     }
-                    buttonsHeld[i] = buttonsClicked[i] = false;
+                    buttonsHeld[i] = 0;
+                    buttonsClicked[i] = false;
                 }
             }
 

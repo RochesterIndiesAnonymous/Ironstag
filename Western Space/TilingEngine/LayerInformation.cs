@@ -8,9 +8,14 @@ namespace WesternSpace.TilingEngine
     internal struct LayerInformation
     {
         /// <summary>
-        /// The name of the texture that needs to be used for the associated color
+        /// The name of the SubTextureSheet XML that needs to be used for the associated color
         /// </summary>
         internal string Name;
+
+        /// <summary>
+        /// The index into the SubTextureSheet XML that needs to be used for the associated color
+        /// </summary>
+        internal int Index;
 
         /// <summary>
         /// The color of the associated texture in the tile map

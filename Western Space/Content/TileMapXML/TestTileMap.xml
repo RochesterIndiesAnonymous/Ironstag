@@ -1,1 +1,316 @@
-﻿<?xml version="1.0" encoding="utf-8"?><TileMap Width="24" Height="6" TileWidth="100" TileHeight="100" LayerCount="1" SubLayerCount="1"><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="15"><x n="Textures\amazon_skins_100" /></T><T e="15"><x n="Textures\amazon_skins_100" /></T><T e="15"><x n="Textures\amazon_skins_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\amazon_skins_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\amazon_skins_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\amazon_skins_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="15"><x n="Textures\amazon_skins_100" /></T><T e="15"><x n="Textures\amazon_skins_100" /></T><T e="15"><x n="Textures\amazon_skins_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\amazon_skins_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="15"><x n="Textures\amazon_skins_100" /></T><T e="-1" /><T e="15"><x n="Textures\amazon_skins_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\amazon_skins_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="15"><x n="Textures\reptile_eggfarm_100" /></T><T e="15"><x n="Textures\reptile_eggfarm_100" /></T><T e="15"><x n="Textures\reptile_eggfarm_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\reptile_eggfarm_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="15"><x n="Textures\reptile_eggfarm_100" /></T><T e="-1" /><T e="15"><x n="Textures\reptile_eggfarm_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\reptile_eggfarm_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\reptile_eggfarm_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="15"><x n="Textures\reptile_eggfarm_100" /></T><T e="-1" /><T e="15"><x n="Textures\reptile_eggfarm_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\reptile_eggfarm_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="15"><x n="Textures\reptile_eggfarm_100" /></T><T e="15"><x n="Textures\reptile_eggfarm_100" /></T><T e="15"><x n="Textures\reptile_eggfarm_100" /></T><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="-1" /><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\water_sheets_100" /></T><T e="-1" /><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="15"><x n="Textures\water_sheets_100" /></T><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="-1" /><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\hidden_caverocks_100" /></T><T e="-1" /><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="15"><x n="Textures\water_sheets_100" /></T><T e="15"><x n="Textures\water_sheets_100" /></T><T e="15"><x n="Textures\water_sheets_100" /></T><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="15"><x n="Textures\water_sheets_100" /></T><T e="15"><x n="Textures\water_sheets_100" /></T><T e="15"><x n="Textures\water_sheets_100" /></T><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="15"><x n="Textures\water_sheets_100" /></T><T e="15"><x n="Textures\water_sheets_100" /></T><T e="15"><x n="Textures\water_sheets_100" /></T><T e="-1" /><T e="15"><x n="Textures\cloud_scan_100" /></T><T e="-1" /><T e="-1" /><T e="-1" /><T e="-1" /><T e="15"><x n="Textures\hidden_caverocks_100" /></T></TileMap>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TileMap Width="24" Height="6" TileWidth="20" TileHeight="20" LayerCount="1" SubLayerCount="1">
+  <sh fn="Textures\\TestSheetInfo" i="0" />
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="15">
+    <x s="0" i="1" />
+  </T>
+  <T e="15">
+    <x s="0" i="1" />
+  </T>
+  <T e="15">
+    <x s="0" i="1" />
+  </T>
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="1" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="1" />
+  </T>
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="-1" />
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="15">
+    <x s="0" i="1" />
+  </T>
+  <T e="15">
+    <x s="0" i="1" />
+  </T>
+  <T e="15">
+    <x s="0" i="1" />
+  </T>
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="1" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="1" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="5" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="5" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="5" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="15">
+    <x s="0" i="5" />
+  </T>
+  <T e="15">
+    <x s="0" i="5" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="5" />
+  </T>
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="5" />
+  </T>
+  <T e="15">
+    <x s="0" i="5" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="5" />
+  </T>
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="5" />
+  </T>
+  <T e="15">
+    <x s="0" i="5" />
+  </T>
+  <T e="15">
+    <x s="0" i="5" />
+  </T>
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="4" />
+  </T>
+  <T e="15">
+    <x s="0" i="4" />
+  </T>
+  <T e="15">
+    <x s="0" i="4" />
+  </T>
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="15">
+    <x s="0" i="4" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="4" />
+  </T>
+  <T e="15">
+    <x s="0" i="4" />
+  </T>
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="4" />
+  </T>
+  <T e="15">
+    <x s="0" i="4" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="15">
+    <x s="0" i="4" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="4" />
+  </T>
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="4" />
+  </T>
+  <T e="15">
+    <x s="0" i="4" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="-1" />
+  <T e="-1" />
+  <T e="-1" />
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="0" />
+  </T>
+  <T e="-1" />
+  <T e="15">
+    <x s="0" i="2" />
+  </T>
+  <T e="15">
+    <x s="0" i="4" />
+  </T>
+  <T e="15">
+    <x s="0" i="4" />
+  </T>
+  <T e="15">
+    <x s="0" i="4" />
+  </T>
+  <T e="-1" />
+</TileMap>

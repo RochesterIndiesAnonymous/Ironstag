@@ -131,7 +131,8 @@ namespace WesternSpace.TilingEngine
                     {
                         for (int subLayerIndex = 0; subLayerIndex < tm.SubLayerCount; ++subLayerIndex)
                         {
-                            this.SpriteBatch.Draw(tm.Tiles[x, y].Textures[layerIndex, subLayerIndex], position, Color.White);
+                            SubTexture subTexture = tm.Tiles[x, y].Textures[layerIndex, subLayerIndex];
+                            this.SpriteBatch.Draw(subTexture.Texture, position, subTexture.Rectangle, Color.White);
                         }
                     }
                 }

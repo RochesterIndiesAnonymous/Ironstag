@@ -33,15 +33,15 @@ namespace WesternSpace.TilingEngine
             Color[] allPixels = new Color[(layer.Width * layer.Height)];
 
             layer.GetData<Color>(allPixels);
-            Dictionary<Color, Texture2D> lookupTable = LoadSettingsFile(settingsFileName);
-            TileMap tm = new TileMap(layer.Width, layer.Height, 100, 100, 1, 1); // For now just 1 layer and 1 sublayer. (1 total texture per tile)
+            Dictionary<Color, SubTexture> lookupTable = LoadSettingsFile(settingsFileName);
+            TileMap tm = new TileMap(layer.Width, layer.Height, 20, 20, 1, 1); // For now just 1 layer and 1 sublayer. (1 total texture per tile)
 
             for (int i = 0; i < allPixels.Length; i++)
             {
                 int x = i % layer.Width;
                 int y = i / layer.Width;
 
-                Texture2D[,] textures = new Texture2D[1,1];
+                SubTexture[,] textures = new SubTexture[1,1];
                 textures[0, 0] = lookupTable[allPixels[i]];
                 Tile t;
                 t = textures[0,0] != null ? new Tile(textures) : null;
@@ -52,9 +52,10 @@ namespace WesternSpace.TilingEngine
             return tm;
         }
 
-        private Dictionary<Color, Texture2D> LoadSettingsFile(string settingsFileName)
+
+        private Dictionary<Color, SubTexture> LoadSettingsFile(string settingsFileName)
         {
-            Dictionary<Color, Texture2D> lookupTable = new Dictionary<Color, Texture2D>();
+            Dictionary<Color, SubTexture> lookupTable = new Dictionary<Color, SubTexture>();
             
             lookupTable.Add(Color.Black, null);
             XDocument rootLayerElement = ScreenManager.Instance.Content.Load<XDocument>(settingsFileName);
@@ -63,6 +64,7 @@ namespace WesternSpace.TilingEngine
                                                                  select new LayerInformation
                                                                  {
                                                                      Name = texture.Attribute("FileName").Value,
+                                                                     Index = Int32.Parse(texture.Attribute("Index").Value),
                                                                      Color = new Color(Byte.Parse(texture.Attribute("ColorRed").Value), 
                                                                                        Byte.Parse(texture.Attribute("ColorGreen").Value), 
                                                                                        Byte.Parse(texture.Attribute("ColorBlue").Value))
@@ -70,7 +72,7 @@ namespace WesternSpace.TilingEngine
 
             foreach (LayerInformation li in textureInformation)
             {
-                lookupTable.Add(li.Color, textureService.GetTexture(li.Name));
+                lookupTable.Add(li.Color, textureService.GetSheet(li.Name).SubTextures[li.Index]);
             }
 
             return lookupTable;

@@ -12,7 +12,7 @@ namespace WesternSpace.TilingEngine
 {
     public class Tile
     {
-        private Texture2D[,] textures;
+        private SubTexture[,] textures;
 
         private bool[] initialEdges;
         private bool[] edges;
@@ -76,7 +76,7 @@ namespace WesternSpace.TilingEngine
             set { edges[3] = value; }
         }
 
-        public Texture2D[,] Textures
+        public SubTexture[,] Textures
         {
             get { return textures; }
             set { textures = value; }
@@ -96,7 +96,7 @@ namespace WesternSpace.TilingEngine
         {
         }
 
-        public Tile(Texture2D[,] textures)
+        public Tile(SubTexture[,] textures)
         {
             this.initialEdges = new bool[4];
             this.initialEdges[0] = this.initialEdges[1] =
@@ -106,7 +106,7 @@ namespace WesternSpace.TilingEngine
             this.textures = textures;
         }
 
-        public Tile(Texture2D[,] textures, bool[] edges)
+        public Tile(SubTexture[,] textures, bool[] edges)
         {
             this.initialEdges = new bool[4];
             edges.CopyTo(initialEdges, 0);

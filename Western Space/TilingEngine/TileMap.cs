@@ -20,7 +20,16 @@ namespace WesternSpace.TilingEngine
         private int layerCount;
         private int subLayerCount;
 
-        ITextureService textureService;
+        private ITextureService textureService;
+
+        private Dictionary<string, int> sheetIndex;
+
+        private SubTextureSheet[] sheets;
+
+        public SubTextureSheet[] Sheets
+        {
+            get { return sheets; }
+        }
 
         public int LayerCount
         {
@@ -49,13 +58,17 @@ namespace WesternSpace.TilingEngine
             get { return tiles; }
         }
 
+        // This is mainly just used for the editor when creating new empty tilemaps.
         public TileMap(int cellX, int cellY, int tileWidth, int tileHeight, int layerCount, int subLayerCount)
         {
             this.layerCount = layerCount;
             this.subLayerCount = subLayerCount;
-            tiles = new Tile[cellX,cellY];
+            this.tiles = new Tile[cellX,cellY];
+            this.sheetIndex = new Dictionary<string, int>();
             this.tileWidth = tileWidth;
             this.tileHeight = tileHeight;
+
+            this.textureService = (ITextureService)ScreenManager.Instance.Services.GetService(typeof(ITextureService));
         }
 
         /// <summary>
@@ -134,6 +147,14 @@ namespace WesternSpace.TilingEngine
                     tile.RightEdge = false;
                     right.LeftEdge = false;
                 }
+
+                foreach (SubTexture subTexture in tile.Textures)
+                {
+                    if (!sheetIndex.Keys.Contains<string>(subTexture.Sheet.Name))
+                    {
+                        sheetIndex.Add(subTexture.Sheet.Name, sheetIndex.Count);
+                    }
+                }
             }
             tiles[x, y] = tile;
         }
@@ -153,16 +174,30 @@ namespace WesternSpace.TilingEngine
             Int32.TryParse(fileContents.Root.Attribute("SubLayerCount").Value, out subLayerCount);
 
             tiles = new Tile[width, height];
-
+            
             textureService = (ITextureService)ScreenManager.Instance.Services.GetService(typeof(ITextureService));
+
+            IEnumerable<XElement> allSheets = fileContents.Descendants("sh");
+
+            sheets = new SubTextureSheet[allSheets.Count<XElement>()];
+            sheetIndex = new Dictionary<string, int>();
+
+            int i;
+            foreach (XElement sheet in allSheets)
+            {
+                Int32.TryParse(sheet.Attribute("i").Value, out i);
+                string sheetFileName = sheet.Attribute("fn").Value;
+                sheets[i] = textureService.GetSheet(sheetFileName);
+                sheetIndex.Add(sheetFileName, i);
+            }
 
             IEnumerable<XElement> allTileElements = fileContents.Descendants("T");
 
-            int i = 0, j = 0;
-            
             // This is kind of dangerous, here. We assume that the XML is properly formatted.
             //  If it is not, our program will crash. This is not a huge deal, but if the debugger
             //  is highlighting a line below, you can blame Lou, unless you tried to hack a TileMap XML file by hand.
+            int j = 0;
+            i = 0;
             foreach (XElement tileElement in allTileElements)
             {
                 this.SetTile(TileFromXElement(tileElement), i, j);
@@ -207,12 +242,14 @@ namespace WesternSpace.TilingEngine
             }
 
             XElement returnVal = new XElement("T", new XAttribute("e", edges));
-            foreach (Texture2D texture in tile.Textures)
+            foreach (SubTexture sub in tile.Textures)
             {
                 // Note: Texture2D.Name is useless normally, but the TextureService will
                 //       automatically set the Name parameter to be the asset name so they can
                 //       easily be retrieved.
-                returnVal.Add(new XElement("x", new XAttribute("n", texture.Name) ));
+                // "s" attribute: the SubTextureSheet number to use. Each tilemap keeps a list of these.
+                // "i" attribute: the index into the SubTextureSheet representing a SubTexture of this tile.
+                returnVal.Add(new XElement("x", new XAttribute("s", sheetIndex[sub.Sheet.Name]), new XAttribute("i", sub.Index)));
             }
             return returnVal;
         }
@@ -223,17 +260,19 @@ namespace WesternSpace.TilingEngine
             {
                 return null;
             }
+            int sheetID, subTextureIndex;
 
-            IEnumerable<Texture2D> textures = from element in xelement.Descendants("x") 
-                                   select textureService.GetTexture(element.Attribute("n").Value);
 
-            Texture2D[,] texturesArray = new Texture2D[layerCount, subLayerCount];
+            IEnumerable<SubTexture> subTextures = from element in xelement.Descendants("x")
+                                                  select sheets[Int32.Parse(element.Attribute("s").Value)].SubTextures[Int32.Parse(element.Attribute("i").Value)];
+
+            SubTexture[,] subTexturesArray = new SubTexture[layerCount, subLayerCount];
 
             int i = 0, j = 0;
 
-            foreach( Texture2D texture in textures)
+            foreach( SubTexture subTexture in subTextures)
             {
-                texturesArray[i, j] = texture;
+                subTexturesArray[i, j] = subTexture;
                 if (j < subLayerCount - 1)
                 { 
                     ++j; 
@@ -254,7 +293,7 @@ namespace WesternSpace.TilingEngine
                 edges[k] = (edgeInt & (int)Math.Pow(2, k)) != 0;
             }
 
-            return new Tile(texturesArray, edges);
+            return new Tile(subTexturesArray, edges);
         }
 
         #endregion
@@ -272,6 +311,18 @@ namespace WesternSpace.TilingEngine
                                                 new XAttribute("LayerCount", layerCount),
                                                 new XAttribute("SubLayerCount", subLayerCount)
                                                 );
+
+            sheets = new SubTextureSheet[sheetIndex.Count];
+            foreach (string sheetName in sheetIndex.Keys)
+            {
+                sheets[sheetIndex[sheetName]] = textureService.GetSheet(sheetName);
+            }
+
+            foreach (SubTextureSheet sheet in sheets)
+            { 
+                returnValue.Add(new XElement("sh", new XAttribute("fn", sheet.Name), new XAttribute("i", sheetIndex[sheet.Name])));
+            }
+
             foreach (Tile tile in tiles)
             {
                 returnValue.Add(TileToXElement(tile));

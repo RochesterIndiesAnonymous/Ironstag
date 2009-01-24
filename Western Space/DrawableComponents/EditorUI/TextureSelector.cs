@@ -79,7 +79,8 @@ namespace WesternSpace.DrawableComponents.EditorUI
         {
             if (tile != null)
             {
-                this.SpriteBatch.Draw(tile.Textures[layerIndex, subLayerIndex], Position, Microsoft.Xna.Framework.Graphics.Color.White);
+                SubTexture sub = tile.Textures[layerIndex, subLayerIndex];
+                this.SpriteBatch.Draw(sub.Texture, Position, sub.Rectangle, Microsoft.Xna.Framework.Graphics.Color.White);
             }
             base.Draw(gameTime);
         }

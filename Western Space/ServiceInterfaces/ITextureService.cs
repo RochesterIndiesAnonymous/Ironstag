@@ -18,10 +18,27 @@ namespace WesternSpace.ServiceInterfaces
         }
 
         /// <summary>
+        /// The collection of currently loaded SubTextureSheets. This used as a cacheing mechanism to 
+        /// avoid loading multiple sheets twice.
+        /// </summary>
+        Dictionary<string, SubTextureSheet> Sheets
+        {
+            get;
+        }
+
+
+        /// <summary>
         /// Gets a texture from the content directory. Uses the cache if it has already been loaded
         /// </summary>
         /// <param name="assetName">The name of the texture that is needed</param>
         /// <returns>The texture that was requested</returns>
         Texture2D GetTexture(string assetName);
+
+        /// <summary>
+        /// Gets a subTextureSheet from the content directory. Uses the cache if it has already been loaded
+        /// </summary>
+        /// <param name="assetName">The name of the sheet that is needed</param>
+        /// <returns>The SubTextureSheet that was requested</returns>
+        SubTextureSheet GetSheet(string assetName);
     }
 }

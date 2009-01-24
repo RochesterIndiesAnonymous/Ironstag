@@ -140,7 +140,7 @@ namespace WesternSpace
         {            
             graphics.GraphicsDevice.SetRenderTarget(0, renderTarget);
 
-            GraphicsDevice.Clear(Color.Azure);
+            GraphicsDevice.Clear(Color.Black);
 
             batchService.Begin();
 

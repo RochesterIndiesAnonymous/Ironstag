@@ -10,6 +10,7 @@ using WesternSpace.ServiceInterfaces;
 using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.AnimationFramework;
 using WesternSpace.DrawableComponents.Actors;
+using System.Xml.Linq;
 
 namespace WesternSpace.Screens
 {
@@ -40,8 +41,18 @@ namespace WesternSpace.Screens
             tileEngine = new TileEngine();
 
             // CreateSprites needs the animation data service
-           // animationDataService = (IAnimationDataService)this.Game.Services.GetService(typeof(IAnimationDataService));
+            // animationDataService = (IAnimationDataService)this.Game.Services.GetService(typeof(IAnimationDataService));
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
+
+            #region DELETE ME
+            TileEngine te = new TileEngine();
+            TileMap btm = te.LoadTileMap("Layers//BigTestLayer", "LayerXML//TestLayer");
+            TileMap tm = te.LoadTileMap("Layers//TestLayer", "LayerXML//TestLayer");
+            XDocument doc = new XDocument(btm.ToXElement());
+            doc.Save("BigTileMap.xml");
+            XDocument doc2 = new XDocument(tm.ToXElement());
+            doc2.Save("TestTileMap.xml");
+            #endregion
 
             CreateLayerComponents();
 
