@@ -126,7 +126,8 @@ namespace WesternSpace.TilingEngine
                 {
                     Vector2 position = new Vector2(x * tm.tileWidth, y * tm.tileHeight) + 
                         (camera.Position - camera.Position*scrollSpeed);
-
+                    position.X = (int)Math.Round(position.X, 0);
+                    position.Y = (int)Math.Round(position.Y, 0);
                     if (tm.Tiles[x, y] != null)
                     {
                         for (int subLayerIndex = 0; subLayerIndex < tm.SubLayerCount; ++subLayerIndex)
