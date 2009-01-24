@@ -88,6 +88,9 @@
     <Compile Include="AnimationFramework\Animation.cs" />
     <Compile Include="AnimationFramework\AnimationPlayer.cs" />
     <Compile Include="AnimationFramework\Frame.cs" />
+    <Compile Include="Collision\CollisionHotspot.cs" />
+    <Compile Include="Collision\ICollideable.cs" />
+    <Compile Include="Collision\SpriteTileCollisionManager.cs" />
     <Compile Include="SubTexture.cs" />
     <Compile Include="SubTextureSheet.cs" />
     <Compile Include="DrawableComponents\Actors\Character.cs" />
