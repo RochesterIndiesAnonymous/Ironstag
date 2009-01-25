@@ -13,6 +13,23 @@ namespace WesternSpace.TilingEngine
 {
     public class TileMapLayer : DrawableGameObject, IMapCoordinates
     {
+        private bool drawEdgesEnabled;
+
+        public bool DrawEdgesEnabled
+        {
+            get { return drawEdgesEnabled; }
+            set { drawEdgesEnabled = value; }
+        }
+
+        private bool drawBlanksEnabled;
+
+        public bool DrawBlanksEnabled
+        {
+            get { return drawBlanksEnabled; }
+            set { drawBlanksEnabled = value; }
+        }
+
+
         private static string spriteBatchName = "Camera Sensitive";
 
         public static string SpriteBatchName
@@ -102,6 +119,8 @@ namespace WesternSpace.TilingEngine
         public TileMapLayer(Game game, SpriteBatch spriteBatch, TileMap tm, int layerIndex)
             : base(game, spriteBatch, Vector2.Zero)
         {
+            this.drawEdgesEnabled = false;
+            this.drawBlanksEnabled = false;
             this.layerIndex = layerIndex;
             scrollSpeed = 1.0f;
             this.tm = tm;
@@ -110,6 +129,8 @@ namespace WesternSpace.TilingEngine
         public TileMapLayer(Game game, SpriteBatch spriteBatch, TileMap tm, int layerIndex, float scrollSpeed)
             : this(game, spriteBatch, tm, layerIndex)
         {
+            this.drawEdgesEnabled = false;
+            this.drawBlanksEnabled = false;
             this.scrollSpeed = scrollSpeed;
         }
 
@@ -152,14 +173,34 @@ namespace WesternSpace.TilingEngine
                             {
                                 this.SpriteBatch.Draw(subTexture.Texture, position, subTexture.Rectangle, Color.White);
                             }
+
                         }
+
+                    }
+                    else if (drawBlanksEnabled)
+                    {
+                        DrawBlank(position);
                     }
                 }
             }
 
-            DrawEdges();
+            if (drawEdgesEnabled)
+            {
+                DrawEdges();
+            }
 
             base.Draw(gameTime);
+        }
+
+        // Possibly the best method name ever?
+        private void DrawBlank(Vector2 position)
+        {
+            position.X += 1;
+            Color col = new Color(1,1,1,0.5f);
+            PrimitiveDrawer.Instance.DrawRect(SpriteBatch, 
+                                              new Rectangle((int)position.X, (int)position.Y, tm.tileWidth, tm.tileHeight),
+                                              col);
+            PrimitiveDrawer.Instance.DrawLine(SpriteBatch, position, position + new Vector2(tm.tileWidth, tm.tileHeight), col);
         }
 
         // Useful for debugging and the Editor, draw all solid edges on our tiles.

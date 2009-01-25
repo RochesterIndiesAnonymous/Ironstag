@@ -16,6 +16,20 @@ namespace WesternSpace.DrawableComponents.EditorUI
     //  to select it and edit it's properties.
     public class TileSelector : EditorUIComponent
     {
+        private EdgeToggler edgeToggler;
+
+        public EdgeToggler EdgeToggler
+        {
+            get { return edgeToggler; }
+        }
+
+        private SaveButton saveButton;
+
+        public SaveButton SaveButton
+        {
+            get { return saveButton; }
+        }
+
         private SubTextureSelector[] subTextureSelectors;
 
         public SubTextureSelector[] SubTextureSelectors
@@ -35,9 +49,28 @@ namespace WesternSpace.DrawableComponents.EditorUI
             get { return tileMapLayer.TileMap; }
         }
 
+        private Tile virtualTile;
+
+        public Tile VirtualTile
+        {
+            get { return virtualTile; }
+            set { virtualTile = value; }
+        }
+
         public Tile Tile
         {
-            get { return TileMap.Tiles[tileX, tileY]; }
+            get 
+            {
+                //return virtualTile;
+                if(tileX < 0 || tileY < 0)
+                {
+                    return virtualTile;
+                }
+                else
+                {
+                    return TileMap.Tiles[tileX, tileY];
+                }
+            }
         }
 
         private int tileX;
@@ -54,69 +87,63 @@ namespace WesternSpace.DrawableComponents.EditorUI
             get { return tileY; }
         }
 
-        public void SetTile(int x, int y)
+        public void SelectTile(int x, int y)
         {
             tileX = x; 
-            tileY = y;           
+            tileY = y;
+            if (TileMap.Tiles[x, y] != null)
+            {
+                virtualTile = TileMap.Tiles[x, y];
+            }
         }
 
         #region MOUSE EVENT HANDLERS
-        public override void OnMouseClick(int button)
+
+        protected override void OnMouseClick(int button)
         {
+
             Vector2 pos = TileMapLayer.CalculateMapCoordinatesFromScreenPoint(Mouse.Position);
-            SetTile((int)Math.Round((double)(pos.X), 0),
-                    (int)Math.Round((double)(pos.Y), 0));
+            int x = (int)Math.Round((double)(pos.X), 0);
+            int y = (int)Math.Round((double)(pos.Y), 0);
             if (button == 0) // Left button clicked. Select/Add a tile
             {
-                if (Tile != null)
+                SelectTile(x, y);
+                if (TileMap.Tiles[x, y] == null)
                 {
-                    foreach (SubTextureSelector sts in SubTextureSelectors)
-                    {
-                        sts.CurrentTexture = Tile.Textures[sts.LayerIndex, sts.SubLayerIndex];
-                    }
+                    TileMap.SetTile(new Tile(virtualTile), x, y);
                 }
-                if (TileMap.Tiles[tileX, tileY] == null)
+                SelectTile(x, y);
+            }
+            else if (button == 1) // Middle button clicked. Toggle a tile's edges
+            {
+                Tile t = TileMap.Tiles[x, y];
+                if (t != null)
                 {
-                    SubTexture[,] subTextures = new SubTexture[TileMap.LayerCount, TileMap.SubLayerCount];
-                    for (int i = 0; i < TileMap.LayerCount; ++i)
+                    bool solid = false;
+                    foreach (bool edge in t.InitialEdges)
                     {
-                        for (int j = 0; j < TileMap.SubLayerCount; ++j)
+                        if (edge)
                         {
-                            subTextures[i, j] = subTextureSelectors[i * TileMap.SubLayerCount + j].CurrentTexture;
+                            solid = true;
+                            break;
                         }
                     }
-                    TileMap.SetTile(new Tile(subTextures), tileX, tileY);
+                    TileMap.SetSolid(!solid, x, y);
+                    tileX = tileY = -1;
+                }
+                else
+                {
+                    TileMap.SetTile(new Tile(virtualTile.LayerCount, virtualTile.SubLayerCount), x, y);
                 }
             }
-            else if(button == 2) // Right button clicked. Remove a tile
+            else if (button == 2) // Right button clicked. Remove a tile
             {
-                if (TileMap.Tiles[tileX, tileY] != null)
-                {
-                    TileMap.RemoveTile(tileX, tileY);
-                }
+                SelectTile(x, y);
+                TileMap.RemoveTile(x, y);
+                tileX = tileY = -1;
             }
 
             base.OnMouseClick(button);
-        }
-
-        public override void OnMouseUnclick(int button)
-        {
-            base.OnMouseUnclick(button);
-        }
-
-        public override void OnMouseScroll(int amount)
-        {
-            base.OnMouseEnter();
-        }
-
-        public override void OnMouseEnter()
-        {
-            base.OnMouseEnter();
-        }
-
-        public override void OnMouseLeave()
-        {
-            base.OnMouseLeave();
         }
 
         #endregion
@@ -124,7 +151,11 @@ namespace WesternSpace.DrawableComponents.EditorUI
         public TileSelector(Game game, SpriteBatch spriteBatch, RectangleF bounds, TileMapLayer tileMapLayer)
             : base(game, spriteBatch, bounds)
         {
+            this.tileX = this.tileY = -1; // No tile selected.
+
             this.tileMapLayer = tileMapLayer;
+
+            this.virtualTile = new Tile(TileMap.LayerCount, TileMap.SubLayerCount);
 
             this.subTextureSelectors = new SubTextureSelector[TileMap.SubLayerCount * TileMap.LayerCount];
 
@@ -140,7 +171,25 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 }
             }
 
+            RectangleF tmp = SubTextureSelectors.Last<SubTextureSelector>().Bounds;
+            tmp.Y += 20 + TileMap.tileHeight;
+            this.edgeToggler = new EdgeToggler(Game, SpriteBatch, tmp, this);
+            Game.Components.Add(this.edgeToggler);
+            
+            tmp.Y += 20 + TileMap.tileHeight;
+            tmp.X -= 10;
+            tmp.Width = 30;
+            tmp.Height = 15;
+            this.saveButton = new SaveButton(Game, spriteBatch, tmp, this);
+            Game.Components.Add(this.saveButton);
+        }
 
+        public override void Update(GameTime gameTime)
+        {
+            if (virtualTile == null || virtualTile.IsEmpty())
+                virtualTile = new Tile(TileMap.LayerCount, TileMap.SubLayerCount);
+
+            base.Update(gameTime);
         }
 
         public override void Initialize()
@@ -172,6 +221,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
             }
             base.Draw(gameTime);
         }
+
         #region Draw Helpers
         private void DrawBoundingRect(Vector2 position, Microsoft.Xna.Framework.Graphics.Color color)
         {
@@ -184,6 +234,13 @@ namespace WesternSpace.DrawableComponents.EditorUI
                                                             TileMap.tileWidth + 2*margin - 1, TileMap.tileHeight + 2*margin);
 
             PrimitiveDrawer.Instance.DrawRect(SpriteBatch, rect, color);
+        }
+
+        private void MyDrawRect(Vector2 position, int width, int height, Microsoft.Xna.Framework.Graphics.Color color)
+        {
+            Texture2D tex = new Texture2D(((IGraphicsDeviceManagerService)Game.Services.GetService(typeof(IGraphicsDeviceManagerService))).GraphicsDevice.GraphicsDevice,
+                width, height, 1, TextureUsage.None, SurfaceFormat.Color);
+            SpriteBatch.Draw(tex, position, color);
         }
         #endregion
     }

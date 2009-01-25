@@ -41,7 +41,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         // This element is used to represent the interactive area of 
         //  this UI component.
-        private RectangleF bounds;
+        protected RectangleF bounds;
 
         public RectangleF Bounds
         {
@@ -74,20 +74,20 @@ namespace WesternSpace.DrawableComponents.EditorUI
             this.Color = Microsoft.Xna.Framework.Graphics.Color.Red;
         }
 
-        virtual public void WhileMouseInside()
+        virtual protected void WhileMouseInside()
         {
         }
 
-        virtual public void OnMouseLeave()
+        virtual protected void OnMouseLeave()
         {
             this.Color = Microsoft.Xna.Framework.Graphics.Color.White;
         }
 
-        virtual public void WhileMouseOutside()
+        virtual protected void WhileMouseOutside()
         { 
         }
 
-        virtual public void OnMouseClick(int button)
+        virtual protected void OnMouseClick(int button)
         {
             if (button == 0) // Left click
             {
@@ -103,20 +103,20 @@ namespace WesternSpace.DrawableComponents.EditorUI
             }
         }
 
-        virtual public void WhileMouseHeld(int button)
+        virtual protected void WhileMouseHeld(int button)
         {
         }
 
-        virtual public void OnMouseUnclick(int button)
+        virtual protected void OnMouseUnclick(int button)
         {
             this.Color = Microsoft.Xna.Framework.Graphics.Color.Red;
         }
 
-        virtual public void OnMouseScroll(int amount)
+        virtual protected void OnMouseScroll(int amount)
         {
         }
 
-        virtual public bool MouseIsInside()
+        virtual protected bool MouseIsInside()
         {
             return bounds.Contains(new PointF(inputManager.BetterMouse.ScaledPosition.X, inputManager.BetterMouse.ScaledPosition.Y));
         }
@@ -124,6 +124,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
         public EditorUIComponent(Game game, SpriteBatch spriteBatch, RectangleF bounds)
             :base(game, spriteBatch, new Vector2(bounds.X, bounds.Y))
         {
+            this.Color = Microsoft.Xna.Framework.Graphics.Color.White;
             this.mouseWasInside = false;
             this.bounds = bounds;
             this.heldTime = new int[3];

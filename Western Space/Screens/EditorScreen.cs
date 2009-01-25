@@ -47,6 +47,8 @@ namespace WesternSpace.Screens
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
 
             world = new World(this.Game, "WorldXML\\TestWorld");
+            world.interactiveLayers[0].DrawBlanksEnabled = true;
+            world.interactiveLayers[0].DrawEdgesEnabled = true;
 
             //CreateDebuggingInformationComponents();
             CreateUIComponents();
@@ -58,7 +60,9 @@ namespace WesternSpace.Screens
         private void CreateUIComponents()
         {
             SpriteBatch sb = batchService.GetSpriteBatch(DebuggingOutputComponent.SpriteBatchName);
-            TileSelector ts = new TileSelector(this.Game, sb, new RectangleF(40, 0, 924, 668), world.interactiveLayers[0]);
+
+            // Where all the magic happens:
+            TileSelector ts = new TileSelector(this.Game, sb, new RectangleF(40, 0, 600, 440), world.interactiveLayers[0]);
             ts.DrawOrder = 400;
             this.Game.Components.Add(ts);
         }

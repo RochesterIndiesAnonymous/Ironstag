@@ -71,17 +71,21 @@ namespace WesternSpace.TilingEngine
             this.textureService = (ITextureService)ScreenManager.Instance.Services.GetService(typeof(ITextureService));
         }
 
+        public void SetSolid(bool solidOrNot, int x, int y)
+        {
+            tiles[x, y].SetSolid(solidOrNot);
+            SetTile(tiles[x, y], x, y);
+        }
+
         /// <summary>
         /// Sets the tile at given x,y.
         /// Automatically removes edges of adjacent tiles.
         /// </summary>
         public void SetTile(Tile tile, int x, int y)
         {
-            // Modulo math prevents out-of-bounds errors, and makes for
-            //  easy "warping". But if things are behaving somewhat unusual,
-            //  (ie. tiles from the other side of the map are appearing) it's
-            //  because you're indexes are too high/low.
-
+            // Prevent useless tiles from being added:
+            if (tile != null && tile.IsEmpty())
+                tile = null;
 
             Tile above = y > 0 ? tiles[x, (y - 1)] : null;
             Tile left = x > 0 ? tiles[(x - 1), y] : null;
@@ -124,28 +128,56 @@ namespace WesternSpace.TilingEngine
 
                 // Else, we're adding a tile, so we clear all adjacent
                 //  edges that we have solid edges for.
-                if (above != null && tile.TopEdge && above.BottomEdge)
+                if (above != null)
                 {
-                    tile.TopEdge = false;
-                    above.BottomEdge = false;
+                    if (tile.TopEdge && above.BottomEdge)
+                    {
+                        tile.TopEdge = false;
+                        above.BottomEdge = false;
+                    }
+                    else
+                    {
+                        above.BottomEdge = above.InitialBottomEdge;
+                    }
                 }
 
-                if (left != null && tile.LeftEdge && left.RightEdge)
+                if (left != null)
                 {
-                    tile.LeftEdge = false;
-                    left.RightEdge = false;
+                    if (tile.LeftEdge && left.RightEdge)
+                    {
+                        tile.LeftEdge = false;
+                        left.RightEdge = false;
+                    }
+                    else
+                    {
+                        left.RightEdge = left.InitialRightEdge;
+                    }
                 }
 
-                if (below != null && tile.BottomEdge && below.TopEdge)
+                if (below != null)
                 {
-                    tile.BottomEdge = false;
-                    below.TopEdge = false;
+                    if (tile.BottomEdge && below.TopEdge)
+                    {
+                        tile.BottomEdge = false;
+                        below.TopEdge = false;
+                    }
+                    else
+                    {
+                        below.TopEdge = below.InitialTopEdge;
+                    }
                 }
 
-                if (right != null && tile.RightEdge && right.LeftEdge)
+                if (right != null)
                 {
-                    tile.RightEdge = false;
-                    right.LeftEdge = false;
+                    if (tile.RightEdge && right.LeftEdge)
+                    {
+                        tile.RightEdge = false;
+                        right.LeftEdge = false;
+                    }
+                    else
+                    {
+                        right.LeftEdge = right.InitialLeftEdge;
+                    }
                 }
 
                 foreach (SubTexture subTexture in tile.Textures)

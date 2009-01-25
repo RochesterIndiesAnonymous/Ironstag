@@ -19,9 +19,9 @@ namespace WesternSpace
     public class ScreenManager : Game
     {
         // HACK UNTIL WE GET PROPER SCREENMANAGER FUNCTIONING:
-        private static readonly bool editMode = true;
+        private static readonly bool editMode = false;
 
-        private static ResolutionSettings windowedSettings = new ResolutionSettings(640, 480, 640, 480); 
+        private static ResolutionSettings windowedSettings = new ResolutionSettings(640, 480, 640, 480);
         private static ResolutionSettings fullScreenSettings;
         private static ResolutionSettings currentResolutionSettings;
 

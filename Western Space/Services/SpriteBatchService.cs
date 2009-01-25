@@ -54,7 +54,7 @@ namespace WesternSpace.Services
             batches[cameraSensitiveBatch] = cameraSensitive;
             reverseBatches[cameraSensitive] = cameraSensitiveBatch;
 
-            SpriteBatchDescription staticBatchDescription = new SpriteBatchDescription("Static", SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront,
+            SpriteBatchDescription staticBatchDescription = new SpriteBatchDescription("Static", SpriteBlendMode.AlphaBlend, SpriteSortMode.Deferred,
                 SaveStateMode.None, false);
 
             SpriteBatch staticBatch = new SpriteBatch(this.Game.GraphicsDevice);

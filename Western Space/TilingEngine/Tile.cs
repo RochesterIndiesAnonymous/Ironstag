@@ -18,6 +18,52 @@ namespace WesternSpace.TilingEngine
         private bool[] edges;
 
 
+        // Returns true iff ANY _initial_ edges are solid!
+        public bool IsSolid()
+        {
+            bool solid = false;
+            foreach (bool edge in InitialEdges)
+            {
+                if (edge)
+                {
+                    solid = true;
+                    break;
+                }
+            }
+            return solid;
+        }
+
+        public void SetSolid(bool solidOrNot)
+        {
+            for (int i = 0; i < 4; ++i)
+            {
+                InitialEdges[i] = Edges[i] = solidOrNot;
+            }
+        }
+
+        // If a tile contains no edges or texture data, it can safely
+        //  be referred to with a null. This is useful for preventing useless
+        //  empty tiles from being saved in our map.
+        public bool IsEmpty()
+        {
+            for (int i = 0; i < 4; ++i)
+            {
+                // If we have any edges...
+                if (InitialEdges[i])
+                    return false; // We aren't empty.
+            }
+
+            foreach (SubTexture subTex in Textures)
+            {
+                // Or if we have any texture data...
+                if (subTex != null)
+                    return false; // We aren't empty.
+            }
+
+            // Otherwise, we *are* empty!
+            return true;
+        }
+
         // InitialEdges are the original edge data of the tile, before
         //  the tilemap removed adjacent edges from it. This is so we can
         //  restore it's state when removing an adjacent tile.
@@ -92,8 +138,26 @@ namespace WesternSpace.TilingEngine
             get { return textures.GetLength(1); }
         }
 
-        public Tile()
+        public Tile(int layerCount, int subLayerCount)
         {
+            this.initialEdges = new bool[4];
+            this.initialEdges[0] = this.initialEdges[1] =
+                this.initialEdges[2] = this.initialEdges[3] = true;
+            this.edges = new bool[4];
+            this.initialEdges.CopyTo(this.edges, 0);
+            this.textures = new SubTexture[layerCount, subLayerCount];
+        }
+
+        public Tile(Tile other)
+        {
+            this.initialEdges = new bool[4];
+            other.InitialEdges.CopyTo(this.initialEdges, 0);
+            this.edges = new bool[4];
+            this.initialEdges.CopyTo(this.edges, 0);
+            this.textures = new SubTexture[other.Textures.GetLength(0), other.Textures.GetLength(1)];
+            for (int i = 0; i < other.Textures.GetLength(0); ++i)
+                for (int j = 0; j < other.Textures.GetLength(1); ++j)
+                    this.textures[i,j] = other.Textures[i,j];
         }
 
         public Tile(SubTexture[,] textures)

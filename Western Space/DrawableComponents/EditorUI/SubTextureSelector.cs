@@ -29,29 +29,20 @@ namespace WesternSpace.DrawableComponents.EditorUI
         //  quite a bit.
         private bool selectingSubTexture;
 
-        private SubTexture virtualTexture;
-
         public SubTexture CurrentTexture
         {
             get
             {
-                if (this.Tile != null)
+                if (Tile != null)
                 {
                     return Tile.Textures[layerIndex, subLayerIndex];
                 }
-                else
-                {
-                    return virtualTexture;
-                }
+                else { return null; }
             }
 
             set
             {
-                if (this.Tile != null)
-                {
-                    Tile.Textures[layerIndex, subLayerIndex] = value;
-                }
-                virtualTexture = value;
+                Tile.Textures[layerIndex, subLayerIndex] = value;
             }
         }
 
@@ -134,14 +125,14 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         #region MOUSE EVENT HANDLERS
 
-        public override void OnMouseClick(int button)
+        protected override void OnMouseClick(int button)
         {
-            if (!selectingSubTexture)
+            if (!selectingSubTexture && button == 0)
                 SetSelectingSubTexture(true);
             base.OnMouseClick(button);
         }
 
-        public override void WhileMouseOutside()
+        protected override void WhileMouseOutside()
         {
             if (selectingSubTexture && OutsideTime > 300)
             {
@@ -150,17 +141,13 @@ namespace WesternSpace.DrawableComponents.EditorUI
             base.WhileMouseOutside();
         }
 
-        public override void OnMouseUnclick(int button)
+        protected override void OnMouseUnclick(int button)
         {
             if (selectingSubTexture)
             {
                 if (button == 0) // Left click, select the subTexture we're hovering over
                 {
                     CurrentTexture = hoveringTexture;
-                }
-                else if (button == 2) // Right click, clear the currentTexture
-                {
-                    CurrentTexture = null;
                 }
                 else // Ignore other mouse clicks.
                 {
@@ -169,14 +156,19 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 Mouse.ButtonsUnclicked[button] = false;
                 SetSelectingSubTexture(false);
             }
-            else
+            else if (button == 2) // Right click, clear the currentTexture
             {
-                SetSelectingSubTexture(true);
+                CurrentTexture = null;
+                if (tileSelector.TileX >= 0 && tileSelector.TileY >= 0)
+                {
+                    TileMap.SetTile(Tile, tileSelector.TileX, tileSelector.TileY);
+                }
+                SetSelectingSubTexture(false);
             }
             base.OnMouseUnclick(button);
         }
 
-        public override void OnMouseScroll(int amount)
+        protected override void OnMouseScroll(int amount)
         { 
             // I'm thinking we could change the subTextureSheet
             //  from here.
@@ -214,14 +206,6 @@ namespace WesternSpace.DrawableComponents.EditorUI
             }
         }
 
-/*        public override void Update(GameTime gameTime)
-        {
-            if (Tile != null)
-            {
-                base.Update(gameTime);
-            }
-        }*/
-
         public SubTextureSelector(Game game, SpriteBatch spriteBatch, TileSelector tileSelector, int layerIndex, int subLayerIndex)
             :base(game, spriteBatch, new RectangleF())
         {
@@ -240,7 +224,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
             int vtOffset = layerIndex*(TileMap.SubLayerCount*oneDown + 2*padding) + (subLayerIndex * oneDown) + padding;
             Position = new Vector2(tileSelector.Bounds.Left + hzOffset, tileSelector.Bounds.Top + vtOffset);
 
-            Microsoft.Xna.Framework.Rectangle rect = tileSelector.Tile.Textures[0, 0].Rectangle;
+            Microsoft.Xna.Framework.Rectangle rect = tileSelector.TileMap.Sheets[0].Rectangles[0];
             this.Bounds = new RectangleF(Position.X, Position.Y, rect.Width, rect.Height);
         }
 
@@ -275,7 +259,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 }
                 else
                 {
-                    // Draw an X to indicate that there is *no* texture selected at all.
+                    // Draw a slash to indicate that there is *no* texture selected at all.
                     PrimitiveDrawer.Instance.DrawLine(SpriteBatch, new Vector2(Bounds.X, Bounds.Y), new Vector2(Bounds.X+Bounds.Width, Bounds.Y+Bounds.Height),
                                 Microsoft.Xna.Framework.Graphics.Color.White);
                 }
