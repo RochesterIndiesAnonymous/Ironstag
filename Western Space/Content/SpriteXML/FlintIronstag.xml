@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Animations>
+  <Animation AnimationKey="Idle" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintIdle" FrameWidth="34" FrameHeight="61">
+    <Frame DisplayTime="100" SheetIndex="0" />
+  </Animation>
+  <Animation AnimationKey="Walking" IsLoop="1" SpriteSheet="Textures\\FlintIronstag\\FlintShoot" FrameWidth="64" FrameHeight="61">
+    <Frame DisplayTime="100" SheetIndex="0" />
+    <Frame DisplayTime="150" SheetIndex="1" />
+    <Frame DisplayTime="50" SheetIndex="2" />
+    <Frame DisplayTime="300" SheetIndex="3" />
+  </Animation>
+  <Animation AnimationKey="Jumping" IsLoop="0" SpriteSheet="Textures\\sunsetspin" FrameWidth="29" FrameHeight="31">
+    <Frame DisplayTime="500" SheetIndex="0" />
+    <Frame DisplayTime="50" SheetIndex="1" />
+    <Frame DisplayTime="50" SheetIndex="2" />
+    <Frame DisplayTime="40" SheetIndex="3" />
+    <Frame DisplayTime="40" SheetIndex="4" />
+    <Frame DisplayTime="50" SheetIndex="5" />
+    <Frame DisplayTime="60" SheetIndex="6" />
+    <Frame DisplayTime="40" SheetIndex="7" />
+  </Animation>
+</Animations>

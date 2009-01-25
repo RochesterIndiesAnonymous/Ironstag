@@ -331,7 +331,7 @@ namespace WesternSpace.DrawableComponents.Actors
             {
                 Jump(gameTime);
             }
-            else if (currentKeyboardState.IsKeyDown(Keys.S) == true)
+            else if (currentKeyboardState.IsKeyDown(Keys.K) == true)
             {
                 ChangeState("Walking");
             }
@@ -345,7 +345,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
                 else
                 {
-                    ChangeState("Idle");
+                   ChangeState("Idle");
                 }
             }
 
