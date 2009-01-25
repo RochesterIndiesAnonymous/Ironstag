@@ -38,6 +38,14 @@ namespace WesternSpace
             set { subTextures = value; }
         }
 
+        public Rectangle Rectangle
+        {
+            get 
+            {
+                return new Rectangle(0,0, Texture.Width, Texture.Height);
+            }
+        }
+
         private Rectangle[] rectangles;
 
         public Rectangle[] Rectangles

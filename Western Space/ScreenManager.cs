@@ -18,7 +18,10 @@ namespace WesternSpace
     /// </summary>
     public class ScreenManager : Game
     {
-        private static ResolutionSettings windowedSettings = new ResolutionSettings(1024, 768, 1024, 768); 
+        // HACK UNTIL WE GET PROPER SCREENMANAGER FUNCTIONING:
+        private static readonly bool editMode = true;
+
+        private static ResolutionSettings windowedSettings = new ResolutionSettings(640, 480, 640, 480); 
         private static ResolutionSettings fullScreenSettings;
         private static ResolutionSettings currentResolutionSettings;
 
@@ -42,6 +45,8 @@ namespace WesternSpace
         /// The game screen component to draw to the screen
         /// </summary>
         private GameScreen gameScreen;
+
+        private EditorScreen editorScreen;
 
         /// <summary>
         /// The graphics device manager our game uses
@@ -113,8 +118,16 @@ namespace WesternSpace
             CreateServices();
 
             // create our game screen
-            gameScreen = new GameScreen(this);
-            this.Components.Add(gameScreen);
+            if (editMode)
+            {
+                editorScreen = new EditorScreen(this);
+                this.Components.Add(editorScreen);
+            }
+            else
+            {
+                gameScreen = new GameScreen(this);
+                this.Components.Add(gameScreen);
+            }
 
             // Initialize all components
             base.Initialize();

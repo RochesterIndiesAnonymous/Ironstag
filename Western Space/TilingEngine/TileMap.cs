@@ -150,13 +150,18 @@ namespace WesternSpace.TilingEngine
 
                 foreach (SubTexture subTexture in tile.Textures)
                 {
-                    if (!sheetIndex.Keys.Contains<string>(subTexture.Sheet.Name))
+                    if (subTexture != null && !sheetIndex.Keys.Contains<string>(subTexture.Sheet.Name))
                     {
                         sheetIndex.Add(subTexture.Sheet.Name, sheetIndex.Count);
                     }
                 }
             }
             tiles[x, y] = tile;
+        }
+
+        public void RemoveTile(int x, int y)
+        {
+            SetTile(null, x, y);
         }
 
         public TileMap(string fileName)
@@ -249,7 +254,10 @@ namespace WesternSpace.TilingEngine
                 //       easily be retrieved.
                 // "s" attribute: the SubTextureSheet number to use. Each tilemap keeps a list of these.
                 // "i" attribute: the index into the SubTextureSheet representing a SubTexture of this tile.
-                returnVal.Add(new XElement("x", new XAttribute("s", sheetIndex[sub.Sheet.Name]), new XAttribute("i", sub.Index)));
+                if (sub != null)
+                {
+                    returnVal.Add(new XElement("x", new XAttribute("s", sheetIndex[sub.Sheet.Name]), new XAttribute("i", sub.Index)));
+                }
             }
             return returnVal;
         }

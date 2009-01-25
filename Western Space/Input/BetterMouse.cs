@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 using WesternSpace.ServiceInterfaces;
+using WesternSpace.TilingEngine;
 
 namespace WesternSpace.Input
 {
@@ -58,7 +59,7 @@ namespace WesternSpace.Input
             {
                 IScreenResolutionService resolutionService = ScreenManager.Instance.ResolutionService;
                 Vector2 offset = new Vector2(resolutionService.ScaleRectangle.X, resolutionService.ScaleRectangle.Y);
-                return ((position - offset) / resolutionService.ScaleFactor);            
+                return ((position - offset) / resolutionService.ScaleFactor);
             }
         }
 

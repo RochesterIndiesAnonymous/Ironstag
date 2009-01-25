@@ -20,10 +20,10 @@ namespace WesternSpace
         /// <summary>
         /// The spritebatch object this game object is to use to draw itself
         /// </summary>
-        protected SpriteBatch SpriteBatch
+        public SpriteBatch SpriteBatch
         {
             get { return spriteBatch; }
-            set { spriteBatch = value; }
+            protected set { spriteBatch = value; }
         }
 
         /// <summary>

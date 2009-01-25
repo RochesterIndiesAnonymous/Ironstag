@@ -26,12 +26,16 @@ namespace WesternSpace
         private TileMap[] otherMaps;
 
         // int represents the Z-index the layer is drawn at.
-        public Dictionary<int, TileMapLayer> layers;
+        public Dictionary<int, TileMapLayer> interactiveLayers;
         
+        // int represents the Z-index the layer is drawn at.
+        public Dictionary<int, TileMapLayer> parallaxLayers;
+
         public World(Game game)
             : base(game)
         {
-            this.layers = new Dictionary<int, TileMapLayer>();
+            this.interactiveLayers = new Dictionary<int, TileMapLayer>();
+            this.parallaxLayers = new Dictionary<int, TileMapLayer>();
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
         }
 
@@ -54,7 +58,8 @@ namespace WesternSpace
             #endregion
 
             //this.camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
-            this.layers = new Dictionary<int, TileMapLayer>();
+            this.interactiveLayers = new Dictionary<int, TileMapLayer>();
+            this.parallaxLayers = new Dictionary<int, TileMapLayer>();
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
             LoadWorldXmlFile(fileName);
         }
@@ -89,11 +94,11 @@ namespace WesternSpace
                 Int32.TryParse(mapLayer.Attribute("LayerIndex").Value, out LayerIndex);
                 Int32.TryParse(mapLayer.Attribute("ZIndex").Value, out ZIndex);
 
-                layers[ZIndex] = new TileMapLayer(this.Game, batchService.GetSpriteBatch(TileMapLayer.SpriteBatchName), map, LayerIndex);
-                layers[ZIndex].DrawOrder = ZIndex;
+                interactiveLayers[ZIndex] = new TileMapLayer(this.Game, batchService.GetSpriteBatch(TileMapLayer.SpriteBatchName), map, LayerIndex);
+                interactiveLayers[ZIndex].DrawOrder = ZIndex;
 
-                Game.Components.Add(layers[ZIndex]);
-                layerService.Layers[LayerName] = layers[ZIndex];
+                Game.Components.Add(interactiveLayers[ZIndex]);
+                layerService.Layers[LayerName] = interactiveLayers[ZIndex];
             }
 
             IEnumerable<XElement> allParallaxMaps = fileContents.Descendants("Parallax");
@@ -120,11 +125,11 @@ namespace WesternSpace
                     Int32.TryParse(parallaxLayer.Attribute("LayerIndex").Value, out LayerIndex);
                     Int32.TryParse(parallaxLayer.Attribute("ZIndex").Value, out ZIndex);
 
-                    layers[ZIndex] = new TileMapLayer(this.Game, batchService.GetSpriteBatch(TileMapLayer.SpriteBatchName), tileMap, LayerIndex, ScrollSpeed);
-                    layers[ZIndex].DrawOrder = ZIndex;
+                    parallaxLayers[ZIndex] = new TileMapLayer(this.Game, batchService.GetSpriteBatch(TileMapLayer.SpriteBatchName), tileMap, LayerIndex, ScrollSpeed);
+                    parallaxLayers[ZIndex].DrawOrder = ZIndex;
 
-                    Game.Components.Add(layers[ZIndex]);
-                    layerService.Layers[LayerName] = layers[ZIndex];
+                    Game.Components.Add(parallaxLayers[ZIndex]);
+                    layerService.Layers[LayerName] = parallaxLayers[ZIndex];
                 }
             }
         }

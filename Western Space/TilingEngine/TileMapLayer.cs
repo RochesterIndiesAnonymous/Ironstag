@@ -23,14 +23,29 @@ namespace WesternSpace.TilingEngine
 
         private ICameraService camera;
 
+        public ICameraService Camera
+        {
+            get { return camera; }
+        }
+
         private IScreenResolutionService resolutionService;
 
         private TileMap tm;
 
         private float scrollSpeed;
 
+        public float ScrollSpeed
+        {
+            get { return scrollSpeed; }
+            set { scrollSpeed = value; }
+        }
+
         private int layerIndex;
 
+        public TileMap TileMap
+        {
+            get { return tm; }
+        }
 
         // The integer index ranges of the last tiles that were drawn.
         private int startX, startY, endX, endY;
@@ -133,7 +148,10 @@ namespace WesternSpace.TilingEngine
                         for (int subLayerIndex = 0; subLayerIndex < tm.SubLayerCount; ++subLayerIndex)
                         {
                             SubTexture subTexture = tm.Tiles[x, y].Textures[layerIndex, subLayerIndex];
-                            this.SpriteBatch.Draw(subTexture.Texture, position, subTexture.Rectangle, Color.White);
+                            if (subTexture != null)
+                            {
+                                this.SpriteBatch.Draw(subTexture.Texture, position, subTexture.Rectangle, Color.White);
+                            }
                         }
                     }
                 }

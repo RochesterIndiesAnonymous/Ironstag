@@ -26,6 +26,10 @@ namespace WesternSpace.ServiceInterfaces
             get;
         }
 
+        SubTextureSheet[] SheetsArray
+        {
+            get;
+        }
 
         /// <summary>
         /// Gets a texture from the content directory. Uses the cache if it has already been loaded

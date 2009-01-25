@@ -46,6 +46,7 @@ namespace WesternSpace.Screens
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
 
             #region DELETE ME
+            /*
             TileEngine te = new TileEngine();
             TileMap btm = te.LoadTileMap("Layers//BigTestLayer", "LayerXML//TestLayer");
             TileMap tm = te.LoadTileMap("Layers//TestLayer", "LayerXML//TestLayer");
@@ -53,6 +54,7 @@ namespace WesternSpace.Screens
             doc.Save("BigTileMap.xml");
             XDocument doc2 = new XDocument(tm.ToXElement());
             doc2.Save("TestTileMap.xml");
+            */
             #endregion
 
             CreateLayerComponents();
@@ -133,7 +135,7 @@ namespace WesternSpace.Screens
             this.Game.Components.Add(mwcc);
             doc.DebugLines.Add(mwcc);
 
-            MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, World.layers[0]);
+            MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, World.interactiveLayers[0]);
             mcc.UpdateOrder = 3;
             this.Game.Components.Add(mcc);
             doc.DebugLines.Add(mcc);

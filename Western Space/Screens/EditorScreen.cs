@@ -48,7 +48,7 @@ namespace WesternSpace.Screens
 
             world = new World(this.Game, "WorldXML\\TestWorld");
 
-            CreateDebuggingInformationComponents();
+            //CreateDebuggingInformationComponents();
             CreateUIComponents();
 
             // Initialize all components
@@ -58,7 +58,7 @@ namespace WesternSpace.Screens
         private void CreateUIComponents()
         {
             SpriteBatch sb = batchService.GetSpriteBatch(DebuggingOutputComponent.SpriteBatchName);
-            TextureSelector ts = new TextureSelector(this.Game, sb, new RectangleF(20, 20, 100, 100));
+            TileSelector ts = new TileSelector(this.Game, sb, new RectangleF(40, 0, 924, 668), world.interactiveLayers[0]);
             ts.DrawOrder = 400;
             this.Game.Components.Add(ts);
         }
@@ -87,7 +87,7 @@ namespace WesternSpace.Screens
             this.Game.Components.Add(mwcc);
             doc.DebugLines.Add(mwcc);
 
-            MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, World.layers[0]);
+            MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, World.interactiveLayers[0]);
             mcc.UpdateOrder = 3;
             this.Game.Components.Add(mcc);
             doc.DebugLines.Add(mcc);

@@ -47,6 +47,11 @@ namespace WesternSpace.Services
             get { return sheets; }
         }
 
+        public SubTextureSheet[] SheetsArray
+        {
+            get { return sheets.Values.ToArray<SubTextureSheet>(); }
+        }
+
         /// <summary>
         /// Gets a texture from the content directory. Uses the cache if it has already been loaded
         /// </summary>
