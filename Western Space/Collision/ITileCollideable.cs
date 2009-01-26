@@ -14,6 +14,6 @@ namespace WesternSpace.Collision
         {
             get;
         }
-        Vector2 OnTileColision(Tile tile, CollisionHotspot hotSpot, Vector2 tileWorldPosition);
+        Vector2 OnTileColision(Tile tile, CollisionHotspot hotSpot, Rectangle tileRectangle);
     }
 }

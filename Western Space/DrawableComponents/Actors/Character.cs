@@ -117,7 +117,7 @@ namespace WesternSpace.DrawableComponents.Actors
             : base(game, spriteBatch, position)
         {
             this.Position = position;
-            this.hotspots = new List<CollisionHotspot>();
+            this.collisionHotSpots = new List<CollisionHotspot>();
             animationMap = new Dictionary<string, Animation>();
 
         }
@@ -151,13 +151,13 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         #region ITileCollideable Members
-        protected List<CollisionHotspot> hotspots;
+        protected List<CollisionHotspot> collisionHotSpots;
         public List<CollisionHotspot> Hotspots
         {
-            set { hotspots = value; }
-            get { return hotspots; }
+            set { collisionHotSpots = value; }
+            get { return collisionHotSpots; }
         }
-        public Vector2 OnTileColision(Tile tile, CollisionHotspot hotSpot, Vector2 tileWorldPosition)
+        public Vector2 OnTileColision(Tile tile, CollisionHotspot hotSpot, Rectangle tileRectangle)
         {
             Vector2 newPosition = hotSpot.HostPosition;
             // Default Collision Actions
@@ -165,11 +165,22 @@ namespace WesternSpace.DrawableComponents.Actors
             {
                 // Puts the sprite above the tile;      
                 newPosition = new Vector2(hotSpot.HostPosition.X,
-                    hotSpot.HostPosition.Y - (hotSpot.WorldPosition.Y - tileWorldPosition.Y));
+                    hotSpot.HostPosition.Y - (hotSpot.WorldPosition.Y - tileRectangle.Top));
             }
             if (tile.BottomEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.top)
             {
-
+                newPosition = new Vector2(hotSpot.HostPosition.X,
+                    hotSpot.HostPosition.Y + (tileRectangle.Bottom - hotSpot.WorldPosition.Y));
+            }
+            if (tile.LeftEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.right)
+            {
+                newPosition = new Vector2(hotSpot.HostPosition.X - (tileRectangle.Right - hotSpot.WorldPosition.X),
+                    hotSpot.HostPosition.Y);
+            }
+            if (tile.RightEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.left)
+            {
+                newPosition = new Vector2(hotSpot.HostPosition.X + (hotSpot.WorldPosition.X - tileRectangle.Left),
+                 hotSpot.HostPosition.Y);
             }
             this.Position = newPosition;
             return newPosition;
