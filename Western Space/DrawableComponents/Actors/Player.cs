@@ -345,6 +345,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
                 else
                 {
+
                    ChangeState("Idle");
                 }
             }
