@@ -139,7 +139,7 @@ namespace WesternSpace.DrawableComponents.Actors
             if (pressedJump)
             {
                 //Start a Jump or continue jumping
-                if ((currentState.Equals("Jumping") && isOnGround) || jumpTime > 0.0f)
+                if ((!currentState.Equals("Jumping") && isOnGround) || jumpTime > 0.0f)
                 {
                     if (jumpTime == 0.0f)
                     {
@@ -284,7 +284,9 @@ namespace WesternSpace.DrawableComponents.Actors
 
             //Add the Velocity to the Position
             Position += velocity * timePassed;
+            //System.Diagnostics.Debug.WriteLine("Position is: "+Position);
             Position = new Vector2((float)Math.Round(Position.X), (float)Math.Round(Position.Y));
+           // System.Diagnostics.Debug.WriteLine("New Position is: " + Position);
 
             //Collision Detection Time I guess?
 
