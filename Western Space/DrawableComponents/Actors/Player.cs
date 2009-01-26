@@ -92,9 +92,6 @@ namespace WesternSpace.DrawableComponents.Actors
         // The time the character has been jumping
         private float jumpTime;
 
-        // True if the character is currently on the ground
-        private bool isOnGround = true;
-
         // The constructor for Flint Ironstag
         public Player(Game game, SpriteBatch spriteBatch, Vector2 position, String xmlFile)
             : base(game, spriteBatch, position, xmlFile)
@@ -147,10 +144,11 @@ namespace WesternSpace.DrawableComponents.Actors
                     if (jumpTime == 0.0f)
                     {
                         //Play Sound if necessary
+                        ChangeState("Jumping");
+                        isOnGround = false;
                     }
 
                     jumpTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    ChangeState("Jumping");
                 }
 
                 //If in jump ascent
@@ -336,10 +334,6 @@ namespace WesternSpace.DrawableComponents.Actors
             if (pressedJump)
             {
                 Jump(gameTime);
-            }
-            else if (currentKeyboardState.IsKeyDown(Keys.K) == true)
-            {
-                ChangeState("Walking");
             }
             /* ======= END OF EXAMPLE TEST CODE ========= */
 

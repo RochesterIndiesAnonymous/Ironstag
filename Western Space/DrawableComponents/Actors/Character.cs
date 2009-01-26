@@ -107,6 +107,9 @@ namespace WesternSpace.DrawableComponents.Actors
             get { return Character.spriteBatchName; }
         }
 
+        // True if the character is currently on the ground
+        protected bool isOnGround = true;
+
         // Character constructor.
         // param: game - The over-arching Game object.
         // param: spriteBatch - The spriteBatch used to draw this object.
@@ -166,24 +169,30 @@ namespace WesternSpace.DrawableComponents.Actors
                 // Puts the sprite above the tile;      
                 newPosition = new Vector2(hotSpot.HostPosition.X,
                     hotSpot.HostPosition.Y - (hotSpot.WorldPosition.Y - tileRectangle.Top));
+                isOnGround = true;
             }
             if (tile.BottomEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.top)
             {
                 newPosition = new Vector2(hotSpot.HostPosition.X,
                     hotSpot.HostPosition.Y + (tileRectangle.Bottom - hotSpot.WorldPosition.Y));
+                isOnGround = false;
             }
-            // Right 
             if (tile.LeftEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.right)
             {
-                newPosition = new Vector2(hotSpot.HostPosition.X - (hotSpot.WorldPosition.X - tileRectangle.Left),
+                newPosition = new Vector2(hotSpot.HostPosition.X - (tileRectangle.Right - hotSpot.WorldPosition.X),
                     hotSpot.HostPosition.Y);
             }
-            // Left
             if (tile.RightEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.left)
             {
-                newPosition = new Vector2(hotSpot.HostPosition.X + (tileRectangle.Right - hotSpot.WorldPosition.X),
+                newPosition = new Vector2(hotSpot.HostPosition.X + (hotSpot.WorldPosition.X - tileRectangle.Left),
                  hotSpot.HostPosition.Y);
             }
+
+            if (this.Position == newPosition)
+            {
+                isOnGround = false;
+            }
+
             this.Position = newPosition;
             return newPosition;
         }

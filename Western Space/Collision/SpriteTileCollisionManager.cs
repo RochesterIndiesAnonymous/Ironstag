@@ -56,7 +56,7 @@ namespace WesternSpace.Collision
                    {
                        Rectangle tileRect = new Rectangle(tileCoord.X * worldMap.tileWidth, 
                            tileCoord.Y * worldMap.tileHeight, worldMap.tileWidth, worldMap.tileHeight);
-                       collideableObject.OnTileColision(tile, hotspot, tileRect);
+                    collideableObject.OnTileColision(tile, hotspot, tileRect);
                    }    
                 }
             }
