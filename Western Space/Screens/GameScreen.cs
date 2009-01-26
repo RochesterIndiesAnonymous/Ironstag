@@ -103,12 +103,18 @@ namespace WesternSpace.Screens
             toadMan.DrawOrder = 0;
             this.Game.Components.Add(toadMan);
 
-            Player flint = new Player(this.Game, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(300, 100), "SpriteXML\\FlintIronstag");
+
+            Player flint = new Player(this.Game, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(251, 79), "SpriteXML\\ToadMan");
+          
+           
             flint.UpdateOrder = 3;
             flint.DrawOrder = 0;
             this.Game.Components.Add(flint);
+            
             tileCollisionManager = new SpriteTileCollisionManager(this.Game, this.world);
+            tileCollisionManager.addObjectToList(flint);
             this.Game.Components.Add(tileCollisionManager);
+
         }
 
         private void CreateDebuggingInformationComponents()
