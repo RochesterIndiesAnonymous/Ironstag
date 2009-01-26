@@ -29,12 +29,12 @@ namespace WesternSpace
         /// <summary>
         /// The coordinates that this component is to be drawn at
         /// </summary>
-        private Vector2 position;
+        protected Vector2 position;
 
         /// <summary>
         /// The coordinates that this component is to be drawn at
         /// </summary>
-        protected Vector2 Position
+        public Vector2 Position
         {
             get { return position; }
             set { position = value; }
