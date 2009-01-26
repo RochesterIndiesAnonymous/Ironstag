@@ -33,7 +33,7 @@ namespace WesternSpace.DrawableComponents.Actors
         // -Vertical Movement Constants
 
         // Longest amount of time a jump can last
-        private const float maxJumpTime = 0.35f;
+        private const float maxJumpTime = 0.7f;
 
         // Acceleration due to Gravity
         private const float gravity = 3500.0f;
@@ -281,6 +281,7 @@ namespace WesternSpace.DrawableComponents.Actors
 
             //Check top speed of player
             velocity.X = MathHelper.Clamp(velocity.X, -maxMoveSpeed, maxMoveSpeed);
+            velocity.Y = MathHelper.Clamp(velocity.Y, -maxMoveSpeed, maxMoveSpeed);
 
             //Add the Velocity to the Position
             Position += velocity * timePassed;
@@ -347,7 +348,6 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
                 else
                 {
-
                    ChangeState("Idle");
                 }
             }
