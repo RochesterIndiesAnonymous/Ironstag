@@ -22,7 +22,7 @@ namespace WesternSpace.DrawableComponents.Actors
         private const float moveAcceleration = 14000.0f;
 
         // Maximum Movement Speed
-        private const float maxMoveSpeed = 2000.0f;
+        private const float maxMoveSpeed = 200.0f;
 
         // Friction of the Ground
         private const float groundFriction = 0.58f;
