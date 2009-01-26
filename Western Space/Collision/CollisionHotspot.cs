@@ -3,34 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using WesternSpace.DrawableComponents.Actors;
 
 namespace WesternSpace.Collision
-{
-    // Collision Hotspot tune sprite collisions
-    public class CollisionHotspot
-    {
-        public enum HOTSPOT_TYPE
+{  
+    public enum HOTSPOT_TYPE
         {
             left,
             right,
             top,
             bottom
         };
-        protected Vector2 position;
-        public Vector2 Position
+    // Collision Hotspot tune sprite collisions
+    public class CollisionHotspot
+    {
+      
+        DrawableGameObject refGameObject;
+        protected Vector2 offsetPosition;
+        protected Vector2 worldPosition;
+        public Vector2 WorldPosition
         {
-            get { return position; }
+            get 
+            {
+                worldPosition = refGameObject.Position + offsetPosition;
+                return worldPosition;
+            }
         }
-        protected Vector2 offset;
+        public Vector2 HostPosition
+        {
+            get { return refGameObject.Position; }
+        }
         public Vector2 Offset
         {
-            get { return offset; }
+            get { return offsetPosition; }
         }
         protected HOTSPOT_TYPE hotspotType;
-        public CollisionHotspot(Vector2 hostPosition, Vector2 offset, HOTSPOT_TYPE type)
+        public HOTSPOT_TYPE HotSpotType
         {
-            this.position = hostPosition;
-            this.offset = offset;
+            get { return hotspotType; }
+        }
+        public CollisionHotspot(DrawableGameObject hostObject, Vector2 offset, HOTSPOT_TYPE type)
+        {
+            refGameObject = hostObject;
+            this.offsetPosition = offset;
             this.hotspotType = type;
         }
     }

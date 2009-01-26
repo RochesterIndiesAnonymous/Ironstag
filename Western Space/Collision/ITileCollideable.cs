@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WesternSpace.TilingEngine;
+using Microsoft.Xna.Framework;
 
 namespace WesternSpace.Collision
 {
     // ICollidable is a framwork to add actions when objects collide
-    public interface ICollideable
+    public interface ITileCollideable
     {
         List<CollisionHotspot> Hotspots
         {
             get;
         }
-        // Note May need to pass some variable like distance and which edge it collided with
-        void SpriteTileCollision();
-        void SpriteSpriteCollision();
+        Vector2 OnTileColision(Tile tile, CollisionHotspot hotSpot, Vector2 tileWorldPosition);
     }
 }
