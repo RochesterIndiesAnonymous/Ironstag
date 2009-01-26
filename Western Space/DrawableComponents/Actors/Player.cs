@@ -128,9 +128,10 @@ namespace WesternSpace.DrawableComponents.Actors
             //Set the position
             this.Position = position;
 
-            this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(0, 0), HOTSPOT_TYPE.top));
-
-            this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(0, 39), HOTSPOT_TYPE.bottom));
+            this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(16, 0), HOTSPOT_TYPE.top));
+            this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(0, 16), HOTSPOT_TYPE.left));
+            this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(36, 16), HOTSPOT_TYPE.right));
+            this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(16, 39), HOTSPOT_TYPE.bottom));
         }
 
         // Called when the player presses the jump button. If the player is already
