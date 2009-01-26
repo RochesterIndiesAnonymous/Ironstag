@@ -9,10 +9,12 @@ using WesternSpace.Screens;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.AnimationFramework;
+using WesternSpace.Collision;
+using WesternSpace.TilingEngine;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    public abstract class Character : DrawableGameObject
+    public abstract class Character : DrawableGameObject, ITileCollideable
     {
 
         // The name used to identify the specific character.
@@ -115,6 +117,7 @@ namespace WesternSpace.DrawableComponents.Actors
             : base(game, spriteBatch, position)
         {
             this.Position = position;
+            this.hotspots = new List<CollisionHotspot>();
             animationMap = new Dictionary<string, Animation>();
 
         }
@@ -146,5 +149,32 @@ namespace WesternSpace.DrawableComponents.Actors
                 animationPlayer.PlayAnimation(animationMap[newState]);
             }
         }
+
+        #region ITileCollideable Members
+        protected List<CollisionHotspot> hotspots;
+        public List<CollisionHotspot> Hotspots
+        {
+            set { hotspots = value; }
+            get { return hotspots; }
+        }
+        public Vector2 OnTileColision(Tile tile, CollisionHotspot hotSpot, Vector2 tileWorldPosition)
+        {
+            Vector2 newPosition = hotSpot.HostPosition;
+            // Default Collision Actions
+            if (tile.TopEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.bottom)
+            {
+                // Puts the sprite above the tile;      
+                newPosition = new Vector2(hotSpot.HostPosition.X,
+                    hotSpot.HostPosition.Y - (hotSpot.WorldPosition.Y - tileWorldPosition.Y));
+            }
+            if (tile.BottomEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.top)
+            {
+
+            }
+            this.Position = newPosition;
+            return newPosition;
+        }
+
+        #endregion
     }
 }

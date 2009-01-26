@@ -8,13 +8,14 @@ using Microsoft.Xna.Framework;
 using WesternSpace.ServiceInterfaces;
 using Microsoft.Xna.Framework.Input;
 using WesternSpace.AnimationFramework;
+using WesternSpace.Collision;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
     class Player : Character
     {
         // --- Constants ---
-
+       
         // -Horizontal Movement Constants
 
         // Acceleration Constant
@@ -38,7 +39,7 @@ namespace WesternSpace.DrawableComponents.Actors
         private const float gravity = 3500.0f;
 
         // Maximum Falling SPeed
-        private const float maxFallSpeed = 600.0f;
+        private const float maxFallSpeed = 60.0f;
 
         // Helps to give the player more control of the character
         // in the air.
@@ -126,6 +127,10 @@ namespace WesternSpace.DrawableComponents.Actors
 
             //Set the position
             this.Position = position;
+
+            this.hotspots.Add(new CollisionHotspot(this, new Vector2(0, 0), HOTSPOT_TYPE.top));
+
+            this.hotspots.Add(new CollisionHotspot(this, new Vector2(0, 39), HOTSPOT_TYPE.bottom));
         }
 
         // Called when the player presses the jump button. If the player is already
