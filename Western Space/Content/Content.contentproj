@@ -258,8 +258,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\TestSheetInfo.xml">
-      <Name>TestSheetInfo</Name>
+    <Compile Include="Textures\Sheets.xml">
+      <Name>Sheets</Name>
       <Importer>XDocumentImporter</Importer>
       <Processor>XDocumentProcessor</Processor>
     </Compile>
@@ -295,6 +295,20 @@
   <ItemGroup>
     <Compile Include="Textures\desertSpriteSheet.png">
       <Name>desertSpriteSheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\cavesheet.png">
+      <Name>cavesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\sandzonesheet.png">
+      <Name>sandzonesheet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

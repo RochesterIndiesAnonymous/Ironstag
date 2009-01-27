@@ -29,6 +29,8 @@ namespace WesternSpace.Input
             get { return buttonsClicked; }
         }
 
+        // The int represents how many milliseconds the button
+        //  has been held down for.
         private int[] buttonsHeld;
 
         public int[] ButtonsHeld

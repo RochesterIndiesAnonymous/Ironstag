@@ -101,7 +101,7 @@ namespace WesternSpace.TilingEngine
 
         public float MaximumX
         {
-            get { return tm.tileWidth * tm.Tiles.GetLength(0); }
+            get { return tm.TileWidth * tm.Tiles.GetLength(0); }
         }
 
         public float MinimumY
@@ -111,7 +111,7 @@ namespace WesternSpace.TilingEngine
 
         public float MaximumY
         {
-            get { return tm.tileHeight * tm.Tiles.GetLength(1); }
+            get { return tm.TileHeight * tm.Tiles.GetLength(1); }
         }
 
         #endregion
@@ -149,18 +149,18 @@ namespace WesternSpace.TilingEngine
             float cam_w = camera.VisibleArea.Width;
             float cam_h = camera.VisibleArea.Height;
 
-            startX = (int)MathHelper.Clamp((float)Math.Floor((cam_x / tm.tileWidth)), 0.0f, (float)tm.Width);
-            startY = (int)MathHelper.Clamp((float)Math.Floor((cam_y / tm.tileHeight)), 0.0f, (float)tm.Height);
+            startX = (int)MathHelper.Clamp((float)Math.Floor((cam_x / tm.TileWidth)), 0.0f, (float)tm.Width);
+            startY = (int)MathHelper.Clamp((float)Math.Floor((cam_y / tm.TileHeight)), 0.0f, (float)tm.Height);
 
-            endX = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_x + cam_w) / tm.tileWidth)), 0.0f, (float)tm.Width);
-            endY = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_y + cam_h) / tm.tileWidth)), 0.0f, (float)tm.Height);
+            endX = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_x + cam_w) / tm.TileWidth)), 0.0f, (float)tm.Width);
+            endY = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_y + cam_h) / tm.TileWidth)), 0.0f, (float)tm.Height);
 
 
             for (int x = startX; x < endX; ++x)
             {
                 for (int y = startY; y < endY; ++y)
                 {
-                    Vector2 position = new Vector2(x * tm.tileWidth, y * tm.tileHeight) + 
+                    Vector2 position = new Vector2(x * tm.TileWidth, y * tm.TileHeight) + 
                         (camera.Position - camera.Position*scrollSpeed);
                     position.X = (int)Math.Round(position.X, 0);
                     position.Y = (int)Math.Round(position.Y, 0);
@@ -198,9 +198,9 @@ namespace WesternSpace.TilingEngine
             position.X += 1;
             Color col = new Color(1,1,1,0.5f);
             PrimitiveDrawer.Instance.DrawRect(SpriteBatch, 
-                                              new Rectangle((int)position.X, (int)position.Y, tm.tileWidth, tm.tileHeight),
+                                              new Rectangle((int)position.X, (int)position.Y, tm.TileWidth, tm.TileHeight),
                                               col);
-            PrimitiveDrawer.Instance.DrawLine(SpriteBatch, position, position + new Vector2(tm.tileWidth, tm.tileHeight), col);
+            PrimitiveDrawer.Instance.DrawLine(SpriteBatch, position, position + new Vector2(tm.TileWidth, tm.TileHeight), col);
         }
 
         // Useful for debugging and the Editor, draw all solid edges on our tiles.
@@ -214,10 +214,10 @@ namespace WesternSpace.TilingEngine
             {
                 for (int y = startY; y < endY; ++y)
                 {
-                    topLeft = new Vector2(x * tm.tileWidth, y * tm.tileHeight)+(camera.Position - camera.Position * scrollSpeed);
-                    topRight = topLeft + (new Vector2((float)tm.tileWidth, .0f));
-                    bottomLeft = topLeft + (new Vector2(.0f, (float)tm.tileHeight));
-                    bottomRight = bottomLeft + (new Vector2((float)tm.tileWidth, .0f));
+                    topLeft = new Vector2(x * tm.TileWidth, y * tm.TileHeight)+(camera.Position - camera.Position * scrollSpeed);
+                    topRight = topLeft + (new Vector2((float)tm.TileWidth, .0f));
+                    bottomLeft = topLeft + (new Vector2(.0f, (float)tm.TileHeight));
+                    bottomRight = bottomLeft + (new Vector2((float)tm.TileWidth, .0f));
 
                     tile = tm.Tiles[x, y];
                     if (tile != null) 
@@ -248,7 +248,7 @@ namespace WesternSpace.TilingEngine
         public Vector2 CalculateMapCoordinatesFromScreenPoint(Vector2 atPoint)
         {
             Vector2 offset = new Vector2(resolutionService.ScaleRectangle.X, resolutionService.ScaleRectangle.Y);
-            atPoint = (((atPoint - offset) / resolutionService.ScaleFactor) + camera.Position)/(new Vector2(tm.tileWidth, tm.tileHeight));
+            atPoint = (((atPoint - offset) / resolutionService.ScaleFactor) + camera.Position)/(new Vector2(tm.TileWidth, tm.TileHeight));
             atPoint.X = (int)Math.Floor(atPoint.X);
             atPoint.Y = (int)Math.Floor(atPoint.Y);
             return atPoint;

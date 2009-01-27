@@ -21,7 +21,7 @@ namespace WesternSpace.Screens
         private ISpriteBatchService batchService;
         private World world;
         public SpriteTileCollisionManager tileCollisionManager;
-        public SpriteSpriteCollisionManager spriteCollisionManager;
+        //public SpriteSpriteCollisionManager spriteCollisionManager;
         public World World
         {
             get { return world; }
@@ -45,18 +45,6 @@ namespace WesternSpace.Screens
             // CreateSprites needs the animation data service
             // animationDataService = (IAnimationDataService)this.Game.Services.GetService(typeof(IAnimationDataService));
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
-
-            #region DELETE ME
-            /*
-            TileEngine te = new TileEngine();
-            TileMap btm = te.LoadTileMap("Layers//BigTestLayer", "LayerXML//TestLayer");
-            TileMap tm = te.LoadTileMap("Layers//TestLayer", "LayerXML//TestLayer");
-            XDocument doc = new XDocument(btm.ToXElement());
-            doc.Save("BigTileMap.xml");
-            XDocument doc2 = new XDocument(tm.ToXElement());
-            doc2.Save("TestTileMap.xml");
-            */
-            #endregion
 
             CreateLayerComponents();
 
@@ -116,8 +104,8 @@ namespace WesternSpace.Screens
             tileCollisionManager.addObjectToList(flint);
             this.Game.Components.Add(tileCollisionManager);
 
-            spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game);
-            this.Game.Components.Add(spriteCollisionManager);
+            //spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game);
+            //this.Game.Components.Add(spriteCollisionManager);
         }
 
         private void CreateDebuggingInformationComponents()

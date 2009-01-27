@@ -43,7 +43,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
         //  this UI component.
         protected RectangleF bounds;
 
-        public RectangleF Bounds
+        virtual public RectangleF Bounds
         {
             get { return bounds; }
             set { bounds = value; }
@@ -69,6 +69,8 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         private bool mouseWasInside;
 
+        // Mouse entering/leaving:
+
         virtual public void OnMouseEnter()
         {
             this.Color = Microsoft.Xna.Framework.Graphics.Color.Red;
@@ -87,6 +89,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
         { 
         }
 
+        // Mouse clicking/unclicking inside:
         virtual protected void OnMouseClick(int button)
         {
             if (button == 0) // Left click
@@ -115,6 +118,24 @@ namespace WesternSpace.DrawableComponents.EditorUI
         virtual protected void OnMouseScroll(int amount)
         {
         }
+
+        // Mouse clicking/unclicking outside:
+        virtual protected void OnMouseClickOutside(int button)
+        { 
+        }
+
+        virtual protected void WhileMouseHeldOutside(int button)
+        {
+        }
+
+        virtual protected void OnMouseUnClickOutside(int button)
+        {
+        }
+
+        virtual protected void OnMouseScrollOutside(int amount)
+        {
+        }
+
 
         virtual protected bool MouseIsInside()
         {
@@ -184,6 +205,28 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 insideTime = insideTime - gameTime.ElapsedGameTime.Milliseconds;
 
                 WhileMouseOutside();
+
+                for (int i = 0; i < 3; ++i)
+                {
+                    if (mouse.ButtonsClicked[i])
+                        OnMouseClickOutside(i);
+                    if (mouse.ButtonsHeld[i] > 0)
+                    {
+                        heldTime[i] += gameTime.ElapsedGameTime.Milliseconds;
+                        WhileMouseHeldOutside(i);
+                    }
+                    else
+                    {
+                        heldTime[i] = 0;
+                    }
+                    if (mouse.ButtonsUnclicked[i])
+                        OnMouseUnClickOutside(i);
+                }
+                int scrollAmount = mouse.ScrollAmount;
+                if (scrollAmount != 0)
+                {
+                    OnMouseScrollOutside(scrollAmount);
+                }
             }
 
             mouseWasInside = mouseIsInside;

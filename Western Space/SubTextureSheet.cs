@@ -14,7 +14,6 @@ namespace WesternSpace
     // AKA Sprite-sheet.
     public class SubTextureSheet : IXElementOutput
     {
-        // By default, undefined. To be set by the TextureService.
         private string name;
 
         public string Name
@@ -81,13 +80,13 @@ namespace WesternSpace
             get { return subTextureHeight; }
         }
 
-        public SubTextureSheet(XElement xelement)
+        public SubTextureSheet(Texture2D texture, int subTextureWidth, int subTextureHeight)
         {
-            ITextureService textureService = (ITextureService)ScreenManager.Instance.Services.GetService(typeof(ITextureService));
-            this.texture = textureService.GetTexture(xelement.Attribute("n").Value);
+            this.texture = texture;
+            this.name = texture.Name;
 
-            Int32.TryParse(xelement.Attribute("w").Value, out this.subTextureWidth);
-            Int32.TryParse(xelement.Attribute("h").Value, out this.subTextureHeight);
+            this.subTextureWidth = subTextureWidth;
+            this.subTextureHeight = subTextureHeight;
 
             this.width = texture.Width / this.subTextureWidth;
             this.height = texture.Width / this.subTextureHeight;

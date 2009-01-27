@@ -11,6 +11,12 @@ namespace WesternSpace.Services
     public class TextureService : ITextureService
     {
         /// <summary>
+        /// The name of the file that contains all information about each SubTextureSheet that gets used
+        /// in the game.
+        /// </summary>
+        public static string SHEET_INFO_FILENAME = "Textures\\Sheets";
+
+        /// <summary>
         /// The collection of currently loaded textures. This used as a cacheing mechanism to 
         /// avoid loading multiple textures twice.
         /// </summary>
@@ -25,6 +31,18 @@ namespace WesternSpace.Services
         {
             textures = new Dictionary<string, Texture2D>();
             sheets = new Dictionary<string, SubTextureSheet>();
+
+            XDocument sheetInfos = ScreenManager.Instance.Content.Load<XDocument>(SHEET_INFO_FILENAME);
+            IEnumerable<XElement> sheetElements = sheetInfos.Descendants("Sh");
+            foreach (XElement sheetElement in sheetElements)
+            {
+                int subTexWidth = Int32.Parse(sheetElement.Attribute("w").Value);
+                int subTexHeight = Int32.Parse(sheetElement.Attribute("h").Value);
+                string textureName = sheetElement.Attribute("n").Value;
+
+                this.Sheets[sheetElement.Attribute("n").Value] = new SubTextureSheet(GetTexture(textureName), 
+                                                                                        subTexWidth, subTexHeight);
+            }
         }
 
         #region ITextureService Members
@@ -47,6 +65,7 @@ namespace WesternSpace.Services
             get { return sheets; }
         }
 
+        // Primarily used in the editor; easier to switch through:
         public SubTextureSheet[] SheetsArray
         {
             get { return sheets.Values.ToArray<SubTextureSheet>(); }
@@ -81,13 +100,6 @@ namespace WesternSpace.Services
         /// <returns>The SubTextureSheet that was requested</returns>
         public SubTextureSheet GetSheet(string assetName)
         {
-            if (!this.Sheets.ContainsKey(assetName) || this.Sheets[assetName] == null)
-            {
-                XDocument doc = ScreenManager.Instance.Content.Load<XDocument>(assetName);
-                this.Sheets[assetName] = new SubTextureSheet(doc.Root);
-                this.Sheets[assetName].Name = assetName;
-            }
-
             return this.Sheets[assetName];
         }
 

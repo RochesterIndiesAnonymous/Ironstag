@@ -10,7 +10,6 @@ using WesternSpace.ServiceInterfaces;
 using WesternSpace.TilingEngine;
 using WesternSpace.Utility;
 
-
 namespace WesternSpace.DrawableComponents.EditorUI
 {
     public class SubTextureSelector : EditorUIComponent
@@ -46,16 +45,23 @@ namespace WesternSpace.DrawableComponents.EditorUI
             }
         }
 
-        // The index into textureService.SheetArray[] which determines
-        //  what virtualSheet is.
-        private int virtualSheetIndex;
+        private int selectingSheetIndex;
 
-        // A default sheet to switch to when we've selected
-        //  a tile that has 'null' set as the SubTexture of 
-        //  the sublayer associated with this selector.
-        private SubTextureSheet virtualSheet
+        private SubTextureSheet selectingSheet
         {
-            get { return textureService.SheetsArray[virtualSheetIndex]; }
+            get { return textureService.SheetsArray[selectingSheetIndex]; }
+            set
+            {
+                int index;
+                for (index = 0; index < textureService.SheetsArray.Count<SubTextureSheet>(); ++index)
+                {
+                    if (value == textureService.SheetsArray[index])
+                    {
+                        selectingSheetIndex = index;
+                        return;
+                    }
+                }
+            }
         }
 
         public SubTexture hoveringTexture
@@ -64,41 +70,11 @@ namespace WesternSpace.DrawableComponents.EditorUI
             {
                 Vector2 offsetMouse = Mouse.ScaledPosition - Position;
 
-                int x = (int)(offsetMouse.X / currentSheet.SubTextureWidth);
-                int y = (int)(offsetMouse.Y / currentSheet.SubTextureHeight);
+                int x = (int)(offsetMouse.X / selectingSheet.SubTextureWidth);
+                int y = (int)(offsetMouse.Y / selectingSheet.SubTextureHeight);
 
-                int index = (int)MathHelper.Clamp(y * currentSheet.Width + x, 0, currentSheet.Width * currentSheet.Height);
-                return currentSheet.SubTextures[index];
-            }
-        }
-
-        private SubTextureSheet currentSheet
-        {
-            get
-            {
-                if (CurrentTexture != null)
-                {
-                    return CurrentTexture.Sheet;
-                }
-                else
-                {
-                    return virtualSheet;
-                }
-            }
-        }
-
-        private int currentSheetIndex
-        {
-            get
-            {
-                if (CurrentTexture != null)
-                {
-                    return CurrentTexture.Index;
-                }
-                else
-                {
-                    return -1;
-                }
+                int index = (int)MathHelper.Clamp(y * selectingSheet.Width + x, 0, selectingSheet.Width * selectingSheet.Height);
+                return selectingSheet.SubTextures[index];
             }
         }
 
@@ -127,32 +103,33 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         protected override void OnMouseClick(int button)
         {
-            if (!selectingSubTexture && button == 0)
-                SetSelectingSubTexture(true);
+            
             base.OnMouseClick(button);
         }
 
         protected override void WhileMouseOutside()
         {
+            /*
             if (selectingSubTexture && OutsideTime > 300)
             {
                 SetSelectingSubTexture(false);
             }
+            */
             base.WhileMouseOutside();
         }
 
         protected override void OnMouseUnclick(int button)
         {
-            if (selectingSubTexture)
+            if (!selectingSubTexture && button == 0)
+                SetSelectingSubTexture(true);
+            else if (selectingSubTexture)
             {
                 if (button == 0) // Left click, select the subTexture we're hovering over
                 {
                     CurrentTexture = hoveringTexture;
+                    selectingSheet = CurrentTexture.Sheet;
                 }
-                else // Ignore other mouse clicks.
-                {
-                    return;
-                }
+                // Right/middle click will cancel.
                 Mouse.ButtonsUnclicked[button] = false;
                 SetSelectingSubTexture(false);
             }
@@ -168,10 +145,27 @@ namespace WesternSpace.DrawableComponents.EditorUI
             base.OnMouseUnclick(button);
         }
 
+        protected override void OnMouseClickOutside(int button)
+        {
+            if (selectingSubTexture)
+            {
+                SetSelectingSubTexture(false);
+                Mouse.ButtonsClicked[button] = false;
+            }
+            base.OnMouseClickOutside(button);
+        }
+
         protected override void OnMouseScroll(int amount)
         { 
             // I'm thinking we could change the subTextureSheet
             //  from here.
+            if (selectingSubTexture)
+            {
+                this.selectingSheetIndex = (int)MathHelper.Clamp((this.selectingSheetIndex + (amount > 0 ? 1 : -1)),
+                                                                 0,
+                                                                 textureService.SheetsArray.Count<SubTextureSheet>() - 1);
+                this.Bounds = new RectangleF(Position.X, Position.Y, selectingSheet.Texture.Width, selectingSheet.Texture.Height);
+            }
             base.OnMouseScroll(amount);
         }
 
@@ -192,16 +186,16 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 }
             }
 
-            if (value)
+            if (selectingSubTexture)
             {
-                if (currentSheet != null)
-                {
-                    this.Bounds = new RectangleF(Position.X, Position.Y, currentSheet.Texture.Width, currentSheet.Texture.Height);
-                }
+                // We're now selecting a texture.
+                if (CurrentTexture != null)
+                    this.selectingSheet = CurrentTexture.Sheet;
+                this.Bounds = new RectangleF(Position.X, Position.Y, selectingSheet.Texture.Width, selectingSheet.Texture.Height);
             }
             else
             {
-                Microsoft.Xna.Framework.Rectangle rect = new Microsoft.Xna.Framework.Rectangle(0, 0, TileMap.tileWidth, TileMap.tileHeight);
+                Microsoft.Xna.Framework.Rectangle rect = new Microsoft.Xna.Framework.Rectangle(0, 0, TileMap.TileWidth, TileMap.TileHeight);
                 this.Bounds = new RectangleF(Position.X, Position.Y, rect.Width, rect.Height);
             }
         }
@@ -209,18 +203,21 @@ namespace WesternSpace.DrawableComponents.EditorUI
         public SubTextureSelector(Game game, SpriteBatch spriteBatch, TileSelector tileSelector, int layerIndex, int subLayerIndex)
             :base(game, spriteBatch, new RectangleF())
         {
+            this.Color = Microsoft.Xna.Framework.Graphics.Color.White;
+            textureService = (ITextureService)Game.Services.GetService(typeof(ITextureService));
             this.selectingSubTexture = false;
             this.layerIndex = layerIndex;
             this.subLayerIndex = subLayerIndex;
 
             this.tileSelector = tileSelector;
-            
-            this.virtualSheetIndex = 0;
+
+            // We make the silly assumption that there is at least one Sheet loaded. he-he-he.
+            this.selectingSheet = textureService.SheetsArray[0];
 
             // Generate our position based on the layer/subLayer-index we have.
             int padding = 10;
-            int hzOffset = -(TileMap.tileWidth + padding);
-            int oneDown = padding + TileMap.tileHeight;
+            int hzOffset = -(TileMap.TileWidth + padding);
+            int oneDown = padding + TileMap.TileHeight;
             int vtOffset = layerIndex*(TileMap.SubLayerCount*oneDown + 2*padding) + (subLayerIndex * oneDown) + padding;
             Position = new Vector2(tileSelector.Bounds.Left + hzOffset, tileSelector.Bounds.Top + vtOffset);
 
@@ -228,26 +225,29 @@ namespace WesternSpace.DrawableComponents.EditorUI
             this.Bounds = new RectangleF(Position.X, Position.Y, rect.Width, rect.Height);
         }
 
-        public override void Initialize()
-        {
-            this.Color = Microsoft.Xna.Framework.Graphics.Color.White;
-            textureService = (ITextureService)Game.Services.GetService(typeof(ITextureService));
-            base.Initialize();
-        }
-
         public override void Draw(GameTime gameTime)
 
         {
             if (selectingSubTexture) // User is selecting a subtexture from us...
             {
-                this.SpriteBatch.Draw(currentSheet.Texture, Position, Microsoft.Xna.Framework.Graphics.Color.White);
+                this.SpriteBatch.Draw(selectingSheet.Texture, Position, Microsoft.Xna.Framework.Graphics.Color.White);
                 if (MouseIsInside())
                 {
+                    // Highlight the subTexture our mouse is hovering over:
                     Microsoft.Xna.Framework.Rectangle rect = new Microsoft.Xna.Framework.Rectangle((int)Position.X + hoveringTexture.Rectangle.X,
                                                                  (int)Position.Y + hoveringTexture.Rectangle.Y,
                                                                  hoveringTexture.Rectangle.Width,
                                                                  hoveringTexture.Rectangle.Height);
                     PrimitiveDrawer.Instance.DrawRect(SpriteBatch, rect, Microsoft.Xna.Framework.Graphics.Color.White);
+                }
+                if (CurrentTexture != null && selectingSheet == CurrentTexture.Sheet)
+                { 
+                    // Highlight the texture that's actually selected currently:
+                    Microsoft.Xna.Framework.Rectangle rect = new Microsoft.Xna.Framework.Rectangle((int)Position.X + CurrentTexture.Rectangle.X,
+                                                                 (int)Position.Y + CurrentTexture.Rectangle.Y,
+                                                                 CurrentTexture.Rectangle.Width,
+                                                                 CurrentTexture.Rectangle.Height);
+                    PrimitiveDrawer.Instance.DrawRect(SpriteBatch, rect, Microsoft.Xna.Framework.Graphics.Color.CornflowerBlue);
                 }
             }
             else // Waiting for user to activate us...

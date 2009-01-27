@@ -14,8 +14,20 @@ namespace WesternSpace.TilingEngine
     // It knows nothing about how it should be drawn.
     public class TileMap : IXElementOutput
     {
-        public readonly int tileWidth;
-        public readonly int tileHeight;
+        private int tileWidth;
+
+        public int TileWidth
+        {
+            get { return tileWidth; }
+            set { tileWidth = value; }
+        }
+        private int tileHeight;
+
+        public int TileHeight
+        {
+            get { return tileHeight; }
+            set { tileHeight = value; }
+        }
 
         private int layerCount;
         private int subLayerCount;
@@ -300,8 +312,6 @@ namespace WesternSpace.TilingEngine
             {
                 return null;
             }
-            int sheetID, subTextureIndex;
-
 
             IEnumerable<SubTexture> subTextures = from element in xelement.Descendants("x")
                                                   select sheets[Int32.Parse(element.Attribute("s").Value)].SubTextures[Int32.Parse(element.Attribute("i").Value)];

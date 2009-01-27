@@ -34,8 +34,8 @@ namespace WesternSpace.Collision
         public Point CalculateTileCoord(Vector2 position)
         {
             Point tileCoord = new Point();
-            tileCoord.X = (int)position.X / worldMap.tileWidth;
-            tileCoord.Y = (int)position.Y / worldMap.tileHeight;
+            tileCoord.X = (int)position.X / worldMap.TileWidth;
+            tileCoord.Y = (int)position.Y / worldMap.TileHeight;
             return tileCoord;
 
         }
@@ -54,8 +54,8 @@ namespace WesternSpace.Collision
                    tile = worldMap.Tiles[tileCoord.X, tileCoord.Y];          
                    if (tile != null)
                    {
-                       Rectangle tileRect = new Rectangle(tileCoord.X * worldMap.tileWidth, 
-                           tileCoord.Y * worldMap.tileHeight, worldMap.tileWidth, worldMap.tileHeight);
+                       Rectangle tileRect = new Rectangle(tileCoord.X * worldMap.TileWidth, 
+                           tileCoord.Y * worldMap.TileHeight, worldMap.TileWidth, worldMap.TileHeight);
                     collideableObject.OnTileColision(tile, hotspot, tileRect);
                    }    
                 }

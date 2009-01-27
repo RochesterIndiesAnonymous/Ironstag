@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Sheets>
+<Sh n="Textures\\desertSpriteSheet" w="32" h="32"></Sh>
+<Sh n="Textures\\TestSheet" w="20" h="20"></Sh>
+<Sh n="Textures\\cavesheet" w="16" h="16"></Sh>
+<Sh n="Textures\\sandzonesheet" w="16" h="16"></Sh>
+</Sheets>

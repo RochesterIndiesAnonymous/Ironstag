@@ -172,11 +172,11 @@ namespace WesternSpace.DrawableComponents.EditorUI
             }
 
             RectangleF tmp = SubTextureSelectors.Last<SubTextureSelector>().Bounds;
-            tmp.Y += 20 + TileMap.tileHeight;
+            tmp.Y += 20 + TileMap.TileHeight;
             this.edgeToggler = new EdgeToggler(Game, SpriteBatch, tmp, this);
             Game.Components.Add(this.edgeToggler);
             
-            tmp.Y += 20 + TileMap.tileHeight;
+            tmp.Y += 20 + TileMap.TileHeight;
             tmp.X -= 10;
             tmp.Width = 30;
             tmp.Height = 15;
@@ -203,7 +203,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
             // Highlight the tile we're hovering over
             Vector2 position = TileMapLayer.CalculateMapCoordinatesFromScreenPoint(Mouse.Position);
 
-            position = new Vector2((int)position.X * TileMap.tileWidth, (int)position.Y * TileMap.tileHeight)
+            position = new Vector2((int)position.X * TileMap.TileWidth, (int)position.Y * TileMap.TileHeight)
                                         - tileMapLayer.Camera.Position * tileMapLayer.ScrollSpeed;
 
             DrawBoundingRect(position, 2, Microsoft.Xna.Framework.Graphics.Color.White);
@@ -211,7 +211,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
             if (Tile != null)
             {
                 // Highlight the tile we've selected.
-                position = new Vector2(tileX * TileMap.tileWidth, tileY * TileMap.tileHeight)
+                position = new Vector2(tileX * TileMap.TileWidth, tileY * TileMap.TileHeight)
                                         - tileMapLayer.Camera.Position * tileMapLayer.ScrollSpeed;
 
                 position.X = (int)position.X;
@@ -231,7 +231,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
         private void DrawBoundingRect(Vector2 position, int margin, Microsoft.Xna.Framework.Graphics.Color color)
         {
             Microsoft.Xna.Framework.Rectangle rect = new Microsoft.Xna.Framework.Rectangle((int)position.X - margin + 1, (int)position.Y - margin, 
-                                                            TileMap.tileWidth + 2*margin - 1, TileMap.tileHeight + 2*margin);
+                                                            TileMap.TileWidth + 2*margin - 1, TileMap.TileHeight + 2*margin);
 
             PrimitiveDrawer.Instance.DrawRect(SpriteBatch, rect, color);
         }
