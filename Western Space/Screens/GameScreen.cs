@@ -23,7 +23,7 @@ namespace WesternSpace.Screens
         private ISpriteBatchService batchService;
         private World world;
         public SpriteTileCollisionManager tileCollisionManager;
-        //public SpriteSpriteCollisionManager spriteCollisionManager;
+        public SpriteSpriteCollisionManager spriteCollisionManager;
 
         public World World
         {
@@ -108,8 +108,11 @@ namespace WesternSpace.Screens
             tileCollisionManager.addObjectToList(flint);
             this.Game.Components.Add(tileCollisionManager);
 
-            //spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game);
-            //this.Game.Components.Add(spriteCollisionManager);
+            
+            spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, new Point(40, 40));
+            spriteCollisionManager.AddGameObject(flint);
+            spriteCollisionManager.AddGameObject(toadMan);
+            this.Game.Components.Add(spriteCollisionManager);
         }
 
         private void CreateDebuggingInformationComponents()
