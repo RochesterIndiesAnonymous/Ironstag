@@ -15,20 +15,23 @@ using WesternSpace.Collision;
 
 namespace WesternSpace.Screens
 {
-    public class GameScreen : GameObject
+    public class GameScreen : Screen
     {
+        public static readonly string ScreenName = "Game";
+
         private TileEngine tileEngine;
         private ISpriteBatchService batchService;
         private World world;
         public SpriteTileCollisionManager tileCollisionManager;
         //public SpriteSpriteCollisionManager spriteCollisionManager;
+
         public World World
         {
             get { return world; }
         }
 
-        public GameScreen(Game game)
-            : base(game)
+        public GameScreen(Game game, string name)
+            : base(game, name)
         {
         }
 
@@ -40,20 +43,23 @@ namespace WesternSpace.Screens
         /// </summary>
         public override void Initialize()
         {
-            tileEngine = new TileEngine();
+            if (!this.IsInitialized)
+            {
+                tileEngine = new TileEngine();
 
-            // CreateSprites needs the animation data service
-            // animationDataService = (IAnimationDataService)this.Game.Services.GetService(typeof(IAnimationDataService));
-            batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
+                // CreateSprites needs the animation data service
+                // animationDataService = (IAnimationDataService)this.Game.Services.GetService(typeof(IAnimationDataService));
+                batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
 
-            CreateLayerComponents();
+                CreateLayerComponents();
 
-            CreateSprites();
+                CreateSprites();
 
-            CreateDebuggingInformationComponents();
-            
-            // Initialize all components
-            base.Initialize();
+                CreateDebuggingInformationComponents();
+
+                // Initialize all components
+                base.Initialize();
+            }
         }
 
         private void CreateSprites()
@@ -87,18 +93,16 @@ namespace WesternSpace.Screens
             sunsetComponent.DrawOrder = 0;
             this.Game.Components.Add(sunsetComponent);
              */
+
             ToadMan toadMan = new ToadMan(this.Game, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(100, 150), "SpriteXML\\FlintIronstag");
             toadMan.UpdateOrder = 3;
             toadMan.DrawOrder = 0;
-            this.Game.Components.Add(toadMan);
-
+            this.Components.Add(toadMan);
 
             Player flint = new Player(this.Game, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(251, 79), "SpriteXML\\ToadMan");
-          
-           
             flint.UpdateOrder = 3;
             flint.DrawOrder = 0;
-            this.Game.Components.Add(flint);
+            this.Components.Add(flint);
             
             tileCollisionManager = new SpriteTileCollisionManager(this.Game, this.world);
             tileCollisionManager.addObjectToList(flint);
@@ -115,26 +119,27 @@ namespace WesternSpace.Screens
             DebuggingOutputComponent doc = new DebuggingOutputComponent(this.Game, batchService.GetSpriteBatch(DebuggingOutputComponent.SpriteBatchName), position);
             doc.UpdateOrder = 4;
             doc.DrawOrder = 400;
-            this.Game.Components.Add(doc);
+            this.Components.Add(doc);
+            
             // Create our FPSComponent
             FPSComponent fps = new FPSComponent(this.Game);
             fps.DrawOrder = 3;
-            this.Game.Components.Add(fps);
+            this.Components.Add(fps);
             doc.DebugLines.Add(fps);
 
             MouseScreenCoordinatesComponent mscc = new MouseScreenCoordinatesComponent(this.Game);
             mscc.UpdateOrder = 3;
-            this.Game.Components.Add(mscc);
+            this.Components.Add(mscc);
             doc.DebugLines.Add(mscc);
 
             MouseWorldCoordinatesComponent mwcc = new MouseWorldCoordinatesComponent(this.Game);
             mwcc.UpdateOrder = 3;
-            this.Game.Components.Add(mwcc);
+            this.Components.Add(mwcc);
             doc.DebugLines.Add(mwcc);
 
             MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, World.interactiveLayers[0]);
             mcc.UpdateOrder = 3;
-            this.Game.Components.Add(mcc);
+            this.Components.Add(mcc);
             doc.DebugLines.Add(mcc);
         }
 

@@ -16,8 +16,10 @@ using System.Drawing;
 
 namespace WesternSpace.Screens
 {
-    public class EditorScreen : GameObject
+    public class EditorScreen : Screen
     {
+        public static readonly string ScreenName = "Editor";
+
         private TileEngine tileEngine;
         private ISpriteBatchService batchService;
         private World world;
@@ -27,8 +29,8 @@ namespace WesternSpace.Screens
             get { return world; }
         }
 
-        public EditorScreen(Game game)
-            : base(game)
+        public EditorScreen(Game game, string name)
+            : base(game, name)
         {
         }
 
@@ -40,21 +42,24 @@ namespace WesternSpace.Screens
         /// </summary>
         public override void Initialize()
         {
-            tileEngine = new TileEngine();
+            if (!this.IsInitialized)
+            {
+                tileEngine = new TileEngine();
 
-            // CreateSprites needs the animation data service
-            // animationDataService = (IAnimationDataService)this.Game.Services.GetService(typeof(IAnimationDataService));
-            batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
+                // CreateSprites needs the animation data service
+                // animationDataService = (IAnimationDataService)this.Game.Services.GetService(typeof(IAnimationDataService));
+                batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
 
-            world = new World(this.Game, "WorldXML\\TestWorld");
-            world.interactiveLayers[0].DrawBlanksEnabled = true;
-            world.interactiveLayers[0].DrawEdgesEnabled = true;
+                world = new World(this.Game, "WorldXML\\TestWorld");
+                world.interactiveLayers[0].DrawBlanksEnabled = true;
+                world.interactiveLayers[0].DrawEdgesEnabled = true;
 
-            //CreateDebuggingInformationComponents();
-            CreateUIComponents();
+                //CreateDebuggingInformationComponents();
+                CreateUIComponents();
 
-            // Initialize all components
-            base.Initialize();
+                // Initialize all components
+                base.Initialize();
+            }
         }
 
         private void CreateUIComponents()
@@ -64,7 +69,7 @@ namespace WesternSpace.Screens
             // Where all the magic happens:
             TileSelector ts = new TileSelector(this.Game, sb, new RectangleF(40, 0, 600, 440), world.interactiveLayers[0]);
             ts.DrawOrder = 400;
-            this.Game.Components.Add(ts);
+            this.Components.Add(ts);
         }
 
         private void CreateDebuggingInformationComponents()
@@ -74,28 +79,28 @@ namespace WesternSpace.Screens
             DebuggingOutputComponent doc = new DebuggingOutputComponent(this.Game, batchService.GetSpriteBatch(DebuggingOutputComponent.SpriteBatchName), position);
             doc.UpdateOrder = 4;
             doc.DrawOrder = 400;
-            this.Game.Components.Add(doc);
+            this.Components.Add(doc);
+            
             // Create our FPSComponent
             FPSComponent fps = new FPSComponent(this.Game);
             fps.DrawOrder = 3;
-            this.Game.Components.Add(fps);
+            this.Components.Add(fps);
             doc.DebugLines.Add(fps);
 
             MouseScreenCoordinatesComponent mscc = new MouseScreenCoordinatesComponent(this.Game);
             mscc.UpdateOrder = 3;
-            this.Game.Components.Add(mscc);
+            this.Components.Add(mscc);
             doc.DebugLines.Add(mscc);
 
             MouseWorldCoordinatesComponent mwcc = new MouseWorldCoordinatesComponent(this.Game);
             mwcc.UpdateOrder = 3;
-            this.Game.Components.Add(mwcc);
+            this.Components.Add(mwcc);
             doc.DebugLines.Add(mwcc);
 
             MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, World.interactiveLayers[0]);
             mcc.UpdateOrder = 3;
-            this.Game.Components.Add(mcc);
+            this.Components.Add(mcc);
             doc.DebugLines.Add(mcc);
         }
-
     }
 }

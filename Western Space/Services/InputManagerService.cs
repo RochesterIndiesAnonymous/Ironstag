@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 
 using WesternSpace.Input;
+using WesternSpace.Screens;
 
 namespace WesternSpace.Services
 {
@@ -107,6 +108,24 @@ namespace WesternSpace.Services
                 if (((!oldKeyboardState.IsKeyDown(Keys.LeftAlt) || !oldKeyboardState.IsKeyDown(Keys.RightAlt)) && !oldKeyboardState.IsKeyDown(Keys.Enter)))
                 {
                     ScreenManager.Instance.SetScreenMode(!ScreenManager.Instance.IsFullScreen);
+                }
+            }
+
+            if (newKeyboardState.IsKeyDown(Keys.F12))
+            {
+                if (!oldKeyboardState.IsKeyDown(Keys.F12))
+                {
+                    ScreenManager.Instance.RemoveScreen(GameScreen.ScreenName);
+                    ScreenManager.Instance.AddScreen(EditorScreen.ScreenName);
+                }
+            }
+
+            if (newKeyboardState.IsKeyDown(Keys.F11))
+            {
+                if (!oldKeyboardState.IsKeyDown(Keys.F11))
+                {
+                    ScreenManager.Instance.RemoveScreen(EditorScreen.ScreenName);
+                    ScreenManager.Instance.AddScreen(GameScreen.ScreenName);
                 }
             }
 

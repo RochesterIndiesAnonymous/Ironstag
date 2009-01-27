@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using WesternSpace.Screens;
 
 namespace WesternSpace
 {
@@ -18,9 +19,22 @@ namespace WesternSpace
     /// </summary>
     public class GameObject : GameComponent
     {
+        private Screen parentScreen;
+
+        public Screen ParentScreen
+        {
+            get { return parentScreen; }
+            set { parentScreen = value; }
+        }
+
         public GameObject(Game game)
             : base(game)
         {
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
         }
     }
 }

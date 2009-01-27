@@ -18,52 +18,84 @@ namespace WesternSpace
     /// </summary>
     public class ScreenManager : Game
     {
-        // HACK UNTIL WE GET PROPER SCREENMANAGER FUNCTIONING:
-        private static readonly bool editMode = false;
-
+        /// <summary>
+        /// The resolution settings to use when the game is running in windowed mode
+        /// </summary>
         private static ResolutionSettings windowedSettings = new ResolutionSettings(640, 480, 640, 480);
+
+        /// <summary>
+        /// The full screen settings to use when using full screen. This is calculated based on the main display of the user
+        /// </summary>
         private static ResolutionSettings fullScreenSettings;
+
+        /// <summary>
+        /// A pointer to the current resolution settings the game is using.
+        /// </summary>
         private static ResolutionSettings currentResolutionSettings;
 
+        /// <summary>
+        /// The intermediate render target we use to provide scaling of the game screen resolution
+        /// </summary>
         private RenderTarget2D renderTarget;
 
+        /// <summary>
+        /// The camera that is used to move around the editor and game world
+        /// </summary>
         private CameraService cameraService;
 
+        /// <summary>
+        /// The graphics device manager our game uses for managing the graphics card
+        /// </summary>
+        private GraphicsDeviceManager graphics;
+
+        /// <summary>
+        /// The service that manages all the sprite batches in the game
+        /// </summary>
+        private SpriteBatchService batchService;
+
+        /// <summary>
+        /// The list of screens that the screen manager is to manage.
+        /// </summary>
+        private IList<Screen> screenList;
+
+        /// <summary>
+        /// The list of screens that the screen manager is to manage.
+        /// </summary>
+        public IList<Screen> ScreenList
+        {
+            get { return screenList; }
+        }
+
+        /// <summary>
+        /// True if the current game is in full screen. Used to determine which resolution to use for rendering
+        /// </summary>
         private bool isFullScreen;
 
+        /// <summary>
+        /// True if the current game is in full screen. Used to determine which resolution to use for rendering
+        /// </summary>
         public bool IsFullScreen
         {
             get { return isFullScreen; }
         }
 
         /// <summary>
-        /// Holds our single reference to our game
+        /// The service that manages the current resolution that the application runs in
         /// </summary>
-        private static ScreenManager instance;
-
-        /// <summary>
-        /// The game screen component to draw to the screen
-        /// </summary>
-        private GameScreen gameScreen;
-
-        private EditorScreen editorScreen;
-
-        /// <summary>
-        /// The graphics device manager our game uses
-        /// </summary>
-        private GraphicsDeviceManager graphics;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private SpriteBatchService batchService;
-
         private ScreenResolutionService resolutionService;
 
+        /// <summary>
+        /// The service that manages the current resolution that the application runs in
+        /// </summary>
         public ScreenResolutionService ResolutionService
         {
             get { return resolutionService; }
         }
+
+        /// <summary>
+        /// Holds our single reference to our game
+        /// </summary>
+        private static ScreenManager instance;
 
         /// <summary>
         /// Gets the current instance of the game.
@@ -88,9 +120,7 @@ namespace WesternSpace
         {
             // XNA does not like it if this is not created here.
             graphics = new GraphicsDeviceManager(this);
-            
-
-            // Set the native resolution of the game
+            screenList = new List<Screen>();
         }
 
         /// <summary>
@@ -117,38 +147,33 @@ namespace WesternSpace
             // create our services
             CreateServices();
 
-            // create our game screen
-            if (editMode)
-            {
-                editorScreen = new EditorScreen(this);
-                this.Components.Add(editorScreen);
-            }
-            else
-            {
-                gameScreen = new GameScreen(this);
-                this.Components.Add(gameScreen);
-            }
+            // create our screens
+            Screen editorScreen = new EditorScreen(this, EditorScreen.ScreenName);
+            this.screenList.Add(editorScreen);
+            
+            Screen gameScreen = new GameScreen(this, GameScreen.ScreenName);
+            this.screenList.Add(gameScreen);
+
+            this.AddScreen(gameScreen);
 
             // Initialize all components
             base.Initialize();
         }
 
-        /*
-         * Allows the game to run logic such as updating the world,
-         * checking for collisions, gathering input, and playing audio.
-         *
-         * <param name="gameTime">Provides a snapshot of timing values.</param>
-         */
+        /// <summary>
+        /// Allows the game to run logic such as updating the world,
+        /// checking for collisions, gathering input, and playing audio.
+        /// </summary>
+        /// <param name="gameTime">Time relative to the game</param>
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
         }
 
-        /*
-         * This is called when the game should draw itself.
-         *
-         * <param name="gameTime">Provides a snapshot of timing values.</param>
-         */
+        /// <summary>
+        /// Draws the current set of screens to the render target
+        /// </summary>
+        /// <param name="gameTime">Time relative to the game</param>
         protected override void Draw(GameTime gameTime)
         {            
             graphics.GraphicsDevice.SetRenderTarget(0, renderTarget);
@@ -177,41 +202,69 @@ namespace WesternSpace
         }
 
         /// <summary>
-        /// Creates all the services our game will use
+        /// Adds a screen to be rendered on every draw and updated every update
         /// </summary>
-        private void CreateServices()
+        /// <param name="screen">The screen to add to the currently drawn screens</param>
+        public void AddScreen(Screen screen)
         {
-            // create our TextureService
-            ITextureService textureService = new TextureService();
-            this.Services.AddService(typeof(ITextureService), textureService);
-
-            // create our graphics device manager service
-            IGraphicsDeviceManagerService graphicsService = new GraphicsDeviceMangerService(graphics);
-            this.Services.AddService(typeof(IGraphicsDeviceManagerService), graphicsService);
-
-            // create out input manager
-            InputManagerService input = new InputManagerService(this);
-            input.UpdateOrder = 0;
-            this.Services.AddService(typeof(IInputManagerService), input);
-            this.Components.Add(input);
-
-            // create our layer service
-            ILayerService layer = new LayerService();
-            this.Services.AddService(typeof(ILayerService), layer);
-
-            // create our camera service
-            cameraService = new CameraService(this);
-            cameraService.UpdateOrder = 1;
-            this.Services.AddService(typeof(ICameraService), cameraService);
-            this.Components.Add(cameraService);
-
-            // create our batch service
-            this.batchService = new SpriteBatchService(this);
-            batchService.UpdateOrder = 2;
-            this.Services.AddService(typeof(ISpriteBatchService), batchService);
-            this.Components.Add(batchService);
+            if (!this.Components.Contains(screen))
+            {
+                this.Components.Add(screen);
+            }
         }
 
+        /// <summary>
+        /// Adds a screen by its name.
+        /// </summary>
+        /// <param name="name">The name of the screen to add</param>
+        public void AddScreen(string name)
+        {
+            Screen screenToAdd = (from screen in screenList
+                                  where screen.Name == name
+                                  select screen).FirstOrDefault();
+
+            if (screenToAdd != null && !this.Components.Contains(screenToAdd))
+            {
+                this.Components.Add(screenToAdd);
+            }
+        }
+
+        /// <summary>
+        /// Removes a screen from being drawn and updated
+        /// </summary>
+        /// <param name="screen">The screen to be removed</param>
+        public void RemoveScreen(Screen screen)
+        {
+            if (this.Components.Contains(screen))
+            {
+                this.Components.Remove(screen);
+            }
+        }
+
+        /// <summary>
+        /// Removes a screen by its name.
+        /// </summary>
+        /// <param name="name">The ame of the screen to remove</param>
+        public void RemoveScreen(string name)
+        {
+            IEnumerable<Screen> screens = (from component in this.Components
+                                           where component is Screen
+                                           select component).Cast<Screen>();
+
+            Screen screenToRemove = (from screen in screens
+                                    where screen.Name == name
+                                    select screen).FirstOrDefault();
+
+            if (screenToRemove != null && this.Components.Contains(screenToRemove))
+            {
+                this.Components.Remove(screenToRemove);
+            }
+        }
+
+        /// <summary>
+        /// Sets the game to use full screen or not
+        /// </summary>
+        /// <param name="fullScreen">True for full screen, false for windowed mode</param>
         public void SetScreenMode(bool fullScreen)
         {
             if (fullScreen)
@@ -260,6 +313,42 @@ namespace WesternSpace
             graphics.ApplyChanges();
 
             renderTarget = new RenderTarget2D(graphics.GraphicsDevice, currentResolutionSettings.RenderTargetWidth, currentResolutionSettings.RenderTargetHeight, 1, SurfaceFormat.Color);
+        }
+
+        /// <summary>
+        /// Creates all the services our game will use
+        /// </summary>
+        private void CreateServices()
+        {
+            // create our TextureService
+            ITextureService textureService = new TextureService();
+            this.Services.AddService(typeof(ITextureService), textureService);
+
+            // create our graphics device manager service
+            IGraphicsDeviceManagerService graphicsService = new GraphicsDeviceMangerService(graphics);
+            this.Services.AddService(typeof(IGraphicsDeviceManagerService), graphicsService);
+
+            // create out input manager
+            InputManagerService input = new InputManagerService(this);
+            input.UpdateOrder = 0;
+            this.Services.AddService(typeof(IInputManagerService), input);
+            this.Components.Add(input);
+
+            // create our layer service
+            ILayerService layer = new LayerService();
+            this.Services.AddService(typeof(ILayerService), layer);
+
+            // create our camera service
+            cameraService = new CameraService(this);
+            cameraService.UpdateOrder = 1;
+            this.Services.AddService(typeof(ICameraService), cameraService);
+            this.Components.Add(cameraService);
+
+            // create our batch service
+            this.batchService = new SpriteBatchService(this);
+            batchService.UpdateOrder = 2;
+            this.Services.AddService(typeof(ISpriteBatchService), batchService);
+            this.Components.Add(batchService);
         }
     }
 }
