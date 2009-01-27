@@ -14,7 +14,7 @@ using WesternSpace.TilingEngine;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    public abstract class Character : DrawableGameObject, ITileCollideable
+    public abstract class Character : DrawableGameObject, ITileCollideable, ISpriteCollideable
     {
 
         // The name used to identify the specific character.
@@ -25,7 +25,17 @@ namespace WesternSpace.DrawableComponents.Actors
             get { return name; }
             set { name = value; }
         }
-
+        protected Rectangle rectangle;
+        public Rectangle Rectangle
+        {
+            get
+            {
+                rectangle = new Rectangle((int)this.position.X, (int)this.position.Y,
+                    this.animationPlayer.Animation.FrameWidth,
+                    this.animationPlayer.Animation.FrameHeight);
+                return rectangle;
+            }
+        }
         // The character's maximum health. All characters
         // will have health, but non-enemy NPCs will not be able to
         // have their health drained.
@@ -195,6 +205,15 @@ namespace WesternSpace.DrawableComponents.Actors
 
             this.Position = newPosition;
             return newPosition;
+        }
+
+        #endregion
+
+        #region ISpriteCollideable Members
+
+        public void OnSpriteCollision()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
