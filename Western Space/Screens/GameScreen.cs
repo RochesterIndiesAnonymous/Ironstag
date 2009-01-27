@@ -21,6 +21,7 @@ namespace WesternSpace.Screens
         private ISpriteBatchService batchService;
         private World world;
         public SpriteTileCollisionManager tileCollisionManager;
+        public SpriteSpriteCollisionManager spriteCollisionManager;
         public World World
         {
             get { return world; }
@@ -115,6 +116,8 @@ namespace WesternSpace.Screens
             tileCollisionManager.addObjectToList(flint);
             this.Game.Components.Add(tileCollisionManager);
 
+            spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game);
+            this.Game.Components.Add(spriteCollisionManager);
         }
 
         private void CreateDebuggingInformationComponents()
