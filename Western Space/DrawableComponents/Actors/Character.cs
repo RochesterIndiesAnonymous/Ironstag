@@ -179,12 +179,12 @@ namespace WesternSpace.DrawableComponents.Actors
             }
             if (tile.LeftEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.right)
             {
-                newPosition = new Vector2(hotSpot.HostPosition.X - (tileRectangle.Right - hotSpot.WorldPosition.X),
+                newPosition = new Vector2(hotSpot.HostPosition.X - (hotSpot.WorldPosition.X - tileRectangle.Left),
                     hotSpot.HostPosition.Y);
             }
             if (tile.RightEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.left)
             {
-                newPosition = new Vector2(hotSpot.HostPosition.X + (hotSpot.WorldPosition.X - tileRectangle.Left),
+                newPosition = new Vector2(hotSpot.HostPosition.X + (tileRectangle.Right - hotSpot.WorldPosition.X),
                  hotSpot.HostPosition.Y);
             }
 
