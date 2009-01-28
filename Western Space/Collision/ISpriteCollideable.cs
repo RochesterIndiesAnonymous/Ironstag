@@ -8,6 +8,7 @@ namespace WesternSpace.Collision
 {
     public interface ISpriteCollideable
     {
+        
         void OnSpriteCollision();
     }
 }
