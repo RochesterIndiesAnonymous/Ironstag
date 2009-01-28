@@ -37,6 +37,15 @@ namespace WesternSpace.DrawableComponents.Actors
                 return rectangle;
             }
         }
+	static int idNumberCount = 0;
+        protected int idNumber;
+        public int IdNumber
+        {
+            get { return idNumber; }
+        }
+
+
+
         // The character's maximum health. All characters
         // will have health, but non-enemy NPCs will not be able to
         // have their health drained.
@@ -133,7 +142,8 @@ namespace WesternSpace.DrawableComponents.Actors
             this.Position = position;
             this.collisionHotSpots = new List<CollisionHotspot>();
             animationMap = new Dictionary<string, Animation>();
-
+	    idNumber = idNumberCount;
+            idNumberCount++;
         }
 
         // Sets up all of the Animations associated with the particular character
