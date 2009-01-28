@@ -10,31 +10,39 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+
 using WesternSpace.Screens;
+using WesternSpace.Interfaces;
 
 namespace WesternSpace
 {
     /// <summary>
     /// Adds additional functionality to GameComponent necessary for our game
     /// </summary>
-    public class GameObject : GameComponent
+    public class GameObject : GameComponent, IScreenComponent
     {
         private Screen parentScreen;
 
+        public GameObject(Screen parentScreen)
+            : base(ScreenManager.Instance)
+        {
+            ParentScreen = parentScreen;
+        }
+
+        #region IScreenComponent Members
+
         public Screen ParentScreen
         {
-            get { return parentScreen; }
-            set { parentScreen = value; }
+            get
+            {
+                return parentScreen;
+            }
+            set
+            {
+                parentScreen = value;
+            }
         }
 
-        public GameObject(Game game)
-            : base(game)
-        {
-        }
-
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
+        #endregion
     }
 }

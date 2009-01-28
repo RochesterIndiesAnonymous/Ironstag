@@ -43,7 +43,7 @@ namespace WesternSpace.AnimationFramework
         // param: game - The over-arching Game object.
         // param: spriteBatch - The spriteBatch used to draw the Animation.
         // param: animation - The Animation to play.
-        public AnimationPlayer(Game game, SpriteBatch spriteBatch, Animation animation)
+        public AnimationPlayer(SpriteBatch spriteBatch, Animation animation)
         {
             this.animation = animation;
             this.timeDisplayed = 0;

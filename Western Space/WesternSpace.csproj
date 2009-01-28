@@ -97,6 +97,7 @@
     <Compile Include="DrawableComponents\Actors\Player.cs" />
     <Compile Include="DrawableComponents\EditorUI\SaveButton.cs" />
     <Compile Include="DrawableComponents\EditorUI\EdgeToggler.cs" />
+    <Compile Include="Interfaces\IScreenComponent.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="SubTexture.cs" />
     <Compile Include="SubTextureSheet.cs" />

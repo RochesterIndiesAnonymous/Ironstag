@@ -94,53 +94,53 @@ namespace WesternSpace.Screens
             this.Game.Components.Add(sunsetComponent);
              */
 
-            ToadMan toadMan = new ToadMan(this.Game, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(100, 150), "SpriteXML\\FlintIronstag");
+            ToadMan toadMan = new ToadMan(this, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(100, 150), "SpriteXML\\FlintIronstag");
             toadMan.UpdateOrder = 3;
             toadMan.DrawOrder = 0;
             this.Components.Add(toadMan);
 
-            Player flint = new Player(this.Game, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(251, 79), "SpriteXML\\ToadMan");
+            Player flint = new Player(this, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(251, 79), "SpriteXML\\ToadMan");
             flint.UpdateOrder = 3;
             flint.DrawOrder = 0;
             this.Components.Add(flint);
             
             tileCollisionManager = new SpriteTileCollisionManager(this.Game, this.world);
             tileCollisionManager.addObjectToList(flint);
-            this.Game.Components.Add(tileCollisionManager);
+            this.Components.Add(tileCollisionManager);
 
             
             spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, new Point(40, 40));
             spriteCollisionManager.AddGameObject(flint);
             spriteCollisionManager.AddGameObject(toadMan);
-            this.Game.Components.Add(spriteCollisionManager);
+            this.Components.Add(spriteCollisionManager);
         }
 
         private void CreateDebuggingInformationComponents()
         {
             // Create our Debugging output component
             Vector2 position = new Vector2(1,1);
-            DebuggingOutputComponent doc = new DebuggingOutputComponent(this.Game, batchService.GetSpriteBatch(DebuggingOutputComponent.SpriteBatchName), position);
+            DebuggingOutputComponent doc = new DebuggingOutputComponent(this, batchService.GetSpriteBatch(DebuggingOutputComponent.SpriteBatchName), position);
             doc.UpdateOrder = 4;
             doc.DrawOrder = 400;
             this.Components.Add(doc);
             
             // Create our FPSComponent
-            FPSComponent fps = new FPSComponent(this.Game);
+            FPSComponent fps = new FPSComponent(this);
             fps.DrawOrder = 3;
             this.Components.Add(fps);
             doc.DebugLines.Add(fps);
 
-            MouseScreenCoordinatesComponent mscc = new MouseScreenCoordinatesComponent(this.Game);
+            MouseScreenCoordinatesComponent mscc = new MouseScreenCoordinatesComponent(this);
             mscc.UpdateOrder = 3;
             this.Components.Add(mscc);
             doc.DebugLines.Add(mscc);
 
-            MouseWorldCoordinatesComponent mwcc = new MouseWorldCoordinatesComponent(this.Game);
+            MouseWorldCoordinatesComponent mwcc = new MouseWorldCoordinatesComponent(this);
             mwcc.UpdateOrder = 3;
             this.Components.Add(mwcc);
             doc.DebugLines.Add(mwcc);
 
-            MapCoordinateComponent mcc = new MapCoordinateComponent(this.Game, World.interactiveLayers[0]);
+            MapCoordinateComponent mcc = new MapCoordinateComponent(this, World.interactiveLayers.Values.First<TileMapLayer>());
             mcc.UpdateOrder = 3;
             this.Components.Add(mcc);
             doc.DebugLines.Add(mcc);
@@ -149,7 +149,7 @@ namespace WesternSpace.Screens
         private void CreateLayerComponents()
         {
             // Create our World
-            world = new World(this.Game, "WorldXML\\TestWorld");
+            world = new World(this, "WorldXML\\TestWorld");
 
             /*TileMapLayer background = new TileMapLayer(this.Game, World.Map, 0, 0.25f);
             background.DrawOrder = -10;

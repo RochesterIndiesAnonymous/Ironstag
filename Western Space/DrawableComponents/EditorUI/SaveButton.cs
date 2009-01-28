@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.TilingEngine;
 using WesternSpace.Utility;
+using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.EditorUI
 {
@@ -25,8 +26,8 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         private ITextureService textureService;
 
-        public SaveButton(Game game, SpriteBatch spriteBatch, RectangleF bounds, TileSelector tileSelector)
-            : base(game, spriteBatch, bounds)
+        public SaveButton(Screen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, TileSelector tileSelector)
+            : base(parentScreen, spriteBatch, bounds)
         {
             this.tileSelector = tileSelector;
             this.textureService = (ITextureService)Game.Services.GetService(typeof(ITextureService));

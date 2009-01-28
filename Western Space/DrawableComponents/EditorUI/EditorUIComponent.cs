@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.Input;
 using WesternSpace.Utility;
+using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.EditorUI
 {
@@ -142,8 +143,8 @@ namespace WesternSpace.DrawableComponents.EditorUI
             return bounds.Contains(new PointF(inputManager.BetterMouse.ScaledPosition.X, inputManager.BetterMouse.ScaledPosition.Y));
         }
 
-        public EditorUIComponent(Game game, SpriteBatch spriteBatch, RectangleF bounds)
-            :base(game, spriteBatch, new Vector2(bounds.X, bounds.Y))
+        public EditorUIComponent(Screen parentScreen, SpriteBatch spriteBatch, RectangleF bounds)
+            :base(parentScreen, spriteBatch, new Vector2(bounds.X, bounds.Y))
         {
             this.Color = Microsoft.Xna.Framework.Graphics.Color.White;
             this.mouseWasInside = false;

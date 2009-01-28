@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using WesternSpace.ServiceInterfaces;
-using WesternSpace.Services;
-using WesternSpace.Screens;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+
+using WesternSpace.ServiceInterfaces;
+using WesternSpace.Services;
 using WesternSpace.AnimationFramework;
 using WesternSpace.Collision;
 using WesternSpace.TilingEngine;
+using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
@@ -126,8 +127,8 @@ namespace WesternSpace.DrawableComponents.Actors
         // param: position - The character's position in the world. May not be visible by the camera's
         //                   current position.
         // param: xmlFile - The XML file name which stores the Character's Animation data.
-        public Character(Game game, SpriteBatch spriteBatch, Vector2 position, String xmlFile)
-            : base(game, spriteBatch, position)
+        public Character(Screen parentScreen, SpriteBatch spriteBatch, Vector2 position, String xmlFile)
+            : base(parentScreen, spriteBatch, position)
         {
             this.Position = position;
             this.collisionHotSpots = new List<CollisionHotspot>();

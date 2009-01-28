@@ -7,14 +7,16 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Drawing;
+
 using WesternSpace.Interfaces;
+using WesternSpace.Screens;
 
 namespace WesternSpace.Services
 {
     /// <summary>
     /// The implementation of the camera service
     /// </summary>
-    class CameraService : GameObject, ICameraService
+    class CameraService : GameComponent, ICameraService
     {
         /// <summary>
         /// The position of the camera within the world

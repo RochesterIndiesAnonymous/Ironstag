@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using WesternSpace.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
+
+using WesternSpace.Interfaces;
+using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.Misc
 {
@@ -52,8 +54,8 @@ namespace WesternSpace.DrawableComponents.Misc
         /// <param name="game">The game object this component is associated with</param>
         /// <param name="spriteBatch">The sprite batch instance to use to draw on the screen</param>
         /// <param name="position">The position of this component on the screen</param>
-        public DebuggingOutputComponent(Game game, SpriteBatch spriteBatch, Vector2 position)
-            : base(game, spriteBatch, position)
+        public DebuggingOutputComponent(Screen parentScreen, SpriteBatch spriteBatch, Vector2 position)
+            : base(parentScreen, spriteBatch, position)
         {
             debugLines = new List<IDebugOutput>();
         }

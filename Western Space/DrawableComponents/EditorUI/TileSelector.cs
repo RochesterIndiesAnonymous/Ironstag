@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.TilingEngine;
 using WesternSpace.Utility;
+using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.EditorUI
 {
@@ -16,7 +17,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
     //  to select it and edit it's properties.
     public class TileSelector : EditorUIComponent
     {
-        private EdgeToggler edgeToggler;
+        private EdgeToggler edgeToggler; 
 
         public EdgeToggler EdgeToggler
         {
@@ -62,7 +63,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
             get 
             {
                 //return virtualTile;
-                if(tileX < 0 || tileY < 0)
+                if (tileX < 0 || tileY < 0 || TileMap.Tiles[tileX, tileY] == null)
                 {
                     return virtualTile;
                 }
@@ -148,8 +149,8 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         #endregion
 
-        public TileSelector(Game game, SpriteBatch spriteBatch, RectangleF bounds, TileMapLayer tileMapLayer)
-            : base(game, spriteBatch, bounds)
+        public TileSelector(Screen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, TileMapLayer tileMapLayer)
+            : base(parentScreen, spriteBatch, bounds)
         {
             this.tileX = this.tileY = -1; // No tile selected.
 
@@ -165,23 +166,23 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 {
                     int index = i*TileMap.SubLayerCount + j;
 
-                    SubTextureSelector subTexSel = new SubTextureSelector(Game, SpriteBatch, this, i, j);
-                    Game.Components.Add(subTexSel);
+                    SubTextureSelector subTexSel = new SubTextureSelector(ParentScreen, SpriteBatch, this, i, j);
+                    ParentScreen.Components.Add(subTexSel);
                     this.subTextureSelectors[index] = subTexSel;
                 }
             }
 
             RectangleF tmp = SubTextureSelectors.Last<SubTextureSelector>().Bounds;
             tmp.Y += 20 + TileMap.TileHeight;
-            this.edgeToggler = new EdgeToggler(Game, SpriteBatch, tmp, this);
-            Game.Components.Add(this.edgeToggler);
+            this.edgeToggler = new EdgeToggler(ParentScreen, SpriteBatch, tmp, this);
+            ParentScreen.Components.Add(this.edgeToggler);
             
             tmp.Y += 20 + TileMap.TileHeight;
             tmp.X -= 10;
             tmp.Width = 30;
             tmp.Height = 15;
-            this.saveButton = new SaveButton(Game, spriteBatch, tmp, this);
-            Game.Components.Add(this.saveButton);
+            this.saveButton = new SaveButton(ParentScreen, spriteBatch, tmp, this);
+            ParentScreen.Components.Add(this.saveButton);
         }
 
         public override void Update(GameTime gameTime)

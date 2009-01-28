@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using System.Xml.Linq;
+
 using WesternSpace.Services;
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.TilingEngine;
-using System.Xml.Linq;
+using WesternSpace.Screens;
+using WesternSpace.Interfaces;
 
 namespace WesternSpace
 {
@@ -31,16 +34,25 @@ namespace WesternSpace
         // int represents the Z-index the layer is drawn at.
         public Dictionary<int, TileMapLayer> parallaxLayers;
 
-        public World(Game game)
-            : base(game)
+        /// <summary>
+        /// Create an empty parent screen.
+        /// </summary>
+        /// <param name="parentScreen">The screen this world will be updated in.</param>
+        public World(Screen parentScreen)
+            : base(parentScreen)
         {
             this.interactiveLayers = new Dictionary<int, TileMapLayer>();
             this.parallaxLayers = new Dictionary<int, TileMapLayer>();
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
         }
 
-        public World(Game game, string fileName)
-            : base(game)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parentScreen">The screen this world will be updated in.</param>
+        /// <param name="fileName">The name of the XML file that contains this World's information.</param>
+        public World(Screen parentScreen, string fileName)
+            : base(parentScreen)
         {
             #region FOR TESTING ONLY - REMOVE ME LATER
             /*
@@ -57,14 +69,13 @@ namespace WesternSpace
             */
             #endregion
 
-            //this.camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
             this.interactiveLayers = new Dictionary<int, TileMapLayer>();
             this.parallaxLayers = new Dictionary<int, TileMapLayer>();
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
             LoadWorldXmlFile(fileName);
         }
 
-        // TODO: add support for parallax layers. This will require a new class that derives from
+        // TODO: add proper support for parallax layers. This will require a new class that derives from
         //        TileMapLayer and overrides Draw()
         private void LoadWorldXmlFile(string fileName)
         {
@@ -94,10 +105,10 @@ namespace WesternSpace
                 Int32.TryParse(mapLayer.Attribute("LayerIndex").Value, out LayerIndex);
                 Int32.TryParse(mapLayer.Attribute("ZIndex").Value, out ZIndex);
 
-                interactiveLayers[ZIndex] = new TileMapLayer(this.Game, batchService.GetSpriteBatch(TileMapLayer.SpriteBatchName), map, LayerIndex);
+                interactiveLayers[ZIndex] = new TileMapLayer(ParentScreen, batchService.GetSpriteBatch(TileMapLayer.SpriteBatchName), map, LayerIndex);
                 interactiveLayers[ZIndex].DrawOrder = ZIndex;
 
-                Game.Components.Add(interactiveLayers[ZIndex]);
+                ParentScreen.Components.Add(interactiveLayers[ZIndex]);
                 layerService.Layers[LayerName] = interactiveLayers[ZIndex];
             }
 
@@ -125,10 +136,10 @@ namespace WesternSpace
                     Int32.TryParse(parallaxLayer.Attribute("LayerIndex").Value, out LayerIndex);
                     Int32.TryParse(parallaxLayer.Attribute("ZIndex").Value, out ZIndex);
 
-                    parallaxLayers[ZIndex] = new TileMapLayer(this.Game, batchService.GetSpriteBatch(TileMapLayer.SpriteBatchName), tileMap, LayerIndex, ScrollSpeed);
+                    parallaxLayers[ZIndex] = new TileMapLayer(ParentScreen, batchService.GetSpriteBatch(TileMapLayer.SpriteBatchName), tileMap, LayerIndex, ScrollSpeed);
                     parallaxLayers[ZIndex].DrawOrder = ZIndex;
 
-                    Game.Components.Add(parallaxLayers[ZIndex]);
+                    ParentScreen.Components.Add(parallaxLayers[ZIndex]);
                     layerService.Layers[LayerName] = parallaxLayers[ZIndex];
                 }
             }

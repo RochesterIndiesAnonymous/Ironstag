@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.Interfaces;
+using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.Misc
 {
@@ -42,8 +44,8 @@ namespace WesternSpace.DrawableComponents.Misc
         /// Constructor
         /// </summary>
         /// <param name="game">The game object this component is associated with</param>
-        public MouseWorldCoordinatesComponent(Game game)
-            : base(game)
+        public MouseWorldCoordinatesComponent(Screen parentScreen)
+            : base(parentScreen)
         {
 
         }

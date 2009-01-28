@@ -5,7 +5,9 @@ using System.Text;
 using WesternSpace.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using WesternSpace.ServiceInterfaces;
+using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.Misc
 {
@@ -46,8 +48,8 @@ namespace WesternSpace.DrawableComponents.Misc
         /// </summary>
         /// <param name="game">The game this component is tied to</param>
         /// <param name="map">The map we will be using to calculate the coordinates</param>
-        public MapCoordinateComponent(Game game, IMapCoordinates map)
-            : base(game)
+        public MapCoordinateComponent(Screen parentScreen, IMapCoordinates map)
+            : base(parentScreen)
         {
             this.map = map;
         }

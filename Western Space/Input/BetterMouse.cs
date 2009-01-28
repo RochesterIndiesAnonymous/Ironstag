@@ -7,11 +7,12 @@ using Microsoft.Xna.Framework.Input;
 
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.TilingEngine;
+using WesternSpace.Screens;
 
 namespace WesternSpace.Input
 {
     // Our version of MouseState. Much more useful.
-    public class BetterMouse : GameObject
+    public class BetterMouse : GameComponent
     {
         // Where we get our mouse data from:
         IInputManagerService inputManager;

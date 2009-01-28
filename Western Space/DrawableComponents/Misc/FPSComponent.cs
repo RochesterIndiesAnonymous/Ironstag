@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+
 using WesternSpace.Interfaces;
+using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.Misc
 {
@@ -28,11 +30,11 @@ namespace WesternSpace.DrawableComponents.Misc
         #endregion
 
         /// <summary>
-        /// Constructor
+        /// TODO
         /// </summary>
-        /// <param name="game">The game object that this component is part of</param>
-        public FPSComponent(Game game)
-            : base(game, null, Vector2.Zero)
+        /// <param name="parentScreen"></param>
+        public FPSComponent(Screen parentScreen)
+            : base(parentScreen, null, Vector2.Zero)
         {
         }
 

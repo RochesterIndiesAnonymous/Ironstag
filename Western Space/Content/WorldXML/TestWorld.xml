@@ -4,8 +4,8 @@
     <Layer LayerName="ForegroundParallax" LayerIndex="0" ZIndex="-100" />
   </Parallax>-->
 
-  <MapLayer LayerName="MapBackground" LayerIndex="0" ZIndex="0" />
-  <MapLayer LayerName="MapForeground" LayerIndex="1" ZIndex="10" />
+  <MapLayer LayerName="MapBackground" LayerIndex="0" ZIndex="-10" />
+  <MapLayer LayerName="MapForeground" LayerIndex="1" ZIndex="1000" />
 
   <!--<Parallax MapFileName="TileMapXML\\BigTileMap" ScrollSpeed="0.25">
     <Layer LayerName="BackgroundParallax" LayerIndex="0" ZIndex="-10" />

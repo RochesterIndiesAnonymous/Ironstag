@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.Interfaces;
 using WesternSpace.Utility;
+using WesternSpace.Screens;
 
 namespace WesternSpace.TilingEngine
 {
@@ -116,8 +117,8 @@ namespace WesternSpace.TilingEngine
 
         #endregion
 
-        public TileMapLayer(Game game, SpriteBatch spriteBatch, TileMap tm, int layerIndex)
-            : base(game, spriteBatch, Vector2.Zero)
+        public TileMapLayer(Screen parentScreen, SpriteBatch spriteBatch, TileMap tm, int layerIndex)
+            : base(parentScreen, spriteBatch, Vector2.Zero)
         {
             this.drawEdgesEnabled = false;
             this.drawBlanksEnabled = false;
@@ -126,8 +127,8 @@ namespace WesternSpace.TilingEngine
             this.tm = tm;
         }
 
-        public TileMapLayer(Game game, SpriteBatch spriteBatch, TileMap tm, int layerIndex, float scrollSpeed)
-            : this(game, spriteBatch, tm, layerIndex)
+        public TileMapLayer(Screen parentScreen, SpriteBatch spriteBatch, TileMap tm, int layerIndex, float scrollSpeed)
+            : this(parentScreen, spriteBatch, tm, layerIndex)
         {
             this.drawEdgesEnabled = false;
             this.drawBlanksEnabled = false;

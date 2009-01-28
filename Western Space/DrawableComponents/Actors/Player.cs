@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Linq;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using WesternSpace.ServiceInterfaces;
 using Microsoft.Xna.Framework.Input;
+
+using WesternSpace.ServiceInterfaces;
 using WesternSpace.AnimationFramework;
 using WesternSpace.Collision;
+using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
@@ -93,8 +95,8 @@ namespace WesternSpace.DrawableComponents.Actors
         private float jumpTime;
 
         // The constructor for Flint Ironstag
-        public Player(Game game, SpriteBatch spriteBatch, Vector2 position, String xmlFile)
-            : base(game, spriteBatch, position, xmlFile)
+        public Player(Screen parentScreen , SpriteBatch spriteBatch, Vector2 position, String xmlFile)
+            : base(parentScreen, spriteBatch, position, xmlFile)
         {
             //Set the character's Name
             name = "Flint Ironstag";
@@ -111,7 +113,7 @@ namespace WesternSpace.DrawableComponents.Actors
             SetUpAnimation(xmlFile);
 
             //Create the Animation Player and give it the Idle Animation
-            this.animationPlayer = new AnimationPlayer(game, spriteBatch, animationMap["Idle"]);
+            this.animationPlayer = new AnimationPlayer(spriteBatch, animationMap["Idle"]);
 
             //Set the current animation
             currentAnimation = animationPlayer.Animation;

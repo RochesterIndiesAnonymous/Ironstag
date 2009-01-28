@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+
 using WesternSpace.Utility;
 using WesternSpace.ServiceInterfaces;
-using Microsoft.Xna.Framework;
+using WesternSpace.Screens;
+
 
 namespace WesternSpace.Services
 {
     /// <summary>
     /// Implementation of the sprite batch service
     /// </summary>
-    public class SpriteBatchService : GameObject, ISpriteBatchService
+    public class SpriteBatchService : GameComponent, ISpriteBatchService
     {
         /// <summary>
         /// The camera that is used to update the sprite batch begin calls
@@ -32,7 +35,6 @@ namespace WesternSpace.Services
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="game">The game that this component is associated with</param>
         public SpriteBatchService(Game game)
             : base(game)
         {

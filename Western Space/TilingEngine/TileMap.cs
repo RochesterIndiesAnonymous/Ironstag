@@ -85,7 +85,14 @@ namespace WesternSpace.TilingEngine
 
         public void SetSolid(bool solidOrNot, int x, int y)
         {
-            tiles[x, y].SetSolid(solidOrNot);
+            if (tiles[x, y] != null)
+            {
+                tiles[x, y].SetSolid(solidOrNot);
+            }
+            else
+            {
+                tiles[x, y] = new Tile(layerCount, subLayerCount);
+            }
             SetTile(tiles[x, y], x, y);
         }
 
@@ -291,17 +298,21 @@ namespace WesternSpace.TilingEngine
             }
 
             XElement returnVal = new XElement("T", new XAttribute("e", edges));
+
+            int z = 0; // The index into the Tile.Textures array where this SubTexture belongs.
             foreach (SubTexture sub in tile.Textures)
             {
                 // Note: Texture2D.Name is useless normally, but the TextureService will
                 //       automatically set the Name parameter to be the asset name so they can
                 //       easily be retrieved.
+                // "z" attribute: the index into the tile's Textures[,] array. Converted to single int to save space.
                 // "s" attribute: the SubTextureSheet number to use. Each tilemap keeps a list of these.
                 // "i" attribute: the index into the SubTextureSheet representing a SubTexture of this tile.
                 if (sub != null)
                 {
-                    returnVal.Add(new XElement("x", new XAttribute("s", sheetIndex[sub.Sheet.Name]), new XAttribute("i", sub.Index)));
+                    returnVal.Add(new XElement("x", new XAttribute("z", z), new XAttribute("s", sheetIndex[sub.Sheet.Name]), new XAttribute("i", sub.Index)));
                 }
+                ++z;
             }
             return returnVal;
         }
@@ -313,25 +324,29 @@ namespace WesternSpace.TilingEngine
                 return null;
             }
 
-            IEnumerable<SubTexture> subTextures = from element in xelement.Descendants("x")
-                                                  select sheets[Int32.Parse(element.Attribute("s").Value)].SubTextures[Int32.Parse(element.Attribute("i").Value)];
-
             SubTexture[,] subTexturesArray = new SubTexture[layerCount, subLayerCount];
 
-            int i = 0, j = 0;
+            IEnumerable<XElement> subTextureElements = xelement.Descendants("x");
 
-            foreach( SubTexture subTexture in subTextures)
+
+            int i = 0, j = 0;
+            //int index = 0; // Was needed when changing format.
+            foreach( XElement subTextureElement in subTextureElements)
             {
-                subTexturesArray[i, j] = subTexture;
-                if (j < subLayerCount - 1)
-                { 
-                    ++j; 
-                }
-                else 
+                //if (subTextureElement.Attribute("z") != null)
+                //{
+                    i = Int32.Parse(subTextureElement.Attribute("z").Value) / SubLayerCount;
+                    j = Int32.Parse(subTextureElement.Attribute("z").Value) % SubLayerCount;
+                    SubTexture subTex = new SubTexture(Sheets[Int32.Parse(subTextureElement.Attribute("s").Value)], Int32.Parse(subTextureElement.Attribute("i").Value));
+                    subTexturesArray[i, j] = subTex;
+                //}
+                /*else
                 {
-                    ++i;
-                    j = 0;
-                }
+                    i = index / SubLayerCount;
+                    j = index % SubLayerCount;
+                    subTexturesArray[i, j] = new SubTexture(Sheets[Int32.Parse(subTextureElement.Attribute("s").Value)], Int32.Parse(subTextureElement.Attribute("i").Value));
+                    ++index;
+                }*/ // Was needed when changing format.
             }
 
             int edgeInt;

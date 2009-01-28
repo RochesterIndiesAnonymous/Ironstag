@@ -5,16 +5,18 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
+
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.AnimationFramework;
+using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
     class ToadMan : Character
     {
         // The constructor for the Toad Man 
-        public ToadMan(Game game, SpriteBatch spriteBatch, Vector2 position, String xmlFile)
-            : base(game, spriteBatch, position, xmlFile)
+        public ToadMan(Screen parentScreen, SpriteBatch spriteBatch, Vector2 position, String xmlFile)
+            : base(parentScreen, spriteBatch, position, xmlFile)
         {
             //Set the character's Name
             name = "Toad Man";
@@ -23,7 +25,7 @@ namespace WesternSpace.DrawableComponents.Actors
             SetUpAnimation(xmlFile);
 
             //Create the Animation Player and give it the Idle Animation
-            this.animationPlayer = new AnimationPlayer(game, spriteBatch, animationMap["Idle"]);
+            this.animationPlayer = new AnimationPlayer(spriteBatch, animationMap["Idle"]);
 
             //Set the current animation
             currentAnimation = animationPlayer.Animation;

@@ -14,7 +14,7 @@ namespace WesternSpace.Services
     /// <summary>
     /// The implementation of the input manager service
     /// </summary>
-    public class InputManagerService : GameObject, IInputManagerService
+    public class InputManagerService : GameComponent, IInputManagerService
     {
         /// <summary>
         /// The old keyboard state before the latest update

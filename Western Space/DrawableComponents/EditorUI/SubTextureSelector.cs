@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.TilingEngine;
 using WesternSpace.Utility;
+using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.EditorUI
 {
@@ -200,8 +201,8 @@ namespace WesternSpace.DrawableComponents.EditorUI
             }
         }
 
-        public SubTextureSelector(Game game, SpriteBatch spriteBatch, TileSelector tileSelector, int layerIndex, int subLayerIndex)
-            :base(game, spriteBatch, new RectangleF())
+        public SubTextureSelector(Screen parentScreen, SpriteBatch spriteBatch, TileSelector tileSelector, int layerIndex, int subLayerIndex)
+            :base(parentScreen, spriteBatch, new RectangleF())
         {
             this.Color = Microsoft.Xna.Framework.Graphics.Color.White;
             textureService = (ITextureService)Game.Services.GetService(typeof(ITextureService));
