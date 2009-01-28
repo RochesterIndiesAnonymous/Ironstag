@@ -245,9 +245,9 @@ namespace WesternSpace.Screens
 
                 // find where this drawing component belongs
                 int index = this.updatingComponents.BinarySearch(component, Utility.UpdateOrderComparer.Default);
-                index = ~index;
                 if (index < 0)
                 {
+                    index = ~index;
                     // calculate the index
                     while (index < this.updatingComponents.Count && this.updatingComponents[index].UpdateOrder == component.UpdateOrder)
                     {
@@ -275,9 +275,9 @@ namespace WesternSpace.Screens
                 this.drawingComponents.Remove(drawableComponent);
 
                 int index = this.drawingComponents.BinarySearch(drawableComponent, Utility.DrawOrderComparer.Default);
-                index = ~index;
                 if (index < 0)
                 {
+                    index = ~index;
                     while (index < this.drawingComponents.Count && this.drawingComponents[index].DrawOrder == drawableComponent.DrawOrder)
                     {
                         index++;
