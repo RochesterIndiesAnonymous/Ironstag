@@ -95,6 +95,7 @@
     <Compile Include="Collision\SpriteSpriteCollisionManager.cs" />
     <Compile Include="Collision\SpriteTileCollisionManager.cs" />
     <Compile Include="DrawableComponents\Actors\Player.cs" />
+    <Compile Include="DrawableComponents\EditorUI\ITilePropertyComponent.cs" />
     <Compile Include="DrawableComponents\EditorUI\SaveButton.cs" />
     <Compile Include="DrawableComponents\EditorUI\EdgeToggler.cs" />
     <Compile Include="Interfaces\IScreenComponent.cs" />

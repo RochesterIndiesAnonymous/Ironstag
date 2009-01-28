@@ -13,88 +13,135 @@ using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.EditorUI
 {
-    // Allows you to "click" a tile on the active tilemap (in the world)
-    //  to select it and edit it's properties.
+    // Allows you to "click" any number of tiles on the active tilemap (in the world)
+    //  and modify their properties.
     public class TileSelector : EditorUIComponent
     {
-        private EdgeToggler edgeToggler; 
+        List<ITilePropertyComponent> tilePropertyComponents;
+
+        internal List<ITilePropertyComponent> TilePropertyComponents
+        {
+            get { return tilePropertyComponents; }
+        }
+
+        private List<SubTextureSelector> subTextureSelectors;
+
+        public List<SubTextureSelector> SubTextureSelectors
+        {
+            get { return subTextureSelectors; }
+        }
+
+        private EdgeToggler edgeToggler;
 
         public EdgeToggler EdgeToggler
         {
             get { return edgeToggler; }
         }
 
-        private SaveButton saveButton;
-
-        public SaveButton SaveButton
-        {
-            get { return saveButton; }
-        }
-
-        private SubTextureSelector[] subTextureSelectors;
-
-        public SubTextureSelector[] SubTextureSelectors
-        {
-            get { return subTextureSelectors; }
-        }
-
         private TileMapLayer tileMapLayer;
 
-        public TileMapLayer TileMapLayer
+        /// <summary>
+        /// Currently, a hack to deal with camera coordinates and the likes until that's properly working.
+        /// </summary>
+        private TileMapLayer TileMapLayer
         {
             get { return tileMapLayer; }
         }
+
+        /// <summary>
+        /// The list of tile coordinates that we're currently highlighting, assuming
+        ///  that we're in the process of highlighting tiles.
+        /// </summary>
+        private List<int[]> highlightedTileCoordinates;
+
+        private List<int[]> selectedTileCoordinates;
+
+        private List<int[]> SelectedTileCoordinates
+        {
+            get { return selectedTileCoordinates; }
+            set 
+            {
+                selectedTileCoordinates = value;
+                foreach (ITilePropertyComponent tilePropertyComponent in tilePropertyComponents)
+                {
+                    tilePropertyComponent.OnTileSelectionChange();
+                }
+            }
+        }
+        
+
+        // Somewhat slow, I know. But for now it works:
+        public List<Tile> SelectedTiles
+        {
+            get 
+            {
+                return (from coords in selectedTileCoordinates
+                        select TileMap.Tiles[coords[0], coords[1]]).ToList<Tile>();
+            }
+        }
+
+        // Not until we have proper camera motion can we use this:
+        //private TileMap tileMap;
 
         public TileMap TileMap
         {
             get { return tileMapLayer.TileMap; }
         }
 
-        private Tile virtualTile;
-
-        public Tile VirtualTile
+        /// <summary>
+        /// Append some tiles to our list of selected tiles.
+        /// </summary>
+        /// <param name="coordinateList">
+        /// A list of 2-element integer arrays;
+        ///     int[0] - tilemap X coord.
+        ///     int[1] - tilemap Y coord.
+        /// </param>
+        public void SelectTiles(List<int[]> coordinateList)
         {
-            get { return virtualTile; }
-            set { virtualTile = value; }
-        }
-
-        public Tile Tile
-        {
-            get 
+            // TODO: Make sure null tiles are turned into new empty tiles before
+            //        they are added to our list, so their properties can change.
+            foreach (int[] tileMapCoords in coordinateList)
             {
-                //return virtualTile;
-                if (tileX < 0 || tileY < 0 || TileMap.Tiles[tileX, tileY] == null)
+                if ( tileMapCoords[0] >= 0 &&
+                     tileMapCoords[1] >= 0 &&
+                     tileMapCoords[0] < TileMap.Width &&
+                     tileMapCoords[1] < TileMap.Height &&
+                    !selectedTileCoordinates.Contains(tileMapCoords))
                 {
-                    return virtualTile;
+                    selectedTileCoordinates.Add(tileMapCoords);
                 }
-                else
-                {
-                    return TileMap.Tiles[tileX, tileY];
-                }
+            }
+
+            foreach (ITilePropertyComponent tilePropertyComponent in tilePropertyComponents)
+            {
+                tilePropertyComponent.OnTileSelectionChange();
             }
         }
 
-        private int tileX;
-
-        public int TileX
+        /// <summary>
+        /// Remove some tiles from our list.
+        /// </summary>
+        /// <param name="coordinateList">
+        /// A list of 2-element integer arrays;
+        ///     int[0] - tilemap X coord.
+        ///     int[1] - tilemap Y coord.
+        /// </param>
+        public void DeselectTiles(List<int[]> coordinateList)
         {
-            get { return tileX; }
-        }
-
-        private int tileY;
-
-        public int TileY
-        {
-            get { return tileY; }
-        }
-
-        public void SelectTile(int x, int y)
-        {
-            tileX = x; 
-            tileY = y;
-            if (TileMap.Tiles[x, y] != null)
+            // TODO: 
+            //       Also, when they're deselected, make sure they're turned back into
+            //        null.
+            foreach (int[] tileMapCoords in coordinateList)
             {
-                virtualTile = TileMap.Tiles[x, y];
+                if (!selectedTileCoordinates.Contains(tileMapCoords)) // May not be neccessary?
+                {
+                    selectedTileCoordinates.Remove(tileMapCoords);
+                }
+            }
+
+            foreach (ITilePropertyComponent tilePropertyComponent in tilePropertyComponents)
+            {
+                tilePropertyComponent.OnTileSelectionChange();
             }
         }
 
@@ -102,63 +149,61 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         protected override void OnMouseClick(int button)
         {
-
             Vector2 pos = TileMapLayer.CalculateMapCoordinatesFromScreenPoint(Mouse.Position);
             int x = (int)Math.Round((double)(pos.X), 0);
             int y = (int)Math.Round((double)(pos.Y), 0);
+
+            List<int[]> tileCoords = new List<int[]>();
+            tileCoords.Add(new int[] { x, y });
+
             if (button == 0) // Left button clicked. Select/Add a tile
             {
-                SelectTile(x, y);
-                if (TileMap.Tiles[x, y] == null)
-                {
-                    TileMap.SetTile(new Tile(virtualTile), x, y);
-                }
-                SelectTile(x, y);
+                SelectedTileCoordinates = tileCoords;
             }
             else if (button == 1) // Middle button clicked. Toggle a tile's edges
             {
-                Tile t = TileMap.Tiles[x, y];
-                if (t != null)
-                {
-                    bool solid = false;
-                    foreach (bool edge in t.InitialEdges)
-                    {
-                        if (edge)
-                        {
-                            solid = true;
-                            break;
-                        }
-                    }
-                    TileMap.SetSolid(!solid, x, y);
-                    tileX = tileY = -1;
-                }
-                else
-                {
-                    TileMap.SetTile(new Tile(virtualTile.LayerCount, virtualTile.SubLayerCount), x, y);
-                }
+                // TODO!
             }
             else if (button == 2) // Right button clicked. Remove a tile
             {
-                SelectTile(x, y);
-                TileMap.RemoveTile(x, y);
-                tileX = tileY = -1;
             }
 
             base.OnMouseClick(button);
         }
 
+        protected override void OnMouseUnclick(int button)
+        {
+            base.OnMouseUnclick(button);
+        }
+
         #endregion
 
+        public void SetSubTexture(SubTexture subTexture, int layerIndex, int subLayerIndex)
+        {
+            foreach (int[] tileCoord in selectedTileCoordinates)
+            {
+                Tile tile = TileMap.Tiles[tileCoord[0], tileCoord[1]];
+                if (subTexture != null && tile == null)
+                {
+                    SubTexture[,] textures = new SubTexture[TileMap.LayerCount, TileMap.SubLayerCount];
+                    textures[layerIndex, subLayerIndex] = subTexture;
+                    tile = new Tile(textures); // TODO: set the edges to what the edge toggler says the tile's edges should be!
+                    TileMap.SetTile(tile, tileCoord[0], tileCoord[1]);
+                }
+                else
+                {
+                    tile.Textures[layerIndex, subLayerIndex] = subTexture;
+                }
+            }
+        }
+        
         public TileSelector(Screen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, TileMapLayer tileMapLayer)
             : base(parentScreen, spriteBatch, bounds)
         {
-            this.tileX = this.tileY = -1; // No tile selected.
-
             this.tileMapLayer = tileMapLayer;
-
-            this.virtualTile = new Tile(TileMap.LayerCount, TileMap.SubLayerCount);
-
-            this.subTextureSelectors = new SubTextureSelector[TileMap.SubLayerCount * TileMap.LayerCount];
+            this.tilePropertyComponents = new List<ITilePropertyComponent>();
+            this.selectedTileCoordinates = new List<int[]>();
+            this.subTextureSelectors = new List<SubTextureSelector>();
 
             for (int i = 0; i < TileMap.LayerCount; ++i)
             {
@@ -167,30 +212,16 @@ namespace WesternSpace.DrawableComponents.EditorUI
                     int index = i*TileMap.SubLayerCount + j;
 
                     SubTextureSelector subTexSel = new SubTextureSelector(ParentScreen, SpriteBatch, this, i, j);
+                    this.TilePropertyComponents.Add(subTexSel);
                     ParentScreen.Components.Add(subTexSel);
-                    this.subTextureSelectors[index] = subTexSel;
+                    SubTextureSelectors.Add(subTexSel);
                 }
             }
 
-            RectangleF tmp = SubTextureSelectors.Last<SubTextureSelector>().Bounds;
+            RectangleF tmp = ((SubTextureSelector)TilePropertyComponents.Last<ITilePropertyComponent>()).Bounds;
             tmp.Y += 20 + TileMap.TileHeight;
             this.edgeToggler = new EdgeToggler(ParentScreen, SpriteBatch, tmp, this);
             ParentScreen.Components.Add(this.edgeToggler);
-            
-            tmp.Y += 20 + TileMap.TileHeight;
-            tmp.X -= 10;
-            tmp.Width = 30;
-            tmp.Height = 15;
-            this.saveButton = new SaveButton(ParentScreen, spriteBatch, tmp, this);
-            ParentScreen.Components.Add(this.saveButton);
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (virtualTile == null || virtualTile.IsEmpty())
-                virtualTile = new Tile(TileMap.LayerCount, TileMap.SubLayerCount);
-
-            base.Update(gameTime);
         }
 
         public override void Initialize()
@@ -209,10 +240,10 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
             DrawBoundingRect(position, 2, Microsoft.Xna.Framework.Graphics.Color.White);
 
-            if (Tile != null)
+            foreach (int[] tileCoord in SelectedTileCoordinates)
             {
-                // Highlight the tile we've selected.
-                position = new Vector2(tileX * TileMap.TileWidth, tileY * TileMap.TileHeight)
+               // Highlight the tile we've selected.
+                position = new Vector2(tileCoord[0] * TileMap.TileWidth, tileCoord[1] * TileMap.TileHeight)
                                         - tileMapLayer.Camera.Position * tileMapLayer.ScrollSpeed;
 
                 position.X = (int)position.X;

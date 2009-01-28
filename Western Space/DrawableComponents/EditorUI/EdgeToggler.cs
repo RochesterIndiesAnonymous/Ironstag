@@ -13,14 +13,9 @@ using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.EditorUI
 {
-    public class EdgeToggler : EditorUIComponent
+    public class EdgeToggler : EditorUIComponent, ITilePropertyComponent
     {
         private TileSelector tileSelector;
-
-        public Tile Tile
-        {
-            get { return tileSelector.Tile; }
-        }
 
         private ITextureService textureService;
 
@@ -32,7 +27,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
         }
 
         #region MOUSE EVENT HANDLERS
-
+/*
         protected override void OnMouseUnclick(int button)
         {
             if (button == 0) // Only handle left clicks, ignore others.
@@ -48,11 +43,12 @@ namespace WesternSpace.DrawableComponents.EditorUI
             }
             base.OnMouseUnclick(button);
         }
-
+*/
         #endregion
 
         public override void Draw(GameTime gameTime)
         {
+            /*
             if(Tile != null ) 
             {
                 for (int i = 0; i < Tile.LayerCount; ++i)
@@ -80,9 +76,19 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 {
                     Color = new Microsoft.Xna.Framework.Graphics.Color(1.0f, 1.0f, 1.0f, (mouseInside ? 0.8f : 0.5f));
                 }
-            }
+            }*/
+
             base.Draw(gameTime);
         }
 
+
+        #region ITilePropertyComponent Members
+
+        public void OnTileSelectionChange()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

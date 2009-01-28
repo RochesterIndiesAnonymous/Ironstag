@@ -19,11 +19,6 @@ namespace WesternSpace.DrawableComponents.EditorUI
     {
         private TileSelector tileSelector;
 
-        public Tile Tile
-        {
-            get { return tileSelector.Tile; }
-        }
-
         private ITextureService textureService;
 
         public SaveButton(Screen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, TileSelector tileSelector)

@@ -10,47 +10,39 @@ using WesternSpace.ServiceInterfaces;
 using WesternSpace.TilingEngine;
 using WesternSpace.Utility;
 using WesternSpace.Screens;
+using System.Collections;
 
 namespace WesternSpace.DrawableComponents.EditorUI
 {
-    public class SubTextureSelector : EditorUIComponent
+    public class SubTextureSelector : EditorUIComponent, ITilePropertyComponent
     {
         private TileSelector tileSelector;
 
-        public Tile Tile
-        {
-            get { return tileSelector.Tile; }
-        }
-
         private ITextureService textureService;
+
+        private SubTexture subTexture;
+
+        public SubTexture SubTexture
+        {
+            get { return subTexture; }
+            set { subTexture = value; }
+        }
 
         // Set to true if the user is currently
         //  selecting a SubTexture. Changes how this behaves
         //  quite a bit.
-        private bool selectingSubTexture;
+        private bool isSelectingSubTexture;
 
-        public SubTexture CurrentTexture
-        {
-            get
-            {
-                if (Tile != null)
-                {
-                    return Tile.Textures[layerIndex, subLayerIndex];
-                }
-                else { return null; }
-            }
+        // The index into the textureService SheetArray property that gets us the current
+        //  sheet we're selecting from:
+        private int sheetIndex;
 
-            set
-            {
-                Tile.Textures[layerIndex, subLayerIndex] = value;
-            }
-        }
-
-        private int selectingSheetIndex;
-
+        /// <summary>
+        /// The sheet we're currently selecting from.
+        /// </summary>
         private SubTextureSheet selectingSheet
         {
-            get { return textureService.SheetsArray[selectingSheetIndex]; }
+            get { return textureService.SheetsArray[sheetIndex]; }
             set
             {
                 int index;
@@ -58,13 +50,16 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 {
                     if (value == textureService.SheetsArray[index])
                     {
-                        selectingSheetIndex = index;
+                        sheetIndex = index;
                         return;
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Used to get the SubTexture from the Sheet we're currently hovering over.
+        /// </summary>
         public SubTexture hoveringTexture
         {
             get
@@ -102,67 +97,48 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         #region MOUSE EVENT HANDLERS
 
-        protected override void OnMouseClick(int button)
-        {
-            
-            base.OnMouseClick(button);
-        }
-
-        protected override void WhileMouseOutside()
-        {
-            /*
-            if (selectingSubTexture && OutsideTime > 300)
-            {
-                SetSelectingSubTexture(false);
-            }
-            */
-            base.WhileMouseOutside();
-        }
-
         protected override void OnMouseUnclick(int button)
         {
-            if (!selectingSubTexture && button == 0)
+            if (!isSelectingSubTexture && button == 0)
                 SetSelectingSubTexture(true);
-            else if (selectingSubTexture)
+            else if (isSelectingSubTexture)
             {
                 if (button == 0) // Left click, select the subTexture we're hovering over
                 {
-                    CurrentTexture = hoveringTexture;
-                    selectingSheet = CurrentTexture.Sheet;
+                    SubTexture = hoveringTexture;
+                    tileSelector.SetSubTexture(SubTexture, LayerIndex, SubLayerIndex);
                 }
+
                 // Right/middle click will cancel.
                 Mouse.ButtonsUnclicked[button] = false;
                 SetSelectingSubTexture(false);
             }
             else if (button == 2) // Right click, clear the currentTexture
             {
-                CurrentTexture = null;
-                if (tileSelector.TileX >= 0 && tileSelector.TileY >= 0)
-                {
-                    TileMap.SetTile(Tile, tileSelector.TileX, tileSelector.TileY);
-                }
-                SetSelectingSubTexture(false);
+                SubTexture = null;
+                tileSelector.SetSubTexture(SubTexture, LayerIndex, SubLayerIndex);
             }
+            
             base.OnMouseUnclick(button);
         }
 
-        protected override void OnMouseClickOutside(int button)
+        protected override void OnMouseUnClickOutside(int button)
         {
-            if (selectingSubTexture)
+            if (isSelectingSubTexture)
             {
                 SetSelectingSubTexture(false);
-                Mouse.ButtonsClicked[button] = false;
+                //Mouse.ButtonsClicked[button] = false;
             }
-            base.OnMouseClickOutside(button);
+            base.OnMouseUnClickOutside(button);
         }
 
         protected override void OnMouseScroll(int amount)
         { 
             // I'm thinking we could change the subTextureSheet
             //  from here.
-            if (selectingSubTexture)
+            if (isSelectingSubTexture)
             {
-                this.selectingSheetIndex = (int)MathHelper.Clamp((this.selectingSheetIndex + (amount > 0 ? 1 : -1)),
+                this.sheetIndex = (int)MathHelper.Clamp((this.sheetIndex + (amount > 0 ? 1 : -1)),
                                                                  0,
                                                                  textureService.SheetsArray.Count<SubTextureSheet>() - 1);
                 this.Bounds = new RectangleF(Position.X, Position.Y, selectingSheet.Texture.Width, selectingSheet.Texture.Height);
@@ -174,7 +150,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         private void SetSelectingSubTexture(bool value)
         {
-            selectingSubTexture = value;
+            isSelectingSubTexture = value;
             tileSelector.Enabled = !value;
             tileSelector.Visible = !value;
             this.DrawOrder = value ? -500 : 0;
@@ -187,11 +163,11 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 }
             }
 
-            if (selectingSubTexture)
+            if (isSelectingSubTexture)
             {
                 // We're now selecting a texture.
-                if (CurrentTexture != null)
-                    this.selectingSheet = CurrentTexture.Sheet;
+                if (subTexture != null)
+                    this.selectingSheet = subTexture.Sheet;
                 this.Bounds = new RectangleF(Position.X, Position.Y, selectingSheet.Texture.Width, selectingSheet.Texture.Height);
             }
             else
@@ -206,7 +182,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
         {
             this.Color = Microsoft.Xna.Framework.Graphics.Color.White;
             textureService = (ITextureService)Game.Services.GetService(typeof(ITextureService));
-            this.selectingSubTexture = false;
+            this.isSelectingSubTexture = false;
             this.layerIndex = layerIndex;
             this.subLayerIndex = subLayerIndex;
 
@@ -229,7 +205,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
         public override void Draw(GameTime gameTime)
 
         {
-            if (selectingSubTexture) // User is selecting a subtexture from us...
+            if (isSelectingSubTexture) // User is selecting a subtexture from us...
             {
                 this.SpriteBatch.Draw(selectingSheet.Texture, Position, Microsoft.Xna.Framework.Graphics.Color.White);
                 if (MouseIsInside())
@@ -241,21 +217,21 @@ namespace WesternSpace.DrawableComponents.EditorUI
                                                                  hoveringTexture.Rectangle.Height);
                     PrimitiveDrawer.Instance.DrawRect(SpriteBatch, rect, Microsoft.Xna.Framework.Graphics.Color.White);
                 }
-                if (CurrentTexture != null && selectingSheet == CurrentTexture.Sheet)
+                if (subTexture != null && selectingSheet == subTexture.Sheet)
                 { 
                     // Highlight the texture that's actually selected currently:
-                    Microsoft.Xna.Framework.Rectangle rect = new Microsoft.Xna.Framework.Rectangle((int)Position.X + CurrentTexture.Rectangle.X,
-                                                                 (int)Position.Y + CurrentTexture.Rectangle.Y,
-                                                                 CurrentTexture.Rectangle.Width,
-                                                                 CurrentTexture.Rectangle.Height);
+                    Microsoft.Xna.Framework.Rectangle rect = new Microsoft.Xna.Framework.Rectangle((int)Position.X + subTexture.Rectangle.X,
+                                                                 (int)Position.Y + subTexture.Rectangle.Y,
+                                                                 subTexture.Rectangle.Width,
+                                                                 subTexture.Rectangle.Height);
                     PrimitiveDrawer.Instance.DrawRect(SpriteBatch, rect, Microsoft.Xna.Framework.Graphics.Color.CornflowerBlue);
                 }
             }
             else // Waiting for user to activate us...
             {
-                if (CurrentTexture != null)
+                if (subTexture != null)
                 {
-                    this.SpriteBatch.Draw(CurrentTexture.Texture, Position, CurrentTexture.Rectangle,
+                    this.SpriteBatch.Draw(subTexture.Texture, Position, subTexture.Rectangle,
                         Microsoft.Xna.Framework.Graphics.Color.White);
                 }
                 else
@@ -267,5 +243,53 @@ namespace WesternSpace.DrawableComponents.EditorUI
             }
             base.Draw(gameTime);
         }
+
+        #region ITilePropertyComponent Members
+
+        public void OnTileSelectionChange()
+        {
+            List<Tile> tiles = tileSelector.SelectedTiles;
+
+            int count = tiles.Count;
+
+            if (count > 0)
+            {
+                // We only change our texture if the tileSelector has one or more
+                //  tiles selected.
+                Tile first = tiles.First<Tile>();
+
+                // Special case: we may be selecting nothing but empty tiles:
+                if (first == null)
+                {
+                    // If every other one is also null:
+                    if ((from other in tiles where other == null select other).Count<Tile>() == count)
+                    { 
+                        // Set our SubTexture to null! Yay!
+                        SubTexture = null;
+                    }
+                }
+                else
+                {
+                    // We compare the subTexture of each tile in the list.
+                    // If they're all the same, we change ours to whatever theirs is.
+                    // Otherwise, we change ours to "unknown" to illustrate that 
+                    //  the tiles differ in the subTexture resulting from Tile.Textures[layerIndex,subLayerIndex].
+                    if (
+                        (from other in tiles 
+                         where (
+                            other != null && 
+                            other.Textures[LayerIndex,SubLayerIndex] == first.Textures[LayerIndex,SubLayerIndex]
+                         ) select other).Count<Tile>() == count) // How you like 'dem apples?
+                    { 
+                        // All subTextures are the same! Set our subTexture to the same thing too!
+                        SubTexture = first.Textures[LayerIndex, SubLayerIndex];
+                    }
+                }
+
+            }
+            // Otherwise, we ignore "deselection" of tiles; we keep our current texture.
+        }
+
+        #endregion
     }
 }

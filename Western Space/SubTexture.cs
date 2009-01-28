@@ -42,5 +42,18 @@ namespace WesternSpace
             this.sheet = sheet;
             this.index = index;
         }
+
+        public static bool operator ==(SubTexture a, SubTexture b)
+        {
+            if ((object)a == null || (object)b == null)
+                return (object)b == (object)a;
+            else
+                return  a.index == b.index && a.sheet.Name == b.sheet.Name;
+        }
+
+        public static bool operator !=(SubTexture a, SubTexture b)
+        {
+            return !(a == b);
+        }
     }
 }
