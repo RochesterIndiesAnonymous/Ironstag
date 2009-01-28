@@ -110,8 +110,8 @@ namespace WesternSpace.Screens
 
             
             spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, new Point(40, 40));
-            spriteCollisionManager.AddGameObject(flint);
-            spriteCollisionManager.AddGameObject(toadMan);
+            spriteCollisionManager.RegisterGameObject(flint);
+            spriteCollisionManager.RegisterGameObject(toadMan);
             this.Components.Add(spriteCollisionManager);
         }
 
@@ -144,6 +144,9 @@ namespace WesternSpace.Screens
             mcc.UpdateOrder = 3;
             this.Components.Add(mcc);
             doc.DebugLines.Add(mcc);
+
+            doc.DebugLines.Add(spriteCollisionManager);
+
         }
 
         private void CreateLayerComponents()
