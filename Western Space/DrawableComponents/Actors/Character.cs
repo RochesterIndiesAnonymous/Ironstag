@@ -224,7 +224,7 @@ namespace WesternSpace.DrawableComponents.Actors
 
         public void OnSpriteCollision()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         #endregion

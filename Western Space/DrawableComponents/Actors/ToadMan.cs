@@ -14,6 +14,9 @@ namespace WesternSpace.DrawableComponents.Actors
 {
     class ToadMan : Character
     {
+        //Set Facing
+        SpriteEffects facing = SpriteEffects.None;
+
         // The constructor for the Toad Man 
         public ToadMan(Screen parentScreen, SpriteBatch spriteBatch, Vector2 position, String xmlFile)
             : base(parentScreen, spriteBatch, position, xmlFile)
@@ -48,12 +51,12 @@ namespace WesternSpace.DrawableComponents.Actors
             Animation idle = new Animation(xmlFile, "Idle");
             Animation walking = new Animation(xmlFile, "Walking");
             //Animation jumping = new Animation(xmlFile, "Jumping");
-           // Animation shooting = new Animation(xmlFile, "Shooting");
+            Animation shooting = new Animation(xmlFile, "Shooting");
 
             this.animationMap.Add("Idle", idle);
             this.animationMap.Add("Walking", walking);
            // this.animationMap.Add("Jumping", jumping);
-           // this.animationMap.Add("Shooting", shooting);
+            this.animationMap.Add("Shooting", shooting);
         }
 
         public override void Update(GameTime gameTime)
@@ -66,14 +69,14 @@ namespace WesternSpace.DrawableComponents.Actors
 
             if (gameTime.TotalRealTime.Seconds >= 10)
             {
-                ChangeState("Walking");
+                ChangeState("Shooting");
             }
         }
 
         public override void Draw(GameTime gameTime)
         {
             //Let the Animation Player Draw
-            animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position);
+            animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position, facing);
         }
 
     }

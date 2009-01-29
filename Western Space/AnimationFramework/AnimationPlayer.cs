@@ -124,13 +124,13 @@ namespace WesternSpace.AnimationFramework
         }
 
         // Advances the time position and draws the current frame of the animation.
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 position)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 position, SpriteEffects spriteEffect)
         {
             if (Animation == null)
                 throw new NotSupportedException("No animation is currently playing.");
 
-            spriteBatch.Draw(Animation.SpriteSheet, position, 
-                this.CalculateFrameRectangleFromIndex(this.CurrentFrame.SheetIndex), Color.White);
+            spriteBatch.Draw(Animation.SpriteSheet, position,
+                this.CalculateFrameRectangleFromIndex(this.CurrentFrame.SheetIndex), Color.White, 0.0f, Vector2.Zero, 1.0f, spriteEffect, 0);
         }
     }
 }

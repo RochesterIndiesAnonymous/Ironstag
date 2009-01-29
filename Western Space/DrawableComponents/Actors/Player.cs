@@ -53,6 +53,8 @@ namespace WesternSpace.DrawableComponents.Actors
 
         // --- Class Variables ---
 
+        SpriteEffects facing;
+
         // The maximum value of the transformation guage for
         // Flint Ironstag.
         private int maxGauge;
@@ -127,6 +129,9 @@ namespace WesternSpace.DrawableComponents.Actors
             //Set the position
             this.Position = position;
 
+            //Set the facing
+            facing = SpriteEffects.None;
+
             this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(16, 0), HOTSPOT_TYPE.top));
             this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(0, 16), HOTSPOT_TYPE.left));
             this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(36, 16), HOTSPOT_TYPE.right));
@@ -183,7 +188,7 @@ namespace WesternSpace.DrawableComponents.Actors
                     if (currentState.Equals("Jumping"))
                     {
                         //Change state and animation
-                        ChangeState("Jump-Shooting");
+                        //ChangeState("Jump-Shooting");
                     }
                     else
                     {
@@ -250,12 +255,12 @@ namespace WesternSpace.DrawableComponents.Actors
             Animation idle = new Animation(xmlFile, "Idle");
             Animation walking = new Animation(xmlFile, "Walking");
             Animation jumping = new Animation(xmlFile, "Jumping");
-            // Animation shooting = new Animation(xmlFile, "Shooting");
+             Animation shooting = new Animation(xmlFile, "Shooting");
 
             this.animationMap.Add("Idle", idle);
             this.animationMap.Add("Walking", walking);
             this.animationMap.Add("Jumping", jumping);
-            // this.animationMap.Add("Shooting", shooting);
+            this.animationMap.Add("Shooting", shooting);
         }
 
         // Handles the physics for moving a character. 
@@ -321,9 +326,22 @@ namespace WesternSpace.DrawableComponents.Actors
             {
                 pressedJump = true;
             }
+            else if (currentKeyboardState.IsKeyDown(Keys.K))
+            {
+                Shoot();
+            }
 
             //Handle the Physics to update Movement and Position
             HandlePhysics(gameTime);
+
+            if (velocity.X < 0)
+            {
+                facing = SpriteEffects.FlipHorizontally;
+            }
+            else if(velocity.X > 0 && (facing == SpriteEffects.FlipHorizontally))
+            {
+                facing = SpriteEffects.None;
+            }
 
             //Handle Transformation Gauge
             if (isTransformed)
@@ -365,7 +383,7 @@ namespace WesternSpace.DrawableComponents.Actors
         public override void Draw(GameTime gameTime)
         {
             //Let the Animation Player Draw
-            animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position);
+            animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position, facing);
         }
 
     }

@@ -99,7 +99,7 @@ namespace WesternSpace.Screens
             toadMan.DrawOrder = 0;
             this.Components.Add(toadMan);
 
-            Player flint = new Player(this, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(251, 79), "SpriteXML\\ToadMan");
+            Player flint = new Player(this, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(251, 79), "SpriteXML\\FlintIronstag");
             flint.UpdateOrder = 3;
             flint.DrawOrder = 0;
             this.Components.Add(flint);
