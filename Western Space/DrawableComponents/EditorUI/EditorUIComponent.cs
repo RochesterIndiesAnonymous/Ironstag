@@ -154,6 +154,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         public override void Initialize()
         {
+            this.Color = Microsoft.Xna.Framework.Graphics.Color.White;
             this.inputManager = (IInputManagerService)Game.Services.GetService(typeof(IInputManagerService));
             this.mouse = inputManager.BetterMouse;
             base.Initialize();

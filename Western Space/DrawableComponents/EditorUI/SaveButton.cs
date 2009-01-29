@@ -36,7 +36,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
             {
                 // Save TileMap here.
                 XDocument doc = new XDocument(tileSelector.TileMap.ToXElement());
-                doc.Save("TileMapDump.xml");
+                doc.Save("..\\..\\..\\Content\\TileMapXML\\BigTileMap.xml");
             }
             base.OnMouseUnclick(button);
         }

@@ -97,6 +97,30 @@ namespace WesternSpace.TilingEngine
         }
 
         /// <summary>
+        /// Given a list of tile coordinates, create a new TileMap from this
+        ///  TileMap that contains copies of each Tile that corresponds to every
+        ///  coordinate in the list.
+        /// </summary>
+        /// <param name="tileCoordinates">
+        /// A List of 2D coordinate sets, each represented as a 2-element array of integers.
+        /// Format: 
+        ///  int[0] => Tile X coordinate.
+        ///  int[1] => Tile Y coordinate.
+        /// This List represents each Tile you want to copy into the new TileMap that will be
+        ///  returned from this function.
+        /// </param>
+        /// <returns>
+        /// The resulting TileMap will be just big enough to fit all Tiles
+        ///  specified by the tileCoordinates List, and all in-between Tiles
+        ///  that aren't specified in the list will be null.
+        /// </returns>
+        public TileMap SubTileMapFromCoordList(List<int[]> tileCoordinates)
+        {
+            // TODO
+            return null;
+        }
+
+        /// <summary>
         /// Sets the tile at given x,y.
         /// Automatically removes edges of adjacent tiles.
         /// </summary>
@@ -149,7 +173,7 @@ namespace WesternSpace.TilingEngine
                 //  edges that we have solid edges for.
                 if (above != null)
                 {
-                    if (tile.TopEdge && above.BottomEdge)
+                    if (tile.InitialTopEdge && above.InitialBottomEdge)
                     {
                         tile.TopEdge = false;
                         above.BottomEdge = false;
@@ -162,7 +186,7 @@ namespace WesternSpace.TilingEngine
 
                 if (left != null)
                 {
-                    if (tile.LeftEdge && left.RightEdge)
+                    if (tile.InitialLeftEdge && left.InitialRightEdge)
                     {
                         tile.LeftEdge = false;
                         left.RightEdge = false;
@@ -175,7 +199,7 @@ namespace WesternSpace.TilingEngine
 
                 if (below != null)
                 {
-                    if (tile.BottomEdge && below.TopEdge)
+                    if (tile.InitialBottomEdge && below.InitialTopEdge)
                     {
                         tile.BottomEdge = false;
                         below.TopEdge = false;
@@ -188,7 +212,7 @@ namespace WesternSpace.TilingEngine
 
                 if (right != null)
                 {
-                    if (tile.RightEdge && right.LeftEdge)
+                    if (tile.InitialRightEdge && right.InitialLeftEdge)
                     {
                         tile.RightEdge = false;
                         right.LeftEdge = false;
@@ -333,20 +357,10 @@ namespace WesternSpace.TilingEngine
             //int index = 0; // Was needed when changing format.
             foreach( XElement subTextureElement in subTextureElements)
             {
-                //if (subTextureElement.Attribute("z") != null)
-                //{
-                    i = Int32.Parse(subTextureElement.Attribute("z").Value) / SubLayerCount;
-                    j = Int32.Parse(subTextureElement.Attribute("z").Value) % SubLayerCount;
-                    SubTexture subTex = new SubTexture(Sheets[Int32.Parse(subTextureElement.Attribute("s").Value)], Int32.Parse(subTextureElement.Attribute("i").Value));
-                    subTexturesArray[i, j] = subTex;
-                //}
-                /*else
-                {
-                    i = index / SubLayerCount;
-                    j = index % SubLayerCount;
-                    subTexturesArray[i, j] = new SubTexture(Sheets[Int32.Parse(subTextureElement.Attribute("s").Value)], Int32.Parse(subTextureElement.Attribute("i").Value));
-                    ++index;
-                }*/ // Was needed when changing format.
+                i = Int32.Parse(subTextureElement.Attribute("z").Value) / SubLayerCount;
+                j = Int32.Parse(subTextureElement.Attribute("z").Value) % SubLayerCount;
+                SubTexture subTex = new SubTexture(Sheets[Int32.Parse(subTextureElement.Attribute("s").Value)], Int32.Parse(subTextureElement.Attribute("i").Value));
+                subTexturesArray[i, j] = subTex;
             }
 
             int edgeInt;

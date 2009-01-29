@@ -71,6 +71,10 @@ namespace WesternSpace.Screens
             TileSelector ts = new TileSelector(this, sb, new RectangleF(40, 0, 600, 440), world.interactiveLayers.Values.First<TileMapLayer>());
             ts.DrawOrder = 400;
             this.Components.Add(ts);
+
+            SaveButton saveButton = new SaveButton(this, sb, new RectangleF(5, 400, 30, 15), ts);
+            saveButton.DrawOrder = 401;
+            this.Components.Add(saveButton);
         }
 
         private void CreateDebuggingInformationComponents()

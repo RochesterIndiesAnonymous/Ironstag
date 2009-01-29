@@ -70,6 +70,7 @@ namespace WesternSpace.TilingEngine
         public bool[] InitialEdges
         {
             get { return initialEdges; }
+            set { initialEdges = value; }
         }
 
         public bool InitialTopEdge
@@ -96,6 +97,24 @@ namespace WesternSpace.TilingEngine
         {
             get { return edges; }
             set { edges = value; }
+        }
+
+        public int InitialEdgesInt
+        {
+            get
+            {
+                int edgesInt = 0;
+                int power = 0;
+                foreach (bool edge in InitialEdges)
+                {
+                    if (edge)
+                    {
+                        edgesInt |= (int)Math.Pow(2, power);
+                    }
+                    ++power;
+                }
+                return edgesInt;
+            }
         }
 
         public bool TopEdge

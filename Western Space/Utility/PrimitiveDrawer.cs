@@ -110,7 +110,7 @@ namespace WesternSpace.Utility
         //Draws a solid rect
         public void DrawSolidRect(SpriteBatch sprite, Rectangle rect, Color color)
         {
-            sprite.Draw(pixel, rect, null, color, 0, new Vector2(rect.X, rect.Y), SpriteEffects.None,1);
+            sprite.Draw(pixel, rect, color);
         }
     }
 }

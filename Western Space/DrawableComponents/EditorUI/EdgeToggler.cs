@@ -13,6 +13,11 @@ using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.EditorUI
 {
+    /// <summary>
+    /// A component who's main purpose is to toggle all edges of a tile.
+    /// Doubles as a preview for the final version of a tile based on what
+    ///  the SubTextureSelectors' SubTextures are.
+    /// </summary>
     public class EdgeToggler : EditorUIComponent, ITilePropertyComponent
     {
         private TileSelector tileSelector;
@@ -24,69 +29,106 @@ namespace WesternSpace.DrawableComponents.EditorUI
         {
             this.tileSelector = tileSelector;
             this.textureService = (ITextureService)Game.Services.GetService(typeof(ITextureService));
+
+            // By default, solid:
+            this.edges = new bool[4];
+            edges[0] = edges[1] = edges[2] = edges[3] = true;
+            edgesConflict = false;
         }
 
+        /// <summary>
+        /// The edges this edgetoggler represents
+        /// </summary>
+        private bool[] edges;
+
+        public bool[] Edges
+        {
+            get { return edges; }
+        }
+
+        private bool edgesConflict;
+
         #region MOUSE EVENT HANDLERS
-/*
+
         protected override void OnMouseUnclick(int button)
         {
             if (button == 0) // Only handle left clicks, ignore others.
             {
-                if (tileSelector.TileX > 0 && tileSelector.TileY > 0)
+                for (int i = 0; i < 4; ++i)
                 {
-                    tileSelector.TileMap.SetSolid(!Tile.IsSolid(), tileSelector.TileX, tileSelector.TileY);
+                    edges[i] = !edges[i];
                 }
-                else
-                {
-                    tileSelector.VirtualTile.SetSolid(!tileSelector.VirtualTile.IsSolid());
-                }
+                tileSelector.SetEdges(edges);
             }
             base.OnMouseUnclick(button);
         }
-*/
+
         #endregion
 
         public override void Draw(GameTime gameTime)
         {
-            /*
-            if(Tile != null ) 
+            bool mouseInside = MouseIsInside();
+
+            // For now we just pretend tiles can be either solid or not, no in-between:
+            if (edgesConflict)
             {
-                for (int i = 0; i < Tile.LayerCount; ++i)
+                Color = new Microsoft.Xna.Framework.Graphics.Color(255, 0, 255);
+            }
+            else if (edges[0] || edges[1] || edges[2] || edges[3])
+            {
+                if (mouseInside)
                 {
-                    for (int j = 0; j < Tile.SubLayerCount; ++j)
-                    {
-                        SubTexture subTex = Tile.Textures[i, j];
-                        if (subTex != null)
-                            this.SpriteBatch.Draw(subTex.Texture, Position, subTex.Rectangle, Microsoft.Xna.Framework.Graphics.Color.White);
-                    }
-                }
-                bool mouseInside = MouseIsInside();
-                if (Tile.IsSolid())
-                {
-                    if (mouseInside)
-                    {
-                        Color = new Microsoft.Xna.Framework.Graphics.Color(255, 127, 127);
-                    }
-                    else
-                    {
-                        Color = new Microsoft.Xna.Framework.Graphics.Color(255, 0, 0);
-                    }
+                    Color = new Microsoft.Xna.Framework.Graphics.Color(255, 127, 127);
                 }
                 else
                 {
-                    Color = new Microsoft.Xna.Framework.Graphics.Color(1.0f, 1.0f, 1.0f, (mouseInside ? 0.8f : 0.5f));
+                    Color = new Microsoft.Xna.Framework.Graphics.Color(255, 0, 0);
                 }
-            }*/
+            }
+            else
+            {
+                Color = new Microsoft.Xna.Framework.Graphics.Color(1.0f, 1.0f, 1.0f, (mouseInside ? 0.8f : 0.5f));
+            }
 
             base.Draw(gameTime);
         }
 
-
         #region ITilePropertyComponent Members
 
+        
         public void OnTileSelectionChange()
         {
-            throw new NotImplementedException();
+            List<Tile> selectedTiles = tileSelector.SelectedTiles;
+            if (selectedTiles.Count > 0)
+            {
+                IEnumerable<int> edgesInts = (from tile in selectedTiles
+                                              where tile != null
+                                              select tile.InitialEdgesInt);
+
+                foreach (int edgesInt in edgesInts)
+                {
+                    foreach (int otherEdgesInt in edgesInts)
+                        if (edgesInt != otherEdgesInt)
+                        {
+                            // If we run into a mismatch, we set edgesConflict to true.
+                            edgesConflict = true;
+                            return;
+                        }
+                }
+
+                edgesConflict = false;
+                // If we made it this far, then they all matched up. Copy the first tile's edges
+                //  into ours.
+                Tile first = selectedTiles.First<Tile>();
+                if (first != null)
+                {
+                    first.InitialEdges.CopyTo(this.edges, 0);
+                }
+                else
+                {
+                    edges[0] = edges[1] = edges[2] = edges[3] = false;
+                }
+            }
         }
 
         #endregion
