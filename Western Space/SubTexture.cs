@@ -46,14 +46,32 @@ namespace WesternSpace
         public static bool operator ==(SubTexture a, SubTexture b)
         {
             if ((object)a == null || (object)b == null)
-                return (object)b == (object)a;
+                return (object)a == (object)b;
             else
-                return  a.index == b.index && a.sheet.Name == b.sheet.Name;
+                return a.Equals(b);
         }
 
         public static bool operator !=(SubTexture a, SubTexture b)
         {
             return !(a == b);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is SubTexture)
+            {
+                return this.index == ((SubTexture)obj).index && this.sheet.Name == ((SubTexture)obj).sheet.Name;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // Silence warnings:
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

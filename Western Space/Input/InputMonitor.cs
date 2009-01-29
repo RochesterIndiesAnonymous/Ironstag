@@ -18,15 +18,15 @@ namespace WesternSpace.Input
         private static Dictionary<string, Keys> keyConfig = new Dictionary<string, Keys>();
 
         // Constants for checking keys
-        static const string JUMP = "Jump";
-        static const string SHOOT = "Shoot";
-        static const string LEFT = "Left";
-        static const string RIGHT = "Right";
-        static const string UP = "Up";
-        static const string DOWN = "Down";
-        static const string ROLL = "Roll";
-        static const string TRANSFORM = "Transform";
-        static const string PAUSE = "Pause";
+        public readonly string JUMP = "Jump";
+        public readonly string SHOOT = "Shoot";
+        public readonly string LEFT = "Left";
+        public readonly string RIGHT = "Right";
+        public readonly string UP = "Up";
+        public readonly string DOWN = "Down";
+        public readonly string ROLL = "Roll";
+        public readonly string TRANSFORM = "Transform";
+        public readonly string PAUSE = "Pause";
 
         /**
          * Constructor
