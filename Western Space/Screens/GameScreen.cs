@@ -12,6 +12,7 @@ using WesternSpace.AnimationFramework;
 using WesternSpace.DrawableComponents.Actors;
 using System.Xml.Linq;
 using WesternSpace.Collision;
+using WesternSpace.DrawableComponents.GameUI;
 
 namespace WesternSpace.Screens
 {
@@ -55,7 +56,7 @@ namespace WesternSpace.Screens
 
                 CreateSprites();
 
-                CreateDebuggingInformationComponents();
+                //CreateDebuggingInformationComponents();
 
                 // Initialize all components
                 base.Initialize();
@@ -103,6 +104,10 @@ namespace WesternSpace.Screens
             flint.UpdateOrder = 3;
             flint.DrawOrder = 0;
             this.Components.Add(flint);
+
+            GameUI ui = new GameUI(this, batchService.GetSpriteBatch(GameUI.SpriteBatchName), new Vector2(0f, 0f), flint);
+            ui.DrawOrder = -10;
+            this.Components.Add(ui);
             
             tileCollisionManager = new SpriteTileCollisionManager(this.Game, this.world);
             tileCollisionManager.addObjectToList(flint);

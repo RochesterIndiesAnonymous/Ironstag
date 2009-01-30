@@ -98,6 +98,7 @@
     <Compile Include="DrawableComponents\EditorUI\ITilePropertyComponent.cs" />
     <Compile Include="DrawableComponents\EditorUI\SaveButton.cs" />
     <Compile Include="DrawableComponents\EditorUI\EdgeToggler.cs" />
+    <Compile Include="DrawableComponents\GameUI\GameUI.cs" />
     <Compile Include="Input\InputMonitor.cs" />
     <Compile Include="Interfaces\IScreenComponent.cs" />
     <Compile Include="Screens\Screen.cs" />
