@@ -87,6 +87,24 @@ namespace WesternSpace.TilingEngine
         }
 
         /// <summary>
+        /// Stamp another TileMap onto this one, replacing all tiles, including those
+        ///  that are null.
+        /// </summary>
+        /// <param name="other">The TileMap to stamp onto ours.</param>
+        /// <param name="x">
+        /// The x component of the coordinate in this TileMap where the other TileMap
+        ///  will be stamped (topleft corner).
+        /// </param>
+        /// <param name="y">
+        /// The y component of the coordinate in this TileMap where the other TileMap
+        ///  will be stamped (topleft corner).
+        /// </param>
+        public void BlitTileMap(TileMap other, int x, int y) 
+        {
+            
+        }
+
+        /// <summary>
         /// Given a list of tile coordinates, create a new TileMap from this
         ///  TileMap that contains copies of each Tile that corresponds to every
         ///  coordinate in the list.
@@ -106,8 +124,6 @@ namespace WesternSpace.TilingEngine
         /// </returns>
         public TileMap SubTileMapFromCoordList(List<int[]> tileCoordinates)
         {
-            return null;
-
             TileMap subTileMap;
             if (tileCoordinates.Count > 0)
             {

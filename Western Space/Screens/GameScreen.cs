@@ -68,61 +68,16 @@ namespace WesternSpace.Screens
 
         private void CreateSprites()
         {
-            /*
-            AnimationData data = animationDataService.GetAnimationData(DiddyKongSprite.XmlAssetName);
-            Vector2 position = new Vector2(500, 500);
-            AnimatedComponent diddyComponent = new DiddyKongSprite(this.Game, batchService.GetSpriteBatch(DiddyKongSprite.SpriteBatchName), position, data);
-            diddyComponent.UpdateOrder = 3;
-            diddyComponent.DrawOrder = 0;
-            this.Game.Components.Add(diddyComponent);
-
-            AnimationData data2 = animationDataService.GetAnimationData(ToadManSprite.XmlAssetName);
-            position = new Vector2(1000, 200);
-            AnimatedComponent toadmanComponent = new ToadManSprite(this.Game, batchService.GetSpriteBatch(ToadManSprite.SpriteBatchName), position, data2);
-            toadmanComponent.UpdateOrder = 3;
-            toadmanComponent.DrawOrder = 0;
-            this.Game.Components.Add(toadmanComponent);
-
-            AnimationData data3 = animationDataService.GetAnimationData(GhastSprite.XmlAssetName);
-            position = new Vector2(400, 300);
-            AnimatedComponent ghastComponent = new GhastSprite(this.Game, batchService.GetSpriteBatch(GhastSprite.SpriteBatchName), position, data3);
-            ghastComponent.UpdateOrder = 3;
-            ghastComponent.DrawOrder = 0;
-            this.Game.Components.Add(ghastComponent);
-
-            AnimationData data4 = animationDataService.GetAnimationData(SunsetSprite.XmlAssetName);
-            position = new Vector2(200, 1500);
-            AnimatedComponent sunsetComponent = new SunsetSprite(this.Game, batchService.GetSpriteBatch(SunsetSprite.SpriteBatchName), position, data4);
-            sunsetComponent.UpdateOrder = 3;
-            sunsetComponent.DrawOrder = 0;
-            this.Game.Components.Add(sunsetComponent);
-             */
-
+            /* WILL BE MOVED TO WORLD SOON...
             ToadMan toadMan = new ToadMan(this, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(100, 150), "SpriteXML\\FlintIronstag");
             toadMan.UpdateOrder = 3;
             toadMan.DrawOrder = 0;
             this.Components.Add(toadMan);
+            */
 
-            /* MOVED TO WORLD:
-            Player flint = new Player(this, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(251, 79), "SpriteXML\\FlintIronstag");
-            flint.UpdateOrder = 3;
-            flint.DrawOrder = 0;
-            this.Components.Add(flint);
-
-            GameUI ui = new GameUI(this, batchService.GetSpriteBatch(GameUI.SpriteBatchName), new Vector2(0f, 0f), flint);
+            GameUI ui = new GameUI(this, batchService.GetSpriteBatch(GameUI.SpriteBatchName), new Vector2(0f, 0f), world.Player);
             ui.DrawOrder = -10;
             this.Components.Add(ui);
-            
-            tileCollisionManager = new SpriteTileCollisionManager(this.Game, this.world);
-            tileCollisionManager.addObjectToList(flint);
-            this.Components.Add(tileCollisionManager);
-
-            
-            spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, new Point(40, 40));
-            spriteCollisionManager.RegisterGameObject(flint);
-            spriteCollisionManager.RegisterGameObject(toadMan);
-            this.Components.Add(spriteCollisionManager);
-            */
         }
 
         private void CreateDebuggingInformationComponents()
@@ -155,7 +110,7 @@ namespace WesternSpace.Screens
             this.Components.Add(mcc);
             doc.DebugLines.Add(mcc);
 
-            /* ???
+            /* What was this for?
              doc.DebugLines.Add(spriteCollisionManager);
              */
 
