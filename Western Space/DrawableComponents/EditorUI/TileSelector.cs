@@ -10,6 +10,7 @@ using WesternSpace.ServiceInterfaces;
 using WesternSpace.TilingEngine;
 using WesternSpace.Utility;
 using WesternSpace.Screens;
+using WesternSpace.Input;
 
 namespace WesternSpace.DrawableComponents.EditorUI
 {
@@ -138,6 +139,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
             {
                 selectedTileCoordinates.Add(tileMapCoords);
             }
+            selectionMap = TileMap.SubTileMapFromCoordList(selectedTileCoordinates);
             notifyTilePropertyComponents();
         }
 
@@ -153,8 +155,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
         {
             foreach (int[] tileMapCoords in coordinateList)
             {
-                if (
-                    !selectedTileCoordinates.Contains(tileMapCoords))
+                if (!selectedTileCoordinates.Contains(tileMapCoords))
                 {
                     selectedTileCoordinates.Add(tileMapCoords);
                 }
@@ -195,7 +196,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
                     selectedTileCoordinates.Remove(tileMapCoords);
                 }
             }
-
+            selectionMap = TileMap.SubTileMapFromCoordList(selectedTileCoordinates);
             notifyTilePropertyComponents();
         }
 
@@ -275,6 +276,8 @@ namespace WesternSpace.DrawableComponents.EditorUI
         /// </param>
         public void RemoveTiles(List<int[]> coordinateList)
         {
+            selectedTileCoordinates.Clear();
+            selectionMap = TileMap.SubTileMapFromCoordList(coordinateList);
             foreach (int[] tileMapCoords in coordinateList)
             {
                 this.TileMap.SetTile(null, tileMapCoords[0], tileMapCoords[1]);
@@ -285,6 +288,8 @@ namespace WesternSpace.DrawableComponents.EditorUI
         #endregion
 
         #region MOUSE EVENT HANDLERS
+
+        private InputMonitor inputMonitor;
 
         protected override void OnMouseClick(int button)
         {
@@ -345,13 +350,26 @@ namespace WesternSpace.DrawableComponents.EditorUI
             // We ignore unclicks of buttons that dont match our selectButton.
             if (button == selectButton)
             {
+                Vector2 pos = TileMapLayer.CalculateMapCoordinatesFromScreenPoint(Mouse.Position);
+                int x = (int)Math.Round((double)(pos.X), 0);
+                int y = (int)Math.Round((double)(pos.Y), 0);
+                x = (int)MathHelper.Clamp(x, 0, TileMap.Width - 1);
+                y = (int)MathHelper.Clamp(y, 0, TileMap.Height - 1);
                 switch (selectButton)
                 { 
                     case 0: // Left mouse unclick. Select the tiles.
-                        SelectTiles(selectingTileCoordinates);
+                        if (inputMonitor.checkKey("EditorAppend"))
+                        {
+                            AppendTiles(selectingTileCoordinates);
+                        }
+                        else
+                        {
+                            SelectTiles(selectingTileCoordinates);
+                        }
                         break;
                     case 1: // Middle mouse unclick.
-                        AppendTiles(selectingTileCoordinates);
+                        if(selectionMap != null)
+                            TileMap.BlitTileMap(selectionMap, x, y);
                         break;
                     case 2: // Right mouse unclick. Remove the tiles.
                         RemoveTiles(selectingTileCoordinates);
@@ -372,11 +390,12 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         #endregion
 
-        public TileSelector(Screen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, TileMapLayer tileMapLayer)
+        public TileSelector(Screen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, TileMapLayer tileMapLayer, InputMonitor inputMonitor)
             : base(parentScreen, spriteBatch, bounds)
         {
             this.tileMapLayer = tileMapLayer;
             this.tilePropertyComponents = new List<ITilePropertyComponent>();
+            this.inputMonitor = inputMonitor;
 
             this.selectButton = -1;
             this.selectedTileCoordinates = new List<int[]>();

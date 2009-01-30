@@ -11,7 +11,7 @@ namespace WesternSpace.Input
      * The InputMonitor class allows us to assign functions to 
      * different keys and then check the state of our assigned keys
      */
-    class InputMonitor : GameComponent
+    public class InputMonitor : GameComponent
     {
         private static KeyboardState lastState = new KeyboardState();
         private static KeyboardState currentState = new KeyboardState();

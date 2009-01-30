@@ -63,15 +63,16 @@ namespace WesternSpace.Screens
 
                 Components.Add(world);
 
-                //CreateDebuggingInformationComponents();
-                CreateUIComponents();
-
                 inputMonitor = new InputMonitor(ScreenManager.Instance);
                 inputMonitor.assignKey("EditorLeft", Microsoft.Xna.Framework.Input.Keys.A);
                 inputMonitor.assignKey("EditorRight", Microsoft.Xna.Framework.Input.Keys.D);
                 inputMonitor.assignKey("EditorUp", Microsoft.Xna.Framework.Input.Keys.W);
                 inputMonitor.assignKey("EditorDown", Microsoft.Xna.Framework.Input.Keys.S);
+                inputMonitor.assignKey("EditorAppend", Microsoft.Xna.Framework.Input.Keys.LeftShift);
                 Components.Add(inputMonitor);
+
+                //CreateDebuggingInformationComponents();
+                CreateUIComponents();
 
                 // Initialize all components
                 base.Initialize();
@@ -106,7 +107,10 @@ namespace WesternSpace.Screens
             SpriteBatch sb = batchService.GetSpriteBatch(DebuggingOutputComponent.SpriteBatchName);
 
             // Where all the magic happens:
-            TileSelector ts = new TileSelector(this, sb, new RectangleF(40, 0, 600, 440), world.interactiveLayers.Values.First<TileMapLayer>());
+            TileSelector ts = new TileSelector(this, sb, 
+                                               new RectangleF(40, 0, 600, 440),
+                                               world.interactiveLayers.Values.First<TileMapLayer>(),
+                                               inputMonitor);
             ts.DrawOrder = 400;
             this.Components.Add(ts);
 

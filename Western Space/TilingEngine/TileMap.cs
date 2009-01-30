@@ -87,21 +87,42 @@ namespace WesternSpace.TilingEngine
         }
 
         /// <summary>
-        /// Stamp another TileMap onto this one, replacing all tiles, including those
-        ///  that are null.
+        /// "Blit" another TileMap onto this one, replacing all tiles with those from 
+        ///  the other TileMap, even if they are null.
+        /// Note that each tile is *copied*. They are not references to the same tiles.
+        /// 
+        /// That's right, "Blit"... this is the closest thing to actual 2D
+        ///  graphics programming I've encountered while writing this game. ;)
         /// </summary>
         /// <param name="other">The TileMap to stamp onto ours.</param>
-        /// <param name="x">
+        /// <param name="xOffset">
         /// The x component of the coordinate in this TileMap where the other TileMap
         ///  will be stamped (topleft corner).
         /// </param>
-        /// <param name="y">
+        /// <param name="yOffset">
         /// The y component of the coordinate in this TileMap where the other TileMap
         ///  will be stamped (topleft corner).
         /// </param>
-        public void BlitTileMap(TileMap other, int x, int y) 
+        public void BlitTileMap(TileMap other, int xOffset, int yOffset) 
         {
-            
+            int startY = yOffset < 0 ? -yOffset : 0;
+            Tile tile;
+
+            for (int i = xOffset < 0 ? -xOffset : 0; i < other.Width && i + xOffset < Width; ++i)
+            {
+                for (int j = startY; j < other.Height && j + yOffset < Height; ++j)
+                { 
+                    tile = other.Tiles[i,j];
+                    if(tile == null)
+                    {
+                        SetTile(null, i + xOffset, j + yOffset);
+                    }
+                    else
+                    {
+                        SetTile(new Tile(other.Tiles[i, j]), i + xOffset, j + yOffset);
+                    }
+                }
+            }
         }
 
         /// <summary>
