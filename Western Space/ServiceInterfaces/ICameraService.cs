@@ -14,7 +14,15 @@ namespace WesternSpace.ServiceInterfaces
     public interface ICameraService
     {
         /// <summary>
-        /// The position of the camera within the world
+        /// The non-rounded position of our camera in the world.
+        /// </summary>
+        Vector2 RealPosition
+        {
+            get;
+        }
+
+        /// <summary>
+        /// The position of the camera within the world, rounded to the nearest integer.
         /// </summary>
         Vector2 Position
         {

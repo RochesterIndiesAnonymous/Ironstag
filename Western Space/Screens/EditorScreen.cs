@@ -14,16 +14,21 @@ using WesternSpace.Screens;
 using WesternSpace.TilingEngine;
 using WesternSpace.Services;
 using WesternSpace.ServiceInterfaces;
+using WesternSpace.Input;
 
 namespace WesternSpace.Screens
 {
     public class EditorScreen : Screen
     {
+        public static readonly float CAM_SPEED = 14.0f;
+
         public static readonly string ScreenName = "Editor";
 
         private TileEngine tileEngine;
         private ISpriteBatchService batchService;
         private World world;
+
+        private InputMonitor inputMonitor;
 
         public World World
         {
@@ -54,13 +59,46 @@ namespace WesternSpace.Screens
                 world = new World(this, "WorldXML\\TestWorld");
                 world.interactiveLayers.Values.Last<TileMapLayer>().DrawBlanksEnabled = true;
                 world.interactiveLayers.Values.Last<TileMapLayer>().DrawEdgesEnabled = true;
+                world.Pause();
+
+                Components.Add(world);
 
                 //CreateDebuggingInformationComponents();
                 CreateUIComponents();
 
+                inputMonitor = new InputMonitor(ScreenManager.Instance);
+                inputMonitor.assignKey("EditorLeft", Microsoft.Xna.Framework.Input.Keys.A);
+                inputMonitor.assignKey("EditorRight", Microsoft.Xna.Framework.Input.Keys.D);
+                inputMonitor.assignKey("EditorUp", Microsoft.Xna.Framework.Input.Keys.W);
+                inputMonitor.assignKey("EditorDown", Microsoft.Xna.Framework.Input.Keys.S);
+                Components.Add(inputMonitor);
+
                 // Initialize all components
                 base.Initialize();
             }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            // Let keypresses move the camera:
+            if(inputMonitor.checkKey("EditorLeft"))
+            {
+                world.Camera.Position -= new Vector2(CAM_SPEED, 0);
+            }
+            else if (inputMonitor.checkKey("EditorRight"))
+            {
+                world.Camera.Position += new Vector2(CAM_SPEED, 0);
+            }
+            if (inputMonitor.checkKey("EditorUp"))
+            {
+                world.Camera.Position -= new Vector2(0, CAM_SPEED);
+            }
+            else if (inputMonitor.checkKey("EditorDown"))
+            {
+                world.Camera.Position += new Vector2(0, CAM_SPEED);
+            }
+
+            base.Update(gameTime);
         }
 
         private void CreateUIComponents()

@@ -86,7 +86,10 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 }
             }
         }
-        
+
+        private TileMapLayer[] selectionMapLayers;
+
+        private TileMap selectionMap;
 
         // Somewhat slow, I know. But for now it works:
         public List<Tile> SelectedTiles
@@ -131,7 +134,11 @@ namespace WesternSpace.DrawableComponents.EditorUI
         public void SelectTiles(List<int[]> coordinateList)
         {
             selectedTileCoordinates.Clear();
-            AppendTiles(coordinateList);
+            foreach (int[] tileMapCoords in coordinateList)
+            {
+                selectedTileCoordinates.Add(tileMapCoords);
+            }
+            notifyTilePropertyComponents();
         }
 
         /// <summary>
@@ -146,11 +153,13 @@ namespace WesternSpace.DrawableComponents.EditorUI
         {
             foreach (int[] tileMapCoords in coordinateList)
             {
-                if (!selectedTileCoordinates.Contains(tileMapCoords))
+                if (
+                    !selectedTileCoordinates.Contains(tileMapCoords))
                 {
                     selectedTileCoordinates.Add(tileMapCoords);
                 }
             }
+            selectionMap = TileMap.SubTileMapFromCoordList(selectedTileCoordinates);
             notifyTilePropertyComponents();
         }
 
@@ -241,7 +250,10 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 Tile tile = TileMap.Tiles[tileCoord[0], tileCoord[1]];
                 if (tile == null)
                 {
-                    tile = new Tile(new SubTexture[TileMap.LayerCount, TileMap.SubLayerCount], edges);
+                    if (edges[0] || edges[1] || edges[2] || edges[3])
+                    {
+                        tile = new Tile(new SubTexture[TileMap.LayerCount, TileMap.SubLayerCount], edges);
+                    }
                 }
                 else
                 {
@@ -269,6 +281,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
             }
             notifyTilePropertyComponents();
         }
+
         #endregion
 
         #region MOUSE EVENT HANDLERS
@@ -281,6 +294,8 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 Vector2 pos = TileMapLayer.CalculateMapCoordinatesFromScreenPoint(Mouse.Position);
                 int x = (int)Math.Round((double)(pos.X), 0);
                 int y = (int)Math.Round((double)(pos.Y), 0);
+                x = (int)MathHelper.Clamp(x, 0, TileMap.Width - 1);
+                y = (int)MathHelper.Clamp(y, 0, TileMap.Height - 1);
 
                 startingSelectionCoords = new int[2] { x, y };
                 previousSelectionCoords = new int[2] { x, y };
@@ -298,7 +313,8 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 Vector2 pos = TileMapLayer.CalculateMapCoordinatesFromScreenPoint(Mouse.Position);
                 int x = (int)Math.Round((double)(pos.X), 0);
                 int y = (int)Math.Round((double)(pos.Y), 0);
-
+                x = (int)MathHelper.Clamp(x, 0, TileMap.Width - 1);
+                y = (int)MathHelper.Clamp(y, 0, TileMap.Height - 1);
                 // Determine whether or not we need to change our selection based on 
                 //  whether or not we're over a different tile.
                 if (previousSelectionCoords[0] != x || previousSelectionCoords[1] != y
@@ -367,7 +383,6 @@ namespace WesternSpace.DrawableComponents.EditorUI
             this.selectingTileCoordinates = new List<int[]>();
 
             this.subTextureSelectors = new List<SubTextureSelector>();
-
 
             for (int i = 0; i < TileMap.LayerCount; ++i)
             {

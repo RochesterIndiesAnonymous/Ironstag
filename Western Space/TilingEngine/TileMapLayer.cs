@@ -145,10 +145,12 @@ namespace WesternSpace.TilingEngine
 
         public override void Draw(GameTime gameTime)
         {
-            float cam_x = camera.Position.X*scrollSpeed;
-            float cam_y = camera.Position.Y*scrollSpeed;
+            Vector2 camPos = camera.Position;
+            float cam_x = camPos.X*scrollSpeed;
+            float cam_y = camPos.Y*scrollSpeed;
             float cam_w = camera.VisibleArea.Width;
             float cam_h = camera.VisibleArea.Height;
+            
 
             startX = (int)MathHelper.Clamp((float)Math.Floor((cam_x / tm.TileWidth)), 0.0f, (float)tm.Width);
             startY = (int)MathHelper.Clamp((float)Math.Floor((cam_y / tm.TileHeight)), 0.0f, (float)tm.Height);
@@ -162,9 +164,9 @@ namespace WesternSpace.TilingEngine
                 for (int y = startY; y < endY; ++y)
                 {
                     Vector2 position = new Vector2(x * tm.TileWidth, y * tm.TileHeight) + 
-                        (camera.Position - camera.Position*scrollSpeed);
-                    position.X = (int)Math.Round(position.X, 0);
-                    position.Y = (int)Math.Round(position.Y, 0);
+                        (camPos - camPos*scrollSpeed);
+                    //position.X = (int)Math.Round(position.X, 0);
+                    //position.Y = (int)Math.Round(position.Y, 0);
                     if (tm.Tiles[x, y] != null)
                     {
                         for (int subLayerIndex = 0; subLayerIndex < tm.SubLayerCount; ++subLayerIndex)
@@ -211,11 +213,12 @@ namespace WesternSpace.TilingEngine
             Vector2 topLeft, topRight, bottomLeft, bottomRight;
             Tile tile;
             PrimitiveDrawer drawer = PrimitiveDrawer.Instance;
+            Vector2 camPos = camera.Position;
             for (int x = startX; x < endX; ++x)
             {
                 for (int y = startY; y < endY; ++y)
                 {
-                    topLeft = new Vector2(x * tm.TileWidth, y * tm.TileHeight)+(camera.Position - camera.Position * scrollSpeed);
+                    topLeft = new Vector2(x * tm.TileWidth, y * tm.TileHeight)+(camPos - camPos * scrollSpeed);
                     topRight = topLeft + (new Vector2((float)tm.TileWidth, .0f));
                     bottomLeft = topLeft + (new Vector2(.0f, (float)tm.TileHeight));
                     bottomRight = bottomLeft + (new Vector2((float)tm.TileWidth, .0f));
@@ -249,7 +252,7 @@ namespace WesternSpace.TilingEngine
         public Vector2 CalculateMapCoordinatesFromScreenPoint(Vector2 atPoint)
         {
             Vector2 offset = new Vector2(resolutionService.ScaleRectangle.X, resolutionService.ScaleRectangle.Y);
-            atPoint = (((atPoint - offset) / resolutionService.ScaleFactor) + camera.Position)/(new Vector2(tm.TileWidth, tm.TileHeight));
+            atPoint = (((atPoint - offset) / resolutionService.ScaleFactor) + camera.Position) / (new Vector2(tm.TileWidth, tm.TileHeight));
             atPoint.X = (int)Math.Floor(atPoint.X);
             atPoint.Y = (int)Math.Floor(atPoint.Y);
             return atPoint;

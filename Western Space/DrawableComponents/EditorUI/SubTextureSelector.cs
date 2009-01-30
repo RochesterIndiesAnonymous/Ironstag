@@ -181,12 +181,11 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 // We're now selecting a texture.
                 if (subTexture != null)
                     this.selectingSheet = subTexture.Sheet;
-                this.Bounds = new RectangleF(Position.X, Position.Y, selectingSheet.Texture.Width, selectingSheet.Texture.Height);
+                this.Bounds = new RectangleF(Position.X, Position.Y, selectingSheet.Rectangle.Width, selectingSheet.Rectangle.Height);
             }
             else
             {
-                Microsoft.Xna.Framework.Rectangle rect = new Microsoft.Xna.Framework.Rectangle(0, 0, TileMap.TileWidth, TileMap.TileHeight);
-                this.Bounds = new RectangleF(Position.X, Position.Y, rect.Width, rect.Height);
+                this.Bounds = new RectangleF(Position.X, Position.Y, TileMap.TileWidth, TileMap.TileWidth);
             }
         }
 
@@ -211,7 +210,8 @@ namespace WesternSpace.DrawableComponents.EditorUI
             int vtOffset = layerIndex*(TileMap.SubLayerCount*oneDown + 2*padding) + (subLayerIndex * oneDown) + padding;
             Position = new Vector2(tileSelector.Bounds.Left + hzOffset, tileSelector.Bounds.Top + vtOffset);
 
-            Microsoft.Xna.Framework.Rectangle rect = tileSelector.TileMap.Sheets[0].Rectangles[0];
+            Microsoft.Xna.Framework.Rectangle rect =
+                new Microsoft.Xna.Framework.Rectangle(0, 0, TileMap.TileWidth, TileMap.TileHeight);
             this.Bounds = new RectangleF(Position.X, Position.Y, rect.Width, rect.Height);
         }
 
@@ -304,10 +304,13 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 Tile first = tiles.First<Tile>();
 
                 // Special case: we may be selecting nothing but empty tiles:
-                if (first == null)
+                if (first == null || first.Textures[layerIndex, subLayerIndex] == null)
                 {
                     // If every other one is also null:
-                    if ((from other in tiles where other == null select other).Count<Tile>() == count)
+                    if ((from other in tiles 
+                         where other == null ||
+                          other.Textures[layerIndex,subLayerIndex]==null 
+                         select other).Count<Tile>() == count)
                     {
                         // Set our SubTexture to null! Yay!
                         SubTexture = null;

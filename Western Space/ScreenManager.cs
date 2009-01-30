@@ -54,6 +54,11 @@ namespace WesternSpace
         private SpriteBatchService batchService;
 
         /// <summary>
+        /// The spritebatch used to draw the scaled version of our game:
+        /// </summary>
+        private SpriteBatch sb;
+
+        /// <summary>
         /// The list of screens that the screen manager is to manage.
         /// </summary>
         private IList<Screen> screenList;
@@ -156,6 +161,13 @@ namespace WesternSpace
 
             this.AddScreen(gameScreen);
 
+            sb = new SpriteBatch(GraphicsDevice);
+
+            /* For profiling:
+            this.IsFixedTimeStep = false;
+            graphics.SynchronizeWithVerticalRetrace = false;
+            graphics.ApplyChanges();
+            */
             // Initialize all components
             base.Initialize();
         }
@@ -191,8 +203,7 @@ namespace WesternSpace
             Texture2D screen = renderTarget.GetTexture();
 
             graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 0.0f, 0);
-
-            SpriteBatch sb = new SpriteBatch(GraphicsDevice);
+     
             sb.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
             GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.Point;
             GraphicsDevice.SamplerStates[0].MinFilter = TextureFilter.Point;

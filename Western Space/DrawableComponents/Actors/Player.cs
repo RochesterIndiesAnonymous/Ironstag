@@ -53,7 +53,15 @@ namespace WesternSpace.DrawableComponents.Actors
 
         // --- Class Variables ---
 
-        SpriteEffects facing;
+        private SpriteEffects facing;
+
+        /// <summary>
+        /// The direction the player is facing.
+        /// </summary>
+        public SpriteEffects Facing
+        {
+            get { return facing; }
+        }
 
         // The maximum value of the transformation guage for
         // Flint Ironstag.

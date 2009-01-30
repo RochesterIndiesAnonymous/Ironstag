@@ -12,14 +12,20 @@ namespace WesternSpace.Collision
     public class SpriteTileCollisionManager : GameComponent
 
     {
-        protected TileMap worldMap;
+        protected World world;
+
+        protected TileMap worldMap
+        {
+            get { return world.Map; }
+        }
+
         protected List<ITileCollideable> collideableObjectList;
         public SpriteTileCollisionManager(Game game, World world) 
             : base(game)
         {
             collideableObjectList = new List<ITileCollideable>();
             // The Map that objects interact with
-            worldMap = world.Map;
+            this.world = world;
         }
         // Adds entity to be checked for collision
         public void addObjectToList(ITileCollideable collidableObject)

@@ -29,27 +29,39 @@ namespace WesternSpace.Services
         private RectangleF visibleArea;
 
         private Matrix viewMatrix;
-        private ILayerService layerService;
+
         private IScreenResolutionService resolutionService;
 
         private IInputManagerService inputManager;
 
         private const int SCROLL_SPEED = 14;
 
+
         #region ICamera Members
 
         /// <summary>
-        /// The position of the camera within the world
+        /// The non-rounded position of our camera in the world.
+        /// </summary>
+        public Vector2 RealPosition
+        {
+            get { return position; }
+        }
+
+        private Vector2 roundedPosition;
+
+        /// <summary>
+        /// The position of the camera within the world. Rounded to the nearest int.
         /// </summary>
         public Vector2 Position
         {
             get
             {
-                return position;
+                return roundedPosition;
             }
             set
             {
                 position = value;
+                roundedPosition = new Vector2((float)Math.Floor(position.X + 0.5f), (float)Math.Floor(position.Y + 0.5f));
                 UpdateVisibleArea();
             }
         }
@@ -104,7 +116,6 @@ namespace WesternSpace.Services
             viewMatrix = Matrix.Identity;
 
             inputManager = (IInputManagerService)this.Game.Services.GetService(typeof(IInputManagerService));
-            layerService = (ILayerService)this.Game.Services.GetService(typeof(ILayerService));
             resolutionService = (IScreenResolutionService)this.Game.Services.GetService(typeof(IScreenResolutionService));
 
             UpdateVisibleArea();
@@ -118,6 +129,7 @@ namespace WesternSpace.Services
         /// <param name="gameTime"></param>
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
+            /*
             if (inputManager.KeyboardState.IsKeyDown(Keys.D) || inputManager.KeyboardState.IsKeyDown(Keys.Right))
             {
                 float newX = position.X + SCROLL_SPEED;
@@ -183,6 +195,7 @@ namespace WesternSpace.Services
                     this.Position = new Vector2(this.Position.X, newY);
                 }
             }
+            */
 
             CreateViewTransformationMatrix();
 

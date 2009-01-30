@@ -10,19 +10,34 @@ using WesternSpace.ServiceInterfaces;
 using WesternSpace.TilingEngine;
 using WesternSpace.Screens;
 using WesternSpace.Interfaces;
+using WesternSpace.DrawableComponents.Actors;
+using Microsoft.Xna.Framework.Graphics;
+using WesternSpace.Collision;
 
 namespace WesternSpace
 {
     public class World : GameObject
     {
+        public static readonly int PLAYER_DRAW_ORDER = 0;
+
         private ISpriteBatchService batchService;
 
         // The actual map that objects interact with.
         TileMap map;
 
+        public SpriteTileCollisionManager tileCollisionManager;
+        public SpriteSpriteCollisionManager spriteCollisionManager;
+
         public TileMap Map
         {
             get { return map; }
+        }
+
+        private ICameraService camera;
+
+        public ICameraService Camera
+        {
+            get { return camera; }
         }
 
         // Secondary non-interactive tile maps that usually represent background layers/parallax.
@@ -34,8 +49,27 @@ namespace WesternSpace
         // int represents the Z-index the layer is drawn at.
         public Dictionary<int, TileMapLayer> parallaxLayers;
 
+        private Player player;
+
+        internal Player Player
+        {
+            get { return player; }
+            set { player = value; }
+        }
+
         /// <summary>
-        /// Create an empty parent screen.
+        /// Prevent any components that belong in th world (enemies, the player, etc)
+        ///  from being Update()d. This will essentially set "Enabled = false" on all
+        ///  characters in the world.
+        /// </summary>
+        public void Pause()
+        {
+            player.Enabled = false;
+            this.Enabled = false;
+        }
+
+        /// <summary>
+        /// Create an empty world.
         /// </summary>
         /// <param name="parentScreen">The screen this world will be updated in.</param>
         public World(Screen parentScreen)
@@ -47,52 +81,65 @@ namespace WesternSpace
         }
 
         /// <summary>
-        /// 
+        /// Load a world from an XML file.
         /// </summary>
         /// <param name="parentScreen">The screen this world will be updated in.</param>
         /// <param name="fileName">The name of the XML file that contains this World's information.</param>
         public World(Screen parentScreen, string fileName)
             : base(parentScreen)
         {
-            #region FOR TESTING ONLY - REMOVE ME LATER
-            /*
-            // Convert our tilemap images to giant XML files.
-            TileEngine te = new TileEngine();
-            TileMap btm = te.LoadTileMap("Layers\\BigTestLayer", "LayerXML\\TestLayer");
-            TileMap tm = te.LoadTileMap("Layers\\TestLayer", "LayerXML\\TestLayer");
-
-            XDocument doc = new XDocument(tm.ToXElement());
-            doc.Save("TestTileMap.xml", SaveOptions.DisableFormatting);
-
-            XDocument doc2 = new XDocument(btm.ToXElement());
-            doc2.Save("BigTileMap.xml", SaveOptions.DisableFormatting);
-            */
-            #endregion
-
             this.interactiveLayers = new Dictionary<int, TileMapLayer>();
             this.parallaxLayers = new Dictionary<int, TileMapLayer>();
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
+
+            // Set up our collision systems:
+            tileCollisionManager = new SpriteTileCollisionManager(this.Game, this);
+            ParentScreen.Components.Add(tileCollisionManager);
+            spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, new Point(40, 40));
+            ParentScreen.Components.Add(spriteCollisionManager);
+
+
+            // Load the contents of the world from the specified XML file:
             LoadWorldXmlFile(fileName);
+        }
+
+        public override void Initialize()
+        {
+            camera = (ICameraService)ScreenManager.Instance.Services.GetService(typeof(ICameraService));
+            base.Initialize();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            // Update the camera's position. For now, just a very simple smooth-centering algorithm:
+            float cam_vx, cam_vy;
+            if (player.Facing == SpriteEffects.FlipHorizontally)
+            { // Facing left
+                cam_vx = (Player.Position.X - camera.VisibleArea.Width * 0.7f - camera.RealPosition.X) / 20;
+                cam_vy = (Player.Position.Y - camera.VisibleArea.Height / 2 - camera.RealPosition.Y) / 20;
+            }
+            else
+            { // Facing Right
+                cam_vx = (Player.Position.X - camera.VisibleArea.Width * 0.3f - camera.RealPosition.X) / 20;
+                cam_vy = (Player.Position.Y - camera.VisibleArea.Height / 2 - camera.RealPosition.Y) / 20;
+            }
+
+            camera.Position += new Vector2(cam_vx, cam_vy);
+
+            base.Update(gameTime);
         }
 
         // TODO: add proper support for parallax layers. This will require a new class that derives from
         //        TileMapLayer and overrides Draw()
         private void LoadWorldXmlFile(string fileName)
         {
-            // For now, we use tileEngine to load image data for our maps.
-            // This will change later when TileMap can be stored as XML.
-            TileEngine tileEngine = new TileEngine();
-
             XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(fileName);
+
+
+            #region LOAD INTERACTIVE MAP LAYERS
 
             // Load the interactive TileMap:
             map = new TileMap(fileContents.Root.Attribute("InteractiveMapFileName").Value);
-
-            map.ToXElement();
-
-            // The Camera currently looks at the layers contained in layerService.
-            // This can be removed later when the camera is smarter.
-            ILayerService layerService = (ILayerService)Game.Services.GetService(typeof(ILayerService));
 
             IEnumerable<XElement> allMapLayers = fileContents.Descendants("MapLayer");
 
@@ -109,8 +156,33 @@ namespace WesternSpace
                 interactiveLayers[ZIndex].DrawOrder = ZIndex;
 
                 ParentScreen.Components.Add(interactiveLayers[ZIndex]);
-                layerService.Layers[LayerName] = interactiveLayers[ZIndex];
             }
+
+            #endregion
+
+
+            #region LOAD CHARACTERS
+            // The spritebatch to be used when creating all of our characters:
+            SpriteBatch sb = batchService.GetSpriteBatch(Character.SpriteBatchName);
+
+            // Add the player:
+            string playerXMLFileName = fileContents.Root.Attribute("PlayerFileName").Value;
+            Vector2 playerPosition = new Vector2(float.Parse(fileContents.Root.Attribute("PlayerPositionX").Value),
+                                                 float.Parse(fileContents.Root.Attribute("PlayerPositionY").Value));
+
+            player = new Player(ParentScreen, sb, playerPosition, playerXMLFileName);
+            player.UpdateOrder = 3;
+            player.DrawOrder = PLAYER_DRAW_ORDER;
+
+            tileCollisionManager.addObjectToList(player);
+            spriteCollisionManager.RegisterGameObject(player);
+
+            ParentScreen.Components.Add(player);
+
+            #endregion
+
+
+            #region LOAD PARALLAX LAYERS
 
             IEnumerable<XElement> allParallaxMaps = fileContents.Descendants("Parallax");
 
@@ -140,9 +212,11 @@ namespace WesternSpace
                     parallaxLayers[ZIndex].DrawOrder = ZIndex;
 
                     ParentScreen.Components.Add(parallaxLayers[ZIndex]);
-                    layerService.Layers[LayerName] = parallaxLayers[ZIndex];
                 }
             }
+
+            #endregion
         }
+
     }
 }

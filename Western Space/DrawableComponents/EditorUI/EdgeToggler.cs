@@ -52,13 +52,24 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         protected override void OnMouseUnclick(int button)
         {
-            if (button == 0) // Only handle left clicks, ignore others.
+            switch(button)
             {
-                for (int i = 0; i < 4; ++i)
-                {
-                    edges[i] = !edges[i];
-                }
-                tileSelector.SetEdges(edges);
+                case 0: // Left click: turn edges on.
+                    for (int i = 0; i < 4; ++i)
+                    {
+                        edges[i] = true;
+                    }
+                    tileSelector.SetEdges(edges);
+                break;
+
+                case 2: // Right click: turn edges off.
+                    for (int i = 0; i < 4; ++i)
+                    {
+                        edges[i] = false;
+                    }
+                    tileSelector.SetEdges(edges);
+                break;
+                
             }
             base.OnMouseUnclick(button);
         }

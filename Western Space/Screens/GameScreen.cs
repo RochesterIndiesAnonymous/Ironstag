@@ -23,8 +23,11 @@ namespace WesternSpace.Screens
         private TileEngine tileEngine;
         private ISpriteBatchService batchService;
         private World world;
+
+        /* MOVED TO WORLD:
         public SpriteTileCollisionManager tileCollisionManager;
         public SpriteSpriteCollisionManager spriteCollisionManager;
+        */
 
         public World World
         {
@@ -100,6 +103,7 @@ namespace WesternSpace.Screens
             toadMan.DrawOrder = 0;
             this.Components.Add(toadMan);
 
+            /* MOVED TO WORLD:
             Player flint = new Player(this, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(251, 79), "SpriteXML\\FlintIronstag");
             flint.UpdateOrder = 3;
             flint.DrawOrder = 0;
@@ -118,6 +122,7 @@ namespace WesternSpace.Screens
             spriteCollisionManager.RegisterGameObject(flint);
             spriteCollisionManager.RegisterGameObject(toadMan);
             this.Components.Add(spriteCollisionManager);
+            */
         }
 
         private void CreateDebuggingInformationComponents()
@@ -150,7 +155,9 @@ namespace WesternSpace.Screens
             this.Components.Add(mcc);
             doc.DebugLines.Add(mcc);
 
-            doc.DebugLines.Add(spriteCollisionManager);
+            /* ???
+             doc.DebugLines.Add(spriteCollisionManager);
+             */
 
         }
 
@@ -158,12 +165,7 @@ namespace WesternSpace.Screens
         {
             // Create our World
             world = new World(this, "WorldXML\\TestWorld");
-
-            /*TileMapLayer background = new TileMapLayer(this.Game, World.Map, 0, 0.25f);
-            background.DrawOrder = -10;
-
-            this.Game.Components.Add(background);
-            */
+            this.Components.Add(world);
         }
     }
 }
