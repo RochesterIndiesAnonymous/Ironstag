@@ -314,13 +314,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\FlintIronstag\flintRun.png">
-      <Name>flintRun</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="UIGraphics\HealthBar.png">
       <Name>HealthBar</Name>
       <Importer>TextureImporter</Importer>
@@ -330,6 +323,13 @@
   <ItemGroup>
     <Compile Include="UIGraphics\LifeStrip.png">
       <Name>LifeStrip</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\FlintIronstag\FlintRun.png">
+      <Name>FlintRun</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

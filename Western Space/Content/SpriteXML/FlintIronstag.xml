@@ -4,16 +4,16 @@
     <Frame DisplayTime="100" SheetIndex="0" />
   </Animation>
   <Animation AnimationKey="Walking" IsLoop="1" SpriteSheet="Textures\\FlintIronstag\\flintRun" FrameWidth="64" FrameHeight="61">
-    <Frame DisplayTime="83" SheetIndex="0" />
-    <Frame DisplayTime="83" SheetIndex="1" />
-    <Frame DisplayTime="83" SheetIndex="2" />
-    <Frame DisplayTime="83" SheetIndex="3" />
-    <Frame DisplayTime="83" SheetIndex="4" />
-    <Frame DisplayTime="83" SheetIndex="5" />
-    <Frame DisplayTime="83" SheetIndex="6" />
-    <Frame DisplayTime="83" SheetIndex="7" />
-    <Frame DisplayTime="83" SheetIndex="8" />
-    <Frame DisplayTime="83" SheetIndex="9" />
+    <Frame DisplayTime="100" SheetIndex="0" />
+    <Frame DisplayTime="100" SheetIndex="1" />
+    <Frame DisplayTime="100" SheetIndex="2" />
+    <Frame DisplayTime="100" SheetIndex="3" />
+    <Frame DisplayTime="100" SheetIndex="4" />
+    <Frame DisplayTime="100" SheetIndex="5" />
+    <Frame DisplayTime="100" SheetIndex="6" />
+    <Frame DisplayTime="100" SheetIndex="7" />
+    <Frame DisplayTime="100" SheetIndex="8" />
+    <Frame DisplayTime="100" SheetIndex="9" />
   </Animation>
   <Animation AnimationKey="Shooting" IsLoop="1" SpriteSheet="Textures\\FlintIronstag\\FlintShoot" FrameWidth="64" FrameHeight="61">
     <Frame DisplayTime="100" SheetIndex="0" />
