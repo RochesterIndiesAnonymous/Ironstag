@@ -35,67 +35,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fonts\Pala.spritefont">
-      <Name>Pala</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Music\rave.mp3">
+    <Compile Include="System\Music\rave.mp3">
       <Name>rave</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\1down.png">
-      <Name>1down</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\1up.png">
-      <Name>1up</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Sprites\CopterJoe.png">
-      <Name>CopterJoe</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\flyingMeta.png">
-      <Name>flyingMeta</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\flyingMeta2.png">
-      <Name>flyingMeta2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\rushFrown.png">
-      <Name>rushFrown</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\rushSmile.png">
-      <Name>rushSmile</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Sounds\hBump.wav">
+    <Compile Include="System\Sounds\hBump.wav">
       <Name>hBump</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sounds\wBump.wav">
+    <Compile Include="System\Sounds\wBump.wav">
       <Name>wBump</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
@@ -192,13 +146,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpriteXML\DiddyKong.xml">
-      <Name>DiddyKong</Name>
-      <Importer>XDocumentImporter</Importer>
-      <Processor>XDocumentProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\toadmandance.png">
       <Name>toadmandance</Name>
       <Importer>TextureImporter</Importer>
@@ -210,20 +157,6 @@
       <Name>ghastslash</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="SpriteXML\Ghast.xml">
-      <Name>Ghast</Name>
-      <Importer>XDocumentImporter</Importer>
-      <Processor>XDocumentProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="SpriteXML\SunSet.xml">
-      <Name>SunSet</Name>
-      <Importer>XDocumentImporter</Importer>
-      <Processor>XDocumentProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -344,6 +277,13 @@
   <ItemGroup>
     <Compile Include="Textures\FlintIronstag\FlintJump2.png">
       <Name>FlintJump2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="System\Window Skin\windowSkin.png">
+      <Name>windowSkin</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
