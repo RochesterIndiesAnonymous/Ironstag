@@ -110,6 +110,7 @@ namespace WesternSpace.AnimationFramework
 
             // Start the new animation.
             this.animation = animation;
+            currentFrame = this.animation.Frames[0];
             ResetTime();
         }
 

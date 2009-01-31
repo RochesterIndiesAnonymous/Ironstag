@@ -154,12 +154,12 @@ namespace WesternSpace.DrawableComponents.Actors
             if (pressedJump)
             {
                 //Start a Jump or continue jumping
-                if ((!currentState.Equals("Jumping") && isOnGround) || jumpTime > 0.0f)
+                if ( ((!currentState.Equals("JumpingAscent") || !currentState.Equals("JumpingDescent")) && isOnGround) || jumpTime > 0.0f)
                 {
                     if (jumpTime == 0.0f)
                     {
                         //Play Sound if necessary
-                        ChangeState("Jumping");
+                        ChangeState("JumpingAscent");
                         isOnGround = false;
                     }
 
@@ -176,6 +176,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 {
                     //Reached the top of the jump
                     jumpTime = 0.0f;
+                    ChangeState("JumpingDescent");
                 }
             }
             else
@@ -193,7 +194,7 @@ namespace WesternSpace.DrawableComponents.Actors
             {
                 if (!currentState.Equals("Shooting") || !currentState.Equals("Jump-Shooting"))
                 {
-                    if (currentState.Equals("Jumping"))
+                    if (currentState.Equals("JumpingAscent") || currentState.Equals("JumpingDescent"))
                     {
                         //Change state and animation
                         //ChangeState("Jump-Shooting");
@@ -262,12 +263,14 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             Animation idle = new Animation(xmlFile, "Idle");
             Animation walking = new Animation(xmlFile, "Walking");
-            Animation jumping = new Animation(xmlFile, "Jumping");
-             Animation shooting = new Animation(xmlFile, "Shooting");
+            Animation jumpingAscent = new Animation(xmlFile, "JumpingAscent");
+            Animation jumpingDescent = new Animation(xmlFile, "JumpingDescent");
+            Animation shooting = new Animation(xmlFile, "Shooting");
 
             this.animationMap.Add("Idle", idle);
             this.animationMap.Add("Walking", walking);
-            this.animationMap.Add("Jumping", jumping);
+            this.animationMap.Add("JumpingAscent", jumpingAscent);
+            this.animationMap.Add("JumpingDescent", jumpingDescent);
             this.animationMap.Add("Shooting", shooting);
         }
 
@@ -330,11 +333,11 @@ namespace WesternSpace.DrawableComponents.Actors
             {
                 direction = 1.0f;
             }
-            else if (currentKeyboardState.IsKeyDown(Keys.J))
+            if (currentKeyboardState.IsKeyDown(Keys.J))
             {
                 pressedJump = true;
             }
-            else if (currentKeyboardState.IsKeyDown(Keys.K))
+            if (currentKeyboardState.IsKeyDown(Keys.K))
             {
                 Shoot();
             }

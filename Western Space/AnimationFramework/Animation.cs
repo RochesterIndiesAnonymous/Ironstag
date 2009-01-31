@@ -71,11 +71,14 @@ namespace WesternSpace.AnimationFramework
             set { frameHeight = value; }
         }
 
+        public string animationName;
+
         // Constructor for a new Animation.
         // param: animationXmlFile - The XML file to load Frame information
         //                           from.
         public Animation(string animationXmlFile, string animationName)
         {
+            this.animationName = animationName;
             this.spriteSheet = null;
             this.frames = new List<Frame>();
             this.frameHeight = 0;
