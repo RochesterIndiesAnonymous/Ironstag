@@ -21,7 +21,7 @@ namespace WesternSpace
         /// <summary>
         /// The resolution settings to use when the game is running in windowed mode
         /// </summary>
-        private static ResolutionSettings windowedSettings = new ResolutionSettings(640, 480, 640, 480);
+        private static ResolutionSettings windowedSettings = new ResolutionSettings(320, 240, 640, 480);
 
         /// <summary>
         /// The full screen settings to use when using full screen. This is calculated based on the main display of the user

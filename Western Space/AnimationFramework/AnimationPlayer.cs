@@ -20,6 +20,14 @@ namespace WesternSpace.AnimationFramework
             get { return animation; }
         }
 
+        // The previously playing animation.
+        Animation defaultAnimation;
+
+        public Animation DefaultAnimation
+        {
+            get { return defaultAnimation; }
+        }
+
         // The frame that is currently being drawn to the screen.
         private Frame currentFrame;
 
@@ -43,9 +51,10 @@ namespace WesternSpace.AnimationFramework
         // param: game - The over-arching Game object.
         // param: spriteBatch - The spriteBatch used to draw the Animation.
         // param: animation - The Animation to play.
-        public AnimationPlayer(SpriteBatch spriteBatch, Animation animation)
+        public AnimationPlayer(SpriteBatch spriteBatch, Animation animation, Animation defaultAnimation)
         {
             this.animation = animation;
+            this.defaultAnimation = defaultAnimation;
             this.timeDisplayed = 0;
             this.currentFrame = animation.Frames[0];
 
@@ -89,7 +98,11 @@ namespace WesternSpace.AnimationFramework
             else
             {
                 currentFrame = currentAnimation[Math.Min(currentFrame.FrameIndex + 1, currentAnimation.Count - 1)];
-                ResetTime();
+
+                if (currentFrame.FrameIndex != animation.FrameCount-1)
+                {
+                    ResetTime();
+                }
             }
         }
 
@@ -114,6 +127,19 @@ namespace WesternSpace.AnimationFramework
             ResetTime();
         }
 
+        // Returns true if the current animation is finished playing.
+        public bool isDonePlaying()
+        {
+            bool returnValue = false;
+
+            if( (currentFrame.FrameIndex == animation.FrameCount-1) && !animation.IsLooping && this.IsTimeForNextFrame )
+            {
+                returnValue = true;
+            }
+
+            return returnValue;
+        }
+
         public void Update(GameTime gameTime)
         {
             timeDisplayed += gameTime.ElapsedGameTime.Milliseconds;
@@ -122,13 +148,21 @@ namespace WesternSpace.AnimationFramework
             {
                 this.IncrementFrame();
             }
+
+            //If the Animation is finished and was a oneshot, play the default animation
+            if (Animation.IsOneShot && isDonePlaying())
+            {
+                PlayAnimation(defaultAnimation);
+            }
         }
 
         // Advances the time position and draws the current frame of the animation.
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 position, SpriteEffects spriteEffect)
         {
             if (Animation == null)
+            {
                 throw new NotSupportedException("No animation is currently playing.");
+            }
 
             spriteBatch.Draw(Animation.SpriteSheet, position,
                 this.CalculateFrameRectangleFromIndex(this.CurrentFrame.SheetIndex), Color.White, 0.0f, Vector2.Zero, 1.0f, spriteEffect, 0);

@@ -11,12 +11,16 @@ using WesternSpace.ServiceInterfaces;
 using WesternSpace.AnimationFramework;
 using WesternSpace.Collision;
 using WesternSpace.Screens;
+using Microsoft.Xna.Framework.Audio;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
     class Player : Character
     {
         // --- Constants ---
+
+        // Sound Effect, will be moved later on.
+        SoundEffect gunShot;
        
         // -Horizontal Movement Constants
 
@@ -123,7 +127,7 @@ namespace WesternSpace.DrawableComponents.Actors
             SetUpAnimation(xmlFile);
 
             //Create the Animation Player and give it the Idle Animation
-            this.animationPlayer = new AnimationPlayer(spriteBatch, animationMap["Idle"]);
+            this.animationPlayer = new AnimationPlayer(spriteBatch, animationMap["Idle"], animationMap["Idle"]);
 
             //Set the current animation
             currentAnimation = animationPlayer.Animation;
@@ -144,6 +148,8 @@ namespace WesternSpace.DrawableComponents.Actors
             this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(0, 16), HOTSPOT_TYPE.left));
             this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(36, 16), HOTSPOT_TYPE.right));
             this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(16, 39), HOTSPOT_TYPE.bottom));
+
+            gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
         }
 
         // Called when the player presses the jump button. If the player is already
@@ -203,9 +209,12 @@ namespace WesternSpace.DrawableComponents.Actors
                     {
                         //Change state and animation
                         ChangeState("Shooting");
+
+                        gunShot.Play();
                     }
 
                     //Generate a Bullet
+
                 }
             }
             else
@@ -376,6 +385,13 @@ namespace WesternSpace.DrawableComponents.Actors
                 if (Math.Abs(Velocity.X) - 0.02f > 0)
                 {
                     ChangeState("Walking");
+                }
+                else if(this.currentState.Equals("Shooting"))
+                {
+                    if (animationPlayer.Animation.animationName.Equals("Idle"))
+                    {
+                        ChangeState("Idle");
+                    }
                 }
                 else
                 {

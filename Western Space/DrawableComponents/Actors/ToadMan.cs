@@ -28,7 +28,7 @@ namespace WesternSpace.DrawableComponents.Actors
             SetUpAnimation(xmlFile);
 
             //Create the Animation Player and give it the Idle Animation
-            this.animationPlayer = new AnimationPlayer(spriteBatch, animationMap["Idle"]);
+            this.animationPlayer = new AnimationPlayer(spriteBatch, animationMap["Idle"], animationMap["Idle"]);
 
             //Set the current animation
             currentAnimation = animationPlayer.Animation;

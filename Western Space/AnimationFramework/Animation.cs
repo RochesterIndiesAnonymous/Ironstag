@@ -42,6 +42,15 @@ namespace WesternSpace.AnimationFramework
             get { return isLooping; }
         }
 
+        // Determines if the animation should return to
+        // the previous animation when it finishes playing.
+        bool isOneShot;
+
+        public bool IsOneShot
+        {
+            get { return isOneShot; }
+        }
+
         // The number of frames contained in this animation.
         private int frameCount;
 
@@ -121,6 +130,10 @@ namespace WesternSpace.AnimationFramework
                     int loopInt = 0;
                     Int32.TryParse(animation.Attribute("IsLoop").Value, out loopInt);
 
+                    //Check if this animation is a One Shot or not.
+                    int oneShotInt = 0;
+                    Int32.TryParse(animation.Attribute("IsOneShot").Value, out oneShotInt);
+
                     if (loopInt == 0)
                     {
                         this.isLooping = false;
@@ -128,6 +141,15 @@ namespace WesternSpace.AnimationFramework
                     else
                     {
                         this.isLooping = true;
+                    }
+
+                    if (oneShotInt == 0)
+                    {
+                        this.isOneShot = false;
+                    }
+                    else
+                    {
+                        this.isOneShot = true;
                     }
 
                     //Creates a list of frames and populates this Animation's list.
