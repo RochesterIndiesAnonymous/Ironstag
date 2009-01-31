@@ -13,9 +13,12 @@ namespace WesternSpace.Input
      */
     public class InputMonitor : GameComponent
     {
-        private static KeyboardState lastState = new KeyboardState();
-        private static KeyboardState currentState = new KeyboardState();
+        private static KeyboardState previousKeyboadState = new KeyboardState();
+        private static KeyboardState currentKeyboardState = new KeyboardState();
+        private static GamePadState previousPadState = new GamePadState();
+        private static GamePadState currentPadState = new GamePadState();
         private static Dictionary<string, Keys> keyConfig = new Dictionary<string, Keys>();
+        private static Dictionary<string, Buttons> buttonConfig = new Dictionary<string, Buttons>();
 
         // Constants for checking keys
         public static readonly string JUMP = "Jump";
@@ -34,16 +37,29 @@ namespace WesternSpace.Input
          */
         public InputMonitor(Game game): base(game)
         {
-            // Configure Default Mapping
-            this.AssignKey("Jump", Keys.Z);
-            this.AssignKey("Shoot", Keys.X);
-            this.AssignKey("Left", Keys.Left);
-            this.AssignKey("Right", Keys.Right);
-            this.AssignKey("Up", Keys.Up);
-            this.AssignKey("Down", Keys.Down);
-            this.AssignKey("Roll", Keys.LeftControl);
-            this.AssignKey("Transform", Keys.A);
-            this.AssignKey("Pause", Keys.Space);
+            // Configure Default Gamepad Mapping
+            this.AssignButton(JUMP, Buttons.A);
+            this.AssignButton(SHOOT, Buttons.X);
+            this.AssignButton(LEFT, Buttons.DPadLeft);
+            this.AssignButton(RIGHT, Buttons.DPadRight);
+            this.AssignButton(UP, Buttons.DPadUp);
+            this.AssignButton(DOWN, Buttons.DPadDown);
+            this.AssignButton(ROLL, Buttons.LeftTrigger);
+            this.AssignButton(TRANSFORM, Buttons.RightTrigger);
+            this.AssignButton(PAUSE, Buttons.Start);
+
+#if !XBOX
+            // Configure Default Keyboard Mapping
+            this.AssignKey(JUMP, Keys.Z);
+            this.AssignKey(SHOOT, Keys.X);
+            this.AssignKey(LEFT, Keys.Left);
+            this.AssignKey(RIGHT, Keys.Right);
+            this.AssignKey(UP, Keys.Up);
+            this.AssignKey(DOWN, Keys.Down);
+            this.AssignKey(ROLL, Keys.LeftControl);
+            this.AssignKey(TRANSFORM, Keys.A);
+            this.AssignKey(PAUSE, Keys.Space);
+#endif
         }
 
         /**
@@ -52,10 +68,19 @@ namespace WesternSpace.Input
          */
         public override void Update(GameTime gameTime)
         {
-            // store the last KeyboardState retrieved
-            lastState = currentState;
-            // get the newest KeyboardState
-            currentState = Keyboard.GetState();
+            // Store the last GamePad State retrieved
+            previousPadState = currentPadState;
+
+            //Get the new GamePad state
+            currentPadState = GamePad.GetState(PlayerIndex.One);
+
+#if !XBOX
+            // Store the last KeyboardState retrieved
+            previousKeyboadState = currentKeyboardState;
+
+            // Get the newest KeyboardState
+            currentKeyboardState = Keyboard.GetState();
+#endif
         }
 
         /**
@@ -77,6 +102,24 @@ namespace WesternSpace.Input
         }
 
         /**
+         * Function for assigning button functions.
+         * Example: command could be "Jump" and button could be the 'B' button.
+         * Any number of commands can be stored. If it already exists, it will
+         * just be saved over the old binding
+         */
+        public void AssignButton(string command, Buttons button)
+        {
+            if (buttonConfig.ContainsKey(command))
+            {
+                buttonConfig[command] = button;
+            }
+            else
+            {
+                buttonConfig.Add(command, button);
+            }
+        }
+
+        /**
          * Checks the state of desired key by command name
          */
         public bool CheckKey(string command)
@@ -86,7 +129,7 @@ namespace WesternSpace.Input
             if (keyConfig.ContainsKey(command))
             {
                 // If key is currently down, report
-                if (currentState.IsKeyDown(keyConfig[command]))
+                if (currentKeyboardState.IsKeyDown(keyConfig[command]))
                 {
                     return true;
                 }
@@ -103,13 +146,39 @@ namespace WesternSpace.Input
             }
         }
 
+        /// <summary>
+        /// Determines whether or not a key associated with a given command has been pressed and released.
+        /// </summary>
+        /// <param name="command">The command whose associated key is to be checked.</param>
+        /// <returns>True if the key has been released, false otherwise.</returns>
         public bool CheckPressAndReleaseKey(string command)
         {
             if (keyConfig.ContainsKey(command))
             {
-                if (currentState.IsKeyDown(keyConfig[command]))
+                if (currentKeyboardState.IsKeyDown(keyConfig[command]))
                 {
-                    if (!lastState.IsKeyDown(keyConfig[command]))
+                    if (!previousKeyboadState.IsKeyDown(keyConfig[command]))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether or not a button associated with a given command has been pressed and released.
+        /// </summary>
+        /// <param name="command">The command whose associated button is to be checked.</param>
+        /// <returns>True if the button has been released, false otherwise.</returns>
+        public bool CheckPressAndReleaseButton(string command)
+        {
+            if (buttonConfig.ContainsKey(command))
+            {
+                if (currentPadState.IsButtonDown(buttonConfig[command]))
+                {
+                    if (!previousPadState.IsButtonDown(buttonConfig[command]))
                     {
                         return true;
                     }
