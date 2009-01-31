@@ -65,11 +65,11 @@ namespace WesternSpace.Screens
 
                 // Set up editor controls:
                 inputMonitor = new InputMonitor(ScreenManager.Instance);
-                inputMonitor.assignKey("EditorLeft", Microsoft.Xna.Framework.Input.Keys.A);
-                inputMonitor.assignKey("EditorRight", Microsoft.Xna.Framework.Input.Keys.D);
-                inputMonitor.assignKey("EditorUp", Microsoft.Xna.Framework.Input.Keys.W);
-                inputMonitor.assignKey("EditorDown", Microsoft.Xna.Framework.Input.Keys.S);
-                inputMonitor.assignKey("EditorAppend", Microsoft.Xna.Framework.Input.Keys.LeftShift);
+                inputMonitor.AssignKey("EditorLeft", Microsoft.Xna.Framework.Input.Keys.A);
+                inputMonitor.AssignKey("EditorRight", Microsoft.Xna.Framework.Input.Keys.D);
+                inputMonitor.AssignKey("EditorUp", Microsoft.Xna.Framework.Input.Keys.W);
+                inputMonitor.AssignKey("EditorDown", Microsoft.Xna.Framework.Input.Keys.S);
+                inputMonitor.AssignKey("EditorAppend", Microsoft.Xna.Framework.Input.Keys.LeftShift);
                 Components.Add(inputMonitor);
 
                 //CreateDebuggingInformationComponents();
@@ -83,19 +83,19 @@ namespace WesternSpace.Screens
         public override void Update(GameTime gameTime)
         {
             // Let keypresses move the camera:
-            if(inputMonitor.checkKey("EditorLeft"))
+            if(inputMonitor.CheckKey("EditorLeft"))
             {
                 world.Camera.Position -= new Vector2(CAM_SPEED, 0);
             }
-            else if (inputMonitor.checkKey("EditorRight"))
+            else if (inputMonitor.CheckKey("EditorRight"))
             {
                 world.Camera.Position += new Vector2(CAM_SPEED, 0);
             }
-            if (inputMonitor.checkKey("EditorUp"))
+            if (inputMonitor.CheckKey("EditorUp"))
             {
                 world.Camera.Position -= new Vector2(0, CAM_SPEED);
             }
-            else if (inputMonitor.checkKey("EditorDown"))
+            else if (inputMonitor.CheckKey("EditorDown"))
             {
                 world.Camera.Position += new Vector2(0, CAM_SPEED);
             }

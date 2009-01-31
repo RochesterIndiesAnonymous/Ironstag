@@ -358,7 +358,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 switch (selectButton)
                 { 
                     case 0: // Left mouse unclick. Select the tiles.
-                        if (inputMonitor.checkKey("EditorAppend"))
+                        if (inputMonitor.CheckKey("EditorAppend"))
                         {
                             AppendTiles(selectingTileCoordinates);
                         }

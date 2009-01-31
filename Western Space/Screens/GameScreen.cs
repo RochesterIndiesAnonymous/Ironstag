@@ -84,7 +84,7 @@ namespace WesternSpace.Screens
 
                 // Set up editor controls:
                 inputMonitor = new InputMonitor(ScreenManager.Instance);
-                inputMonitor.assignKey("ToggleFullScreen", Microsoft.Xna.Framework.Input.Keys.F);
+                inputMonitor.AssignKey("ToggleFullScreen", Microsoft.Xna.Framework.Input.Keys.F);
                 Components.Add(inputMonitor);
 
                 CreateLayerComponents();
@@ -100,22 +100,20 @@ namespace WesternSpace.Screens
 
         public override void Update(GameTime gameTime)
         {
-            if (inputMonitor.checkKey("ToggleFullScreen"))
+            if (inputMonitor.CheckPressAndReleaseKey("ToggleFullScreen"))
             {
-                if (isFullScreen && count <= 0)
+                if (isFullScreen)
                 {
                     isFullScreen = false;
                     ScreenManager.Instance.ResolutionService.CurrentResolutionSettings = windowedSettings;
                 }
-                else if( count <= 0)
+                else
                 {
                     isFullScreen = true;
                     ScreenManager.Instance.ResolutionService.CurrentResolutionSettings = fullScreenSettings;
                 }
-                ++count;
             }
-            else
-                --count;
+
             base.Update(gameTime);
         }
 

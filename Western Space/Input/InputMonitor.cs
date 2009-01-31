@@ -35,15 +35,15 @@ namespace WesternSpace.Input
         public InputMonitor(Game game): base(game)
         {
             // Configure Default Mapping
-            this.assignKey("Jump", Keys.Z);
-            this.assignKey("Shoot", Keys.X);
-            this.assignKey("Left", Keys.Left);
-            this.assignKey("Right", Keys.Right);
-            this.assignKey("Up", Keys.Up);
-            this.assignKey("Down", Keys.Down);
-            this.assignKey("Roll", Keys.LeftControl);
-            this.assignKey("Transform", Keys.A);
-            this.assignKey("Pause", Keys.Space);
+            this.AssignKey("Jump", Keys.Z);
+            this.AssignKey("Shoot", Keys.X);
+            this.AssignKey("Left", Keys.Left);
+            this.AssignKey("Right", Keys.Right);
+            this.AssignKey("Up", Keys.Up);
+            this.AssignKey("Down", Keys.Down);
+            this.AssignKey("Roll", Keys.LeftControl);
+            this.AssignKey("Transform", Keys.A);
+            this.AssignKey("Pause", Keys.Space);
         }
 
         /**
@@ -64,7 +64,7 @@ namespace WesternSpace.Input
          * Any number of commands can be stored. If it already exists, it will
          * just be saved over the old binding
          */
-        public void assignKey(string command, Keys key)
+        public void AssignKey(string command, Keys key)
         {
             if (keyConfig.ContainsKey(command))
             {
@@ -79,7 +79,7 @@ namespace WesternSpace.Input
         /**
          * Checks the state of desired key by command name
          */
-        public Boolean checkKey(string command)
+        public bool CheckKey(string command)
         {
 
             // If the command exists, check its state
@@ -101,6 +101,22 @@ namespace WesternSpace.Input
             {
                 return false;
             }
+        }
+
+        public bool CheckPressAndReleaseKey(string command)
+        {
+            if (keyConfig.ContainsKey(command))
+            {
+                if (currentState.IsKeyDown(keyConfig[command]))
+                {
+                    if (!lastState.IsKeyDown(keyConfig[command]))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }
