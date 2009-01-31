@@ -4,33 +4,80 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using WesternSpace.ServiceInterfaces;
+using WesternSpace.Utility;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace WesternSpace.Services
 {
     public class ScreenResolutionService : IScreenResolutionService
     {
+        /// <summary>
+        /// The intermediate render target we use to provide scaling of the game screen resolution
+        /// </summary>
+        private RenderTarget2D renderTarget;
+
+        public RenderTarget2D RenderTarget
+        {
+            get { return renderTarget; }
+        }
+
         private Rectangle scaleRectangle;
 
         public Rectangle ScaleRectangle
         {
             get { return scaleRectangle; }
-            set { scaleRectangle = value; }
+        }
+
+        GraphicsDeviceManager graphics;
+
+        /// <summary>
+        /// A pointer to the current resolution settings the game is using.
+        /// </summary>
+        private static ResolutionSettings currentResolutionSettings;
+
+        public ResolutionSettings CurrentResolutionSettings
+        {
+            get { return currentResolutionSettings; }
+            set 
+            {
+                currentResolutionSettings = value;
+
+                graphics.PreferredBackBufferWidth = value.BackBufferWidth;
+                graphics.PreferredBackBufferHeight = value.BackBufferHeight;
+
+                Viewport vp = graphics.GraphicsDevice.Viewport;
+                vp.Width = value.BackBufferWidth;
+                vp.Height = value.BackBufferHeight;
+                graphics.GraphicsDevice.Viewport = vp;
+
+                scaleRectangle = CalculateResolution();
+
+                graphics.IsFullScreen = CurrentResolutionSettings.IsFullScreen;
+                graphics.ApplyChanges();
+
+                renderTarget = new RenderTarget2D(graphics.GraphicsDevice,CurrentResolutionSettings.RenderTargetWidth, CurrentResolutionSettings.RenderTargetHeight, 1, SurfaceFormat.Color);
+
+                CameraService cameraService = (CameraService)ScreenManager.Instance.Services.GetService(typeof(ICameraService));
+                if (cameraService != null)
+                {
+                    cameraService.UpdateVisibleArea(this);
+                    cameraService.CreateViewTransformationMatrix();
+                }
+            }
         }
 
         private int startTextureWidth;
 
         public int StartTextureWidth
         {
-            get { return startTextureWidth; }
-            set { startTextureWidth = value; }
+            get { return CurrentResolutionSettings.RenderTargetWidth; }
         }
 
         private int startTextureHeight;
 
         public int StartTextureHeight
         {
-            get { return startTextureHeight; }
-            set { startTextureHeight = value; }
+            get { return CurrentResolutionSettings.RenderTargetHeight; }
         }
 
         public int ScaleFactor
@@ -38,23 +85,21 @@ namespace WesternSpace.Services
             get { return (scaleRectangle.Width / startTextureWidth); }
         }
 
-        public ScreenResolutionService(GraphicsDeviceManager graphics, int startingTextureWidth, int startingTextureHeight)
+        public ScreenResolutionService(GraphicsDeviceManager graphics, ResolutionSettings resolutionSettings)
         {
-            scaleRectangle = CalculateResolution(graphics, startingTextureWidth, startingTextureHeight);
-
-            this.startTextureWidth = startingTextureWidth;
-            this.startTextureHeight = startingTextureHeight;
+            this.graphics = graphics;
+            CurrentResolutionSettings = resolutionSettings;
         }
 
-        public Rectangle CalculateResolution(GraphicsDeviceManager graphics, int startingTextureWidth, int startingTextureHeight)
+        private Rectangle CalculateResolution()
         {
-            int currentCalculatedWidth = startingTextureWidth;
-            int currentCalculatedHeight = startingTextureHeight;
+            int currentCalculatedWidth = StartTextureWidth;
+            int currentCalculatedHeight = StartTextureHeight;
 
-            while (currentCalculatedWidth + startingTextureWidth <= graphics.PreferredBackBufferWidth && currentCalculatedHeight + startingTextureHeight <= graphics.PreferredBackBufferHeight)
+            while (currentCalculatedWidth + StartTextureWidth <= graphics.PreferredBackBufferWidth && currentCalculatedHeight + StartTextureHeight <= graphics.PreferredBackBufferHeight)
             {
-                currentCalculatedWidth += startingTextureWidth;
-                currentCalculatedHeight += startingTextureHeight;
+                currentCalculatedWidth += StartTextureWidth;
+                currentCalculatedHeight += StartTextureHeight;
             }
 
             int x = (graphics.GraphicsDevice.Viewport.Width - currentCalculatedWidth) / 2;

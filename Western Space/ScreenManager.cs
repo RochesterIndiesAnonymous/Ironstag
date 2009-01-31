@@ -19,34 +19,19 @@ namespace WesternSpace
     public class ScreenManager : Game
     {
         /// <summary>
-        /// The resolution settings to use when the game is running in windowed mode
-        /// </summary>
-        private static ResolutionSettings windowedSettings = new ResolutionSettings(320, 240, 640, 480);
-
-        /// <summary>
-        /// The full screen settings to use when using full screen. This is calculated based on the main display of the user
-        /// </summary>
-        private static ResolutionSettings fullScreenSettings;
-
-        /// <summary>
-        /// A pointer to the current resolution settings the game is using.
-        /// </summary>
-        private static ResolutionSettings currentResolutionSettings;
-
-        /// <summary>
-        /// The intermediate render target we use to provide scaling of the game screen resolution
-        /// </summary>
-        private RenderTarget2D renderTarget;
-
-        /// <summary>
-        /// The camera that is used to move around the editor and game world
-        /// </summary>
-        private CameraService cameraService;
-
-        /// <summary>
         /// The graphics device manager our game uses for managing the graphics card
         /// </summary>
         private GraphicsDeviceManager graphics;
+
+        public GraphicsDeviceManager Graphics
+        {
+            get { return graphics; }
+        }
+
+        /// <summary>
+        /// The camera that determines what is displayed
+        /// </summary>
+        private CameraService cameraService;
 
         /// <summary>
         /// The service that manages all the sprite batches in the game
@@ -69,19 +54,6 @@ namespace WesternSpace
         public IList<Screen> ScreenList
         {
             get { return screenList; }
-        }
-
-        /// <summary>
-        /// True if the current game is in full screen. Used to determine which resolution to use for rendering
-        /// </summary>
-        private bool isFullScreen;
-
-        /// <summary>
-        /// True if the current game is in full screen. Used to determine which resolution to use for rendering
-        /// </summary>
-        public bool IsFullScreen
-        {
-            get { return isFullScreen; }
         }
 
         /// <summary>
@@ -125,6 +97,7 @@ namespace WesternSpace
         {
             // XNA does not like it if this is not created here.
             graphics = new GraphicsDeviceManager(this);
+
             screenList = new List<Screen>();
         }
 
@@ -142,13 +115,6 @@ namespace WesternSpace
             // Set our XNA content directory
             Content.RootDirectory = "Content";
 
-            fullScreenSettings = new ResolutionSettings(320, 240, GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height);
-
-            resolutionService = new ScreenResolutionService(graphics, windowedSettings.RenderTargetWidth, windowedSettings.RenderTargetHeight);
-            this.Services.AddService(typeof(IScreenResolutionService), resolutionService);
-
-            SetScreenMode(false);
-
             // create our services
             CreateServices();
 
@@ -159,7 +125,10 @@ namespace WesternSpace
             Screen gameScreen = new GameScreen(this, GameScreen.ScreenName);
             this.screenList.Add(gameScreen);
 
-            this.AddScreen(gameScreen);
+            this.AddScreenToDisplay(gameScreen);
+
+            resolutionService = new ScreenResolutionService(graphics, GameScreen.WindowedSettings );
+            this.Services.AddService(typeof(IScreenResolutionService), resolutionService);
 
             sb = new SpriteBatch(GraphicsDevice);
 
@@ -188,7 +157,7 @@ namespace WesternSpace
         /// <param name="gameTime">Time relative to the game</param>
         protected override void Draw(GameTime gameTime)
         {            
-            graphics.GraphicsDevice.SetRenderTarget(0, renderTarget);
+            graphics.GraphicsDevice.SetRenderTarget(0, resolutionService.RenderTarget);
 
             GraphicsDevice.Clear(Color.Black);
 
@@ -200,7 +169,7 @@ namespace WesternSpace
 
             GraphicsDevice.SetRenderTarget(0, null);
 
-            Texture2D screen = renderTarget.GetTexture();
+            Texture2D screen = resolutionService.RenderTarget.GetTexture();
 
             graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 0.0f, 0);
      
@@ -216,7 +185,7 @@ namespace WesternSpace
         /// Adds a screen to be rendered on every draw and updated every update
         /// </summary>
         /// <param name="screen">The screen to add to the currently drawn screens</param>
-        public void AddScreen(Screen screen)
+        public void AddScreenToDisplay(Screen screen)
         {
             if (!this.Components.Contains(screen))
             {
@@ -244,7 +213,7 @@ namespace WesternSpace
         /// Removes a screen from being drawn and updated
         /// </summary>
         /// <param name="screen">The screen to be removed</param>
-        public void RemoveScreen(Screen screen)
+        public void RemoveScreenFromDisplay(Screen screen)
         {
             if (this.Components.Contains(screen))
             {
@@ -270,60 +239,6 @@ namespace WesternSpace
             {
                 this.Components.Remove(screenToRemove);
             }
-        }
-
-        /// <summary>
-        /// Sets the game to use full screen or not
-        /// </summary>
-        /// <param name="fullScreen">True for full screen, false for windowed mode</param>
-        public void SetScreenMode(bool fullScreen)
-        {
-            if (fullScreen)
-            {
-                currentResolutionSettings = fullScreenSettings;
-      
-                graphics.PreferredBackBufferWidth = fullScreenSettings.BackBufferWidth;
-                graphics.PreferredBackBufferHeight = fullScreenSettings.BackBufferHeight;
-
-                Viewport vp = GraphicsDevice.Viewport;
-                vp.Width = fullScreenSettings.BackBufferWidth;
-                vp.Height = fullScreenSettings.BackBufferHeight;
-                GraphicsDevice.Viewport = vp;
-
-                graphics.IsFullScreen = true;
-
-                isFullScreen = true;
-            }
-            else
-            {
-                currentResolutionSettings = windowedSettings;
-
-                graphics.PreferredBackBufferWidth = windowedSettings.BackBufferWidth;
-                graphics.PreferredBackBufferHeight = windowedSettings.BackBufferHeight;
-
-                Viewport vp = GraphicsDevice.Viewport;
-                vp.Width = windowedSettings.BackBufferWidth;
-                vp.Height = windowedSettings.BackBufferHeight;
-                GraphicsDevice.Viewport = vp;
-
-                graphics.IsFullScreen = false;
-
-                isFullScreen = false;
-            }
-
-            resolutionService.StartTextureWidth = currentResolutionSettings.RenderTargetWidth;
-            resolutionService.StartTextureHeight = currentResolutionSettings.RenderTargetHeight;
-            resolutionService.ScaleRectangle = resolutionService.CalculateResolution(graphics, currentResolutionSettings.RenderTargetWidth, currentResolutionSettings.RenderTargetHeight);
-
-            if (cameraService != null)
-            {
-                cameraService.UpdateVisibleArea();
-                cameraService.CreateViewTransformationMatrix();
-            }
-
-            graphics.ApplyChanges();
-
-            renderTarget = new RenderTarget2D(graphics.GraphicsDevice, currentResolutionSettings.RenderTargetWidth, currentResolutionSettings.RenderTargetHeight, 1, SurfaceFormat.Color);
         }
 
         /// <summary>

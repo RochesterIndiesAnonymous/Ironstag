@@ -63,6 +63,7 @@ namespace WesternSpace.Screens
 
                 Components.Add(world);
 
+                // Set up editor controls:
                 inputMonitor = new InputMonitor(ScreenManager.Instance);
                 inputMonitor.assignKey("EditorLeft", Microsoft.Xna.Framework.Input.Keys.A);
                 inputMonitor.assignKey("EditorRight", Microsoft.Xna.Framework.Input.Keys.D);

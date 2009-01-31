@@ -6,9 +6,9 @@ namespace WesternSpace.ServiceInterfaces
 {
     public interface IScreenResolutionService
     {
-        Rectangle ScaleRectangle { get; set; }
-        int StartTextureHeight { get; set; }
-        int StartTextureWidth { get; set; }
+        Rectangle ScaleRectangle { get; }
+        int StartTextureHeight { get; }
+        int StartTextureWidth { get; }
         int ScaleFactor { get; }
     }
 }

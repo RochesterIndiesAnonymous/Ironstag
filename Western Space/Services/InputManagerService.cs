@@ -103,14 +103,6 @@ namespace WesternSpace.Services
             if (newGamePadState.Buttons.Back == ButtonState.Pressed || newKeyboardState.IsKeyDown(Keys.Escape))
                 this.Game.Exit();
 
-            if (((newKeyboardState.IsKeyDown(Keys.LeftAlt) || newKeyboardState.IsKeyDown(Keys.RightAlt)) && newKeyboardState.IsKeyDown(Keys.Enter)))
-            {
-                if (((!oldKeyboardState.IsKeyDown(Keys.LeftAlt) || !oldKeyboardState.IsKeyDown(Keys.RightAlt)) && !oldKeyboardState.IsKeyDown(Keys.Enter)))
-                {
-                    ScreenManager.Instance.SetScreenMode(!ScreenManager.Instance.IsFullScreen);
-                }
-            }
-
             if (newKeyboardState.IsKeyDown(Keys.F12))
             {
                 if (!oldKeyboardState.IsKeyDown(Keys.F12))

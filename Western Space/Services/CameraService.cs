@@ -61,8 +61,9 @@ namespace WesternSpace.Services
             set
             {
                 position = value;
+                visibleArea.X = position.X;
+                visibleArea.Y = position.Y;
                 roundedPosition = new Vector2((float)Math.Floor(position.X + 0.5f), (float)Math.Floor(position.Y + 0.5f));
-                UpdateVisibleArea();
             }
         }
 
@@ -117,8 +118,8 @@ namespace WesternSpace.Services
 
             inputManager = (IInputManagerService)this.Game.Services.GetService(typeof(IInputManagerService));
             resolutionService = (IScreenResolutionService)this.Game.Services.GetService(typeof(IScreenResolutionService));
-
-            UpdateVisibleArea();
+            if(this.visibleArea == null)
+                this.visibleArea = new RectangleF();
 
             base.Initialize();
         }
@@ -129,83 +130,14 @@ namespace WesternSpace.Services
         /// <param name="gameTime"></param>
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            /*
-            if (inputManager.KeyboardState.IsKeyDown(Keys.D) || inputManager.KeyboardState.IsKeyDown(Keys.Right))
-            {
-                float newX = position.X + SCROLL_SPEED;
-
-                foreach (IMapCoordinates map in layerService.Layers.Values)
-                {
-                    newX = MathHelper.Clamp(newX, map.MinimumX, map.MaximumX - this.visibleArea.Width);
-                    this.Position = new Vector2(newX, this.Position.Y);
-                }
-            }
-
-            if (inputManager.KeyboardState.IsKeyDown(Keys.A) || inputManager.KeyboardState.IsKeyDown(Keys.Left))
-            {
-                float newX = position.X - SCROLL_SPEED;
-
-                foreach (IMapCoordinates map in layerService.Layers.Values)
-                {
-                    newX = MathHelper.Clamp(newX, map.MinimumX, map.MaximumX - this.visibleArea.Width);
-                    this.Position = new Vector2(newX, this.Position.Y);
-                }
-            }
-
-            if (inputManager.KeyboardState.IsKeyDown(Keys.W) || inputManager.KeyboardState.IsKeyDown(Keys.Up))
-            {
-                float newY = position.Y - SCROLL_SPEED;
-
-                foreach (IMapCoordinates map in layerService.Layers.Values)
-                {
-                    newY = MathHelper.Clamp(newY, map.MinimumY, map.MaximumY - this.visibleArea.Height);
-                    this.Position = new Vector2(this.Position.X, newY);
-                }
-            }
-
-            if (inputManager.KeyboardState.IsKeyDown(Keys.S) || inputManager.KeyboardState.IsKeyDown(Keys.Down))
-            {
-                float newY = position.Y + SCROLL_SPEED;
-
-                foreach (IMapCoordinates map in layerService.Layers.Values)
-                {
-                    newY = MathHelper.Clamp(newY, map.MinimumY, map.MaximumY - this.visibleArea.Height);
-                    this.Position = new Vector2(this.Position.X, newY);
-                }
-            }
-
-            // XBOX360 controllers
-            if (inputManager.GamePadState.ThumbSticks.Left.X != 0)
-            {
-                float newX = position.X + inputManager.GamePadState.ThumbSticks.Left.X * SCROLL_SPEED;
-                foreach (IMapCoordinates map in layerService.Layers.Values)
-                {
-                    newX = MathHelper.Clamp(newX, map.MinimumX, map.MaximumX - this.visibleArea.Width);
-                    this.Position = new Vector2(newX, this.Position.Y);
-                }
-            }
-
-            if (inputManager.GamePadState.ThumbSticks.Left.Y != 0)
-            {
-                float newY = position.Y - inputManager.GamePadState.ThumbSticks.Left.Y * SCROLL_SPEED;
-
-                foreach (IMapCoordinates map in layerService.Layers.Values)
-                {
-                    newY = MathHelper.Clamp(newY, map.MinimumY, map.MaximumY - this.visibleArea.Height);
-                    this.Position = new Vector2(this.Position.X, newY);
-                }
-            }
-            */
-
             CreateViewTransformationMatrix();
-
             base.Update(gameTime);
         }
 
         /// <summary>
         /// Updates the visible area rectangle of the camera
         /// </summary>
-        public void UpdateVisibleArea()
+        public void UpdateVisibleArea(ScreenResolutionService resolutionService)
         {
             visibleArea = new RectangleF(position.X, position.Y, resolutionService.StartTextureWidth, resolutionService.StartTextureHeight);
         }
