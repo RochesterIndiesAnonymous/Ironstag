@@ -198,7 +198,7 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             if (!isTransformed)
             {
-                if (!currentState.Equals("Shooting") || !currentState.Equals("Jump-Shooting"))
+                if (!currentState.Equals("Shooting") && !currentState.Equals("Jump-Shooting"))
                 {
                     if (currentState.Equals("JumpingAscent") || currentState.Equals("JumpingDescent"))
                     {
