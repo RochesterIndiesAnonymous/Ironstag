@@ -312,9 +312,7 @@ namespace WesternSpace.DrawableComponents.Actors
 
             //Add the Velocity to the Position
             Position += velocity * timePassed;
-            //System.Diagnostics.Debug.WriteLine("Position is: "+Position);
             Position = new Vector2((float)Math.Round(Position.X), (float)Math.Round(Position.Y));
-           // System.Diagnostics.Debug.WriteLine("New Position is: " + Position);
 
             //Collision Detection Time I guess?
 
