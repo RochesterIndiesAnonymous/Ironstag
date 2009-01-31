@@ -396,6 +396,8 @@ namespace WesternSpace.DrawableComponents.Actors
             //Let the Animation Player Draw
             animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position, facing);
         }
-
+        public void OnSpriteCollision()
+        {
+        }
     }
 }

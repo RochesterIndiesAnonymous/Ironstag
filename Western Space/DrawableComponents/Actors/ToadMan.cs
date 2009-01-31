@@ -42,7 +42,6 @@ namespace WesternSpace.DrawableComponents.Actors
             //Set the position
             this.Position = position;
         }
-
         // Sets up all of the Animations associated with the particular character
         // and adds them to the collection mapping states to animations.
         // param: xmlFile - The XML file name which stores the Character's Animation data.
@@ -58,10 +57,8 @@ namespace WesternSpace.DrawableComponents.Actors
            // this.animationMap.Add("Jumping", jumping);
             this.animationMap.Add("Shooting", shooting);
         }
-
         public override void Update(GameTime gameTime)
         {
-
             //Input Logic / State Changing
 
             //Let the Animation Player Update the Frame
@@ -72,12 +69,13 @@ namespace WesternSpace.DrawableComponents.Actors
                 ChangeState("Shooting");
             }
         }
-
         public override void Draw(GameTime gameTime)
         {
             //Let the Animation Player Draw
             animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position, facing);
         }
-
+        public void OnSpriteCollision()
+        {
+        }
     }
 }

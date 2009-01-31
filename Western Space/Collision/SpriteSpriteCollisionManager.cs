@@ -21,6 +21,10 @@ namespace WesternSpace.Collision
         protected Point numOfBins;
         // Registered Object List
         protected List<ISpriteCollideable> registeredObject;
+        public List<ISpriteCollideable> RegisteredObjectList
+        {
+            get { return registeredObject; }
+        }
         // Object Bins To Cheack
         protected List<GameObjectBin> objBinsToCheck;
         public List<GameObjectBin> ObjBinsToCheck
@@ -54,15 +58,6 @@ namespace WesternSpace.Collision
                 }
             }
             base.Initialize();
-        }
-        // Game Object Operations
-        public void RegisterGameObject(ISpriteCollideable gameObject)
-        {
-            registeredObject.Add(gameObject);
-        }
-        public void UnregisterGameObject(ISpriteCollideable gameObject)
-        {
-            registeredObject.Remove(gameObject);
         }
         // Bin Opperations
         protected void OnAddObjectToBin(Character gameObject, List<Point> listOfObjectBinCoord)
@@ -169,10 +164,14 @@ namespace WesternSpace.Collision
         Boolean PixelCollision(List<Character> entityListA, List<Character> entityListB, GameTime gameTime)
         {
             foreach (Character entityA in entityListA)
-            {
-                //Color[] entityATextureData = new Color[entityA.Sprite.Width * entityA.Sprite.Height];
-                //entityA.Sprite.GetData(entityATextureData);
-                //Color[] entityBTextureData;
+            {               
+                //Rectangle rectA = new Rectangle(entityA.CurrentAnimation.FrameWidth * entityA.AnimationPlayer.CurrentFrame.FrameIndex,
+                //        entityA.CurrentAnimation.FrameHeight * entityA.AnimationPlayer.CurrentFrame.FrameIndex,
+                //        entityA.CurrentAnimation.FrameWidth, entityA.CurrentAnimation.FrameHeight);
+                //Color[] entityATextureData = new Color[entityA.CurrentAnimation.FrameWidth * entityA.CurrentAnimation.FrameHeight];
+                //entityA.CurrentAnimation.SpriteSheet.GetData(0, rectA, entityATextureData,
+                //        0, entityA.CurrentAnimation.SpriteSheet.Width * entityA.CurrentAnimation.SpriteSheet.Height);
+                ////Color[] entityBTextureData;
                 //foreach (Character entityB in entityListB)
                 //{
                 //    entityBTextureData = new Color[entityB.Sprite.Width * entityB.Sprite.Height];

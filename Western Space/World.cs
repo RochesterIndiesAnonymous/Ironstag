@@ -174,8 +174,8 @@ namespace WesternSpace
             player.UpdateOrder = 3;
             player.DrawOrder = PLAYER_DRAW_ORDER;
 
-            tileCollisionManager.addObjectToList(player);
-            spriteCollisionManager.RegisterGameObject(player);
+            tileCollisionManager.CollideableObjectList.Add(player);
+            spriteCollisionManager.RegisteredObjectList.Add(player);
 
             ParentScreen.Components.Add(player);
 

@@ -7,8 +7,7 @@ using Microsoft.Xna.Framework;
 namespace WesternSpace.Collision
 {
     public interface ISpriteCollideable
-    {
-        
+    { 
         void OnSpriteCollision();
     }
 }
