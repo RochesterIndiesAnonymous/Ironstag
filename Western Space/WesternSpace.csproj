@@ -100,6 +100,8 @@
     <Compile Include="DrawableComponents\EditorUI\EdgeToggler.cs" />
     <Compile Include="DrawableComponents\GameUI\GameUI.cs" />
     <Compile Include="Input\InputMonitor.cs" />
+    <Compile Include="Interfaces\IDamageable.cs" />
+    <Compile Include="Interfaces\IDamaging.cs" />
     <Compile Include="Interfaces\IScreenComponent.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="SubTexture.cs" />
@@ -147,6 +149,7 @@
     <Compile Include="TilingEngine\Tile.cs" />
     <Compile Include="TilingEngine\TileEngine.cs" />
     <Compile Include="TilingEngine\TileMap.cs" />
+    <Compile Include="Utility\DamageCategory.cs" />
     <Compile Include="Utility\DrawOrderComparer.cs" />
     <Compile Include="Utility\PrimitiveDrawer.cs" />
     <Compile Include="Utility\ResolutionSettings.cs" />
