@@ -210,12 +210,12 @@ namespace WesternSpace.DrawableComponents.Actors
             //     hotSpot.HostPosition.Y);
             //}
 
-            if (this.Position == newPosition)
-            {
-                isOnGround = false;
-            }
+            //if (this.Position == newPosition)
+            //{
+            //    isOnGround = false;
+            //}
 
-            this.Position = newPosition;
+            //this.Position = newPosition;
             return newPosition;
         }
 
