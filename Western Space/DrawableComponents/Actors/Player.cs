@@ -330,16 +330,14 @@ namespace WesternSpace.DrawableComponents.Actors
             /// -- Check for Final State Changes -- ///
             if ((velocity.X == 0) && isOnGround && !currentState.Equals("Dead") && !currentState.Equals("Hit"))
             {
-                if(!currentState.Contains("Shooting"))
+
+                if (animationPlayer.Animation.animationName.Equals("Idle") && !currentState.Equals("Idle"))
+                {
+                        ChangeState("Idle");
+                }
+                else if(!currentState.Contains("Shooting"))
                 {
                     ChangeState("Idle");
-                }
-                else if (this.currentState.Contains("Shooting"))
-                {
-                    if (animationPlayer.Animation.animationName.Equals("Idle"))
-                    {
-                        ChangeState("Idle");
-                    }
                 }
             }
 

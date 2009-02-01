@@ -18,6 +18,28 @@ namespace WesternSpace.Physics
         const float MIN_X_VELOCITY = -10f;
 
         /// <summary>
+        /// The maximum value a velocity can reach.
+        /// </summary>
+        public Vector2 maxVelocity;
+
+        public Vector2 MaxVelocity
+        {
+            get { return maxVelocity; }
+            set { maxVelocity = value; }
+        }
+
+        /// <summary>
+        /// The Minimum value a velocity can reach.
+        /// </summary>
+        public Vector2 minVelocity;
+
+        public Vector2 MinVelocity
+        {
+            get { return minVelocity; }
+            set { minVelocity = value; }
+        }
+
+        /// <summary>
         /// Vector representing the Acceleration due to gravity.
         /// </summary>
         readonly Vector2 gravity = new Vector2(0f, 0.2f);
@@ -48,10 +70,37 @@ namespace WesternSpace.Physics
 
         /// <summary>
         /// Constructor for the Physics Handler.
+        /// Takes no arguements, and so it uses the default min
+        /// and max velocity.
         /// </summary>
         public PhysicsHandler()
         {
             modifyVelocity = new Vector2(0f, 0f);
+            maxVelocity = new Vector2(MAX_X_VELOCITY, MAX_Y_VELOCITY);
+            minVelocity = new Vector2(MIN_X_VELOCITY, MIN_Y_VELOCITY);
+        }
+
+        /// <summary>
+        /// Constructor which allows an object to define its own
+        /// minimum and maximum velocities.
+        /// </summary>
+        /// <param name="minVel">The desired minimum velocity</param>
+        /// <param name="maxVel">The desired maximum velocity</param>
+        public PhysicsHandler(Vector2 minVel, Vector2 maxVel)
+        {
+            SetMinMaxVelocity(minVel, maxVel);
+            modifyVelocity = new Vector2(0f, 0f);
+        }
+
+        /// <summary>
+        /// Sets the minimum and maximum velocities to the desired values.
+        /// </summary>
+        /// <param name="minVel">The desired minimum Velocity</param>
+        /// <param name="maxVel">The desired maximum Velocity</param>
+        public void SetMinMaxVelocity(Vector2 minVel, Vector2 maxVel)
+        {
+            minVelocity = minVel;
+            maxVelocity = maxVel;
         }
 
         /// <summary>
