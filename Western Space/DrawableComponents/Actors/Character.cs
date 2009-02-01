@@ -128,7 +128,7 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         // True if the character is currently on the ground
-        protected bool isOnGround = true;
+        public bool isOnGround = true;
 
         // Character constructor.
         // param: game - The over-arching Game object.
@@ -184,30 +184,31 @@ namespace WesternSpace.DrawableComponents.Actors
         public Vector2 OnTileColision(Tile tile, CollisionHotspot hotSpot, Rectangle tileRectangle)
         {
             Vector2 newPosition = hotSpot.HostPosition;
+            this.isOnGround = hotSpot.IsOnGround;
             // Default Collision Actions
-            if (tile.TopEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.bottom)
-            {
-                // Puts the sprite above the tile;      
-                newPosition = new Vector2(hotSpot.HostPosition.X,
-                    hotSpot.HostPosition.Y - (hotSpot.WorldPosition.Y - tileRectangle.Top));
-                isOnGround = true;
-            }
-            if (tile.BottomEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.top)
-            {
-                newPosition = new Vector2(hotSpot.HostPosition.X,
-                    hotSpot.HostPosition.Y + (tileRectangle.Bottom - hotSpot.WorldPosition.Y));
-                isOnGround = false;
-            }
-            if (tile.LeftEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.right)
-            {
-                newPosition = new Vector2(hotSpot.HostPosition.X - (hotSpot.WorldPosition.X - tileRectangle.Left),
-                    hotSpot.HostPosition.Y);
-            }
-            if (tile.RightEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.left)
-            {
-                newPosition = new Vector2(hotSpot.HostPosition.X + (tileRectangle.Right - hotSpot.WorldPosition.X),
-                 hotSpot.HostPosition.Y);
-            }
+            //if (tile.TopEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.bottom)
+            //{
+            ////    // Puts the sprite above the tile;      
+            //    //newPosition = new Vector2(hotSpot.HostPosition.X,
+            //    //    hotSpot.HostPosition.Y - (hotSpot.WorldPosition.Y - tileRectangle.Top));
+            //    //isOnGround = true;
+            //}
+            //if (tile.BottomEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.top)
+            //{
+            //    newPosition = new Vector2(hotSpot.HostPosition.X,
+            //        hotSpot.HostPosition.Y + (tileRectangle.Bottom - hotSpot.WorldPosition.Y));
+            //    isOnGround = false;
+            //}
+            //if (tile.LeftEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.right)
+            //{
+            //    newPosition = new Vector2(hotSpot.HostPosition.X - (hotSpot.WorldPosition.X - tileRectangle.Left),
+            //        hotSpot.HostPosition.Y);
+            //}
+            //if (tile.RightEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.left)
+            //{
+            //    newPosition = new Vector2(hotSpot.HostPosition.X + (tileRectangle.Right - hotSpot.WorldPosition.X),
+            //     hotSpot.HostPosition.Y);
+            //}
 
             if (this.Position == newPosition)
             {
