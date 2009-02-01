@@ -13,7 +13,7 @@ namespace WesternSpace.Input
      */
     public class InputMonitor : GameComponent
     {
-        private static KeyboardState previousKeyboadState = new KeyboardState();
+        private static KeyboardState previousKeyboardState = new KeyboardState();
         private static KeyboardState currentKeyboardState = new KeyboardState();
         private static GamePadState previousPadState = new GamePadState();
         private static GamePadState currentPadState = new GamePadState();
@@ -76,7 +76,7 @@ namespace WesternSpace.Input
 
 #if !XBOX
             // Store the last KeyboardState retrieved
-            previousKeyboadState = currentKeyboardState;
+            previousKeyboardState = currentKeyboardState;
 
             // Get the newest KeyboardState
             currentKeyboardState = Keyboard.GetState();
@@ -157,7 +157,7 @@ namespace WesternSpace.Input
             {
                 if (currentKeyboardState.IsKeyDown(keyConfig[command]))
                 {
-                    if (!previousKeyboadState.IsKeyDown(keyConfig[command]))
+                    if (!previousKeyboardState.IsKeyDown(keyConfig[command]))
                     {
                         return true;
                     }
@@ -187,5 +187,6 @@ namespace WesternSpace.Input
 
             return false;
         }
+
     }
 }

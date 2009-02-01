@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<World InteractiveMapFileName="TileMapXML\\BigTileMap" PlayerFileName="SpriteXML\\FlintIronstag" PlayerPositionX="259" PlayerPositionY="79">
+<World InteractiveMapFileName="TileMapXML\\BigTileMap" PlayerFileName="ActorXML\\FlintIronstag" PlayerPositionX="259" PlayerPositionY="79">
   <!--<Parallax MapFileName="TileMapXML\\BigTileMap" ScrollSpeed="0">
     <Layer LayerName="ForegroundParallax" LayerIndex="0" ZIndex="-100" />
   </Parallax>-->

@@ -12,9 +12,14 @@ using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    class ToadMan : Character
+    class ToadMan
     {
-        //Set Facing
+        public ToadMan()
+        {
+        }
+    }
+}
+     /*   //Set Facing
         SpriteEffects facing = SpriteEffects.None;
 
         // The constructor for the Toad Man 
@@ -79,3 +84,4 @@ namespace WesternSpace.DrawableComponents.Actors
         }
     }
 }
+    */

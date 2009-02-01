@@ -172,7 +172,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpriteXML\ToadMan.xml">
+    <Compile Include="ActorXML\ToadMan.xml">
       <Name>ToadMan</Name>
       <Importer>XDocumentImporter</Importer>
       <Processor>XDocumentProcessor</Processor>
@@ -198,8 +198,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpriteXML\FlintIronstag.xml">
-      <Name>FlintIronstag</Name>
+    <Compile Include="ActorXML\AnimationXML\OrdinaryFlint.xml">
+      <Name>OrdinaryFlint</Name>
       <Importer>XDocumentImporter</Importer>
       <Processor>XDocumentProcessor</Processor>
     </Compile>
@@ -293,6 +293,20 @@
       <Name>TitleImage</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActorXML\FlintIronstag.xml">
+      <Name>FlintIronstag</Name>
+      <Importer>XDocumentImporter</Importer>
+      <Processor>XDocumentProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActorXML\AnimationXML\SpaceFlint.xml">
+      <Name>SpaceFlint</Name>
+      <Importer>XDocumentImporter</Importer>
+      <Processor>XDocumentProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>

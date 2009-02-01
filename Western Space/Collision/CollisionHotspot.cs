@@ -52,7 +52,7 @@ namespace WesternSpace.Collision
         {
             if (tile.TopEdge && this.HotSpotType == HOTSPOT_TYPE.bottom)
             {
-                // Puts the sprite above the tile;      
+                // Puts the sprite above the tile;  
                 this.refGameObject.Position = new Vector2(this.HostPosition.X,
                     this.HostPosition.Y - (this.WorldPosition.Y - tileRectangle.Top));
                 this.isOnGround = true;

@@ -12,13 +12,16 @@ using WesternSpace.AnimationFramework;
 using WesternSpace.Collision;
 using WesternSpace.TilingEngine;
 using WesternSpace.Screens;
+using WesternSpace.Utility;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
     public abstract class Character : DrawableGameObject, ITileCollideable, ISpriteCollideable
     {
 
-        // The name used to identify the specific character.
+        /// <summary>
+        /// The name used to identify a specific character.
+        /// </summary>
         protected String name;
 
         public String Name
@@ -26,6 +29,10 @@ namespace WesternSpace.DrawableComponents.Actors
             get { return name; }
             set { name = value; }
         }
+
+        /// <summary>
+        /// Bounding Rectangle used for the character's current sprite.
+        /// </summary>
         protected Rectangle rectangle;
         public Rectangle Rectangle
         {
@@ -37,18 +44,32 @@ namespace WesternSpace.DrawableComponents.Actors
                 return rectangle;
             }
         }
-	static int idNumberCount = 0;
-        protected int idNumber;
-        public int IdNumber
+
+        /// <summary>
+        /// The current Role of a Character. The character can
+        /// only be one role at a time, but may change roles.
+        /// </summary>
+        protected Role currentRole;
+
+        public Role CurrentRole
         {
-            get { return idNumber; }
+            get { return currentRole; }
         }
 
+        /// <summary>
+        /// A mapping of the possible roles a character can
+        /// take on to a string representing the role's name.
+        /// </summary>
+        protected Dictionary<string, Role> roleMap;
 
+        public Dictionary<string, Role> RoleMap
+        {
+            get { return roleMap; }
+        }
 
-        // The character's maximum health. All characters
-        // will have health, but non-enemy NPCs will not be able to
-        // have their health drained.
+        /// <summary>
+        /// The character's maximum health.
+        /// </summary>
         protected int maxHealth;
 
         public int MaxHealth
@@ -57,7 +78,9 @@ namespace WesternSpace.DrawableComponents.Actors
             set { maxHealth = value; }
         }
 
-        //The character's current health.
+        /// <summary>
+        /// The character's current health.
+        /// </summary>
         protected int currentHealth;
 
         public int CurrentHealth
@@ -66,10 +89,12 @@ namespace WesternSpace.DrawableComponents.Actors
             set { currentHealth = value; }
         }
 
-        // The character's current state. A state determines
-        // which animation the character will be displaying
-        // and what actions they can take at any point in
-        // time.
+        /// <summary>
+        /// The character's current state. A state determines
+        /// which animation the character will be displaying
+        /// and what actions they can take at any point in
+        /// time.
+        /// </summary>
         protected String currentState;
 
         public String CurrentState
@@ -78,9 +103,11 @@ namespace WesternSpace.DrawableComponents.Actors
             set { currentState = value; }
         }
 
-        // The character's current animation. The animation
-        // class contains a list of frames and is played
-        // by the character's AnimationPlayer object.
+        /// <summary>
+        /// The character's current animation. The animation
+        /// class contains a list of frames and is played
+        /// by the character's AnimationPlayer object.
+        /// </summary>
         protected Animation currentAnimation;
 
         public Animation CurrentAnimation
@@ -89,9 +116,11 @@ namespace WesternSpace.DrawableComponents.Actors
             set { currentAnimation = value; }
         }
 
-        // The character's animation player. This object 
-        // is responsible for playing the character's 
-        // current animation.
+        /// <summary>
+        /// The character's animation player. This object
+        /// is responsible for playing the character's
+        /// current animation.
+        /// </summary>
         protected AnimationPlayer animationPlayer;
 
         public AnimationPlayer AnimationPlayer
@@ -99,18 +128,14 @@ namespace WesternSpace.DrawableComponents.Actors
             get { return animationPlayer; }
         }
 
-        // A collection mapping a character's animation objects
-        // to their available states.
-        protected Dictionary<String, Animation> animationMap;
-
-        public Dictionary<String, Animation> AnimationMap
-        {
-            get { return animationMap; }
-        }
-
         // The character's velocity vector. Determine's the
         // character's movement direction.
-        protected Vector2 velocity;
+
+        /// <summary>
+        /// The character's Velocity vector. Determine's the
+        /// character's movement direction and speed.
+        /// </summary>
+        public Vector2 velocity;
 
         public Vector2 Velocity
         {
@@ -118,61 +143,97 @@ namespace WesternSpace.DrawableComponents.Actors
             set { velocity = value; }
         }
 
-        // The name of the sprite batch that this sprite needs to use to draw.
+        /// <summary>
+        /// The name of the sprite batch this character will use to draw.
+        /// </summary>
         protected static string spriteBatchName = "Camera Sensitive";
 
-        // The name of the sprite batch that this sprite needs to use to draw.
         public static string SpriteBatchName
         {
             get { return Character.spriteBatchName; }
         }
 
-        // True if the character is currently on the ground
+        /// <summary>
+        /// The direction the player is facing.
+        /// </summary>
+        protected SpriteEffects facing;
+
+        public SpriteEffects Facing
+        {
+            get { return facing; }
+        }
+
+        /// <summary>
+        /// Determines if the character is currently on the ground. True if
+        /// the character is on the ground, and false otherwise.
+        /// </summary>
         public bool isOnGround = true;
 
-        // Character constructor.
-        // param: game - The over-arching Game object.
-        // param: spriteBatch - The spriteBatch used to draw this object.
-        // param: position - The character's position in the world. May not be visible by the camera's
-        //                   current position.
-        // param: xmlFile - The XML file name which stores the Character's Animation data.
+
+        static int idNumberCount = 0;
+        protected int idNumber;
+        public int IdNumber
+        {
+            get { return idNumber; }
+        }
+
+        /// <summary>
+        /// Character constructor.
+        /// </summary>
+        /// <param name="parentScreen">The screen this character belongs to.</param>
+        /// <param name="spriteBatch">The sprite batch used to draw this object.</param>
+        /// <param name="position">The character's position in the world.</param>
+        /// <param name="xmlFile">The XML file name which stores the Character's data.</param>
         public Character(Screen parentScreen, SpriteBatch spriteBatch, Vector2 position, String xmlFile)
             : base(parentScreen, spriteBatch, position)
         {
             this.Position = position;
             this.collisionHotSpots = new List<CollisionHotspot>();
-            animationMap = new Dictionary<string, Animation>();
-	    idNumber = idNumberCount;
+            this.roleMap = new Dictionary<string, Role>();
+	        idNumber = idNumberCount;
             idNumberCount++;
+
+            //Set up the Roles for this Character
         }
 
-        // Sets up all of the Animations associated with the particular character
-        // and adds them to the collection mapping states to animations.
-        // param: xmlFile - The XML file name which stores the Character's Animation data.
-        public abstract void SetUpAnimation(String xmlFile);
-
-        // Modifies the Character's current Health based on the value given. The given
-        // value may either be positive or negative, denoting healing and taking damage
-        // respectively.
-        // param: modifier - Amount to change health by; Positive if healing
-        //                   Negative if taking damage.
+        /// <summary>
+        /// Modifies the Character's current health based on the value given. The
+        /// given value may either be positive or negative, denoting healing and taking
+        /// damage respectively.
+        /// </summary>
+        /// <param name="modifier">Amount to change health by; Positive if healing
+        ///                        Negative if taking damage.</param>
         public void ChangeHealth(int modifier)
         {
             this.currentHealth = currentHealth + modifier;
         }
 
-        // Changes both the Character's state and animation to the given state.
-        // If the character is already in the given state, no change is to be
-        // made.
-        // param: state - The state to change to.
+        /// <summary>
+        /// Changes both the Character's state and animation to the given state.
+        /// If the character is already in a given state, no change is to be made.
+        /// </summary>
+        /// <param name="newState">The new state to change to.</param>
         public void ChangeState(String newState)
         {
             if (!currentState.Equals(newState))
             {
-                currentState = newState;
-                animationPlayer.PlayAnimation(animationMap[newState]);
+                try
+                {
+                    currentState = newState;
+                    animationPlayer.PlayAnimation(currentRole.AnimationMap[newState]);
+                }
+                catch(KeyNotFoundException knfe)
+                {
+                }
+                
             }
         }
+
+        /// <summary>
+        /// Creates the role objects for a given character.
+        /// </summary>
+        /// <param name="xmlFile">The xml file which stores role information.</param>
+        public abstract void SetUpRoles(String xmlFile);
 
         #region ITileCollideable Members
         protected List<CollisionHotspot> collisionHotSpots;

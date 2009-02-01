@@ -99,10 +99,13 @@
     <Compile Include="DrawableComponents\EditorUI\SaveButton.cs" />
     <Compile Include="DrawableComponents\EditorUI\EdgeToggler.cs" />
     <Compile Include="DrawableComponents\GameUI\GameUI.cs" />
+    <Compile Include="Utility\Cowboy.cs" />
+    <Compile Include="Utility\Role.cs" />
     <Compile Include="Input\InputMonitor.cs" />
     <Compile Include="Interfaces\IDamageable.cs" />
     <Compile Include="Interfaces\IDamaging.cs" />
     <Compile Include="Interfaces\IScreenComponent.cs" />
+    <Compile Include="Physics\PhysicsHandler.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="SubTexture.cs" />
     <Compile Include="SubTextureSheet.cs" />

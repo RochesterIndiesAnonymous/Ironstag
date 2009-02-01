@@ -51,6 +51,17 @@ namespace WesternSpace.AnimationFramework
             get { return isOneShot; }
         }
 
+        /// <summary>
+        /// Determines if the animation is the default 
+        /// animation or not.
+        /// </summary>
+        bool isDefaultAnimation;
+
+        public bool IsDefaultAnimation
+        {
+            get { return isDefaultAnimation; }
+        }
+
         // The number of frames contained in this animation.
         private int frameCount;
 
@@ -134,6 +145,10 @@ namespace WesternSpace.AnimationFramework
                     int oneShotInt = 0;
                     Int32.TryParse(animation.Attribute("IsOneShot").Value, out oneShotInt);
 
+                    //Check if this animation is the default animation
+                    int defaultAnimationInt = 0;
+
+                    //"Convert" the ints to booleans
                     if (loopInt == 0)
                     {
                         this.isLooping = false;
@@ -150,6 +165,15 @@ namespace WesternSpace.AnimationFramework
                     else
                     {
                         this.isOneShot = true;
+                    }
+
+                    if (defaultAnimationInt == 0)
+                    {
+                        this.isDefaultAnimation = false;
+                    }
+                    else
+                    {
+                        this.isDefaultAnimation = true;
                     }
 
                     //Creates a list of frames and populates this Animation's list.

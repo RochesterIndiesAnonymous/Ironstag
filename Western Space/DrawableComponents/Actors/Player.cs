@@ -6,69 +6,39 @@ using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-
+using WesternSpace.Input;
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.AnimationFramework;
 using WesternSpace.Collision;
 using WesternSpace.Screens;
 using Microsoft.Xna.Framework.Audio;
+using WesternSpace.Physics;
+using WesternSpace.Utility;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
     class Player : Character
     {
-        // --- Constants ---
+        /// Constants ///
+        private static readonly string COWBOY = "Cowboy";
+        private static readonly string SPACE_COWBOY = "SpaceCowboy";
 
-        // Sound Effect, will be moved later on.
-        SoundEffect gunShot;
-       
-        // -Horizontal Movement Constants
-
-        // Acceleration Constant
-        private const float moveAcceleration = 14000.0f;
-
-        // Maximum Movement Speed
-        private const float maxMoveSpeed = 200.0f;
-
-        // Friction of the Ground
-        private const float groundFriction = 0.58f;
-
-        // Friction of the Air
-        private const float airFriction = 0.65f;
-
-        // -Vertical Movement Constants
-
-        // Longest amount of time a jump can last
-        private const float maxJumpTime = 0.7f;
-
-        // Acceleration due to Gravity
-        private const float gravity = 3500.0f;
-
-        // Maximum Falling SPeed
-        private const float maxFallSpeed = 60.0f;
-
-        // Helps to give the player more control of the character
-        // in the air.
-        private const float jumpControl = 0.14f;
-
-        // Helps to give the player more control of the character
-        // in the air.
-        private const float jumpVelocity = -4000.0f;
-
-        // --- Class Variables ---
-
-        private SpriteEffects facing;
+        PhysicsHandler playerPhysics;
 
         /// <summary>
-        /// The direction the player is facing.
+        /// Temporary use of InputMonitor until it becomes a service.
         /// </summary>
-        public SpriteEffects Facing
-        {
-            get { return facing; }
-        }
+        InputMonitor input;
 
-        // The maximum value of the transformation guage for
-        // Flint Ironstag.
+        /// <summary>
+        /// Sound Effect will be moved later on.
+        /// </summary>
+        SoundEffect gunShot;
+
+        /// <summary>
+        /// The maximum value of the transformation guage for
+        /// Flint Ironstag.
+        /// </summary>
         private int maxGauge;
 
         public int MaxGuage
@@ -77,7 +47,9 @@ namespace WesternSpace.DrawableComponents.Actors
             set { MaxGuage = value; }
         }
 
-        // The current value of the transformation guage.
+        /// <summary>
+        /// The current value of the transformation gauge.
+        /// </summary>
         private int currentGauge;
 
         public int CurrentGauge
@@ -86,8 +58,10 @@ namespace WesternSpace.DrawableComponents.Actors
             set { currentGauge = value; }
         }
 
-        // Value which returns true if Flint is currently in
-        // his transformed state, and false if not.
+        /// <summary>
+        /// Value which returns true if Flint is currently in
+        /// his transformed state. False if not.
+        /// </summary>
         private bool isTransformed = false;
 
         public bool IsTransformed
@@ -96,38 +70,42 @@ namespace WesternSpace.DrawableComponents.Actors
             set { isTransformed = value; }
         }
 
-        // -Movement Variables
-
-        // Direction in which the player is going. -1 for Left, 0 for not moving and
-        // +1 for right.
-        public float direction = 0f;
-
-        // True if the user pressed the jump button
+        /// <summary>
+        /// True if the player has pressed the jump button. False otherwise.
+        /// </summary>
         public bool pressedJump = false;
 
-        // The time the character has been jumping
-        private float jumpTime;
 
-        // The constructor for Flint Ironstag
+        /// <summary>
+        /// Constructor for Flint Ironstag.
+        /// </summary>
+        /// <param name="parentScreen">The screen which this object is a part of.</param>
+        /// <param name="spriteBatch">The sprite batch which handles drawing this object.</param>
+        /// <param name="position">The initial position of this character.</param>
+        /// <param name="xmlFile">The XML file which houses the information for this character.</param>
         public Player(Screen parentScreen , SpriteBatch spriteBatch, Vector2 position, String xmlFile)
             : base(parentScreen, spriteBatch, position, xmlFile)
         {
             //Set the character's Name
             name = "Flint Ironstag";
 
-            //Set character's max and current health
-            maxHealth = 100;
+            //Load the player information from the XML file
+            LoadPlayerXmlFile(xmlFile);
+
+            //Load the Player's Roles
+            SetUpRoles(xmlFile);
+
+            //Set current health
             currentHealth = maxHealth;
 
+            //Instantiate the Physics Handler
+            playerPhysics = new PhysicsHandler();
+
             //Set the character's transformation guage
-            maxGauge = 100;
             currentGauge = maxGauge;
 
-            //Create all of the Animations for Flint Ironstag
-            SetUpAnimation(xmlFile);
-
             //Create the Animation Player and give it the Idle Animation
-            this.animationPlayer = new AnimationPlayer(spriteBatch, animationMap["Idle"], animationMap["Idle"]);
+            this.animationPlayer = new AnimationPlayer(spriteBatch, currentRole.AnimationMap["Idle"], currentRole.AnimationMap["Idle"]);
 
             //Set the current animation
             currentAnimation = animationPlayer.Animation;
@@ -144,66 +122,113 @@ namespace WesternSpace.DrawableComponents.Actors
             //Set the facing
             facing = SpriteEffects.None;
 
+            //Initializes the player's hotspots.
             this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(16, 0), HOTSPOT_TYPE.top));
             this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(0, 30), HOTSPOT_TYPE.left));
             this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(36, 30), HOTSPOT_TYPE.right));
             this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(7, 60), HOTSPOT_TYPE.bottom));
             //this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(27, 60), HOTSPOT_TYPE.bottom));
+
+            //Temp: Loads the gunshot sound.
             gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
+
+            //Temp: Sets the input monitor up.
+            input = new InputMonitor(this.Game);
         }
 
-        // Called when the player presses the jump button. If the player is already
-        // in a jumping state (or jumping and shooting) then no action is to occurr.
-        public void Jump(GameTime gameTime)
+        /// <summary>
+        /// Sets up the Character's individual Roles.
+        /// </summary>
+        /// <param name="xmlFile">The xml file containing the role information.</param>
+        public override void SetUpRoles(string xmlFile)
         {
-            //If the jump button was pressed.
-            if (pressedJump)
+            Cowboy cowboy = new Cowboy(xmlFile, COWBOY);
+            //SpaceCowboy spaceCowboy = new SpaceCowboy(xmlFile, SPACE_COWBOY);
+
+            this.roleMap.Add(COWBOY, cowboy);
+            //this.roleMap.Add(SPACE_COWBOY, spaceCowboy);
+
+            this.currentRole = cowboy;
+        }
+
+        /// <summary>
+        /// Called when the player presses the jump button. If the player is already
+        /// in a jumping state then no action is to occurr.
+        /// </summary>
+        public void Jump()
+        {
+            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
             {
-                //Start a Jump or continue jumping
-                if ( ((!currentState.Equals("JumpingAscent") || !currentState.Equals("JumpingDescent")) && isOnGround) || jumpTime > 0.0f)
+                if (!currentState.Contains("Jumping") && !currentState.Contains("Falling"))
                 {
-                    if (jumpTime == 0.0f)
-                    {
-                        //Play Sound if necessary
-                        ChangeState("JumpingAscent");
-                        isOnGround = false;
-                    }
-
-                    jumpTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    playerPhysics.ApplyJump();
+                    ChangeState("JumpingAscent");
+                    isOnGround = false;
                 }
+            }
+        }
 
-                //If in jump ascent
-                if (0 < jumpTime && jumpTime <= maxJumpTime)
+        /// <summary>
+        /// Called when the player presses a movement button.
+        /// </summary>
+        public void Move()
+        {
+            int direction = 1;
+
+            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            {
+                //Calculate Facing
+                if(facing.Equals(SpriteEffects.None))
                 {
-                    //Override the vertical velocity w/ curve to give Player more control in the jump
-                    velocity.Y = jumpVelocity * (1.0f - (float)Math.Pow(jumpTime / maxJumpTime, jumpControl));
+                    direction = 1;
                 }
                 else
                 {
-                    //Reached the top of the jump
-                    jumpTime = 0.0f;
-                    ChangeState("JumpingDescent");
+                    direction = -1;
                 }
-            }
-            else
-            {
-                //Not Jumping
-                jumpTime = 0.0f;
+
+                if (isOnGround)
+                {
+                    playerPhysics.ApplyGroundMove(direction);
+                    if (!currentState.Contains("Shooting"))
+                    {
+                        ChangeState("Running");
+                    }
+                    else if (!currentState.Contains("Up"))
+                    {
+                        ChangeState("RunningShooting");
+                    }
+                    else
+                    {
+                        ChangeState("RunningShootingUp");
+                    }
+                }
+                else
+                {
+                    playerPhysics.ApplyAirMove(direction);
+                }
             }
         }
 
-        // Called when the player presses the shoot button. If the player is already
-        // in a shooting state, then no action is to occurr.
+        /// <summary>
+        /// Called when the player presses the shoot button.
+        /// </summary>
         public void Shoot()
         {
-            if (!isTransformed)
+            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
             {
-                if (!currentState.Equals("Shooting") && !currentState.Equals("Jump-Shooting"))
+
+                if (!currentState.Contains("Shooting"))
                 {
-                    if (currentState.Equals("JumpingAscent") || currentState.Equals("JumpingDescent"))
+                    if (currentState.Contains("Jumping"))
                     {
                         //Change state and animation
-                        //ChangeState("Jump-Shooting");
+                        //ChangeState("JumpingShooting");
+                    }
+                    else if (currentState.Contains("Running"))
+                    {
+                        //Change state and animation
+                        //ChangeState("RunningShooting");
                     }
                     else
                     {
@@ -217,191 +242,108 @@ namespace WesternSpace.DrawableComponents.Actors
 
                 }
             }
-            else
-            {
-                if (!currentState.Equals("TShooting") || !currentState.Equals("TJump-Shooting"))
-                {
-                    if (currentState.Equals("TJumping"))
-                    {
-                        //Change state and animation
-                        ChangeState("TJump-Shooting");
-                    }
-                    else
-                    {
-                        //Change state and animation
-                        ChangeState("TShooting");
-                    }
+        }
 
-                    //Generate a Bullet
+        /// <summary>
+        /// Called when the player attempts to dodge roll. This action can only
+        /// be performed if the player is in a transformed state.
+        /// </summary>
+        public void DodgeRoll()
+        {
+            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            {
+                if (isTransformed)
+                {
+                    //Change state
+                    ChangeState("Rolling");
+
+                    //Logic for moving character backwards
+                    //playerPhysics.Roll(direction);
                 }
             }
         }
 
-        // Called when the player attempts to dodge roll. This action can only be performed
-        // if the player is in a transformed state.
-        public void DodgeRoll()
-        {
-            if (isTransformed)
-            {
-                //Change state
-                ChangeState("TDodging");
-
-                //Logic for moving character backwards
-            }
-        }
-
-        //Called when the player transforms from normal to a space cowboy.
+        /// <summary>
+        /// Called when the player presses the transformation button.
+        /// </summary>
         public void Transform()
         {
-            if (isTransformed)
+            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
             {
-                //Change state
-                ChangeState("Transforming");
-            }
-            else
-            {
-                //Change state and animaton
-                ChangeState("TTransforming");
-            }
-        }
-
-        // Sets up all of the Animations associated with the particular character
-        // and adds them to the collection mapping states to animations.
-        // param: xmlFile - The XML file name which stores the Character's Animation data.
-        public override void SetUpAnimation(String xmlFile)
-        {
-            Animation idle = new Animation(xmlFile, "Idle");
-            Animation walking = new Animation(xmlFile, "Walking");
-            Animation jumpingAscent = new Animation(xmlFile, "JumpingAscent");
-            Animation jumpingDescent = new Animation(xmlFile, "JumpingDescent");
-            Animation shooting = new Animation(xmlFile, "Shooting");
-
-            this.animationMap.Add("Idle", idle);
-            this.animationMap.Add("Walking", walking);
-            this.animationMap.Add("JumpingAscent", jumpingAscent);
-            this.animationMap.Add("JumpingDescent", jumpingDescent);
-            this.animationMap.Add("Shooting", shooting);
-        }
-
-        // Handles the physics for moving a character. 
-        public void HandlePhysics(GameTime gameTime)
-        {
-            float timePassed = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            Vector2 previousPosition = Position;
-
-            //Update the Velocity vector
-            velocity.X += direction * moveAcceleration * timePassed;
-            velocity.Y = MathHelper.Clamp(velocity.Y + gravity * timePassed, -maxFallSpeed, maxFallSpeed);
-
-            Jump(gameTime);
-
-            //Apply Ground Drag
-            if (isOnGround)
-            {
-                velocity.X *= groundFriction;
-            }
-            else
-            {
-                velocity.X *= airFriction;
-            }
-
-            //Check top speed of player
-            velocity.X = MathHelper.Clamp(velocity.X, -maxMoveSpeed, maxMoveSpeed);
-            velocity.Y = MathHelper.Clamp(velocity.Y, -maxMoveSpeed, maxMoveSpeed);
-
-            //Add the Velocity to the Position
-            Position += velocity * timePassed;
-            Position = new Vector2((float)Math.Round(Position.X), (float)Math.Round(Position.Y));
-
-            //Collision Detection Time I guess?
-
-            //If a collision stopped movement, change the velocity
-            if (Position.X == previousPosition.X)
-            {
-                velocity.X = 0;
-            }
-            if (Position.Y == previousPosition.Y)
-            {
-                velocity.Y = 0;
+                if (isTransformed)
+                {
+                    //Change state
+                    ChangeState("Transforming");
+                }
+                else
+                {
+                    //Change state and animaton
+                    ChangeState("Transforming");
+                }
             }
         }
 
+        /// <summary>
+        /// Called every Update
+        /// </summary>
+        /// <param name="gameTime">The time the game has been running.</param>
         public override void Update(GameTime gameTime)
         {
-            KeyboardState currentKeyboardState = Keyboard.GetState();
-
-            // Get the Input Here
-            if (currentKeyboardState.IsKeyDown(Keys.O))
+            /// -- Get User Input -- ///
+            if (input.CheckKey(InputMonitor.RIGHT))
             {
-                direction = -1.0f;
+                facing = SpriteEffects.None;
+                Move();
             }
-            else if (currentKeyboardState.IsKeyDown(Keys.P))
+            if (input.CheckKey(InputMonitor.LEFT))
             {
-                direction = 1.0f;
+                facing = SpriteEffects.FlipHorizontally;
+                Move();
             }
-            if (currentKeyboardState.IsKeyDown(Keys.J))
-            {
-                pressedJump = true;
-            }
-            if (currentKeyboardState.IsKeyDown(Keys.K))
+            if (input.CheckPressAndReleaseKey(InputMonitor.SHOOT))
             {
                 Shoot();
             }
-
-            //Handle the Physics to update Movement and Position
-            HandlePhysics(gameTime);
-
-            if (velocity.X < 0)
+            if (input.CheckPressAndReleaseKey(InputMonitor.JUMP))
             {
-                facing = SpriteEffects.FlipHorizontally;
-            }
-            else if(velocity.X > 0 && (facing == SpriteEffects.FlipHorizontally))
-            {
-                facing = SpriteEffects.None;
+                Jump();
             }
 
-            //Handle Transformation Gauge
-            if (isTransformed)
-            {
-                //Deplete Transform Gauge
-            }
-            else
-            {
-                //Replenish Transform Gauge
-            }
+            /// -- Handle Physics -- ///
+            velocity = playerPhysics.ApplyPhysics(velocity);
 
-            /* ======= EXAMPLE TEST CODE BELOW ========= */
-            if (pressedJump)
-            {
-                Jump(gameTime);
-            }
-            /* ======= END OF EXAMPLE TEST CODE ========= */
+            /// -- Update Position -- ///
+            position += velocity;
 
-            if (currentHealth >= 0 && isOnGround)
+            /// --Reset the Velocity -- ///
+            playerPhysics.ResetVelocity();
+
+            /// --- Check For Max Ascent of Jump -- ///
+            if (currentState.Contains("Jumping"))
             {
-                if (Math.Abs(Velocity.X) - 0.02f > 0)
+                if ((-0.5 <= velocity.Y) || (velocity.Y <= 0.8))
                 {
-                    ChangeState("Walking");
+                    ChangeState("JumpingDescent");
                 }
-                else if(this.currentState.Equals("Shooting"))
+            }
+
+            /// -- Check for Final State Changes -- ///
+            if ((velocity.X == 0) && isOnGround && !currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            {
+                if(!currentState.Contains("Shooting"))
+                {
+                    ChangeState("Idle");
+                }
+                else if (this.currentState.Contains("Shooting"))
                 {
                     if (animationPlayer.Animation.animationName.Equals("Idle"))
                     {
                         ChangeState("Idle");
                     }
                 }
-                else
-                {
-                   ChangeState("Idle");
-                }
             }
 
-            //Reset Input
-            direction = 0;
-            pressedJump = false;
-
-            //Let the Animation Player Update the Frame
+            /// -- Animation Player Update Frames -- ///
             animationPlayer.Update(gameTime);
         }
 
@@ -410,6 +352,24 @@ namespace WesternSpace.DrawableComponents.Actors
             //Let the Animation Player Draw
             animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position, facing);
         }
+
+        /// <summary>
+        /// Loads a Character's information from a specified XML file.
+        /// </summary>
+        /// <param name="fileName">The name of the xml file housing the character's information.</param>
+        private void LoadPlayerXmlFile(string fileName)
+        {
+            //Create a new XDocument from the given file name.
+            XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(fileName);
+
+            Int32.TryParse(fileContents.Root.Element("Health").Attribute("MaxHealth").Value, out this.maxHealth);
+            Int32.TryParse(fileContents.Root.Element("Transformation").Attribute("MaxGauge").Value, out this.maxGauge);
+        }
+
+
+        /// <summary>
+        /// Called on a Sprite Collision?
+        /// </summary>
         public void OnSpriteCollision()
         {
         }
