@@ -82,7 +82,7 @@ namespace WesternSpace.Services
 
         public int ScaleFactor
         {
-            get { return (scaleRectangle.Width / startTextureWidth); }
+            get { return (scaleRectangle.Width / StartTextureWidth); }
         }
 
         public ScreenResolutionService(GraphicsDeviceManager graphics, ResolutionSettings resolutionSettings)
