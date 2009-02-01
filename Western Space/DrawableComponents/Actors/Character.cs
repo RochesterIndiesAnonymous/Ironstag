@@ -68,28 +68,6 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         /// <summary>
-        /// The character's maximum health.
-        /// </summary>
-        protected int maxHealth;
-
-        public int MaxHealth
-        {
-            get { return maxHealth; }
-            set { maxHealth = value; }
-        }
-
-        /// <summary>
-        /// The character's current health.
-        /// </summary>
-        protected int currentHealth;
-
-        public int CurrentHealth
-        {
-            get { return currentHealth; }
-            set { currentHealth = value; }
-        }
-
-        /// <summary>
         /// The character's current state. A state determines
         /// which animation the character will be displaying
         /// and what actions they can take at any point in
@@ -194,18 +172,6 @@ namespace WesternSpace.DrawableComponents.Actors
             idNumberCount++;
 
             //Set up the Roles for this Character
-        }
-
-        /// <summary>
-        /// Modifies the Character's current health based on the value given. The
-        /// given value may either be positive or negative, denoting healing and taking
-        /// damage respectively.
-        /// </summary>
-        /// <param name="modifier">Amount to change health by; Positive if healing
-        ///                        Negative if taking damage.</param>
-        public void ChangeHealth(int modifier)
-        {
-            this.currentHealth = currentHealth + modifier;
         }
 
         /// <summary>

@@ -15,10 +15,11 @@ using Microsoft.Xna.Framework.Audio;
 using WesternSpace.Physics;
 using WesternSpace.Utility;
 using WesternSpace.DrawableComponents.Projectiles;
+using WesternSpace.Interfaces;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    class Player : Character
+    class Player : Character, IDamageable
     {
         /// Constants ///
         private static readonly string COWBOY = "Cowboy";
@@ -386,5 +387,67 @@ namespace WesternSpace.DrawableComponents.Actors
         public void OnSpriteCollision()
         {
         }
+
+        #region IDamageable Members
+
+
+        /// <summary>
+        /// The player's maximum health.
+        /// </summary>
+        private int maxHealth;
+
+        /// <summary>
+        /// The player's maximum health.
+        /// </summary>
+        public int MaxHealth
+        {
+            get { return maxHealth; }
+            set { maxHealth = value; }
+        }
+
+        /// <summary>
+        /// The player's current health.
+        /// </summary>
+        private int currentHealth;
+
+        /// <summary>
+        /// The player's current health.
+        /// </summary>
+        public int CurrentHealth
+        {
+            get { return currentHealth; }
+            set { currentHealth = value; }
+        }
+
+        /// <summary>
+        /// The player takes full damage from enemies
+        /// </summary>
+        public float MitigationFactor
+        {
+            get { return 1; }
+        }
+
+        /// <summary>
+        /// The player only wants to take damage from enemies
+        /// </summary>
+        public DamageCategory TakesDamageFrom
+        {
+            get { return DamageCategory.Enemy; }
+        }
+
+
+        /// <summary>
+        /// If the proper damage type is done subtract from the current health
+        /// </summary>
+        /// <param name="damageItem">The other world object that the player collided with</param>
+        public void TakeDamage(IDamaging damageItem)
+        {
+            if (this.TakesDamageFrom == damageItem.DoesDamageTo)
+            {
+                currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
+            }
+        }
+
+        #endregion
     }
 }

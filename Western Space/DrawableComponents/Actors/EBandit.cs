@@ -15,10 +15,11 @@ using Microsoft.Xna.Framework.Audio;
 using WesternSpace.Physics;
 using WesternSpace.Utility;
 using WesternSpace.DrawableComponents.Projectiles;
+using WesternSpace.Interfaces;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    class EBandit : Character
+    class EBandit : Character, IDamageable
      {
         /// Constants ///
         private static readonly string BANDIT = "Bandit";
@@ -323,5 +324,57 @@ namespace WesternSpace.DrawableComponents.Actors
         public void OnSpriteCollision()
         {
         }
-    }
+
+        #region IDamageable Members
+
+        private int maxHealth;
+
+        /// <summary>
+        /// The maximum health this bandit has
+        /// </summary>
+        public int MaxHealth
+        {
+            get { return maxHealth; }
+        }
+
+        private int currentHealth;
+
+        /// <summary>
+        /// The current health this bandit has
+        /// </summary>
+        public int CurrentHealth
+        {
+            get { return currentHealth; }
+        }
+
+        /// <summary>
+        /// The bandit takes full damage from the player
+        /// </summary>
+        public float MitigationFactor
+        {
+            get { return 1; }
+        }
+
+        /// <summary>
+        /// The bandit takes damage from the player
+        /// </summary>
+        public DamageCategory TakesDamageFrom
+        {
+            get { return DamageCategory.Player; }
+        }
+
+        /// <summary>
+        /// Take damage if the damage is from the player
+        /// </summary>
+        /// <param name="damageItem">The other world item that this bandit collided with</param>
+        public void TakeDamage(IDamaging damageItem)
+        {
+            if (this.TakesDamageFrom == damageItem.DoesDamageTo)
+            {
+                currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
+            }
+        }
+
+        #endregion
+     }
 }

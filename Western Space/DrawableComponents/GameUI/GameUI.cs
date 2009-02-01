@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.DrawableComponents.Actors;
+using WesternSpace.Interfaces;
 
 namespace WesternSpace.DrawableComponents.GameUI
 {
@@ -49,7 +50,7 @@ namespace WesternSpace.DrawableComponents.GameUI
         /// <summary>
         /// A reference to the player to calculate the health
         /// </summary>
-        Character player;
+        IDamageable player;
 
         /// <summary>
         /// The current percentage of health that the player has
@@ -62,7 +63,7 @@ namespace WesternSpace.DrawableComponents.GameUI
         /// <param name="parentScreen">The parent screen that the game UI is part of</param>
         /// <param name="spriteBatch">The SpriteBatch object that the game UI is to use to draw itself</param>
         /// <param name="position">The position of the Game UI in absolute coordinates</param>
-        public GameUI(Screen parentScreen, SpriteBatch spriteBatch, Vector2 position, Character player)
+        public GameUI(Screen parentScreen, SpriteBatch spriteBatch, Vector2 position, IDamageable player)
             : base(parentScreen, spriteBatch, position)
         {
             this.player = player;
