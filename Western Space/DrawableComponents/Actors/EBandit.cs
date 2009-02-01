@@ -18,62 +18,20 @@ using WesternSpace.DrawableComponents.Projectiles;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    class Player : Character
-    {
+    class EBandit : Character
+     {
         /// Constants ///
-        private static readonly string COWBOY = "Cowboy";
-        private static readonly string SPACE_COWBOY = "SpaceCowboy";
+        private static readonly string BANDIT = "Bandit";
 
         /// <summary>
-        /// Calculates the necessary changes in the player's
-        /// velocity depending upong the player's actions.
+        /// The physics handler which takes care of the Bandit's physics.
         /// </summary>
-        PhysicsHandler playerPhysics;
-
-        /// <summary>
-        /// Temporary use of InputMonitor until it becomes a service.
-        /// </summary>
-        InputMonitor input;
+        PhysicsHandler banditPhysics;
 
         /// <summary>
         /// Sound Effect will be moved later on.
         /// </summary>
         SoundEffect gunShot;
-
-        /// <summary>
-        /// The maximum value of the transformation guage for
-        /// Flint Ironstag.
-        /// </summary>
-        private int maxGauge;
-
-        public int MaxGuage
-        {
-            get { return maxGauge; }
-            set { MaxGuage = value; }
-        }
-
-        /// <summary>
-        /// The current value of the transformation gauge.
-        /// </summary>
-        private int currentGauge;
-
-        public int CurrentGauge
-        {
-            get { return currentGauge; }
-            set { currentGauge = value; }
-        }
-
-        /// <summary>
-        /// Value which returns true if Flint is currently in
-        /// his transformed state. False if not.
-        /// </summary>
-        private bool isTransformed = false;
-
-        public bool IsTransformed
-        {
-            get { return isTransformed; }
-            set { isTransformed = value; }
-        }
 
         /// <summary>
         /// Constructor for Flint Ironstag.
@@ -82,14 +40,14 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="spriteBatch">The sprite batch which handles drawing this object.</param>
         /// <param name="position">The initial position of this character.</param>
         /// <param name="xmlFile">The XML file which houses the information for this character.</param>
-        public Player(Screen parentScreen , SpriteBatch spriteBatch, Vector2 position, String xmlFile)
+        public EBandit(Screen parentScreen , SpriteBatch spriteBatch, Vector2 position, String xmlFile)
             : base(parentScreen, spriteBatch, position, xmlFile)
         {
             //Set the character's Name
             name = "Flint Ironstag";
 
             //Load the player information from the XML file
-            LoadPlayerXmlFile(xmlFile);
+            LoadBanditXmlFile(xmlFile);
 
             //Load the Player's Roles
             SetUpRoles(xmlFile);
@@ -98,10 +56,7 @@ namespace WesternSpace.DrawableComponents.Actors
             currentHealth = maxHealth;
 
             //Instantiate the Physics Handler
-            playerPhysics = new PhysicsHandler();
-
-            //Set the character's transformation guage
-            currentGauge = maxGauge;
+            banditPhysics = new PhysicsHandler();
 
             //Create the Animation Player and give it the Idle Animation
             this.animationPlayer = new AnimationPlayer(spriteBatch, currentRole.AnimationMap["Idle"], currentRole.AnimationMap["Idle"]);
@@ -119,7 +74,7 @@ namespace WesternSpace.DrawableComponents.Actors
             this.Position = position;
 
             //Set the facing
-            facing = SpriteEffects.None;
+            facing = SpriteEffects.FlipHorizontally;
 
             //Initializes the player's hotspots.
             this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(16, 0), HOTSPOT_TYPE.top));
@@ -130,9 +85,6 @@ namespace WesternSpace.DrawableComponents.Actors
 
             //Temp: Loads the gunshot sound.
             gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
-
-            //Temp: Sets the input monitor up.
-            input = new InputMonitor(this.Game);
         }
 
         /// <summary>
@@ -141,13 +93,11 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="xmlFile">The xml file containing the role information.</param>
         public override void SetUpRoles(string xmlFile)
         {
-            Cowboy cowboy = new Cowboy(xmlFile, COWBOY);
-            //SpaceCowboy spaceCowboy = new SpaceCowboy(xmlFile, SPACE_COWBOY);
+            Bandit bandit = new Bandit(xmlFile, BANDIT);
 
-            this.roleMap.Add(COWBOY, cowboy);
-            //this.roleMap.Add(SPACE_COWBOY, spaceCowboy);
+            this.roleMap.Add(BANDIT, bandit);
 
-            this.currentRole = cowboy;
+            this.currentRole = bandit;
         }
 
         /// <summary>
@@ -160,7 +110,7 @@ namespace WesternSpace.DrawableComponents.Actors
             {
                 if (!currentState.Contains("Jumping") && !currentState.Contains("Falling"))
                 {
-                    playerPhysics.ApplyJump();
+                    banditPhysics.ApplyJump();
                     ChangeState("JumpingAscent");
                     isOnGround = false;
                 }
@@ -188,7 +138,7 @@ namespace WesternSpace.DrawableComponents.Actors
 
                 if (isOnGround)
                 {
-                    playerPhysics.ApplyGroundMove(direction);
+                    banditPhysics.ApplyGroundMove(direction);
                     if (!currentState.Contains("Shooting"))
                     {
                         ChangeState("Running");
@@ -204,19 +154,18 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
                 else
                 {
-                    playerPhysics.ApplyAirMove(direction);
+                    banditPhysics.ApplyAirMove(direction);
                 }
             }
         }
 
         /// <summary>
-        /// Called when the player presses the shoot button.
+        /// Causes the enemy to generate a projectile and change its state accordingly.
         /// </summary>
         public void Shoot()
         {
             if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
             {
-
                 if (!currentState.Contains("Shooting"))
                 {
                     if (currentState.Contains("Jumping"))
@@ -244,78 +193,22 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         /// <summary>
-        /// Called when the player attempts to dodge roll. This action can only
-        /// be performed if the player is in a transformed state.
-        /// </summary>
-        public void DodgeRoll()
-        {
-            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
-            {
-                if (isTransformed)
-                {
-                    //Change state
-                    ChangeState("Rolling");
-
-                    //Logic for moving character backwards
-                    //playerPhysics.Roll(direction);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Called when the player presses the transformation button.
-        /// </summary>
-        public void Transform()
-        {
-            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
-            {
-                if (isTransformed)
-                {
-                    //Change state
-                    ChangeState("Transforming");
-                }
-                else
-                {
-                    //Change state and animaton
-                    ChangeState("Transforming");
-                }
-            }
-        }
-
-        /// <summary>
         /// Called every Update
         /// </summary>
         /// <param name="gameTime">The time the game has been running.</param>
         public override void Update(GameTime gameTime)
         {
-            /// -- Get User Input -- ///
-            if (input.CheckKey(InputMonitor.RIGHT))
-            {
-                facing = SpriteEffects.None;
-                Move();
-            }
-            if (input.CheckKey(InputMonitor.LEFT))
-            {
-                facing = SpriteEffects.FlipHorizontally;
-                Move();
-            }
-            if (input.CheckPressAndReleaseKey(InputMonitor.SHOOT))
-            {
-                Shoot();
-            }
-            if (input.CheckPressAndReleaseKey(InputMonitor.JUMP))
-            {
-                Jump();
-            }
+            /// -- AI -- ///
+            banditAI(gameTime);
 
             /// -- Handle Physics -- ///
-            velocity = playerPhysics.ApplyPhysics(velocity);
+            velocity = banditPhysics.ApplyPhysics(velocity);
 
             /// -- Update Position -- ///
             position += velocity;
 
             /// --Reset the Velocity -- ///
-            playerPhysics.ResetVelocity();
+            banditPhysics.ResetVelocity();
 
             /// --- Check For Max Ascent of Jump -- ///
             if (currentState.Contains("Jumping"))
@@ -354,13 +247,32 @@ namespace WesternSpace.DrawableComponents.Actors
         /// Loads a Character's information from a specified XML file.
         /// </summary>
         /// <param name="fileName">The name of the xml file housing the character's information.</param>
-        private void LoadPlayerXmlFile(string fileName)
+        private void LoadBanditXmlFile(string fileName)
         {
             //Create a new XDocument from the given file name.
             XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(fileName);
 
             Int32.TryParse(fileContents.Root.Element("Health").Attribute("MaxHealth").Value, out this.maxHealth);
-            Int32.TryParse(fileContents.Root.Element("Transformation").Attribute("MaxGauge").Value, out this.maxGauge);
+        }
+
+        /// <summary>
+        /// Logic which determines what a Bandit does.
+        /// </summary>
+        /// <param name="gameTime">The time the game has been running.</param>
+        private void banditAI(GameTime gameTime)
+        {
+            float shootTimer = 0f, shootTimeSpan = 3.0f;
+
+            shootTimer += (float)(gameTime.TotalRealTime.TotalSeconds%3.5);
+
+            System.Diagnostics.Debug.WriteLine("Timer: " + shootTimer);
+
+            if (shootTimer >= shootTimeSpan)
+            {
+                Shoot();
+                shootTimer = 0f;
+            }
+
         }
 
         /// <summary>
@@ -377,8 +289,9 @@ namespace WesternSpace.DrawableComponents.Actors
                 position = this.Position + new Vector2(10f, 20f);
             }
 
-            FlintNormalProjectile proj = new FlintNormalProjectile(this.ParentScreen, this.SpriteBatch, position, this, direction);
+            BanditNormalProjectile proj = new BanditNormalProjectile(this.ParentScreen, this.SpriteBatch, position, this, direction);
         }
+
 
         /// <summary>
         /// Called on a Sprite Collision?

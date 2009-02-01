@@ -174,10 +174,17 @@ namespace WesternSpace
             player.UpdateOrder = 3;
             player.DrawOrder = PLAYER_DRAW_ORDER;
 
+            EBandit bandit1 = new EBandit(ParentScreen, sb, new Vector2(500, 79), "ActorXML\\Bandit");
+            bandit1.UpdateOrder = 3;
+            bandit1.DrawOrder = PLAYER_DRAW_ORDER;
+
             tileCollisionManager.CollideableObjectList.Add(player);
             spriteCollisionManager.RegisteredObjectList.Add(player);
+            tileCollisionManager.CollideableObjectList.Add(bandit1);
+            spriteCollisionManager.RegisteredObjectList.Add(bandit1);
 
             ParentScreen.Components.Add(player);
+            ParentScreen.Components.Add(bandit1);
 
             #endregion
 

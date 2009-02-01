@@ -324,6 +324,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActorXML\AnimationXML\BanditEnemy.xml">
+      <Name>BanditEnemy</Name>
+      <Importer>XDocumentImporter</Importer>
+      <Processor>XDocumentProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActorXML\Bandit.xml">
+      <Name>Bandit</Name>
+      <Importer>XDocumentImporter</Importer>
+      <Processor>XDocumentProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="System\Music\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v3.0\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

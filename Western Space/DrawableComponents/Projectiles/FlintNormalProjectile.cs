@@ -15,7 +15,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
     {
         private static readonly Animation FlintProjectileAnimation = new Animation("ActorXML\\AnimationXML\\FlintBullet", "Bullet");
         private static readonly int Damage = 50;
-        private static readonly Vector2 Velocity = new Vector2(1f, 0f);
+        private static readonly Vector2 Velocity = new Vector2(4f, 0f);
 
         public FlintNormalProjectile(Screen screen, SpriteBatch batch, Vector2 position, object owner, short direction)
             : base(screen, batch, position, FlintNormalProjectile.FlintProjectileAnimation, direction, FlintNormalProjectile.Velocity,
