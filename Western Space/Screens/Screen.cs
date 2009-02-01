@@ -107,7 +107,7 @@ namespace WesternSpace.Screens
             }
 
             // Update all components that have been initialized
-            foreach (IUpdateable updateable in updatingComponents)
+            foreach (IUpdateable updateable in updating)
             {
                 if (updateable.Enabled)
                 {

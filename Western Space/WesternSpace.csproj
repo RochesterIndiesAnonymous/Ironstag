@@ -99,6 +99,8 @@
     <Compile Include="DrawableComponents\EditorUI\SaveButton.cs" />
     <Compile Include="DrawableComponents\EditorUI\EdgeToggler.cs" />
     <Compile Include="DrawableComponents\GameUI\GameUI.cs" />
+    <Compile Include="DrawableComponents\Projectiles\FlintNormalProjectile.cs" />
+    <Compile Include="DrawableComponents\Projectiles\Projectile.cs" />
     <Compile Include="Utility\Cowboy.cs" />
     <Compile Include="Utility\Role.cs" />
     <Compile Include="Input\InputMonitor.cs" />

@@ -310,6 +310,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActorXML\AnimationXML\FlintBullet.xml">
+      <Name>FlintBullet</Name>
+      <Importer>XDocumentImporter</Importer>
+      <Processor>XDocumentProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\FlintIronstag\FlintBullet.png">
+      <Name>FlintBullet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="System\Music\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v3.0\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

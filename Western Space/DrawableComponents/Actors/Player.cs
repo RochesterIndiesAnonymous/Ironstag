@@ -14,6 +14,7 @@ using WesternSpace.Screens;
 using Microsoft.Xna.Framework.Audio;
 using WesternSpace.Physics;
 using WesternSpace.Utility;
+using WesternSpace.DrawableComponents.Projectiles;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
@@ -238,6 +239,16 @@ namespace WesternSpace.DrawableComponents.Actors
 
                     //Generate a Bullet
 
+                    short direction = 1;
+                    Vector2 position = this.Position + new Vector2(40f, 20f);
+
+                    if (this.Facing == SpriteEffects.FlipHorizontally)
+                    {
+                        direction = -1;
+                        position = this.Position + new Vector2(10f, 20f);
+                    }
+
+                    FlintNormalProjectile proj = new FlintNormalProjectile(this.ParentScreen, this.SpriteBatch, position, this, direction);
                 }
             }
         }
