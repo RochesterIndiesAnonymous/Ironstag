@@ -45,7 +45,7 @@ namespace WesternSpace.Collision
                 // Test each hotspots against tile                  
                 foreach (CollisionHotspot hotspot in collideableObject.Hotspots)
                 {
-                    if (hotspot.WorldPosition.X > 0 || hotspot.WorldPosition.Y > 0)
+                    if (hotspot.WorldPosition.X > 0 && hotspot.WorldPosition.Y > 0)
                     {
                         // run tile function to get tile with edge
                         tileCoord = CalculateTileCoord(hotspot.WorldPosition);
