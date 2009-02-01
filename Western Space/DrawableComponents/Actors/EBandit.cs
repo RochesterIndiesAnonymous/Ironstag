@@ -34,6 +34,11 @@ namespace WesternSpace.DrawableComponents.Actors
         SoundEffect gunShot;
 
         /// <summary>
+        /// Camera used to see if the enemy is visible.
+        /// </summary>
+        private ICameraService camera;
+
+        /// <summary>
         /// Constructor for Flint Ironstag.
         /// </summary>
         /// <param name="parentScreen">The screen which this object is a part of.</param>
@@ -85,6 +90,19 @@ namespace WesternSpace.DrawableComponents.Actors
 
             //Temp: Loads the gunshot sound.
             gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
+        }
+
+        /// <summary>
+        /// Initializes the objects assets at startup.
+        /// </summary>
+        public override void Initialize()
+        {
+            //collision = (SpriteSpriteCollisionManager)this.Game.Services.GetService(typeof(SpriteSpriteCollisionManager));
+            camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
+
+            //collision.RegisteredObjectList.Add(this);
+
+            base.Initialize();
         }
 
         /// <summary>
@@ -198,49 +216,57 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="gameTime">The time the game has been running.</param>
         public override void Update(GameTime gameTime)
         {
-            /// -- AI -- ///
-            banditAI(gameTime);
+            float visibilityTimer = 0f;
 
-            /// -- Handle Physics -- ///
-            velocity = banditPhysics.ApplyPhysics(velocity);
-
-            /// -- Update Position -- ///
-            position += velocity;
-
-            /// --Reset the Velocity -- ///
-            banditPhysics.ResetVelocity();
-
-            /// --- Check For Max Ascent of Jump -- ///
-            if (currentState.Contains("Jumping"))
+            if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X < camera.VisibleArea.X))
             {
-                if ((-0.5 <= velocity.Y) || (velocity.Y <= 0.8))
+                // -- AI -- //
+                banditAI(gameTime);
+
+                // -- Handle Physics -- //
+                velocity = banditPhysics.ApplyPhysics(velocity);
+
+                // -- Update Position -- //
+                position += velocity;
+
+                // --Reset the Velocity -- //
+                banditPhysics.ResetVelocity();
+
+                // --- Check For Max Ascent of Jump -- //
+                if (currentState.Contains("Jumping"))
                 {
-                    ChangeState("JumpingDescent");
+                    if ((-0.5 <= velocity.Y) || (velocity.Y <= 0.8))
+                    {
+                        ChangeState("JumpingDescent");
+                    }
                 }
-            }
 
-            /// -- Check for Final State Changes -- ///
-            if ((velocity.X == 0) && isOnGround && !currentState.Equals("Dead") && !currentState.Equals("Hit"))
-            {
-
-                if (animationPlayer.Animation.animationName.Equals("Idle") && !currentState.Equals("Idle"))
+                // -- Check for Final State Changes -- //
+                if ((velocity.X == 0) && isOnGround && !currentState.Equals("Dead") && !currentState.Equals("Hit"))
                 {
+
+                    if (animationPlayer.Animation.animationName.Equals("Idle") && !currentState.Equals("Idle"))
+                    {
                         ChangeState("Idle");
+                    }
+                    else if (!currentState.Contains("Shooting"))
+                    {
+                        ChangeState("Idle");
+                    }
                 }
-                else if(!currentState.Contains("Shooting"))
-                {
-                    ChangeState("Idle");
-                }
-            }
 
-            /// -- Animation Player Update Frames -- ///
-            animationPlayer.Update(gameTime);
+                // -- Animation Player Update Frames -- //
+                animationPlayer.Update(gameTime);
+            }
         }
 
         public override void Draw(GameTime gameTime)
         {
-            //Let the Animation Player Draw
-            animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position, facing);
+            if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X < camera.VisibleArea.X))
+            {
+                //Let the Animation Player Draw
+                animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position, facing);
+            }
         }
 
         /// <summary>
@@ -264,8 +290,6 @@ namespace WesternSpace.DrawableComponents.Actors
             float shootTimer = 0f, shootTimeSpan = 3.0f;
 
             shootTimer += (float)(gameTime.TotalRealTime.TotalSeconds%3.5);
-
-            System.Diagnostics.Debug.WriteLine("Timer: " + shootTimer);
 
             if (shootTimer >= shootTimeSpan)
             {
