@@ -23,6 +23,10 @@ namespace WesternSpace.DrawableComponents.Actors
         private static readonly string COWBOY = "Cowboy";
         private static readonly string SPACE_COWBOY = "SpaceCowboy";
 
+        /// <summary>
+        /// Calculates the necessary changes in the player's
+        /// velocity depending upong the player's actions.
+        /// </summary>
         PhysicsHandler playerPhysics;
 
         /// <summary>
@@ -69,12 +73,6 @@ namespace WesternSpace.DrawableComponents.Actors
             get { return isTransformed; }
             set { isTransformed = value; }
         }
-
-        /// <summary>
-        /// True if the player has pressed the jump button. False otherwise.
-        /// </summary>
-        public bool pressedJump = false;
-
 
         /// <summary>
         /// Constructor for Flint Ironstag.
