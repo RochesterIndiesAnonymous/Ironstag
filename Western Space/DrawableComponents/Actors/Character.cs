@@ -223,7 +223,7 @@ namespace WesternSpace.DrawableComponents.Actors
 
         #region ISpriteCollideable Members
 
-        public void OnSpriteCollision()
+        public void OnSpriteCollision(Character characterCollidedWith)
         {
             //throw new NotImplementedException();
         }

@@ -70,8 +70,9 @@ namespace WesternSpace.Collision
             }
             if (tile.RightEdge && this.HotSpotType == HOTSPOT_TYPE.left)
             {
-                this.refGameObject.Position = new Vector2(this.HostPosition.X + (tileRectangle.Right - this.WorldPosition.X),
-                 this.HostPosition.Y);
+                this.refGameObject.Position = new Vector2(this.HostPosition.X + (this.WorldPosition.X - tileRectangle.Left), this.HostPosition.Y);
+                //this.refGameObject.Position = new Vector2(this.HostPosition.X + (tileRectangle.Right - this.WorldPosition.X),
+                // this.HostPosition.Y);
             }
 
         }

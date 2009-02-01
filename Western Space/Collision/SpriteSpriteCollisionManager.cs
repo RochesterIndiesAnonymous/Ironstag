@@ -120,14 +120,9 @@ namespace WesternSpace.Collision
             foreach (Character gameObj in registeredObject)
             {
                 newCoords = this.rectToBinCoord(gameObj.Rectangle);
-                
                 if (objBinLookupTable.TryGetValue(gameObj.IdNumber, out oldCoords))
                 {
-                    //fix this
-                    //if (!newCoords.Equals(oldCoords))
-                    //{
-                        this.OnUpdateObjectInBin(gameObj, oldCoords, newCoords);
-                    //}
+                   this.OnUpdateObjectInBin(gameObj, oldCoords, newCoords);
                 }
                 else
                 {
@@ -154,8 +149,8 @@ namespace WesternSpace.Collision
                     if (rectA.Intersects(rectB))
                     {
                         DebugOutput += "\nCollision At: ";
-                        entityA.OnSpriteCollision();
-                        entityB.OnSpriteCollision();
+                        entityA.OnSpriteCollision(entityB);
+                        entityB.OnSpriteCollision(entityA);
                     }
                 }
             }
