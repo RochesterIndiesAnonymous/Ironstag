@@ -19,7 +19,7 @@ using WesternSpace.Interfaces;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    class Player : Character, IDamageable
+    public class Player : Character, IDamageable
     {
         /// Constants ///
         private static readonly string COWBOY = "Cowboy";

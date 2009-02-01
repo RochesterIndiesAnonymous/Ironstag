@@ -31,6 +31,7 @@ namespace WesternSpace
         public TileMap Map
         {
             get { return map; }
+            set { map = value; }
         }
 
         private ICameraService camera;
@@ -58,7 +59,7 @@ namespace WesternSpace
         }
 
         /// <summary>
-        /// Prevent any components that belong in th world (enemies, the player, etc)
+        /// Prevent any components that belong in the world (enemies, the player, etc)
         ///  from being Update()d. This will essentially set "Enabled = false" on all
         ///  characters in the world.
         /// </summary>
@@ -72,12 +73,20 @@ namespace WesternSpace
         /// Create an empty world.
         /// </summary>
         /// <param name="parentScreen">The screen this world will be updated in.</param>
-        public World(Screen parentScreen)
+        public World(Screen parentScreen, Player player)
             : base(parentScreen)
         {
+            this.player = player;
+            ParentScreen.Components.Add(player);
             this.interactiveLayers = new Dictionary<int, TileMapLayer>();
             this.parallaxLayers = new Dictionary<int, TileMapLayer>();
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
+
+            // Set up our collision systems:
+            tileCollisionManager = new SpriteTileCollisionManager(this.Game, this);
+            ParentScreen.Components.Add(tileCollisionManager);
+            spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, new Point(40, 40));
+            ParentScreen.Components.Add(spriteCollisionManager);
         }
 
         /// <summary>

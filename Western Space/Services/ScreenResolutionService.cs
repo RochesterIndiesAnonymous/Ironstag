@@ -66,14 +66,10 @@ namespace WesternSpace.Services
             }
         }
 
-        private int startTextureWidth;
-
         public int StartTextureWidth
         {
             get { return CurrentResolutionSettings.RenderTargetWidth; }
         }
-
-        private int startTextureHeight;
 
         public int StartTextureHeight
         {

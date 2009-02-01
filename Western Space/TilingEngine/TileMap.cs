@@ -61,6 +61,55 @@ namespace WesternSpace.TilingEngine
             get { return tiles; }
         }
 
+        /// <summary>
+        /// Crop this tilemap down to the minimal size needed to contain all non-null tiles in it.
+        /// </summary>
+        /// <returns>A Rectangle which represents the cropping area, in tile-coordinates.</returns>
+        public Rectangle Minimize()
+        {
+            int xMin, xMax, yMin, yMax;
+            xMax = yMax = 0;
+            xMin = Width - 1;
+            yMin = Height - 1;
+
+            // Find the minimal and maximal tiles that aren't null:
+            for (int x = 0; x < Width; ++x)
+            {
+                for (int y = 0; y < Height; ++y)
+                {
+                    if (Tiles[x, y] != null)
+                    {
+                        if (x > xMax)
+                            xMax = x;
+                        if (x < xMin)
+                            xMin = x;
+                        if (y > yMax)
+                            yMax = y;
+                        if (y < yMin)
+                            yMin = y;
+                    }
+                }
+            }
+
+            // Create a new tilemap that will fit all of them:
+            Tile[,] newTiles = new Tile[xMax - xMin+1, yMax - yMin+1];
+
+            // And copy all tiles into the new array:
+            //  NOTE: SetTile doesn't need to be used here because each tile's
+            //         edge data should be the same since we're only cropping
+            //         out nulls, which have no effect on edges.
+            for (int xOffset = 0; xOffset < newTiles.GetLength(0); ++xOffset)
+            {
+                for (int yOffset = 0; yOffset < newTiles.GetLength(1); ++yOffset)
+                {
+                    newTiles[xOffset, yOffset] = Tiles[xMin + xOffset, yMin + yOffset];
+                }
+            }
+            tiles = newTiles;
+
+            return new Rectangle(xMin, yMin, Width, Height);
+        }
+
         // This is mainly just used for the editor when creating new empty tilemaps.
         public TileMap(int cellX, int cellY, int tileWidth, int tileHeight, int layerCount, int subLayerCount)
         {

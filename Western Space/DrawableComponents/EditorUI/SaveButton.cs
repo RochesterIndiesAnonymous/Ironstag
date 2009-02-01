@@ -34,8 +34,26 @@ namespace WesternSpace.DrawableComponents.EditorUI
         {
             if (button == 0) // Only handle left clicks, ignore others.
             {
+                TileMap orig = tileSelector.TileMap;
+
                 // Save TileMap here.
-                XDocument doc = new XDocument(tileSelector.TileMap.ToXElement());
+                TileMap copy = new TileMap(orig.Width, orig.Height,
+                                           orig.TileWidth, orig.TileHeight,
+                                           orig.LayerCount, orig.SubLayerCount);
+
+                Tile tile;
+                for (int i = 0; i < orig.Width; ++i)
+                {
+                    for (int j = 0; j < orig.Height; ++j)
+                    {
+                        tile = orig.Tiles[i,j];
+                        if (tile != null)
+                            copy.Tiles[i, j] = new Tile(tile);
+                    }
+                }
+                copy.Minimize();
+                
+                XDocument doc = new XDocument(copy.ToXElement());
                 doc.Save("..\\..\\..\\Content\\TileMapXML\\BigTileMap.xml");
             }
             base.OnMouseUnclick(button);

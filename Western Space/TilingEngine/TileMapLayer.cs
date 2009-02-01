@@ -199,10 +199,11 @@ namespace WesternSpace.TilingEngine
         private void DrawBlank(Vector2 position)
         {
             position.X += 1;
-            Color col = new Color(1,1,1,0.5f);
+            Color col = new Color(1,1,1,0.3f);
             PrimitiveDrawer.Instance.DrawRect(SpriteBatch, 
                                               new Rectangle((int)position.X, (int)position.Y, tm.TileWidth, tm.TileHeight),
                                               col);
+            col = new Color(1, 1, 1, 0.5f);
             PrimitiveDrawer.Instance.DrawLine(SpriteBatch, position, position + new Vector2(tm.TileWidth, tm.TileHeight), col);
         }
 

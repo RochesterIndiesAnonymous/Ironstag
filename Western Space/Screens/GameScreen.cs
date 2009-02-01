@@ -28,7 +28,6 @@ namespace WesternSpace.Screens
         private World world;
 
         private bool isFullScreen;
-        private int count;
 
         /* MOVED TO WORLD:
         public SpriteTileCollisionManager tileCollisionManager;
@@ -61,7 +60,6 @@ namespace WesternSpace.Screens
             : base(game, name)
         {
             this.isFullScreen = false;
-            this.count = 0;
         }
 
         /// <summary>
