@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Animations>
-  <Animation AnimationKey="Idle" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintIdle" FrameWidth="64" FrameHeight="61" IsOneShot="0" IsDefault="1">
+  <Animation AnimationKey="Idle" IsLoop="0" SpriteSheet="Textures\\Enemies\\BanditIdle" FrameWidth="64" FrameHeight="61" IsOneShot="0" IsDefault="1">
     <Frame DisplayTime="100" SheetIndex="0" />
   </Animation>
   <Animation AnimationKey="Running" IsLoop="1" SpriteSheet="Textures\\FlintIronstag\\flintRun" FrameWidth="64" FrameHeight="61" IsOneShot="0" IsDefault="0">
@@ -15,12 +15,11 @@
     <Frame DisplayTime="100" SheetIndex="8" />
     <Frame DisplayTime="100" SheetIndex="9" />
   </Animation>
-  <Animation AnimationKey="Shooting" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintShoot" FrameWidth="64" FrameHeight="61" IsOneShot="1" IsDefault="0">
+  <Animation AnimationKey="Shooting" IsLoop="0" SpriteSheet="Textures\\Enemies\\BanditShoot" FrameWidth="64" FrameHeight="61" IsOneShot="1" IsDefault="0">
     <Frame DisplayTime="60" SheetIndex="0" />
-    <Frame DisplayTime="60" SheetIndex="1" />
-    <Frame DisplayTime="50" SheetIndex="2" />
-    <Frame DisplayTime="100" SheetIndex="3" />
-    <Frame DisplayTime="200" SheetIndex="4" />
+    <Frame DisplayTime="50" SheetIndex="1" />
+    <Frame DisplayTime="100" SheetIndex="2" />
+    <Frame DisplayTime="200" SheetIndex="3" />
   </Animation>
   <Animation AnimationKey="JumpingAscent" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintJump1" FrameWidth="64" FrameHeight="61" IsOneShot="0" IsDefault="0">
     <Frame DisplayTime="50" SheetIndex="0" />
