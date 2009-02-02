@@ -177,7 +177,7 @@ namespace WesternSpace.Input
             }
         }
 
-        public bool CheckLeftJoystick(string command)
+        public bool CheckLeftJoystickOnXAxis(string command)
         {
             if(leftJoystickConfig.ContainsKey(command))
             {

@@ -290,12 +290,12 @@ namespace WesternSpace.DrawableComponents.Actors
         public override void Update(GameTime gameTime)
         {
             /// -- Get User Input -- ///
-            if (input.CheckKey(InputMonitor.RIGHT) || input.CheckButton(InputMonitor.RIGHT) || input.CheckLeftJoystick(InputMonitor.RIGHT))
+            if (input.CheckKey(InputMonitor.RIGHT) || input.CheckButton(InputMonitor.RIGHT) || input.CheckLeftJoystickOnXAxis(InputMonitor.RIGHT))
             {
                 facing = SpriteEffects.None;
                 Move();
             }
-            if (input.CheckKey(InputMonitor.LEFT) || input.CheckButton(InputMonitor.LEFT) || input.CheckLeftJoystick(InputMonitor.LEFT))
+            if (input.CheckKey(InputMonitor.LEFT) || input.CheckButton(InputMonitor.LEFT) || input.CheckLeftJoystickOnXAxis(InputMonitor.LEFT))
             {
                 facing = SpriteEffects.FlipHorizontally;
                 Move();
