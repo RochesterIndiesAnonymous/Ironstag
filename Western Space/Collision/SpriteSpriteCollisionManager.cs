@@ -129,12 +129,22 @@ namespace WesternSpace.Collision
                     this.OnAddObjectToBin(gameObj, newCoords);
                 }
             }
-            // Check Collision Bins
+            // Check Collision Bins (Collision Bins)
             foreach (GameObjectBin gameObjBin in objBinsToCheck)
-            {
+            {                
+                ICollection<List<Character>> p = gameObjBin.LookUpTableOfObjects.Values;
+                // Start at the first value end at the last - 1
+                for (int i = 0; i < p.Count - 1; i++)
+                {
+                    // Start at the second value and ends at the last
+                    for (int j = 1; j < p.Count; j++)
+                    {
+                        BoundingBox(p.ElementAt(i), p.ElementAt(j), gameTime);
+                    }
+                }                        
                // Debug.Print("Checking Bins");
-                BoundingBox(gameObjBin.LookUpTableOfObjects["Flint Ironstag"],
-                    gameObjBin.LookUpTableOfObjects["Toad Man"], gameTime);
+                //BoundingBox(gameObjBin.LookUpTableOfObjects["Flint Ironstag"],
+                  //  gameObjBin.LookUpTableOfObjects["Toad Man"], gameTime);
             }
             base.Update(gameTime);
         }
