@@ -226,7 +226,14 @@ namespace WesternSpace.DrawableComponents.Actors
                     if (currentState.Contains("Jumping"))
                     {
                         //Change state and animation
-                        //ContinueAnimationNewState("JumpingShooting");
+                        if (currentState.Equals("JumpingAscent"))
+                        {
+                            ContinueAnimationNewState("JumpingAscentShooting");
+                        }
+                        else
+                        {
+                            ContinueAnimationNewState("JumpingDescentShooting");
+                        }
                     }
                     else if (currentState.Contains("Running"))
                     {
@@ -324,7 +331,7 @@ namespace WesternSpace.DrawableComponents.Actors
             /// --- Check For Max Ascent of Jump -- ///
             if (currentState.Contains("Jumping"))
             {
-                if ((-0.5 <= velocity.Y) || (velocity.Y <= 0.8))
+                if ((-0.5 <= velocity.Y) || (velocity.Y <= 0.8) && !currentState.Equals("JumpingDescentShooting"))
                 {
                     ChangeState("JumpingDescent");
                 }
@@ -343,6 +350,13 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
             }
             else if ((velocity.X != 0) && isOnGround && !currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            {
+                if (!animationPlayer.Animation.animationName.Equals(currentState))
+                {
+                    ChangeState(animationPlayer.Animation.animationName);
+                }
+            }
+            else if (!isOnGround && !currentState.Equals("Dead") && !currentState.Equals("Hit"))
             {
                 if (!animationPlayer.Animation.animationName.Equals(currentState))
                 {
