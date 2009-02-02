@@ -8,7 +8,11 @@ using WesternSpace.DrawableComponents.Actors;
 namespace WesternSpace.Collision
 {
     public interface ISpriteCollideable
-    { 
+    {
+        Rectangle Rectangle
+        {
+            get;
+        }
         void OnSpriteCollision(Character characterCollidedWith);
     }
 }
