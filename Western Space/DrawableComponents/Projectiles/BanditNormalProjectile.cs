@@ -41,7 +41,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         /// <param name="direction">The direction that is projectile is moving. 1 to the right, -1 to left</param>
         public BanditNormalProjectile(Screen screen, SpriteBatch batch, Vector2 position, object owner, short direction)
             : base(screen, batch, position, BanditNormalProjectile.BanditProjectileAnimation, direction, BanditNormalProjectile.Velocity,
-                owner, DamageCategory.Enemy, BanditNormalProjectile.Damage)
+                owner, DamageCategory.Player, BanditNormalProjectile.Damage)
         {
         }
     }

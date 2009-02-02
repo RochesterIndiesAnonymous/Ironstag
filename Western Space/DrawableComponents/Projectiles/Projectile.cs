@@ -197,7 +197,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         {
             IDamageable damage = characterCollidedWith as IDamageable;
 
-            if (damage != null && damage.TakesDamageFrom == this.DoesDamageTo)
+            if (damage != null && damage.TakesDamageFrom != this.DoesDamageTo)
             {
                 // we hit
                 this.gameScreen.World.spriteCollisionManager.removeObjectToRegisteredObjectList(this);

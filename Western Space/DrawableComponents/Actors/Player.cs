@@ -439,7 +439,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="damageItem">The other world object that the player collided with</param>
         public void TakeDamage(IDamaging damageItem)
         {
-            if (this.TakesDamageFrom == damageItem.DoesDamageTo)
+            if (this.TakesDamageFrom != damageItem.DoesDamageTo)
             {
                 currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
             }
