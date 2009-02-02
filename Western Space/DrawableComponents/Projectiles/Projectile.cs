@@ -169,15 +169,26 @@ namespace WesternSpace.DrawableComponents.Projectiles
 
         #endregion
 
-
         #region ISpriteCollideable Members
+        protected int idNumber;
+        public int IdNumber
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        Rectangle ISpriteCollideable.Rectangle
+        public Rectangle Rectangle
         {
             get { throw new NotImplementedException(); }
         }
 
-        void ISpriteCollideable.OnSpriteCollision(ISpriteCollideable characterCollidedWith)
+        public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
         {
             throw new NotImplementedException();
         }

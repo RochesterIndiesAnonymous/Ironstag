@@ -12,7 +12,7 @@ namespace WesternSpace.Collision
 {
     public class SpriteSpriteCollisionManager : GameComponent, IDebugOutput
     {
-
+        static int IDNumberCount = 0;
         // Object Collision Grid 
         protected GameObjectBin[,] objCollisionGrid;
         // Bin Dimensions
@@ -21,11 +21,21 @@ namespace WesternSpace.Collision
         protected Point numOfBins;
         // Registered Object List
         protected List<ISpriteCollideable> registeredObject;
-        public List<ISpriteCollideable> RegisteredObjectList
+        //public List<ISpriteCollideable> RegisteredObjectList
+        //{
+        //    get { return registeredObject; }
+        //}
+        public void addObjectToRegisteredObjectList(ISpriteCollideable collideableObject)
         {
-            get { return registeredObject; }
+            registeredObject.Add(collideableObject);
+            collideableObject.IdNumber = IDNumberCount;
+            IDNumberCount++;
         }
-        // Object Bins To Cheack
+        public void removeObjectToRegisteredObjectList(ISpriteCollideable collideableObject)
+        {
+            registeredObject.Remove(collideableObject);        
+        }
+        // Object Bins To Check
         protected List<GameObjectBin> objBinsToCheck;
         public List<GameObjectBin> ObjBinsToCheck
         {
@@ -58,10 +68,10 @@ namespace WesternSpace.Collision
                 }
             }
             base.Initialize();
-        }
+        }       
         // Bin Opperations
-        protected void OnAddObjectToBin(Character gameObject, List<Point> listOfObjectBinCoord)
-        {
+        protected void OnAddObjectToBin(ISpriteCollideable gameObject, List<Point> listOfObjectBinCoord)
+        {            
             foreach (Point binCoord in listOfObjectBinCoord)
             {
                 // Add Object to Object Collision Grid
@@ -70,12 +80,12 @@ namespace WesternSpace.Collision
                 this.objBinLookupTable[gameObject.IdNumber] = listOfObjectBinCoord;
             }
         }
-        protected void OnUpdateObjectInBin(Character gameObject, List<Point> oldObjCoord, List<Point> newObjCoord)
+        protected void OnUpdateObjectInBin(ISpriteCollideable gameObject, List<Point> oldObjCoord, List<Point> newObjCoord)
         {
             OnRemoveObjectFromBin(gameObject, oldObjCoord);
             OnAddObjectToBin(gameObject, newObjCoord);
         }
-        protected void OnRemoveObjectFromBin(Character gameObject, List<Point> listOfObjectBinCoord)
+        protected void OnRemoveObjectFromBin(ISpriteCollideable gameObject, List<Point> listOfObjectBinCoord)
         {
             foreach (Point binCoord in listOfObjectBinCoord)
             {
@@ -116,8 +126,8 @@ namespace WesternSpace.Collision
             List<Point> oldCoords;
             // Update Collision Bins
             DebugOutput = "Grid Size: " + this.numOfBins.ToString();
-            
-            foreach (Character gameObj in registeredObject)
+
+            foreach (ISpriteCollideable gameObj in registeredObject)
             {
                 newCoords = this.rectToBinCoord(gameObj.Rectangle);
                 if (objBinLookupTable.TryGetValue(gameObj.IdNumber, out oldCoords))
@@ -143,12 +153,13 @@ namespace WesternSpace.Collision
             }
             base.Update(gameTime);
         }
-        Boolean BoundingBoxA(Character entityA, Character entityB)
+        Boolean BoundingBoxA(ISpriteCollideable entityA, ISpriteCollideable entityB)
         {
             Rectangle rectA = entityA.Rectangle;
             Rectangle rectB = entityB.Rectangle;
             if (rectA.Intersects(rectB))
-            {              
+            {
+                Debug.Print("Sprite Collision");
                 entityA.OnSpriteCollision(entityB);
                 entityB.OnSpriteCollision(entityA);
                 return true;

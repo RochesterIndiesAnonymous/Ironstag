@@ -133,12 +133,12 @@ namespace WesternSpace.DrawableComponents.Actors
         public bool isOnGround = true;
 
 
-        static int idNumberCount = 0;
-        protected int idNumber;
-        public int IdNumber
-        {
-            get { return idNumber; }
-        }
+        //static int idNumberCount = 0;
+        //protected int idNumber;
+        //public int IdNumber
+        //{
+        //    get { return idNumber; }
+        //}
 
         /// <summary>
         /// Character constructor.
@@ -154,8 +154,8 @@ namespace WesternSpace.DrawableComponents.Actors
             this.hotspotsFacingRight = new List<CollisionHotspot>();
             this.hotspotsFacingLeft = new List<CollisionHotspot>();
             this.roleMap = new Dictionary<string, Role>();
-	        idNumber = idNumberCount;
-            idNumberCount++;
+	        //idNumber = idNumberCount;
+            //idNumberCount++;
 
             //Set up the Roles for this Character
         }
@@ -268,6 +268,18 @@ namespace WesternSpace.DrawableComponents.Actors
         #endregion
 
         #region ISpriteCollideable Members
+        protected int idNumber;
+        int ISpriteCollideable.IdNumber
+        {
+            get
+            {
+                return idNumber;
+            }
+            set
+            {
+                idNumber = value;
+            }
+        }
         /// <summary>
         /// Bounding Rectangle used for the character's current sprite.
         /// </summary>
@@ -286,7 +298,6 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             //throw new NotImplementedException();
         }
-
         #endregion
     }
 }

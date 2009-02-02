@@ -189,9 +189,9 @@ namespace WesternSpace
             bandit1.DrawOrder = PLAYER_DRAW_ORDER;
 
             tileCollisionManager.CollideableObjectList.Add(player);
-            spriteCollisionManager.RegisteredObjectList.Add(player);
+            spriteCollisionManager.addObjectToRegisteredObjectList(player);
             tileCollisionManager.CollideableObjectList.Add(bandit1);
-            spriteCollisionManager.RegisteredObjectList.Add(bandit1);
+            spriteCollisionManager.addObjectToRegisteredObjectList(bandit1);
 
             ParentScreen.Components.Add(player);
             ParentScreen.Components.Add(bandit1);

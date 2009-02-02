@@ -9,6 +9,11 @@ namespace WesternSpace.Collision
 {
     public interface ISpriteCollideable
     {
+        int IdNumber
+        {
+            set;
+            get;
+        }
         Rectangle Rectangle
         {
             get;
