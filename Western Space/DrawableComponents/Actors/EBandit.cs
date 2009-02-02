@@ -65,7 +65,7 @@ namespace WesternSpace.DrawableComponents.Actors
             banditPhysics = new PhysicsHandler();
 
             //Create the Animation Player and give it the Idle Animation
-            this.animationPlayer = new AnimationPlayer(spriteBatch, currentRole.AnimationMap["Idle"], currentRole.AnimationMap["Idle"]);
+            this.animationPlayer = new AnimationPlayer(spriteBatch, currentRole.AnimationMap["Idle"]);
 
             //Set the current animation
             currentAnimation = animationPlayer.Animation;

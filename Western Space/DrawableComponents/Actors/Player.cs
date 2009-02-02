@@ -105,7 +105,7 @@ namespace WesternSpace.DrawableComponents.Actors
             currentGauge = maxGauge;
 
             //Create the Animation Player and give it the Idle Animation
-            this.animationPlayer = new AnimationPlayer(spriteBatch, currentRole.AnimationMap["Idle"], currentRole.AnimationMap["Idle"]);
+            this.animationPlayer = new AnimationPlayer(spriteBatch, currentRole.AnimationMap["Idle"]);
 
             //Set the current animation
             currentAnimation = animationPlayer.Animation;
@@ -175,7 +175,7 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             int direction = 1;
 
-            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            if (!currentState.Equals("Dead") && !currentState.Equals("Hit") && !currentState.Equals("Shooting"))
             {
                 //Calculate Facing
                 if(facing.Equals(SpriteEffects.None))
@@ -223,22 +223,22 @@ namespace WesternSpace.DrawableComponents.Actors
                     if (currentState.Contains("Jumping"))
                     {
                         //Change state and animation
-                        //ChangeState("JumpingShooting");
+                        //ContinueAnimationNewState("JumpingShooting");
                     }
                     else if (currentState.Contains("Running"))
                     {
+
                         //Change state and animation
-                        //ChangeState("RunningShooting");
+                        ContinueAnimationNewState("RunningShooting");
                     }
                     else
                     {
                         //Change state and animation
                         ChangeState("Shooting");
-
-                        gunShot.Play();
                     }
 
                     //Generate a Bullet
+                    gunShot.Play();
                     GenerateBullet();
                 }
             }
@@ -327,19 +327,21 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
             }
 
+            System.Diagnostics.Debug.WriteLine("STATE IS: " + currentState + " ANIPLAYER STATE: " + animationPlayer.Animation.animationName);
+
             /// -- Check for Final State Changes -- ///
             if ((velocity.X == 0) && isOnGround && !currentState.Equals("Dead") && !currentState.Equals("Hit"))
             {
-
-                if (animationPlayer.Animation.animationName.Equals("Idle") && !currentState.Equals("Idle"))
+                if (!animationPlayer.Animation.animationName.Equals(currentState))
                 {
-                        ChangeState("Idle");
+                    ChangeState(animationPlayer.Animation.animationName);
                 }
-                else if(!currentState.Contains("Shooting"))
+                else if (!currentState.Contains("Shooting"))
                 {
                     ChangeState("Idle");
                 }
             }
+
 
             /// -- Animation Player Update Frames -- ///
             animationPlayer.Update(gameTime);
@@ -389,8 +391,6 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         #region IDamageable Members
-
-
         /// <summary>
         /// The player's maximum health.
         /// </summary>

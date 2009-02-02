@@ -45,6 +45,7 @@ namespace WesternSpace.Utility
             Animation jumpingAscent = new Animation(xmlFile, JUMPINGASCENT);
             Animation jumpingDescent = new Animation(xmlFile, JUMPINGDESCENT);
             Animation shooting = new Animation(xmlFile, SHOOTING);
+            Animation runningShooting = new Animation(xmlFile, RUNNINGSHOOTING);
             //Animation dead = new Animation(xmlFile, DEAD);
             //Animation hit = new Animation(xmlFile, HIT);
             //Animation transforming = new Animation(xmlFile, TRANSFORMING);
@@ -52,7 +53,6 @@ namespace WesternSpace.Utility
             //Animation jumpingShootingAscentUp = new Animation(xmlFile, JUMPINGASCENTSHOOTINGUP);
             //Animation jumpingAscentShooting = new Animation(xmlFile, JUMPINGASCENTSHOOTING);
             //Animation jumpingDescentShootingUp = new Animation(xmlFile, JUMPINGASCENTSHOOTINGUP);
-            //Animation jumpingDescentShootingUp = new Animation(xmlFile, RUNNINGSHOOTING);
             //Animation runningShootingUp = new Animation(xmlFile, RUNNINGSHOOTINGUP);
             //Animation shootingUp = new Animation(xmlFile, SHOOTINGUP);
 
@@ -62,6 +62,7 @@ namespace WesternSpace.Utility
             this.animationMap.Add(JUMPINGASCENT, jumpingAscent);
             this.animationMap.Add(JUMPINGDESCENT, jumpingDescent);
             this.animationMap.Add(SHOOTING, shooting);
+            this.animationMap.Add(RUNNINGSHOOTING, runningShooting);
             //this.animationMap.Add(DEAD, dead);
             //this.animationMap.Add(HIT, hit);
             //this.animationMap.Add(TRANSFORMING, transforming);
@@ -69,7 +70,6 @@ namespace WesternSpace.Utility
             //this.animationMap.Add(JUMPINGDESCENTSHOOTING, jumpingDescentShooting);
             //this.animationMap.Add(JUMPINGASCENTSHOOTINGUP, jumpingAscentShootingUp);
             //this.animationMap.Add(JUMPINGDESCENTSHOOTINGUP, jumpingDescentShootingUp);
-            //this.animationMap.Add(RUNNINGSHOOTING, runningShooting);
             //this.animationMap.Add(RUNNINGSHOOTINGUP, runningShootingUp);
             //this.animationMap.Add(SHOOTINGUP, shootingUp);
         }

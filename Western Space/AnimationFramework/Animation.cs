@@ -91,7 +91,32 @@ namespace WesternSpace.AnimationFramework
             set { frameHeight = value; }
         }
 
+        /// <summary>
+        /// The string representation of this animation.
+        /// </summary>
         public string animationName;
+
+        /// <summary>
+        /// The name of the animation that is this animation's parent.
+        /// </summary>
+        public string parentName;
+
+        public string ParentName
+        {
+            get { return parentName; }
+            set { parentName = value; }
+        }
+
+        /// <summary>
+        /// The animation to be played after this animation is finished.
+        /// </summary>
+        public Animation parentAnimation;
+
+        public Animation ParentAnimation
+        {
+            get { return parentAnimation; }
+            set { parentAnimation = value; }
+        }
 
         // Constructor for a new Animation.
         // param: animationXmlFile - The XML file to load Frame information
@@ -105,9 +130,18 @@ namespace WesternSpace.AnimationFramework
             this.frameWidth = 0;
             this.frameCount = 0;
             this.isLooping = true;
+            parentAnimation = null;
 
             LoadAnimationXmlFile(animationXmlFile, animationName);
+        }
 
+        /// <summary>
+        /// Sets the parent animation of this animation to the desired animation.
+        /// </summary>
+        /// <param name="parent"></param>
+        public void setParentAnimation(Animation parent)
+        {
+            parentAnimation = parent;
         }
 
         // Loads an animation XML file.
@@ -145,9 +179,6 @@ namespace WesternSpace.AnimationFramework
                     int oneShotInt = 0;
                     Int32.TryParse(animation.Attribute("IsOneShot").Value, out oneShotInt);
 
-                    //Check if this animation is the default animation
-                    int defaultAnimationInt = 0;
-
                     //"Convert" the ints to booleans
                     if (loopInt == 0)
                     {
@@ -167,14 +198,7 @@ namespace WesternSpace.AnimationFramework
                         this.isOneShot = true;
                     }
 
-                    if (defaultAnimationInt == 0)
-                    {
-                        this.isDefaultAnimation = false;
-                    }
-                    else
-                    {
-                        this.isDefaultAnimation = true;
-                    }
+                    this.parentName= animation.Attribute("Parent").Value;
 
                     //Creates a list of frames and populates this Animation's list.
                     XElement[] frames = animation.Descendants("Frame").ToArray();

@@ -69,7 +69,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
             Vector2 velocity, object owner, DamageCategory doesDamageTo, int amountOfDamage)
             : base(screen, batch, position)
         {
-            player = new AnimationPlayer(batch, animation, animation);
+            player = new AnimationPlayer(batch, animation);
 
             this.direction = direction;
             this.velocity = velocity;

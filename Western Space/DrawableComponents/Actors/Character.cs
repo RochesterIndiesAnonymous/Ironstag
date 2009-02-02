@@ -195,6 +195,28 @@ namespace WesternSpace.DrawableComponents.Actors
             }
         }
 
+        public void ContinueAnimationNewState(String newState)
+        {
+            if (!currentState.Equals(newState))
+            {
+                try
+                {
+                    int start = 0;
+                    int end = 0;
+
+                    currentState = newState;
+
+                    start = animationPlayer.CurrentFrame.FrameIndex;
+                    end = start + 1;
+
+                    animationPlayer.PlayAnimation(currentRole.AnimationMap[newState], start, end);
+                }
+                catch (KeyNotFoundException knfe)
+                {
+                }
+            }
+        }
+
         /// <summary>
         /// Creates the role objects for a given character.
         /// </summary>

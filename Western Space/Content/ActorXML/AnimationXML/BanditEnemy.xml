@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Animations>
-  <Animation AnimationKey="Idle" IsLoop="0" SpriteSheet="Textures\\Enemies\\BanditIdle" FrameWidth="64" FrameHeight="61" IsOneShot="0" IsDefault="1">
+  <Animation AnimationKey="Idle" IsLoop="0" SpriteSheet="Textures\\Enemies\\BanditIdle" FrameWidth="64" FrameHeight="61" IsOneShot="0" Parent="None">
     <Frame DisplayTime="100" SheetIndex="0" />
   </Animation>
-  <Animation AnimationKey="Running" IsLoop="1" SpriteSheet="Textures\\FlintIronstag\\flintRun" FrameWidth="64" FrameHeight="61" IsOneShot="0" IsDefault="0">
+  <Animation AnimationKey="Running" IsLoop="1" SpriteSheet="Textures\\FlintIronstag\\flintRun" FrameWidth="64" FrameHeight="61" IsOneShot="0" Parent="None">
     <Frame DisplayTime="100" SheetIndex="0" />
     <Frame DisplayTime="100" SheetIndex="1" />
     <Frame DisplayTime="100" SheetIndex="2" />
@@ -15,18 +15,18 @@
     <Frame DisplayTime="100" SheetIndex="8" />
     <Frame DisplayTime="100" SheetIndex="9" />
   </Animation>
-  <Animation AnimationKey="Shooting" IsLoop="0" SpriteSheet="Textures\\Enemies\\BanditShoot" FrameWidth="64" FrameHeight="61" IsOneShot="1" IsDefault="0">
+  <Animation AnimationKey="Shooting" IsLoop="0" SpriteSheet="Textures\\Enemies\\BanditShoot" FrameWidth="64" FrameHeight="61" IsOneShot="1" Parent="Idle">
     <Frame DisplayTime="60" SheetIndex="0" />
     <Frame DisplayTime="50" SheetIndex="1" />
     <Frame DisplayTime="100" SheetIndex="2" />
     <Frame DisplayTime="200" SheetIndex="3" />
   </Animation>
-  <Animation AnimationKey="JumpingAscent" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintJump1" FrameWidth="64" FrameHeight="61" IsOneShot="0" IsDefault="0">
+  <Animation AnimationKey="JumpingAscent" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintJump1" FrameWidth="64" FrameHeight="61" IsOneShot="0" Parent="None">
     <Frame DisplayTime="50" SheetIndex="0" />
     <Frame DisplayTime="100" SheetIndex="1" />
     <Frame DisplayTime="100" SheetIndex="2" />
   </Animation>
-  <Animation AnimationKey="JumpingDescent" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintJump2" FrameWidth="64" FrameHeight="61" IsOneShot="0" IsDefault="0">
+  <Animation AnimationKey="JumpingDescent" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintJump2" FrameWidth="64" FrameHeight="61" IsOneShot="0" Parent="None">
     <Frame DisplayTime="550" SheetIndex="0" />
     <Frame DisplayTime="83" SheetIndex="1" />
   </Animation>

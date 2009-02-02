@@ -72,8 +72,23 @@ namespace WesternSpace.Utility
                 {
                     String animationXml = role.Attribute("AnimationXML").Value;
                     SetUpAnimation(animationXml);
+                    SetAnimationParents();
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets each Animation's parent animation to the correct animation.
+        /// </summary>
+        public void SetAnimationParents()
+        {
+                foreach (KeyValuePair<string, Animation> animation in AnimationMap)
+                {
+                    if (!animation.Value.parentName.Equals("None"))
+                    {
+                        animation.Value.setParentAnimation(AnimationMap[animation.Value.parentName]);
+                    }
+                }
         }
 
         /*
