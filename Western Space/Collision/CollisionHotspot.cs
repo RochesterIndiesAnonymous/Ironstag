@@ -16,23 +16,33 @@ namespace WesternSpace.Collision
             bottom
         };
     // Collision Hotspot tune sprite collisions
-   
+
     public class CollisionHotspot
     {
         Character refGameObject;
         protected Vector2 offsetPosition;
-        protected Vector2 worldPosition;
-        protected Boolean isOnGround;
-        public Boolean IsOnGround
+
+        protected Boolean didCollide;
+
+        /// <summary>
+        /// Whether or not this hotspot collided since it was last updated. This
+        ///  MUST be set to false 
+        /// </summary>
+        public Boolean DidCollide
         {
-            get { return isOnGround; }
+            get { return didCollide; }
+            set { didCollide = value; }
         }
+        
         public Vector2 WorldPosition
         {
             get 
             {
-                worldPosition = refGameObject.Position + offsetPosition;
-                return worldPosition;
+                return refGameObject.Position + offsetPosition;
+            }
+            set
+            {
+                refGameObject.Position = value - offsetPosition;
             }
         }
         public Vector2 HostPosition
@@ -48,33 +58,43 @@ namespace WesternSpace.Collision
         {
             get { return hotspotType; }
         }
+
         public void OnTileCollision(Tile tile, Rectangle tileRectangle)
         {
-            if (tile.TopEdge && this.HotSpotType == HOTSPOT_TYPE.bottom)
-            {
-                // Puts the sprite above the tile;  
-                this.refGameObject.Position = new Vector2(this.HostPosition.X,
-                    this.HostPosition.Y - (this.WorldPosition.Y - tileRectangle.Top));
-                this.isOnGround = true;
+            didCollide = false;
+            switch (HotSpotType)
+            { 
+                case(HOTSPOT_TYPE.bottom):
+                    if (tile.TopEdge && WorldPosition.Y - tileRectangle.Top < (tileRectangle.Height / 2))
+                    {
+                        WorldPosition = new Vector2(WorldPosition.X, tileRectangle.Top);
+                        didCollide = true;
+                    }
+                    break;
+                case(HOTSPOT_TYPE.top):
+                    if (tile.BottomEdge && tileRectangle.Bottom - WorldPosition.Y < (tileRectangle.Height / 2))
+                    {
+                        WorldPosition = new Vector2(WorldPosition.X, tileRectangle.Bottom);
+                        didCollide = true;
+                    }
+                    break;
+                case(HOTSPOT_TYPE.left):
+                    if (tile.RightEdge && tileRectangle.Right - WorldPosition.X < (tileRectangle.Width / 2))
+                    {
+                        WorldPosition = new Vector2(tileRectangle.Right, WorldPosition.Y);
+                        didCollide = true;
+                    }
+                    break;
+                case(HOTSPOT_TYPE.right):
+                    if (tile.LeftEdge && WorldPosition.X - tileRectangle.Left < (tileRectangle.Width / 2))
+                    {
+                        WorldPosition = new Vector2(tileRectangle.Left, WorldPosition.Y);
+                        didCollide = true;
+                    }
+                    break;
             }
-            if (tile.BottomEdge && this.HotSpotType == HOTSPOT_TYPE.top)
-            {
-                this.refGameObject.Position = new Vector2(this.HostPosition.X,
-                    this.HostPosition.Y + (tileRectangle.Bottom - this.WorldPosition.Y));
-                this.isOnGround = false;
-            }
-            if (tile.LeftEdge && this.HotSpotType == HOTSPOT_TYPE.right)
-            {
-                this.refGameObject.Position = new Vector2(this.HostPosition.X - (this.WorldPosition.X - tileRectangle.Left),
-                    this.HostPosition.Y);
-            }
-            if (tile.RightEdge && this.HotSpotType == HOTSPOT_TYPE.left)
-            {
-                this.refGameObject.Position = new Vector2(this.HostPosition.X + (tileRectangle.Right - this.WorldPosition.X),
-                 this.HostPosition.Y);
-            }
-
         }
+
         public CollisionHotspot(Character hostObject, Vector2 offset, HOTSPOT_TYPE type)
         {
             refGameObject = hostObject;

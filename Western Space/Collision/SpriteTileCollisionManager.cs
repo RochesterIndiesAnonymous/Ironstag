@@ -45,10 +45,10 @@ namespace WesternSpace.Collision
                 // Test each hotspots against tile                  
                 foreach (CollisionHotspot hotspot in collideableObject.Hotspots)
                 {
-                    if (hotspot.WorldPosition.X > 0 && hotspot.WorldPosition.Y > 0 &&
+                    /*if (hotspot.WorldPosition.X > 0 && hotspot.WorldPosition.Y > 0 &&
                         hotspot.WorldPosition.X < worldMap.Width * worldMap.TileWidth &&
                         hotspot.WorldPosition.Y < worldMap.Width * worldMap.TileHeight)
-                    {
+                    {*/
                         // run tile function to get tile with edge
                         tileCoord = CalculateTileCoord(hotspot.WorldPosition);
                         tile = worldMap[tileCoord.X, tileCoord.Y];
@@ -57,9 +57,8 @@ namespace WesternSpace.Collision
                             Rectangle tileRect = new Rectangle(tileCoord.X * worldMap.TileWidth,
                                 tileCoord.Y * worldMap.TileHeight, worldMap.TileWidth, worldMap.TileHeight);
                             hotspot.OnTileCollision(tile, tileRect);
-                            collideableObject.OnTileColision(tile, hotspot, tileRect);
                         }
-                    }
+                    //}
                 }
             }
             base.Update(gameTime);

@@ -124,11 +124,12 @@ namespace WesternSpace.DrawableComponents.Actors
 
             //Initializes the player's hotspots.
             List<CollisionHotspot> hotspots = new List<CollisionHotspot>();
-            hotspots.Add(new CollisionHotspot(this, new Vector2(16, 0), HOTSPOT_TYPE.top));
-            hotspots.Add(new CollisionHotspot(this, new Vector2(0, 10), HOTSPOT_TYPE.left));
-            hotspots.Add(new CollisionHotspot(this, new Vector2(36, 10), HOTSPOT_TYPE.right));
-            hotspots.Add(new CollisionHotspot(this, new Vector2(7, 60), HOTSPOT_TYPE.bottom));
-            hotspots.Add(new CollisionHotspot(this, new Vector2(36, 60), HOTSPOT_TYPE.bottom));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(32, 3), HOTSPOT_TYPE.top));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(20, 24), HOTSPOT_TYPE.left));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(20, 42), HOTSPOT_TYPE.left));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(36, 24), HOTSPOT_TYPE.right));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(36, 42), HOTSPOT_TYPE.right));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(30, 60), HOTSPOT_TYPE.bottom));
             Hotspots = hotspots;
 
             //Temp: Loads the gunshot sound.
@@ -347,12 +348,8 @@ namespace WesternSpace.DrawableComponents.Actors
 
             /// -- Animation Player Update Frames -- ///
             animationPlayer.Update(gameTime);
-        }
 
-        public override void Draw(GameTime gameTime)
-        {
-            //Let the Animation Player Draw
-            animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position, facing);
+            base.Update(gameTime);
         }
 
         /// <summary>

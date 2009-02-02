@@ -103,6 +103,7 @@ namespace WesternSpace
 
             // Set up our collision systems:
             tileCollisionManager = new SpriteTileCollisionManager(this.Game, this);
+            tileCollisionManager.UpdateOrder = 100;
             ParentScreen.Components.Add(tileCollisionManager);
             spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, new Point(40, 40));
             ParentScreen.Components.Add(spriteCollisionManager);

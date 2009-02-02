@@ -251,42 +251,33 @@ namespace WesternSpace.DrawableComponents.Actors
             // Get the hotspot list based upon which direction the player is facing.
             get { return facing.Equals(SpriteEffects.FlipHorizontally) ? hotspotsFacingLeft : hotspotsFacingRight; }
         }
-        public Vector2 OnTileColision(Tile tile, CollisionHotspot hotSpot, Rectangle tileRectangle)
+
+        public override void Update(GameTime gameTime)
         {
-            Vector2 newPosition = hotSpot.HostPosition;
-            this.isOnGround = hotSpot.IsOnGround;
-            // Default Collision Actions
-            //if (tile.TopEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.bottom)
-            //{
-            ////    // Puts the sprite above the tile;      
-            //    //newPosition = new Vector2(hotSpot.HostPosition.X,
-            //    //    hotSpot.HostPosition.Y - (hotSpot.WorldPosition.Y - tileRectangle.Top));
-            //    //isOnGround = true;
-            //}
-            //if (tile.BottomEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.top)
-            //{
-            //    newPosition = new Vector2(hotSpot.HostPosition.X,
-            //        hotSpot.HostPosition.Y + (tileRectangle.Bottom - hotSpot.WorldPosition.Y));
-            //    isOnGround = false;
-            //}
-            //if (tile.LeftEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.right)
-            //{
-            //    newPosition = new Vector2(hotSpot.HostPosition.X - (hotSpot.WorldPosition.X - tileRectangle.Left),
-            //        hotSpot.HostPosition.Y);
-            //}
-            //if (tile.RightEdge && hotSpot.HotSpotType == HOTSPOT_TYPE.left)
-            //{
-            //    newPosition = new Vector2(hotSpot.HostPosition.X + (tileRectangle.Right - hotSpot.WorldPosition.X),
-            //     hotSpot.HostPosition.Y);
-            //}
+            // DO ALL COLLISIONS HERE
 
-            //if (this.Position == newPosition)
-            //{
-            //    isOnGround = false;
-            //}
+            isOnGround = false;
+            IEnumerable<CollisionHotspot> hotspots = from hotspot in Hotspots
+                                                     where hotspot.HotSpotType == HOTSPOT_TYPE.bottom && hotspot.DidCollide
+                                                     select hotspot;
+            if (hotspots.Count<CollisionHotspot>() > 0)
+            {
+                isOnGround = true;
+            }
+            base.Update(gameTime);
+        }
 
-            //this.Position = newPosition;
-            return newPosition;
+        public override void Draw(GameTime gameTime)
+        {
+            //Let the Animation Player Draw
+            animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position, facing);
+
+            #region FOR DEBUGGING COLLISION
+            foreach (CollisionHotspot hotspot in Hotspots)
+            {
+                PrimitiveDrawer.Instance.DrawLine(SpriteBatch, hotspot.WorldPosition, hotspot.WorldPosition + new Vector2(1, 1), Color.Black);
+            }
+            #endregion
         }
 
         #endregion
