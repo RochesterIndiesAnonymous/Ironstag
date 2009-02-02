@@ -217,9 +217,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="gameTime">The time the game has been running.</param>
         public override void Update(GameTime gameTime)
         {
-            float visibilityTimer = 0f;
-
-            if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X < camera.VisibleArea.X))
+            if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
             {
                 // -- AI -- //
                 banditAI(gameTime);
@@ -263,7 +261,7 @@ namespace WesternSpace.DrawableComponents.Actors
 
         public override void Draw(GameTime gameTime)
         {
-            if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X < camera.VisibleArea.X))
+            if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
             {
                 //Let the Animation Player Draw
                 animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position, facing);

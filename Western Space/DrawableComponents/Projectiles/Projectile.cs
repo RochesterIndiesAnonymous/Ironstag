@@ -108,7 +108,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         public override void Update(GameTime gameTime)
         {
             // check to see if we are outside the camera.
-            if (this.Position.X > gameScreen.World.Camera.VisibleArea.X + gameScreen.World.Camera.VisibleArea.Width || this.Position.X < gameScreen.World.Camera.VisibleArea.X)
+            if (this.Position.X > gameScreen.World.Camera.VisibleArea.X + gameScreen.World.Camera.VisibleArea.Width || this.Position.X + this.player.Animation.FrameWidth < gameScreen.World.Camera.VisibleArea.X)
             {
                 // This allows the bullet to be garbage collected. Verified that garbage collection happens on 2/1/2009
                 //this.collision.RegisteredObjectList.Remove(this);
