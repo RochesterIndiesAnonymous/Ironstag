@@ -200,8 +200,8 @@ namespace WesternSpace.DrawableComponents.Projectiles
             if (damage != null && damage.TakesDamageFrom != this.DoesDamageTo)
             {
                 // we hit
-                this.gameScreen.World.spriteCollisionManager.removeObjectToRegisteredObjectList(this);
-                this.ParentScreen.Components.Remove(this);
+                //this.gameScreen.World.spriteCollisionManager.removeObjectToRegisteredObjectList(this);
+                //this.ParentScreen.Components.Remove(this);
                 this.Dispose();
             }
         }

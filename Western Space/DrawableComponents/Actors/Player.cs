@@ -83,8 +83,8 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="spriteBatch">The sprite batch which handles drawing this object.</param>
         /// <param name="position">The initial position of this character.</param>
         /// <param name="xmlFile">The XML file which houses the information for this character.</param>
-        public Player(Screen parentScreen , SpriteBatch spriteBatch, Vector2 position, String xmlFile)
-            : base(parentScreen, spriteBatch, position, xmlFile)
+        public Player(Screen parentScreen , SpriteBatch spriteBatch, World world, Vector2 position, String xmlFile)
+            : base(parentScreen, spriteBatch, world, position, xmlFile)
         {
             //Set the character's Name
             name = "Flint Ironstag";

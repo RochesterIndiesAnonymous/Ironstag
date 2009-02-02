@@ -91,9 +91,8 @@
     <Compile Include="Collision\CollisionHotspot.cs" />
     <Compile Include="Collision\GameObjectBin.cs" />
     <Compile Include="Collision\ISpriteCollideable.cs" />
-    <Compile Include="Collision\ITileCollideable.cs" />
+    <Compile Include="Collision\ITileCollidable.cs" />
     <Compile Include="Collision\SpriteSpriteCollisionManager.cs" />
-    <Compile Include="Collision\SpriteTileCollisionManager.cs" />
     <Compile Include="DrawableComponents\Actors\EBandit.cs" />
     <Compile Include="DrawableComponents\Actors\Player.cs" />
     <Compile Include="DrawableComponents\EditorUI\ITilePropertyComponent.cs" />

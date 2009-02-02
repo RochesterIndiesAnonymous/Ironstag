@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using WesternSpace.DrawableComponents.Actors;
 using WesternSpace.TilingEngine;
+using WesternSpace.Collision;
 
 namespace WesternSpace.Collision
 {  
@@ -19,7 +20,7 @@ namespace WesternSpace.Collision
 
     public class CollisionHotspot
     {
-        Character refGameObject;
+        ITileCollidable refGameObject;
         protected Vector2 offsetPosition;
 
         protected Boolean didCollide;
@@ -33,7 +34,38 @@ namespace WesternSpace.Collision
             get { return didCollide; }
             set { didCollide = value; }
         }
+
+        public World World
+        {
+            get { return refGameObject.World; }
+        }
         
+        /// <summary>
+        /// The current tile this hotspot resides in.
+        /// </summary>
+        public Tile Tile
+        {
+            get 
+            {
+                return World.Map[(int)WorldPosition.X / World.Map.TileWidth,
+                                 (int)WorldPosition.Y / World.Map.TileHeight];
+            }
+        }
+
+        public Rectangle TileRectangle
+        {
+            get
+            {
+                TileMap map = World.Map;
+                int tileX = (int)WorldPosition.X / World.Map.TileWidth;
+                int tileY = (int)WorldPosition.Y / World.Map.TileHeight;
+                return new Rectangle(tileX * map.TileWidth,
+                                     tileY * map.TileHeight,
+                                     map.TileWidth,
+                                     map.TileHeight);
+            }
+        }
+
         public Vector2 WorldPosition
         {
             get 
@@ -45,6 +77,7 @@ namespace WesternSpace.Collision
                 refGameObject.Position = value - offsetPosition;
             }
         }
+
         public Vector2 HostPosition
         {
             get { return refGameObject.Position; }
@@ -59,43 +92,49 @@ namespace WesternSpace.Collision
             get { return hotspotType; }
         }
 
-        public void OnTileCollision(Tile tile, Rectangle tileRectangle)
+        public void Collide()
         {
+            Rectangle tileRectangle = TileRectangle;
+            Tile tile = Tile;
+
             didCollide = false;
-            switch (HotSpotType)
-            { 
-                case(HOTSPOT_TYPE.bottom):
-                    if (tile.TopEdge && WorldPosition.Y - tileRectangle.Top < (tileRectangle.Height / 2))
-                    {
-                        WorldPosition = new Vector2(WorldPosition.X, tileRectangle.Top);
-                        didCollide = true;
-                    }
-                    break;
-                case(HOTSPOT_TYPE.top):
-                    if (tile.BottomEdge && tileRectangle.Bottom - WorldPosition.Y < (tileRectangle.Height / 2))
-                    {
-                        WorldPosition = new Vector2(WorldPosition.X, tileRectangle.Bottom);
-                        didCollide = true;
-                    }
-                    break;
-                case(HOTSPOT_TYPE.left):
-                    if (tile.RightEdge && tileRectangle.Right - WorldPosition.X < (tileRectangle.Width / 2))
-                    {
-                        WorldPosition = new Vector2(tileRectangle.Right, WorldPosition.Y);
-                        didCollide = true;
-                    }
-                    break;
-                case(HOTSPOT_TYPE.right):
-                    if (tile.LeftEdge && WorldPosition.X - tileRectangle.Left < (tileRectangle.Width / 2))
-                    {
-                        WorldPosition = new Vector2(tileRectangle.Left, WorldPosition.Y);
-                        didCollide = true;
-                    }
-                    break;
+            if (tile != null)
+            {
+                switch (HotSpotType)
+                {
+                    case (HOTSPOT_TYPE.bottom):
+                        if (tile.TopEdge && WorldPosition.Y - tileRectangle.Top < (tileRectangle.Height / 2))
+                        {
+                            WorldPosition = new Vector2(WorldPosition.X, tileRectangle.Top);
+                            didCollide = true;
+                        }
+                        break;
+                    case (HOTSPOT_TYPE.top):
+                        if (tile.BottomEdge && tileRectangle.Bottom - WorldPosition.Y < (tileRectangle.Height / 2))
+                        {
+                            WorldPosition = new Vector2(WorldPosition.X, tileRectangle.Bottom);
+                            didCollide = true;
+                        }
+                        break;
+                    case (HOTSPOT_TYPE.left):
+                        if (tile.RightEdge && tileRectangle.Right - WorldPosition.X < (tileRectangle.Width / 2))
+                        {
+                            WorldPosition = new Vector2(tileRectangle.Right, WorldPosition.Y);
+                            didCollide = true;
+                        }
+                        break;
+                    case (HOTSPOT_TYPE.right):
+                        if (tile.LeftEdge && WorldPosition.X - tileRectangle.Left < (tileRectangle.Width / 2))
+                        {
+                            WorldPosition = new Vector2(tileRectangle.Left, WorldPosition.Y);
+                            didCollide = true;
+                        }
+                        break;
+                }
             }
         }
 
-        public CollisionHotspot(Character hostObject, Vector2 offset, HOTSPOT_TYPE type)
+        public CollisionHotspot(ITileCollidable hostObject, Vector2 offset, HOTSPOT_TYPE type)
         {
             refGameObject = hostObject;
             this.offsetPosition = offset;

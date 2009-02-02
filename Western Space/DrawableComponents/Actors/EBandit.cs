@@ -46,8 +46,8 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="spriteBatch">The sprite batch which handles drawing this object.</param>
         /// <param name="position">The initial position of this character.</param>
         /// <param name="xmlFile">The XML file which houses the information for this character.</param>
-        public EBandit(Screen parentScreen , SpriteBatch spriteBatch, Vector2 position, String xmlFile)
-            : base(parentScreen, spriteBatch, position, xmlFile)
+        public EBandit(Screen parentScreen , SpriteBatch spriteBatch, World world, Vector2 position, String xmlFile)
+            : base(parentScreen, spriteBatch, world, position, xmlFile)
         {
             //Set the character's Name
             name = "Flint Ironstag";
@@ -256,6 +256,7 @@ namespace WesternSpace.DrawableComponents.Actors
 
                 // -- Animation Player Update Frames -- //
                 animationPlayer.Update(gameTime);
+                base.Update(gameTime);
             }
         }
 

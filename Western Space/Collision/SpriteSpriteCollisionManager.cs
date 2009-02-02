@@ -145,7 +145,7 @@ namespace WesternSpace.Collision
                             gameObjBin.ListOfObjects.ElementAt(j).OnSpriteCollision(gameObjBin.ListOfObjects.ElementAt(i));
                         }
                     }
-                }             
+                }
             }
             base.Update(gameTime);
         }

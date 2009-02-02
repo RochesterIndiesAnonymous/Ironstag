@@ -26,7 +26,6 @@ namespace WesternSpace
         // The actual map that objects interact with.
         TileMap map;
 
-        public SpriteTileCollisionManager tileCollisionManager;
         public SpriteSpriteCollisionManager spriteCollisionManager;
 
         private Song bgm;
@@ -86,8 +85,6 @@ namespace WesternSpace
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
 
             // Set up our collision systems:
-            tileCollisionManager = new SpriteTileCollisionManager(this.Game, this);
-            ParentScreen.Components.Add(tileCollisionManager);
             spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, new Point(40, 40));
             ParentScreen.Components.Add(spriteCollisionManager);
 
@@ -108,9 +105,6 @@ namespace WesternSpace
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
 
             // Set up our collision systems:
-            tileCollisionManager = new SpriteTileCollisionManager(this.Game, this);
-            tileCollisionManager.UpdateOrder = 100;
-            ParentScreen.Components.Add(tileCollisionManager);
             spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, new Point(40, 40));
             ParentScreen.Components.Add(spriteCollisionManager);
 
@@ -189,17 +183,15 @@ namespace WesternSpace
             Vector2 playerPosition = new Vector2(float.Parse(fileContents.Root.Attribute("PlayerPositionX").Value),
                                                  float.Parse(fileContents.Root.Attribute("PlayerPositionY").Value));
 
-            player = new Player(ParentScreen, sb, playerPosition, playerXMLFileName);
+            player = new Player(ParentScreen, sb, this, playerPosition, playerXMLFileName);
             player.UpdateOrder = 3;
             player.DrawOrder = PLAYER_DRAW_ORDER;
 
-            EBandit bandit1 = new EBandit(ParentScreen, sb, new Vector2(500, 79), "ActorXML\\Bandit");
+            EBandit bandit1 = new EBandit(ParentScreen, sb, this, new Vector2(500, 79), "ActorXML\\Bandit");
             bandit1.UpdateOrder = 3;
             bandit1.DrawOrder = PLAYER_DRAW_ORDER;
 
-            tileCollisionManager.CollideableObjectList.Add(player);
             spriteCollisionManager.addObjectToRegisteredObjectList(player);
-            tileCollisionManager.CollideableObjectList.Add(bandit1);
             spriteCollisionManager.addObjectToRegisteredObjectList(bandit1);
 
             ParentScreen.Components.Add(player);

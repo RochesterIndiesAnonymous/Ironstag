@@ -16,8 +16,14 @@ using WesternSpace.Utility;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    public abstract class Character : DrawableGameObject, ITileCollideable
+    public abstract class Character : DrawableGameObject, ITileCollidable
     {
+        private World world;
+
+        public World World
+        {
+            get { return world; }
+        }
 
         /// <summary>
         /// The name used to identify a specific character.
@@ -147,9 +153,10 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="spriteBatch">The sprite batch used to draw this object.</param>
         /// <param name="position">The character's position in the world.</param>
         /// <param name="xmlFile">The XML file name which stores the Character's data.</param>
-        public Character(Screen parentScreen, SpriteBatch spriteBatch, Vector2 position, String xmlFile)
+        public Character(Screen parentScreen, SpriteBatch spriteBatch, World world, Vector2 position, String xmlFile)
             : base(parentScreen, spriteBatch, position)
         {
+            this.world = world;
             this.Position = position;
             this.hotspotsFacingRight = new List<CollisionHotspot>();
             this.hotspotsFacingLeft = new List<CollisionHotspot>();
@@ -252,6 +259,10 @@ namespace WesternSpace.DrawableComponents.Actors
         public override void Update(GameTime gameTime)
         {
             // DO ALL COLLISIONS HERE
+            foreach (CollisionHotspot hotspot in Hotspots)
+            {
+                hotspot.Collide();
+            }
 
             isOnGround = false;
             IEnumerable<CollisionHotspot> hotspots = from hotspot in Hotspots
@@ -269,12 +280,14 @@ namespace WesternSpace.DrawableComponents.Actors
             //Let the Animation Player Draw
             animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position, facing);
 
+            /*
             #region FOR DEBUGGING COLLISION
             foreach (CollisionHotspot hotspot in Hotspots)
             {
                 PrimitiveDrawer.Instance.DrawLine(SpriteBatch, hotspot.WorldPosition, hotspot.WorldPosition + new Vector2(1, 1), Color.Black);
             }
             #endregion
+            */
         }
 
         #endregion
