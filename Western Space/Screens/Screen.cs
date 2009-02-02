@@ -98,13 +98,7 @@ namespace WesternSpace.Screens
             // Create a temporary list so we don't crash if
             // a component is added to the collection while
             // updating
-            List<IUpdateable> updating = new List<IUpdateable>();
-
-            // Populate the temporary list
-            foreach (IUpdateable updateable in updatingComponents)
-            {
-                updating.Add(updateable);
-            }
+            List<IUpdateable> updating = updatingComponents.ToList<IUpdateable>();
 
             // Update all components that have been initialized
             foreach (IUpdateable updateable in updating)
@@ -124,12 +118,7 @@ namespace WesternSpace.Screens
         {
             base.Draw(gameTime);
 
-            List<IDrawable> drawing = new List<IDrawable>();
-
-            foreach (IDrawable drawable in drawingComponents)
-            {
-                drawing.Add(drawable);
-            }
+            List<IDrawable> drawing = drawingComponents.ToList<IDrawable>();
 
             foreach (IDrawable drawable in drawing)
             {

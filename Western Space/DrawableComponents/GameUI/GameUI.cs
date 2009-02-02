@@ -94,7 +94,7 @@ namespace WesternSpace.DrawableComponents.GameUI
         /// <param name="gameTime">Timing statistics relative to the game</param>
         public override void Update(GameTime gameTime)
         {
-            healthBarPercentage = ((float)player.CurrentHealth / (float)player.MaxHealth);
+            healthBarPercentage = ((float)player.CurrentHealth / player.MaxHealth);
 
             base.Update(gameTime);
         }
