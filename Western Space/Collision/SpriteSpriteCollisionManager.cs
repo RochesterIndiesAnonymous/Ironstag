@@ -132,21 +132,28 @@ namespace WesternSpace.Collision
             // Check Collision Bins (Collision Bins)
             foreach (GameObjectBin gameObjBin in objBinsToCheck)
             {                
-                ICollection<List<Character>> p = gameObjBin.LookUpTableOfObjects.Values;
-                // Start at the first value end at the last - 1
-                for (int i = 0; i < p.Count - 1; i++)
+                for (int i = 0; i < gameObjBin.ListOfObjects.Count - 1; i++)
                 {
-                    // Start at the second value and ends at the last
-                    for (int j = 1; j < p.Count; j++)
+                    for (int j = 1; j < gameObjBin.ListOfObjects.Count; j++)
                     {
-                        BoundingBox(p.ElementAt(i), p.ElementAt(j), gameTime);
+                        BoundingBoxA(gameObjBin.ListOfObjects.ElementAt(i),
+                                     gameObjBin.ListOfObjects.ElementAt(j));
                     }
-                }                        
-               // Debug.Print("Checking Bins");
-                //BoundingBox(gameObjBin.LookUpTableOfObjects["Flint Ironstag"],
-                  //  gameObjBin.LookUpTableOfObjects["Toad Man"], gameTime);
+                }             
             }
             base.Update(gameTime);
+        }
+        Boolean BoundingBoxA(Character entityA, Character entityB)
+        {
+            Rectangle rectA = entityA.Rectangle;
+            Rectangle rectB = entityB.Rectangle;
+            if (rectA.Intersects(rectB))
+            {              
+                entityA.OnSpriteCollision(entityB);
+                entityB.OnSpriteCollision(entityA);
+                return true;
+            }
+            return false;
         }
         Boolean BoundingBox(List<Character> entityListA, List<Character> entityListB, GameTime gameTime)
         {

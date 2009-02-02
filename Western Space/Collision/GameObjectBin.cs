@@ -9,32 +9,22 @@ namespace WesternSpace.Collision
     public class GameObjectBin
     {
         protected SpriteSpriteCollisionManager refCollisionManager;
-        protected Dictionary<String, List<Character> > lookupTableOfObjects;
-        public Dictionary<String, List<Character>> LookUpTableOfObjects
+        protected List<Character> listOfObjects;
+        public List<Character> ListOfObjects
         {
-            get { return lookupTableOfObjects; }
+            get { return listOfObjects; }
         }
-    
         protected int numberOfGameObjects;
         protected Boolean hasMultipleObjects;
         public GameObjectBin(SpriteSpriteCollisionManager collisionManager)
         {
-            this.refCollisionManager = collisionManager;
-            this.lookupTableOfObjects = new Dictionary<String, List<Character> >();
+            this.refCollisionManager = collisionManager;           
+            this.listOfObjects = new List<Character>();
             this.hasMultipleObjects = false;
         }
         public void OnObjectAdded(Character gameObject)
-        {
-            List<Character> pCharacterList;
-            if (lookupTableOfObjects.TryGetValue(gameObject.Name, out pCharacterList))
-            {
-                pCharacterList.Add(gameObject);
-            }
-            else
-            {
-                lookupTableOfObjects.Add(gameObject.Name,  new List<Character>());
-                lookupTableOfObjects[gameObject.Name].Add(gameObject);
-            }
+        {            
+            this.listOfObjects.Add(gameObject);
             numberOfGameObjects++;
             if (!hasMultipleObjects && numberOfGameObjects > 1)
             {
@@ -44,15 +34,7 @@ namespace WesternSpace.Collision
         }
         public void OnObjectRemoved(Character gameObject)
         {
-            List<Character> pCharacterList;
-            if (lookupTableOfObjects.TryGetValue(gameObject.Name, out pCharacterList))
-            {
-                pCharacterList.Remove(gameObject);
-            }
-            else
-            {
-                lookupTableOfObjects[gameObject.Name].Remove(gameObject);
-            }        
+            this.listOfObjects.Remove(gameObject);
             numberOfGameObjects--;
             if (hasMultipleObjects)
             {
