@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace WesternSpace.Collision
 {
-    public class SpriteSpriteCollisionManager : GameComponent, IDebugOutput
+    public class SpriteSpriteCollisionManager : GameComponent
     {
         static int IDNumberCount = 0;
         // Object Collision Grid 
@@ -21,20 +21,6 @@ namespace WesternSpace.Collision
         protected Point numOfBins;
         // Registered Object List
         protected List<ISpriteCollideable> registeredObject;
-        //public List<ISpriteCollideable> RegisteredObjectList
-        //{
-        //    get { return registeredObject; }
-        //}
-        public void addObjectToRegisteredObjectList(ISpriteCollideable collideableObject)
-        {
-            registeredObject.Add(collideableObject);
-            collideableObject.IdNumber = IDNumberCount;
-            IDNumberCount++;
-        }
-        public void removeObjectToRegisteredObjectList(ISpriteCollideable collideableObject)
-        {
-            registeredObject.Remove(collideableObject);        
-        }
         // Object Bins To Check
         protected List<GameObjectBin> objBinsToCheck;
         public List<GameObjectBin> ObjBinsToCheck
@@ -42,9 +28,6 @@ namespace WesternSpace.Collision
             get { return objBinsToCheck; }
         }
         protected Dictionary<int, List<Point>> objBinLookupTable;
-        //
-        protected String DebugOutput;
-        //
         public SpriteSpriteCollisionManager(Game game, Point binWH)
             : base(game)
         {
@@ -68,8 +51,20 @@ namespace WesternSpace.Collision
                 }
             }
             base.Initialize();
+        }
+        public void addObjectToRegisteredObjectList(ISpriteCollideable collideableObject)
+        {
+            registeredObject.Add(collideableObject);
+            collideableObject.IdNumber = IDNumberCount;
+            IDNumberCount++;
+        }
+        public void removeObjectToRegisteredObjectList(ISpriteCollideable collideableObject)
+        {
+            OnRemoveObjectFromBin(collideableObject, this.rectToBinCoord(collideableObject.Rectangle));
+            this.objBinLookupTable.Remove(collideableObject.IdNumber);
+            registeredObject.Remove(collideableObject);
+
         }       
-        // Bin Opperations
         protected void OnAddObjectToBin(ISpriteCollideable gameObject, List<Point> listOfObjectBinCoord)
         {            
             foreach (Point binCoord in listOfObjectBinCoord)
@@ -125,8 +120,6 @@ namespace WesternSpace.Collision
             List<Point> newCoords;
             List<Point> oldCoords;
             // Update Collision Bins
-            DebugOutput = "Grid Size: " + this.numOfBins.ToString();
-
             foreach (ISpriteCollideable gameObj in registeredObject)
             {
                 newCoords = this.rectToBinCoord(gameObj.Rectangle);
@@ -146,84 +139,19 @@ namespace WesternSpace.Collision
                 {
                     for (int j = 1; j < gameObjBin.ListOfObjects.Count; j++)
                     {
-                        BoundingBoxA(gameObjBin.ListOfObjects.ElementAt(i),
-                                     gameObjBin.ListOfObjects.ElementAt(j));
+                        if(BoundingBoxA(gameObjBin.ListOfObjects.ElementAt(i), gameObjBin.ListOfObjects.ElementAt(j)))
+                        {
+                            gameObjBin.ListOfObjects.ElementAt(i).OnSpriteCollision(gameObjBin.ListOfObjects.ElementAt(j));
+                            gameObjBin.ListOfObjects.ElementAt(j).OnSpriteCollision(gameObjBin.ListOfObjects.ElementAt(i));
+                        }
                     }
                 }             
             }
             base.Update(gameTime);
         }
         Boolean BoundingBoxA(ISpriteCollideable entityA, ISpriteCollideable entityB)
-        {
-            Rectangle rectA = entityA.Rectangle;
-            Rectangle rectB = entityB.Rectangle;
-            if (rectA.Intersects(rectB))
-            {
-                //Debug.Print("Sprite Collision");
-                entityA.OnSpriteCollision(entityB);
-                entityB.OnSpriteCollision(entityA);
-                return true;
-            }
-            return false;
+        {          
+            return entityA.Rectangle.Intersects(entityB.Rectangle);
         }
-        Boolean PixelCollision(Character entityA, Character entityB, GameTime gameTime)
-        {
-            return false;
-        }
-        Boolean PixelCollision(List<Character> entityListA, List<Character> entityListB, GameTime gameTime)
-        {
-            foreach (Character entityA in entityListA)
-            {               
-                //Rectangle rectA = new Rectangle(entityA.CurrentAnimation.FrameWidth * entityA.AnimationPlayer.CurrentFrame.FrameIndex,
-                //        entityA.CurrentAnimation.FrameHeight * entityA.AnimationPlayer.CurrentFrame.FrameIndex,
-                //        entityA.CurrentAnimation.FrameWidth, entityA.CurrentAnimation.FrameHeight);
-                //Color[] entityATextureData = new Color[entityA.CurrentAnimation.FrameWidth * entityA.CurrentAnimation.FrameHeight];
-                //entityA.CurrentAnimation.SpriteSheet.GetData(0, rectA, entityATextureData,
-                //        0, entityA.CurrentAnimation.SpriteSheet.Width * entityA.CurrentAnimation.SpriteSheet.Height);
-                ////Color[] entityBTextureData;
-                //foreach (Character entityB in entityListB)
-                //{
-                //    entityBTextureData = new Color[entityB.Sprite.Width * entityB.Sprite.Height];
-                //    entityB.Sprite.GetData(entityBTextureData);
-                //    if (IntersectPixels(entityA.Rectangle, entityATextureData, entityB.Rectangle, entityBTextureData))
-                //    {
-                //        entityA.SpriteSpriteCollision();
-                //        entityB.SpriteSpriteCollision();
-                //        //CollisionEvent(this, new CollisionEventArgs(entityA, entityB, gameTime));
-                //    }
-                //}
-            }
-            return false;
-        }
-        bool IntersectPixels(Rectangle rectA, Color[] dataA,
-                             Rectangle rectB, Color[] dataB)
-        {
-            int top = Math.Max(rectA.Top, rectB.Top);
-            int bottom = Math.Min(rectA.Bottom, rectB.Bottom);
-            int left = Math.Max(rectA.Left, rectB.Left);
-            int right = Math.Min(rectA.Right, rectB.Right);
-
-            for (int y = top; y < bottom; y++)
-            {
-                for (int x = left; x < right; x++)
-                {
-                    Color colorA = dataA[(x - rectA.Left) + (y - rectA.Top) * rectA.Width];
-                    Color colorB = dataB[(x - rectB.Left) + (y - rectB.Top) * rectB.Width];
-                    if (colorA.A != 0 && colorB.A != 0)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-        #region IDebugOutput Members
-
-        public string Output
-        {
-            get { return DebugOutput; }
-        }
-
-        #endregion
     }
 }
