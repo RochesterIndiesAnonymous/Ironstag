@@ -51,7 +51,7 @@ namespace WesternSpace.Collision
                     {
                         // run tile function to get tile with edge
                         tileCoord = CalculateTileCoord(hotspot.WorldPosition);
-                        tile = worldMap.Tiles[tileCoord.X, tileCoord.Y];
+                        tile = worldMap[tileCoord.X, tileCoord.Y];
                         if (tile != null)
                         {
                             Rectangle tileRect = new Rectangle(tileCoord.X * worldMap.TileWidth,

@@ -56,9 +56,22 @@ namespace WesternSpace.TilingEngine
 
         private Tile[,] tiles;
 
-        public Tile[,] Tiles
+        public Tile this[int x, int y]
         {
-            get { return tiles; }
+            get 
+            {
+                if (x < Width && x >= 0 &&
+                    y < Height && y >= 0)
+                    return tiles[x, y];
+                else
+                    return null;
+            }
+            set
+            {
+                if (x < Width && x >= 0 &&
+                    y < Height && y >= 0)
+                    SetTile(value, x, y);
+            }
         }
 
         /// <summary>
@@ -77,7 +90,7 @@ namespace WesternSpace.TilingEngine
             {
                 for (int y = 0; y < Height; ++y)
                 {
-                    if (Tiles[x, y] != null)
+                    if (tiles[x, y] != null)
                     {
                         if (x > xMax)
                             xMax = x;
@@ -102,7 +115,7 @@ namespace WesternSpace.TilingEngine
             {
                 for (int yOffset = 0; yOffset < newTiles.GetLength(1); ++yOffset)
                 {
-                    newTiles[xOffset, yOffset] = Tiles[xMin + xOffset, yMin + yOffset];
+                    newTiles[xOffset, yOffset] = this[xMin + xOffset, yMin + yOffset];
                 }
             }
             tiles = newTiles;
@@ -161,14 +174,14 @@ namespace WesternSpace.TilingEngine
             {
                 for (int j = startY; j < other.Height && j + yOffset < Height; ++j)
                 { 
-                    tile = other.Tiles[i,j];
+                    tile = other[i,j];
                     if(tile == null)
                     {
                         SetTile(null, i + xOffset, j + yOffset);
                     }
                     else
                     {
-                        SetTile(new Tile(other.Tiles[i, j]), i + xOffset, j + yOffset);
+                        SetTile(new Tile(other[i, j]), i + xOffset, j + yOffset);
                     }
                 }
             }
@@ -216,7 +229,7 @@ namespace WesternSpace.TilingEngine
                 subTileMap = new TileMap(w, h, TileWidth, TileHeight, LayerCount, SubLayerCount);
                 foreach (int[] tileCoord in tileCoordinates)
                 {
-                    Tile tile = Tiles[tileCoord[0], tileCoord[1]];
+                    Tile tile = this[tileCoord[0], tileCoord[1]];
                     if (tile != null)
                     {
                         subTileMap.SetTile(tile, tileCoord[0] - minX, tileCoord[1] - minY);

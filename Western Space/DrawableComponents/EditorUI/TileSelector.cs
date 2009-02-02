@@ -88,6 +88,10 @@ namespace WesternSpace.DrawableComponents.EditorUI
             }
         }
 
+        /// <summary>
+        /// TODO: draw a transparent version of your selection to give a preview
+        ///        of the result of your paste. Not a high priority right now.
+        /// </summary>
         private TileMapLayer[] selectionMapLayers;
 
         private TileMap selectionMap;
@@ -98,7 +102,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
             get 
             {
                 return (from coords in selectedTileCoordinates
-                        select TileMap.Tiles[coords[0], coords[1]]).ToList<Tile>();
+                        select TileMap[coords[0], coords[1]]).ToList<Tile>();
             }
         }
 
@@ -214,7 +218,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
         {
             foreach (int[] tileCoord in selectedTileCoordinates)
             {
-                Tile tile = TileMap.Tiles[tileCoord[0], tileCoord[1]];
+                Tile tile = TileMap[tileCoord[0], tileCoord[1]];
                 if (tile == null)
                 {
                     // We have an empty tile...
@@ -248,7 +252,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
         {
             foreach (int[] tileCoord in selectedTileCoordinates)
             {
-                Tile tile = TileMap.Tiles[tileCoord[0], tileCoord[1]];
+                Tile tile = TileMap[tileCoord[0], tileCoord[1]];
                 if (tile == null)
                 {
                     if (edges[0] || edges[1] || edges[2] || edges[3])
@@ -474,7 +478,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
                 if (selectButton == 2)
                 {
-                    if (TileMap.Tiles[tileCoord[0], tileCoord[1]] != null)
+                    if (TileMap[tileCoord[0], tileCoord[1]] != null)
                     {
                         PrimitiveDrawer.Instance.DrawLine(SpriteBatch,
                                                           new Vector2(position.X, position.Y),

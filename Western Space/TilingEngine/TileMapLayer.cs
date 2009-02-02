@@ -102,7 +102,7 @@ namespace WesternSpace.TilingEngine
 
         public float MaximumX
         {
-            get { return tm.TileWidth * tm.Tiles.GetLength(0); }
+            get { return tm.TileWidth * tm.Width; }
         }
 
         public float MinimumY
@@ -112,7 +112,7 @@ namespace WesternSpace.TilingEngine
 
         public float MaximumY
         {
-            get { return tm.TileHeight * tm.Tiles.GetLength(1); }
+            get { return tm.TileHeight * tm.Height; }
         }
 
         #endregion
@@ -167,11 +167,11 @@ namespace WesternSpace.TilingEngine
                         (camPos - camPos*scrollSpeed);
                     //position.X = (int)Math.Round(position.X, 0);
                     //position.Y = (int)Math.Round(position.Y, 0);
-                    if (tm.Tiles[x, y] != null)
+                    if (tm[x, y] != null)
                     {
                         for (int subLayerIndex = 0; subLayerIndex < tm.SubLayerCount; ++subLayerIndex)
                         {
-                            SubTexture subTexture = tm.Tiles[x, y].Textures[layerIndex, subLayerIndex];
+                            SubTexture subTexture = tm[x, y].Textures[layerIndex, subLayerIndex];
                             if (subTexture != null)
                             {
                                 this.SpriteBatch.Draw(subTexture.Texture, position, subTexture.Rectangle, Color.White);
@@ -224,7 +224,7 @@ namespace WesternSpace.TilingEngine
                     bottomLeft = topLeft + (new Vector2(.0f, (float)tm.TileHeight));
                     bottomRight = bottomLeft + (new Vector2((float)tm.TileWidth, .0f));
 
-                    tile = tm.Tiles[x, y];
+                    tile = tm[x, y];
                     if (tile != null) 
                     {
                         if(tile.TopEdge)
