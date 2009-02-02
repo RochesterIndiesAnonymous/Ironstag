@@ -19,6 +19,7 @@ namespace WesternSpace.Input
         private static GamePadState currentPadState = new GamePadState();
         private static Dictionary<string, Keys> keyConfig = new Dictionary<string, Keys>();
         private static Dictionary<string, Buttons> buttonConfig = new Dictionary<string, Buttons>();
+        private static Dictionary<string, float> leftJoystickConfig = new Dictionary<string, float>();
 
         // Constants for checking keys
         public static readonly string JUMP = "Jump";
@@ -47,6 +48,8 @@ namespace WesternSpace.Input
             this.AssignButton(ROLL, Buttons.LeftTrigger);
             this.AssignButton(TRANSFORM, Buttons.RightTrigger);
             this.AssignButton(PAUSE, Buttons.Start);
+            this.AssignLeftJoystick(LEFT, -0.5f);
+            this.AssignLeftJoystick(RIGHT, 0.5f);
 
 #if !XBOX
             // Configure Default Keyboard Mapping
@@ -70,7 +73,6 @@ namespace WesternSpace.Input
         {
             // Store the last GamePad State retrieved
             previousPadState = currentPadState;
-
             //Get the new GamePad state
             currentPadState = GamePad.GetState(PlayerIndex.One);
 
@@ -119,6 +121,11 @@ namespace WesternSpace.Input
             }
         }
 
+        public void AssignLeftJoystick(string command, float threshold)
+        {
+            leftJoystickConfig[command] = threshold;
+        }
+
         /**
          * Checks the state of desired key by command name
          */
@@ -144,6 +151,49 @@ namespace WesternSpace.Input
             {
                 return false;
             }
+        }
+
+        public bool CheckButton(string command)
+        {
+
+            // If the command exists, check its state
+            if (buttonConfig.ContainsKey(command))
+            {
+                // If key is currently down, report
+                if (currentPadState.IsButtonDown(buttonConfig[command]))
+                {
+                    return true;
+                }
+                // Otherwise, just report that the key is up
+                else
+                {
+                    return false;
+                }
+            }
+            // If the command doesn't exists, return NoMatch
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool CheckLeftJoystick(string command)
+        {
+            if(leftJoystickConfig.ContainsKey(command))
+            {
+                float threshold = leftJoystickConfig[command];
+
+                if(threshold < 0 && currentPadState.ThumbSticks.Left.X < threshold)
+                {
+                    return true;
+                }
+                else if(threshold > 0 && currentPadState.ThumbSticks.Left.X > threshold)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
