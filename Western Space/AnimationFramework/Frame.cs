@@ -44,6 +44,17 @@ namespace WesternSpace.AnimationFramework
         }
 
         /// <summary>
+        /// True if this frame has been drawn. False otherwise.
+        /// </summary>
+        public bool hasDrawn;
+
+        public bool HasDrawn
+        {
+            get { return hasDrawn; }
+            set { hasDrawn = value; }
+        }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="sheetIndex">The index of the sprite to display in the sprite sheet</param>
@@ -54,6 +65,7 @@ namespace WesternSpace.AnimationFramework
             this.sheetIndex = sheetIndex;
             this.displayTimeInMilliseconds = displayTime;
             this.frameIndex = frameIndex;
+            this.hasDrawn = false;
         }
     }
 }

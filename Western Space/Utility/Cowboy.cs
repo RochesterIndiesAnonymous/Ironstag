@@ -28,6 +28,9 @@ namespace WesternSpace.Utility
         public static readonly string JUMPINGASCENTSHOOTINGUP = "JumpingAscentShootingUp";
         public static readonly string JUMPINGDESCENTSHOOTINGUP = "JumpingDescentShootingUp";
         public static readonly string RUNNINGSHOOTINGUP = "RunningShootingUp";
+        public static readonly string FALLING = "Falling";
+        public static readonly string FALLINGSHOOTING = "FallingShooting";
+        public static readonly string FALLINGSHOOTINGUP = "FallingShootingUp";
 
         /// <summary>
         /// Cowboy Constructor
@@ -48,11 +51,14 @@ namespace WesternSpace.Utility
             Animation runningShooting = new Animation(xmlFile, RUNNINGSHOOTING);
             Animation jumpingAscentShooting = new Animation(xmlFile, JUMPINGASCENTSHOOTING);
             Animation jumpingDescentShooting = new Animation(xmlFile, JUMPINGDESCENTSHOOTING);
+            Animation falling = new Animation(xmlFile, FALLING);
+            Animation fallingShooting = new Animation(xmlFile, FALLINGSHOOTING);
             //Animation dead = new Animation(xmlFile, DEAD);
             //Animation hit = new Animation(xmlFile, HIT);
             //Animation transforming = new Animation(xmlFile, TRANSFORMING);
             //Animation jumpingAscentShootingUp = new Animation(xmlFile, JUMPINGASCENTSHOOTINGUP);
             //Animation jumpingDescentShootingUp = new Animation(xmlFile, JUMPINGASCENTSHOOTINGUP);
+            //Animation fallingShootingUp = new Animatin(xmlFile, FALLINGSHOOTINGUP);
             //Animation runningShootingUp = new Animation(xmlFile, RUNNINGSHOOTINGUP);
             //Animation shootingUp = new Animation(xmlFile, SHOOTINGUP);
 
@@ -65,6 +71,8 @@ namespace WesternSpace.Utility
             this.animationMap.Add(RUNNINGSHOOTING, runningShooting);
             this.animationMap.Add(JUMPINGASCENTSHOOTING, jumpingAscentShooting);
             this.animationMap.Add(JUMPINGDESCENTSHOOTING, jumpingDescentShooting);
+            this.animationMap.Add(FALLING, falling);
+            this.animationMap.Add(FALLINGSHOOTING, fallingShooting);
             //this.animationMap.Add(DEAD, dead);
             //this.animationMap.Add(HIT, hit);
             //this.animationMap.Add(TRANSFORMING, transforming);

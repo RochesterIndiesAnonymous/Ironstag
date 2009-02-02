@@ -30,6 +30,7 @@ namespace WesternSpace.AnimationFramework
         public List<Frame> Frames
         {
             get { return frames; }
+            set { frames = value; }
         }
 
         // Determines if the animation should continue

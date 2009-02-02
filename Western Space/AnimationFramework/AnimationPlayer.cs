@@ -135,14 +135,18 @@ namespace WesternSpace.AnimationFramework
         /// the end of an animation.
         /// </summary>
         /// <param name="animation">The animation to play.</param>
-        public void PlayAnimation(Animation animation)
+        public void PlayAnimation(Animation newAnimation)
         {
             // If this animation is already running, do not restart it.
-            if (Animation == animation)
+            if (Animation == newAnimation)
                 return;
 
+            //Reset the hasDraw values to false for each of this animation's
+            //frames.
+            ResetDraw();
+
             // Start the new animation.
-            this.animation = animation;
+            this.animation = newAnimation;
             currentFrame = this.animation.Frames[0];
             playStart = DEFAULT_START_FRAME;
             playStop = this.animation.FrameCount - 1;
@@ -174,10 +178,27 @@ namespace WesternSpace.AnimationFramework
                 playStop = newAnimation.FrameCount - 1;
             }
 
+            //Reset the hasDraw values to false for each of this animation's
+            //frames.
+            ResetDraw();
+
             // Start the new animation.
             this.animation = newAnimation;
             currentFrame = this.animation.Frames[playStart];
             ResetTime();
+        }
+
+        /// <summary>
+        /// Resets the hasDraw field to false for each frame of an animation.
+        /// </summary>
+        private void ResetDraw()
+        {
+            for (int count = 0; count < this.animation.FrameCount; count++)
+            {
+                Frame tempFrame = this.animation.Frames[count];
+                tempFrame.hasDrawn = false;
+                this.animation.Frames[count] = tempFrame;
+            }
         }
 
         // Returns true if the current animation is finished playing.
@@ -185,7 +206,7 @@ namespace WesternSpace.AnimationFramework
         {
             bool returnValue = false;
 
-            if( (currentFrame.FrameIndex == playStop) && !animation.IsLooping && this.IsTimeForNextFrame )
+            if( (currentFrame.FrameIndex == playStop) && !animation.IsLooping && this.IsTimeForNextFrame && currentFrame.HasDrawn )
             {
                 returnValue = true;
             }
@@ -219,6 +240,10 @@ namespace WesternSpace.AnimationFramework
 
             spriteBatch.Draw(Animation.SpriteSheet, position,
                 this.CalculateFrameRectangleFromIndex(this.CurrentFrame.SheetIndex), Color.White, 0.0f, Vector2.Zero, 1.0f, spriteEffect, 0);
+
+            currentFrame.hasDrawn = true;
+            animation.Frames[currentFrame.FrameIndex] = currentFrame;
+
         }
     }
 }

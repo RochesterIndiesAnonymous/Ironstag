@@ -29,7 +29,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         /// <summary>
         /// The speed of the projectile
         /// </summary>
-        private static readonly Vector2 Velocity = new Vector2(4f, 0f);
+        private static readonly Vector2 Velocity = new Vector2(6f, 0f);
 
         /// <summary>
         /// Creates a new Flint bullet projectile and adds it to the screen

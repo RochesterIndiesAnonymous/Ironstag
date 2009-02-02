@@ -192,18 +192,21 @@ namespace WesternSpace.DrawableComponents.Actors
 
                 if (isOnGround)
                 {
-                    playerPhysics.ApplyGroundMove(direction);
-                    if (!currentState.Contains("Shooting"))
+                    if (!currentState.Contains("Jumping"))
                     {
-                        ChangeState("Running");
-                    }
-                    else if (!currentState.Contains("Up"))
-                    {
-                        ChangeState("RunningShooting");
-                    }
-                    else
-                    {
-                        ChangeState("RunningShootingUp");
+                        playerPhysics.ApplyGroundMove(direction);
+                        if (!currentState.Contains("Shooting"))
+                        {
+                            ChangeState("Running");
+                        }
+                        else if (!currentState.Contains("Up"))
+                        {
+                            ChangeState("RunningShooting");
+                        }
+                        else
+                        {
+                            ChangeState("RunningShootingUp");
+                        }
                     }
                 }
                 else
@@ -218,39 +221,39 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         public void Shoot()
         {
-            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            if (!currentState.Equals("Dead") && !currentState.Equals("Hit") && !currentState.Contains("Shooting"))
             {
-
-                if (!currentState.Contains("Shooting"))
+                if (currentState.Contains("Jumping"))
                 {
-                    if (currentState.Contains("Jumping"))
+                    //Change state and animation
+                    if (currentState.Equals("JumpingAscent"))
                     {
-                        //Change state and animation
-                        if (currentState.Equals("JumpingAscent"))
-                        {
-                            ContinueAnimationNewState("JumpingAscentShooting");
-                        }
-                        else
-                        {
-                            ContinueAnimationNewState("JumpingDescentShooting");
-                        }
-                    }
-                    else if (currentState.Contains("Running"))
-                    {
-
-                        //Change state and animation
-                        ContinueAnimationNewState("RunningShooting");
+                        ContinueAnimationNewState("JumpingAscentShooting");
                     }
                     else
                     {
-                        //Change state and animation
-                        ChangeState("Shooting");
+                        ContinueAnimationNewState("JumpingDescentShooting");
                     }
-
-                    //Generate a Bullet
-                    gunShot.Play();
-                    GenerateBullet();
                 }
+                else if (currentState.Contains("Falling"))
+                {
+                    ContinueAnimationNewState("FallingShooting");
+                }
+                else if (currentState.Contains("Running"))
+                {
+
+                    //Change state and animation
+                    ContinueAnimationNewState("RunningShooting");
+                }
+                else
+                {
+                    //Change state and animation
+                    ChangeState("Shooting");
+                }
+
+                //Generate a Bullet
+                gunShot.Play();
+                GenerateBullet();
             }
         }
 
@@ -299,6 +302,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="gameTime">The time the game has been running.</param>
         public override void Update(GameTime gameTime)
         {
+
             /// -- Get User Input -- ///
             if (input.CheckKey(InputMonitor.RIGHT) || input.CheckButton(InputMonitor.RIGHT) || input.CheckLeftJoystickOnXAxis(InputMonitor.RIGHT))
             {
@@ -331,39 +335,52 @@ namespace WesternSpace.DrawableComponents.Actors
             /// --- Check For Max Ascent of Jump -- ///
             if (currentState.Contains("Jumping"))
             {
-                if ((-0.5 <= velocity.Y) || (velocity.Y <= 0.8) && !currentState.Equals("JumpingDescentShooting"))
+                if (((-0.5 <= velocity.Y) && (velocity.Y <= 0.08)) && (!currentState.Contains("Descent")))
                 {
-                    ChangeState("JumpingDescent");
+                        ChangeState("JumpingDescent");
                 }
             }
 
             /// -- Check for Final State Changes -- ///
-            if ((velocity.X == 0) && isOnGround && !currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
             {
-                if (!animationPlayer.Animation.animationName.Equals(currentState))
+                if (isOnGround)
                 {
-                    ChangeState(animationPlayer.Animation.animationName);
+                    if (!animationPlayer.Animation.animationName.Equals(currentState))
+                    {
+                        ChangeState(animationPlayer.Animation.animationName);
+                    }
+                    else if (!currentState.Contains("Shooting") && (velocity.X == 0) && (velocity.Y >= 0))
+                    {
+                        ChangeState("Idle");
+                    }
                 }
-                else if (!currentState.Contains("Shooting"))
+                else
                 {
-                    ChangeState("Idle");
+                    if (!animationPlayer.Animation.animationName.Equals(currentState))
+                    {
+                        //ContinueAnimationNewState(animationPlayer.Animation.animationName);
+                    }
+                    else if (!currentState.Contains("Jumping"))
+                    {
+                        if ((velocity.Y >= 0) && !currentState.Contains("Falling"))
+                        {
+                            ChangeState("Falling");
+                        }
+                    }
                 }
             }
-            else if ((velocity.X != 0) && isOnGround && !currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            else
             {
-                if (!animationPlayer.Animation.animationName.Equals(currentState))
+                if(currentState.Equals("Dead"))
                 {
-                    ChangeState(animationPlayer.Animation.animationName);
+                    //Death Operations go here
+                }
+                else if(currentState.Equals("Hit"))
+                {
+                    //Change state to hit and increment hit time counter
                 }
             }
-            else if (!isOnGround && !currentState.Equals("Dead") && !currentState.Equals("Hit"))
-            {
-                if (!animationPlayer.Animation.animationName.Equals(currentState))
-                {
-                    ChangeState(animationPlayer.Animation.animationName);
-                }
-            }
-
 
             /// -- Animation Player Update Frames -- ///
             animationPlayer.Update(gameTime);

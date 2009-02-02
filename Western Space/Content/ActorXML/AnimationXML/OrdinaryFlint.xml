@@ -28,7 +28,7 @@
     <Frame DisplayTime="100" SheetIndex="2" />
   </Animation>
   <Animation AnimationKey="JumpingDescent" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintJump2" FrameWidth="64" FrameHeight="61" IsOneShot="0" Parent="None">
-    <Frame DisplayTime="550" SheetIndex="0" />
+    <Frame DisplayTime="250" SheetIndex="0" />
     <Frame DisplayTime="83" SheetIndex="1" />
   </Animation>
   <Animation AnimationKey="RunningShooting" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintRunShoot" FrameWidth="64" FrameHeight="61" IsOneShot="1" Parent="Running">
@@ -51,5 +51,11 @@
   <Animation AnimationKey="JumpingDescentShooting" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintJumpShoot2" FrameWidth="85" FrameHeight="61" IsOneShot="1" Parent="JumpingDescent">
     <Frame DisplayTime="250" SheetIndex="0" />
     <Frame DisplayTime="83" SheetIndex="1" />
+  </Animation>
+  <Animation AnimationKey="Falling" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintFall" FrameWidth="64" FrameHeight="72" IsOneShot="0" Parent="None">
+    <Frame DisplayTime="550" SheetIndex="0" />
+  </Animation>
+  <Animation AnimationKey="FallingShooting" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintFallShoot" FrameWidth="64" FrameHeight="72" IsOneShot="1" Parent="Falling">
+    <Frame DisplayTime="150" SheetIndex="0" />
   </Animation>
 </Animations>
