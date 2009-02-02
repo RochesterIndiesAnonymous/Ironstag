@@ -155,22 +155,8 @@ namespace WesternSpace.Collision
             }
             return false;
         }
-        Boolean BoundingBox(List<Character> entityListA, List<Character> entityListB, GameTime gameTime)
+        Boolean PixelCollision(Character entityA, Character entityB, GameTime gameTime)
         {
-            foreach (Character entityA in entityListA)
-            {
-                Rectangle rectA = entityA.Rectangle;
-                foreach (Character entityB in entityListB)
-                {
-                    Rectangle rectB = entityB.Rectangle;
-                    if (rectA.Intersects(rectB))
-                    {
-                        DebugOutput += "\nCollision At: ";
-                        entityA.OnSpriteCollision(entityB);
-                        entityB.OnSpriteCollision(entityA);
-                    }
-                }
-            }
             return false;
         }
         Boolean PixelCollision(List<Character> entityListA, List<Character> entityListB, GameTime gameTime)

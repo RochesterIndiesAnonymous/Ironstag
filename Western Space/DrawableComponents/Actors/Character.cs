@@ -31,21 +31,6 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         /// <summary>
-        /// Bounding Rectangle used for the character's current sprite.
-        /// </summary>
-        protected Rectangle rectangle;
-        public Rectangle Rectangle
-        {
-            get
-            {
-                rectangle = new Rectangle((int)this.position.X, (int)this.position.Y,
-                    this.animationPlayer.Animation.FrameWidth,
-                    this.animationPlayer.Animation.FrameHeight);
-                return rectangle;
-            }
-        }
-
-        /// <summary>
         /// The current Role of a Character. The character can
         /// only be one role at a time, but may change roles.
         /// </summary>
@@ -283,8 +268,21 @@ namespace WesternSpace.DrawableComponents.Actors
         #endregion
 
         #region ISpriteCollideable Members
-
-        public void OnSpriteCollision(Character characterCollidedWith)
+        /// <summary>
+        /// Bounding Rectangle used for the character's current sprite.
+        /// </summary>
+        protected Rectangle rectangle;
+        public Rectangle Rectangle
+        {
+            get
+            {
+                rectangle = new Rectangle((int)this.position.X, (int)this.position.Y,
+                    this.animationPlayer.Animation.FrameWidth,
+                    this.animationPlayer.Animation.FrameHeight);
+                return rectangle;
+            }
+        }
+        public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
         {
             //throw new NotImplementedException();
         }

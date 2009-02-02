@@ -157,15 +157,6 @@ namespace WesternSpace.DrawableComponents.Projectiles
 
         #endregion
 
-        #region ISpriteCollideable Members
-
-        public void OnSpriteCollision(WesternSpace.DrawableComponents.Actors.Character characterCollidedWith)
-        {
-            //throw new NotImplementedException();
-        }
-
-        #endregion
-
         #region IDisposable Members
 
         /// <summary>
@@ -174,6 +165,21 @@ namespace WesternSpace.DrawableComponents.Projectiles
         /// </summary>
         void IDisposable.Dispose()
         {
+        }
+
+        #endregion
+
+
+        #region ISpriteCollideable Members
+
+        Rectangle ISpriteCollideable.Rectangle
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        void ISpriteCollideable.OnSpriteCollision(ISpriteCollideable characterCollidedWith)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

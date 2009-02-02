@@ -13,6 +13,6 @@ namespace WesternSpace.Collision
         {
             get;
         }
-        void OnSpriteCollision(Character characterCollidedWith);
+        void OnSpriteCollision(ISpriteCollideable characterCollidedWith);
     }
 }
