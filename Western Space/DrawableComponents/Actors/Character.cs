@@ -181,6 +181,13 @@ namespace WesternSpace.DrawableComponents.Actors
             }
         }
 
+        /// <summary>
+        /// Changes both the Character's state and animation to a given state.
+        /// The character's new animation starts on the same frame as the 
+        /// previously playing animation and returns to that animation after
+        /// three frames.
+        /// </summary>
+        /// <param name="newState"></param>
         public void ContinueAnimationNewState(String newState)
         {
             if (!currentState.Equals(newState))
@@ -193,7 +200,12 @@ namespace WesternSpace.DrawableComponents.Actors
                     currentState = newState;
 
                     start = animationPlayer.CurrentFrame.FrameIndex;
-                    end = start + 1;
+                    end = start + 3;
+
+                    if (end > animationPlayer.CurrentFrame.FrameIndex)
+                    {
+                        end = end % animationPlayer.Animation.FrameCount;
+                    }
 
                     animationPlayer.PlayAnimation(currentRole.AnimationMap[newState], start, end);
                 }

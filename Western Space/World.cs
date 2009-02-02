@@ -13,6 +13,7 @@ using WesternSpace.Interfaces;
 using WesternSpace.DrawableComponents.Actors;
 using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.Collision;
+using Microsoft.Xna.Framework.Media;
 
 namespace WesternSpace
 {
@@ -27,6 +28,8 @@ namespace WesternSpace
 
         public SpriteTileCollisionManager tileCollisionManager;
         public SpriteSpriteCollisionManager spriteCollisionManager;
+
+        private Song bgm;
 
         public TileMap Map
         {
@@ -87,6 +90,9 @@ namespace WesternSpace
             ParentScreen.Components.Add(tileCollisionManager);
             spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, new Point(40, 40));
             ParentScreen.Components.Add(spriteCollisionManager);
+
+            bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
+            MediaPlayer.Play(bgm);
         }
 
         /// <summary>
@@ -108,6 +114,9 @@ namespace WesternSpace
             spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, new Point(40, 40));
             ParentScreen.Components.Add(spriteCollisionManager);
 
+
+            bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
+            MediaPlayer.Play(bgm);
 
             // Load the contents of the world from the specified XML file:
             LoadWorldXmlFile(fileName);

@@ -162,7 +162,7 @@ namespace WesternSpace.AnimationFramework
             if (Animation == newAnimation)
                 return;
 
-            if ((start >= 0) && (start <= animation.FrameCount - 1) &&
+            if ((start >= 0) && (start <= newAnimation.FrameCount - 1) &&
                 (end >= 0) && (end <= newAnimation.FrameCount - 1))
             {
                 playStart = start;
@@ -176,7 +176,7 @@ namespace WesternSpace.AnimationFramework
 
             // Start the new animation.
             this.animation = newAnimation;
-            currentFrame = this.animation.Frames[0];
+            currentFrame = this.animation.Frames[playStart];
             ResetTime();
         }
 

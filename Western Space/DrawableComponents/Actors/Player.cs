@@ -330,8 +330,6 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
             }
 
-            System.Diagnostics.Debug.WriteLine("STATE IS: " + currentState + " ANIPLAYER STATE: " + animationPlayer.Animation.animationName);
-
             /// -- Check for Final State Changes -- ///
             if ((velocity.X == 0) && isOnGround && !currentState.Equals("Dead") && !currentState.Equals("Hit"))
             {
@@ -342,6 +340,13 @@ namespace WesternSpace.DrawableComponents.Actors
                 else if (!currentState.Contains("Shooting"))
                 {
                     ChangeState("Idle");
+                }
+            }
+            else if ((velocity.X != 0) && isOnGround && !currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            {
+                if (!animationPlayer.Animation.animationName.Equals(currentState))
+                {
+                    ChangeState(animationPlayer.Animation.animationName);
                 }
             }
 
