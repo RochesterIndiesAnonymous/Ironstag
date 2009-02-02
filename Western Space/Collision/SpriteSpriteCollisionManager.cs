@@ -60,7 +60,7 @@ namespace WesternSpace.Collision
         }
         public void removeObjectToRegisteredObjectList(ISpriteCollideable collideableObject)
         {
-            OnRemoveObjectFromBin(collideableObject, this.rectToBinCoord(collideableObject.Rectangle));
+            OnRemoveObjectFromBin(collideableObject, this.NewRectToCoord(collideableObject.Rectangle));
             this.objBinLookupTable.Remove(collideableObject.IdNumber);
             registeredObject.Remove(collideableObject);
 
@@ -95,26 +95,28 @@ namespace WesternSpace.Collision
             Point binCoord = new Point((int)vector.X / binDimension.X, (int)vector.Y / binDimension.Y);
             return binCoord;
         }
-        // Rectangle To Bin Coords - takes rectangle returns bin coordinates
-        public List<Point> rectToBinCoord(Rectangle rect)
+        public List<Point> NewRectToCoord(Rectangle rect)
         {
-            Point[] pArray = new Point[4];
+            
             List<Point> list = new List<Point>();
-            pArray[0] = xformScreenCoordToBinCoord(new Vector2(rect.Left, rect.Top));
-            pArray[1] = xformScreenCoordToBinCoord(new Vector2(rect.Left, rect.Bottom));
-            pArray[2] = xformScreenCoordToBinCoord(new Vector2(rect.Right, rect.Top));
-            pArray[3] = xformScreenCoordToBinCoord(new Vector2(rect.Right, rect.Bottom));
-            foreach (Point binCoord in pArray)
+            Point leftTop = xformScreenCoordToBinCoord(new Vector2(rect.Left, rect.Top));
+            Point rightBottom = xformScreenCoordToBinCoord(new Vector2(rect.Right, rect.Bottom));
+            if (!leftTop.Equals(rightBottom))
             {
-                if ((binCoord.X >= 0 && binCoord.X < numOfBins.X) && binCoord.Y < numOfBins.Y)
+                for (int y = leftTop.Y; y < rightBottom.Y; y++)
                 {
-                    if (!list.Exists(element => element == binCoord))
-                        list.Add(binCoord);
+                    for (int x = leftTop.X; x < rightBottom.X; x++)
+                    {
+                        list.Add(new Point(x, y));
+                    }
                 }
+            }
+            else
+            {
+                list.Add(leftTop);
             }
             return list;
         }
-       
         public override void Update(GameTime gameTime)
         {
             List<Point> newCoords;
@@ -122,7 +124,8 @@ namespace WesternSpace.Collision
             // Update Collision Bins
             foreach (ISpriteCollideable gameObj in registeredObject)
             {
-                newCoords = this.rectToBinCoord(gameObj.Rectangle);
+                //newCoords = this.rectToBinCoord(gameObj.Rectangle);
+                newCoords = this.NewRectToCoord(gameObj.Rectangle);
                 if (objBinLookupTable.TryGetValue(gameObj.IdNumber, out oldCoords))
                 {
                    this.OnUpdateObjectInBin(gameObj, oldCoords, newCoords);
@@ -133,6 +136,7 @@ namespace WesternSpace.Collision
                 }
             }
             // Check Collision Bins (Collision Bins)
+            // Collection was modifed, need to recycle bullets
             foreach (GameObjectBin gameObjBin in objBinsToCheck)
             {                
                 for (int i = 0; i < gameObjBin.ListOfObjects.Count - 1; i++)
@@ -143,9 +147,10 @@ namespace WesternSpace.Collision
                         {
                             gameObjBin.ListOfObjects.ElementAt(i).OnSpriteCollision(gameObjBin.ListOfObjects.ElementAt(j));
                             gameObjBin.ListOfObjects.ElementAt(j).OnSpriteCollision(gameObjBin.ListOfObjects.ElementAt(i));
+                            Debug.Print("Collision");
                         }
                     }
-                }
+                }             
             }
             base.Update(gameTime);
         }
