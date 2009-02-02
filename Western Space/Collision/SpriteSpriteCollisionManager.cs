@@ -137,7 +137,11 @@ namespace WesternSpace.Collision
             }
             // Check Collision Bins (Collision Bins)
             // Collection was modifed, need to recycle bullets
-            foreach (GameObjectBin gameObjBin in objBinsToCheck)
+
+            // make a copy of the bins to check
+            IEnumerable<GameObjectBin> objBinsToCheckCopy = objBinsToCheck.ToList();
+
+            foreach (GameObjectBin gameObjBin in objBinsToCheckCopy)
             {                
                 for (int i = 0; i < gameObjBin.ListOfObjects.Count - 1; i++)
                 {
