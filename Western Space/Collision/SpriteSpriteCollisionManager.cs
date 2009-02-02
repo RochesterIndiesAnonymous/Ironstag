@@ -159,7 +159,7 @@ namespace WesternSpace.Collision
             Rectangle rectB = entityB.Rectangle;
             if (rectA.Intersects(rectB))
             {
-                Debug.Print("Sprite Collision");
+                //Debug.Print("Sprite Collision");
                 entityA.OnSpriteCollision(entityB);
                 entityB.OnSpriteCollision(entityA);
                 return true;

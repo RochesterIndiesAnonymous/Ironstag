@@ -84,9 +84,9 @@ namespace WesternSpace.DrawableComponents.Projectiles
                 animationDirection = SpriteEffects.FlipHorizontally;
             }
 
-            this.ParentScreen.Components.Add(this);
-
             gameScreen = (GameScreen)screen;
+
+            this.ParentScreen.Components.Add(this);
         }
 
         /// <summary>
@@ -94,9 +94,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         /// </summary>
         public override void Initialize()
         {
-            //collision = (SpriteSpriteCollisionManager)this.Game.Services.GetService(typeof(SpriteSpriteCollisionManager));
-
-            //collision.RegisteredObjectList.Add(this);
+            this.gameScreen.World.spriteCollisionManager.addObjectToRegisteredObjectList(this);
 
             base.Initialize();
         }
@@ -111,7 +109,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
             if (this.Position.X > gameScreen.World.Camera.VisibleArea.X + gameScreen.World.Camera.VisibleArea.Width || this.Position.X + this.player.Animation.FrameWidth < gameScreen.World.Camera.VisibleArea.X)
             {
                 // This allows the bullet to be garbage collected. Verified that garbage collection happens on 2/1/2009
-                //this.collision.RegisteredObjectList.Remove(this);
+                this.gameScreen.World.spriteCollisionManager.removeObjectToRegisteredObjectList(this);
                 this.ParentScreen.Components.Remove(this);
                 this.Dispose();
                 return;
@@ -170,27 +168,42 @@ namespace WesternSpace.DrawableComponents.Projectiles
         #endregion
 
         #region ISpriteCollideable Members
-        protected int idNumber;
+        
+        private int idNumber;
+        
         public int IdNumber
         {
             get
             {
-                throw new NotImplementedException();
+                return idNumber;
             }
             set
             {
-                throw new NotImplementedException();
+                idNumber = value;
             }
         }
 
         public Rectangle Rectangle
         {
-            get { throw new NotImplementedException(); }
+            get 
+            {
+                int x = (int)(this.Position.X);
+                int y = (int)(this.Position.Y);
+                return new Rectangle(x, y, this.player.Animation.FrameWidth, this.player.Animation.FrameHeight);
+            }
         }
 
         public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
         {
-            throw new NotImplementedException();
+            IDamageable damage = characterCollidedWith as IDamageable;
+
+            if (damage != null && damage.TakesDamageFrom == this.DoesDamageTo)
+            {
+                // we hit
+                this.gameScreen.World.spriteCollisionManager.removeObjectToRegisteredObjectList(this);
+                this.ParentScreen.Components.Remove(this);
+                this.Dispose();
+            }
         }
 
         #endregion

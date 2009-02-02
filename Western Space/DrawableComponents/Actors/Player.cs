@@ -19,7 +19,7 @@ using WesternSpace.Interfaces;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    public class Player : Character, IDamageable
+    public class Player : Character, IDamageable, ISpriteCollideable
     {
         /// Constants ///
         private static readonly string COWBOY = "Cowboy";
@@ -387,13 +387,6 @@ namespace WesternSpace.DrawableComponents.Actors
             FlintNormalProjectile proj = new FlintNormalProjectile(this.ParentScreen, this.SpriteBatch, position, this, direction);
         }
 
-        /// <summary>
-        /// Called on a Sprite Collision?
-        /// </summary>
-        public void OnSpriteCollision()
-        {
-        }
-
         #region IDamageable Members
         /// <summary>
         /// The player's maximum health.
@@ -449,6 +442,44 @@ namespace WesternSpace.DrawableComponents.Actors
             if (this.TakesDamageFrom == damageItem.DoesDamageTo)
             {
                 currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
+            }
+        }
+
+        #endregion
+
+        #region ISpriteCollideable Members
+
+        private int idNumber;
+
+        public int IdNumber
+        {
+            get
+            {
+                return idNumber;
+            }
+            set
+            {
+                idNumber = value;
+            }
+        }
+
+        public Rectangle Rectangle
+        {
+            get 
+            {
+                int x = (int)(this.Position.X);
+                int y = (int)(this.Position.Y);
+                return new Rectangle(x, y, this.AnimationPlayer.Animation.FrameWidth, this.AnimationPlayer.Animation.FrameHeight);
+            }
+        }
+
+        public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
+        {
+            IDamaging damage = characterCollidedWith as IDamaging;
+
+            if (damage != null)
+            {
+                this.TakeDamage(damage);
             }
         }
 

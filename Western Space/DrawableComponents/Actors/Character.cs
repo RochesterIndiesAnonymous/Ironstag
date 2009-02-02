@@ -16,7 +16,7 @@ using WesternSpace.Utility;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    public abstract class Character : DrawableGameObject, ITileCollideable, ISpriteCollideable
+    public abstract class Character : DrawableGameObject, ITileCollideable
     {
 
         /// <summary>
@@ -277,39 +277,6 @@ namespace WesternSpace.DrawableComponents.Actors
             #endregion
         }
 
-        #endregion
-
-        #region ISpriteCollideable Members
-        protected int idNumber;
-        int ISpriteCollideable.IdNumber
-        {
-            get
-            {
-                return idNumber;
-            }
-            set
-            {
-                idNumber = value;
-            }
-        }
-        /// <summary>
-        /// Bounding Rectangle used for the character's current sprite.
-        /// </summary>
-        protected Rectangle rectangle;
-        public Rectangle Rectangle
-        {
-            get
-            {
-                rectangle = new Rectangle((int)this.position.X, (int)this.position.Y,
-                    this.animationPlayer.Animation.FrameWidth,
-                    this.animationPlayer.Animation.FrameHeight);
-                return rectangle;
-            }
-        }
-        public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
-        {
-            //throw new NotImplementedException();
-        }
         #endregion
     }
 }

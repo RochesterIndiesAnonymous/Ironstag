@@ -19,7 +19,7 @@ using WesternSpace.Interfaces;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    class EBandit : Character, IDamageable
+    class EBandit : Character, IDamageable, ISpriteCollideable
      {
         /// Constants ///
         private static readonly string BANDIT = "Bandit";
@@ -370,6 +370,44 @@ namespace WesternSpace.DrawableComponents.Actors
             if (this.TakesDamageFrom == damageItem.DoesDamageTo)
             {
                 currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
+            }
+        }
+
+        #endregion
+
+        #region ISpriteCollideable Members
+
+        private int idNumber;
+
+        public int IdNumber
+        {
+            get
+            {
+                return idNumber;
+            }
+            set
+            {
+                idNumber = value;
+            }
+        }
+
+        public Rectangle Rectangle
+        {
+            get
+            {
+                int x = (int)(this.Position.X);
+                int y = (int)(this.Position.Y);
+                return new Rectangle(x, y, this.AnimationPlayer.Animation.FrameWidth, this.AnimationPlayer.Animation.FrameHeight);
+            }
+        }
+
+        public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
+        {
+            IDamaging damage = characterCollidedWith as IDamaging;
+
+            if (damage != null)
+            {
+                this.TakeDamage(damage);
             }
         }
 
