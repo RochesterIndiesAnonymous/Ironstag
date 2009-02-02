@@ -123,11 +123,13 @@ namespace WesternSpace.DrawableComponents.Actors
             facing = SpriteEffects.None;
 
             //Initializes the player's hotspots.
-            this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(16, 0), HOTSPOT_TYPE.top));
-            this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(0, 30), HOTSPOT_TYPE.left));
-            this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(36, 30), HOTSPOT_TYPE.right));
-            this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(7, 60), HOTSPOT_TYPE.bottom));
-            //this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(27, 60), HOTSPOT_TYPE.bottom));
+            List<CollisionHotspot> hotspots = new List<CollisionHotspot>();
+            hotspots.Add(new CollisionHotspot(this, new Vector2(16, 0), HOTSPOT_TYPE.top));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(0, 10), HOTSPOT_TYPE.left));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(36, 10), HOTSPOT_TYPE.right));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(7, 60), HOTSPOT_TYPE.bottom));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(36, 60), HOTSPOT_TYPE.bottom));
+            Hotspots = hotspots;
 
             //Temp: Loads the gunshot sound.
             gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");

@@ -83,10 +83,10 @@ namespace WesternSpace.DrawableComponents.Actors
             facing = SpriteEffects.FlipHorizontally;
 
             //Initializes the player's hotspots.
-            this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(16, 0), HOTSPOT_TYPE.top));
-            this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(0, 30), HOTSPOT_TYPE.left));
-            this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(36, 30), HOTSPOT_TYPE.right));
-            this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(7, 60), HOTSPOT_TYPE.bottom));
+            this.Hotspots.Add(new CollisionHotspot(this, new Vector2(16, 0), HOTSPOT_TYPE.top));
+            this.Hotspots.Add(new CollisionHotspot(this, new Vector2(0, 30), HOTSPOT_TYPE.left));
+            this.Hotspots.Add(new CollisionHotspot(this, new Vector2(36, 30), HOTSPOT_TYPE.right));
+            this.Hotspots.Add(new CollisionHotspot(this, new Vector2(7, 60), HOTSPOT_TYPE.bottom));
             //this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(27, 60), HOTSPOT_TYPE.bottom));
 
             //Temp: Loads the gunshot sound.

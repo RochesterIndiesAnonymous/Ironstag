@@ -166,7 +166,8 @@ namespace WesternSpace.DrawableComponents.Actors
             : base(parentScreen, spriteBatch, position)
         {
             this.Position = position;
-            this.collisionHotSpots = new List<CollisionHotspot>();
+            this.hotspotsFacingRight = new List<CollisionHotspot>();
+            this.hotspotsFacingLeft = new List<CollisionHotspot>();
             this.roleMap = new Dictionary<string, Role>();
 	        idNumber = idNumberCount;
             idNumberCount++;
@@ -224,11 +225,31 @@ namespace WesternSpace.DrawableComponents.Actors
         public abstract void SetUpRoles(String xmlFile);
 
         #region ITileCollideable Members
-        protected List<CollisionHotspot> collisionHotSpots;
+        protected List<CollisionHotspot> hotspotsFacingLeft;
+        protected List<CollisionHotspot> hotspotsFacingRight;
+
         public List<CollisionHotspot> Hotspots
         {
-            set { collisionHotSpots = value; }
-            get { return collisionHotSpots; }
+            // If you set one list of hot spots, mirror it for the other.
+            set { hotspotsFacingRight = value;
+                foreach (CollisionHotspot hotspot in hotspotsFacingRight)
+                {
+                    HOTSPOT_TYPE h = hotspot.HotSpotType;
+                    if (hotspot.HotSpotType == HOTSPOT_TYPE.left)
+                    {
+                        h = HOTSPOT_TYPE.right;
+                    }
+                    else if (hotspot.HotSpotType == HOTSPOT_TYPE.right)
+                    {
+                        h = HOTSPOT_TYPE.left;
+                    }
+                    CollisionHotspot newHotspot = new CollisionHotspot(this,new Vector2(this.CurrentAnimation.FrameWidth - hotspot.Offset.X,hotspot.Offset.Y),h);
+
+                    hotspotsFacingLeft.Add(newHotspot);
+                }
+            }
+            // Get the hotspot list based upon which direction the player is facing.
+            get { return facing.Equals(SpriteEffects.FlipHorizontally) ? hotspotsFacingLeft : hotspotsFacingRight; }
         }
         public Vector2 OnTileColision(Tile tile, CollisionHotspot hotSpot, Rectangle tileRectangle)
         {
