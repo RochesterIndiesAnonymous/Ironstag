@@ -67,8 +67,8 @@ namespace WesternSpace.Utility
             Animation jumpingDescentShooting = new Animation(xmlFile, JUMPINGDESCENTSHOOTING);
             Animation falling = new Animation(xmlFile, FALLING);
             Animation fallingShooting = new Animation(xmlFile, FALLINGSHOOTING);
+            Animation hit = new Animation(xmlFile, HIT);
             //Animation dead = new Animation(xmlFile, DEAD);
-            //Animation hit = new Animation(xmlFile, HIT);
             //Animation transforming = new Animation(xmlFile, TRANSFORMING);
             //Animation jumpingAscentShootingUp = new Animation(xmlFile, JUMPINGASCENTSHOOTINGUP);
             //Animation jumpingDescentShootingUp = new Animation(xmlFile, JUMPINGASCENTSHOOTINGUP);
@@ -87,8 +87,8 @@ namespace WesternSpace.Utility
             this.animationMap.Add(JUMPINGDESCENTSHOOTING, jumpingDescentShooting);
             this.animationMap.Add(FALLING, falling);
             this.animationMap.Add(FALLINGSHOOTING, fallingShooting);
+            this.animationMap.Add(HIT, hit);
             //this.animationMap.Add(DEAD, dead);
-            //this.animationMap.Add(HIT, hit);
             //this.animationMap.Add(TRANSFORMING, transforming);
             //this.animationMap.Add(JUMPINGASCENTSHOOTINGUP, jumpingAscentShootingUp);
             //this.animationMap.Add(JUMPINGDESCENTSHOOTINGUP, jumpingDescentShootingUp);

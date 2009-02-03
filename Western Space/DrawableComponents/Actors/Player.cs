@@ -77,6 +77,11 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         /// <summary>
+        /// The velocity to move the player back with when hit.
+        /// </summary>
+        private Vector2 hitPushBack;
+
+        /// <summary>
         /// The amount of time before the player can shoot again.
         /// </summary>
         private int shotCoolDown;
@@ -147,6 +152,9 @@ namespace WesternSpace.DrawableComponents.Actors
 
             //Initialize the last fired shot time
             shotDelay = 0;
+
+            //Sets the hitback Vector
+            hitPushBack = new Vector2(-7f, 0f);
 
             //Temp: Loads the gunshot sound.
             gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
@@ -394,7 +402,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 {
                     if (!animationPlayer.Animation.animationName.Equals(currentState))
                     {
-                        //ContinueAnimationNewState(animationPlayer.Animation.animationName);
+                        ContinueAnimationNewState(animationPlayer.Animation.animationName);
                     }
                     else if (!currentState.Contains("Jumping"))
                     {
@@ -413,7 +421,10 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
                 else if(currentState.Equals("Hit"))
                 {
-                    //Change state to hit and increment hit time counter
+                    if (!animationPlayer.Animation.animationName.Equals(currentState))
+                    {
+                        ChangeState(animationPlayer.Animation.animationName);
+                    }
                 }
             }
 
@@ -542,6 +553,16 @@ namespace WesternSpace.DrawableComponents.Actors
         public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
         {
             IDamaging damage = characterCollidedWith as IDamaging;
+
+            ChangeState("Hit");
+            if (facing == SpriteEffects.FlipHorizontally)
+            {
+                position += (-1) * hitPushBack;
+            }
+            else
+            {
+                position += hitPushBack;
+            }
 
             if (damage != null)
             {

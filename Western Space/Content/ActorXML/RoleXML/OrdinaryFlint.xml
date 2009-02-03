@@ -60,5 +60,9 @@
     <Animation AnimationKey="FallingShooting" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintFallShoot" FrameWidth="64" FrameHeight="72" IsOneShot="1" Parent="Falling">
       <Frame DisplayTime="150" SheetIndex="0" />
     </Animation>
+    <Animation AnimationKey="Hit" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintHit" FrameWidth="64" FrameHeight="61" IsOneShot="1" Parent="Idle">
+      <Frame DisplayTime="200" SheetIndex="0" />
+    </Animation>
+    
   </Animations>
 </Cowboy>
