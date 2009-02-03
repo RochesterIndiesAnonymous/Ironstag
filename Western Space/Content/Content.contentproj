@@ -198,13 +198,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActorXML\AnimationXML\OrdinaryFlint.xml">
-      <Name>OrdinaryFlint</Name>
-      <Importer>XDocumentImporter</Importer>
-      <Processor>XDocumentProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\desertSpriteSheet.png">
       <Name>desertSpriteSheet</Name>
       <Importer>TextureImporter</Importer>
@@ -303,14 +296,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActorXML\AnimationXML\SpaceFlint.xml">
-      <Name>SpaceFlint</Name>
-      <Importer>XDocumentImporter</Importer>
-      <Processor>XDocumentProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ActorXML\AnimationXML\FlintBullet.xml">
+    <Compile Include="ActorXML\ProjectileXML\FlintBullet.xml">
       <Name>FlintBullet</Name>
       <Importer>XDocumentImporter</Importer>
       <Processor>XDocumentProcessor</Processor>
@@ -321,13 +307,6 @@
       <Name>FlintBullet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ActorXML\AnimationXML\BanditEnemy.xml">
-      <Name>BanditEnemy</Name>
-      <Importer>XDocumentImporter</Importer>
-      <Processor>XDocumentProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -347,13 +326,6 @@
   <ItemGroup>
     <Compile Include="Textures\Enemies\BanditShoot.png">
       <Name>BanditShoot</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\FlintIronstag\FlintRunShoot.png">
-      <Name>FlintRunShoot</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -391,6 +363,30 @@
       <Name>FlintFallShoot</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\FlintIronstag\FlintRunShoot.png">
+      <Name>FlintRunShoot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActorXML\RoleXML\BanditEnemy.xml">
+      <Name>BanditEnemy</Name>
+      <Importer>XDocumentImporter</Importer>
+      <Processor>XDocumentProcessor</Processor>
+    </Compile>
+    <Compile Include="ActorXML\RoleXML\OrdinaryFlint.xml">
+      <Name>OrdinaryFlint</Name>
+      <Importer>XDocumentImporter</Importer>
+      <Processor>XDocumentProcessor</Processor>
+    </Compile>
+    <Compile Include="ActorXML\RoleXML\SpaceFlint.xml">
+      <Name>SpaceFlint</Name>
+      <Importer>XDocumentImporter</Importer>
+      <Processor>XDocumentProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v3.0\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

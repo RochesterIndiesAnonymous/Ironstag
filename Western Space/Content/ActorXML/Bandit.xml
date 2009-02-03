@@ -2,6 +2,6 @@
 <Bandit>
   <Health MaxHealth="10"></Health>
   <Roles>
-    <Role RoleKey="Bandit" AnimationXML="ActorXML\\AnimationXML\\BanditEnemy"></Role>
+    <Role RoleKey="Bandit" RoleXML="ActorXML\\RoleXML\\BanditEnemy"></Role>
   </Roles>
 </Bandit>

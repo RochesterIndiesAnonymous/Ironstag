@@ -50,7 +50,7 @@ namespace WesternSpace.DrawableComponents.Actors
             : base(parentScreen, spriteBatch, world, position, xmlFile)
         {
             //Set the character's Name
-            name = "Flint Ironstag";
+            name = "Bandit";
 
             //Load the player information from the XML file
             LoadBanditXmlFile(xmlFile);

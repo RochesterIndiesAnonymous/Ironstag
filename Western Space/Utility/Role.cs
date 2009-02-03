@@ -37,6 +37,17 @@ namespace WesternSpace.Utility
             get { return animationMap; }
         }
 
+        /// <summary>
+        /// The name of the XML file contaning role specific data.
+        /// </summary>
+        protected string roleXmlFile;
+
+
+        /// <summary>
+        /// Constructor for Role
+        /// </summary>
+        /// <param name="xmlFile">The name of the xml file containing role information.</param>
+        /// <param name="name">The name of this Role.</param>
         public Role(String xmlFile, String name)
         {
             this.name = name;
@@ -70,8 +81,8 @@ namespace WesternSpace.Utility
 
                 if (this.name.Equals(roleName))
                 {
-                    String animationXml = role.Attribute("AnimationXML").Value;
-                    SetUpAnimation(animationXml);
+                    this.roleXmlFile = role.Attribute("RoleXML").Value;
+                    SetUpAnimation(roleXmlFile);
                     SetAnimationParents();
                 }
             }

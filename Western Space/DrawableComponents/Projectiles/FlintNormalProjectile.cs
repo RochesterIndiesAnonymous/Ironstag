@@ -19,7 +19,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         /// <summary>
         /// The animation object to to use for animating this projectile
         /// </summary>
-        private static readonly Animation FlintProjectileAnimation = new Animation("ActorXML\\AnimationXML\\FlintBullet", "Bullet");
+        private static readonly Animation FlintProjectileAnimation = new Animation("ActorXML\\ProjectileXML\\FlintBullet", "Bullet");
 
         /// <summary>
         /// The amount of damage a single projectile does to the player

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using WesternSpace.AnimationFramework;
@@ -12,7 +13,7 @@ namespace WesternSpace.Utility
     /// </summary>
     public class Cowboy : Role
     {
-        /// Constants ///
+        // Constants //
         public static readonly string IDLE = "Idle";
         public static readonly string DEAD = "Dead";
         public static readonly string HIT = "Hit";
@@ -32,15 +33,28 @@ namespace WesternSpace.Utility
         public static readonly string FALLINGSHOOTING = "FallingShooting";
         public static readonly string FALLINGSHOOTINGUP = "FallingShootingUp";
 
+        // Class Variables //
+        private int shootCoolDown;
+
+        public int ShootCoolDown
+        {
+            get { return shootCoolDown; }
+        }
+
         /// <summary>
         /// Cowboy Constructor
         /// </summary>
-        /// <param name="xmlFile">XML filename which houses the animation data for a Cowboy.</param>
+        /// <param name="xmlFile">XML filename which houses the role data for a Cowboy.</param>
         public Cowboy(string xmlFile, string name)
             :base(xmlFile, name)
         {
+            LoadCowboyXMLFile(this.roleXmlFile);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlFile"></param>
         public override void SetUpAnimation(String xmlFile)
         {   
             Animation idle = new Animation(xmlFile, IDLE);
@@ -80,6 +94,18 @@ namespace WesternSpace.Utility
             //this.animationMap.Add(JUMPINGDESCENTSHOOTINGUP, jumpingDescentShootingUp);
             //this.animationMap.Add(RUNNINGSHOOTINGUP, runningShootingUp);
             //this.animationMap.Add(SHOOTINGUP, shootingUp);
+        }
+
+        /// <summary>
+        /// Loads Role specific attributes from the supplied xml file.
+        /// </summary>
+        /// <param name="xmlFile">XML file name containing this role's attributes.</param>
+        private void LoadCowboyXMLFile(string xmlFile)
+        {
+            Console.WriteLine("FILE: " + xmlFile);
+            //Create a new XDocument from the given file name.
+            XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(xmlFile);
+            Int32.TryParse(fileContents.Root.Element("Attributes").Attribute("ShootCoolDown").Value, out this.shootCoolDown);
         }
     }
 }
