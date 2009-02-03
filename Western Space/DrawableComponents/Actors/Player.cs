@@ -289,7 +289,6 @@ namespace WesternSpace.DrawableComponents.Actors
                     gunShot.Play();
                     GenerateBullet();
                     shotDelay = (int)gameTime.TotalGameTime.TotalMilliseconds;
-                    Console.WriteLine("NewShot fired at: " + shotDelay);
                 }
             }
         }
