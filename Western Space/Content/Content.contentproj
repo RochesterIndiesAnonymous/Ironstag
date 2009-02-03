@@ -338,20 +338,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\FlintIronstag\FlintJumpShoot1.png">
-      <Name>FlintJumpShoot1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\FlintIronstag\FlintJumpShoot2.png">
-      <Name>FlintJumpShoot2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\FlintIronstag\FlintFall.png">
       <Name>FlintFall</Name>
       <Importer>TextureImporter</Importer>
@@ -387,6 +373,16 @@
       <Name>SpaceFlint</Name>
       <Importer>XDocumentImporter</Importer>
       <Processor>XDocumentProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\FlintIronstag\FlintJumpShoot1.png">
+      <Name>FlintJumpShoot1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\FlintIronstag\FlintJumpShoot2.png">
+      <Name>FlintJumpShoot2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v3.0\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

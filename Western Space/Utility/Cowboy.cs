@@ -34,7 +34,7 @@ namespace WesternSpace.Utility
         public static readonly string FALLINGSHOOTINGUP = "FallingShootingUp";
 
         // Class Variables //
-        private int shootCoolDown;
+        public int shootCoolDown;
 
         public int ShootCoolDown
         {
@@ -102,7 +102,6 @@ namespace WesternSpace.Utility
         /// <param name="xmlFile">XML file name containing this role's attributes.</param>
         private void LoadCowboyXMLFile(string xmlFile)
         {
-            Console.WriteLine("FILE: " + xmlFile);
             //Create a new XDocument from the given file name.
             XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(xmlFile);
             Int32.TryParse(fileContents.Root.Element("Attributes").Attribute("ShootCoolDown").Value, out this.shootCoolDown);

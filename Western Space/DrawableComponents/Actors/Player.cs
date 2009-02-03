@@ -77,6 +77,16 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         /// <summary>
+        /// The amount of time before the player can shoot again.
+        /// </summary>
+        private int shotCoolDown;
+
+        /// <summary>
+        /// Keeps track of the time, in milliseconds, until the next shot can be fired.
+        /// </summary>
+        private int shotDelay;
+
+        /// <summary>
         /// Constructor for Flint Ironstag.
         /// </summary>
         /// <param name="parentScreen">The screen which this object is a part of.</param>
@@ -132,6 +142,12 @@ namespace WesternSpace.DrawableComponents.Actors
             hotspots.Add(new CollisionHotspot(this, new Vector2(30, 60), HOTSPOT_TYPE.bottom));
             Hotspots = hotspots;
 
+            //Set up the ShotCoolDown Timer
+            UpdateShotCoolDown();
+
+            //Initialize the last fired shot time
+            shotDelay = 0;
+
             //Temp: Loads the gunshot sound.
             gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
 
@@ -155,10 +171,25 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         /// <summary>
+        /// Updates the shotCoolDown Timer to that of its current Role.
+        /// </summary>
+        private void UpdateShotCoolDown()
+        {
+            if (isTransformed)
+            {
+                //shotCoolDown = ((SpaceCowboy)currentRole).shootCoolDown;
+            }
+            else
+            {
+                shotCoolDown = ((Cowboy)currentRole).shootCoolDown;
+            }
+        }
+
+        /// <summary>
         /// Called when the player presses the jump button. If the player is already
         /// in a jumping state then no action is to occurr.
         /// </summary>
-        public void Jump()
+        private void Jump()
         {
             if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
             {
@@ -174,7 +205,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// Called when the player presses a movement button.
         /// </summary>
-        public void Move()
+        private void Move()
         {
             int direction = 1;
 
@@ -219,41 +250,47 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// Called when the player presses the shoot button.
         /// </summary>
-        public void Shoot()
+        private void Shoot(GameTime gameTime)
         {
-            if (!currentState.Equals("Dead") && !currentState.Equals("Hit") && !currentState.Contains("Shooting"))
+            if (gameTime.TotalGameTime.TotalMilliseconds - shotDelay > shotCoolDown)
             {
-                if (currentState.Contains("Jumping"))
+
+                if (!currentState.Equals("Dead") && !currentState.Equals("Hit") && !currentState.Contains("Shooting"))
                 {
-                    //Change state and animation
-                    if (currentState.Equals("JumpingAscent"))
+                    if (currentState.Contains("Jumping"))
                     {
-                        ContinueAnimationNewState("JumpingAscentShooting");
+                        //Change state and animation
+                        if (currentState.Equals("JumpingAscent"))
+                        {
+                            ContinueAnimationNewState("JumpingAscentShooting");
+                        }
+                        else
+                        {
+                            ContinueAnimationNewState("JumpingDescentShooting");
+                        }
+                    }
+                    else if (currentState.Contains("Falling"))
+                    {
+                        ContinueAnimationNewState("FallingShooting");
+                    }
+                    else if (currentState.Contains("Running"))
+                    {
+
+                        //Change state and animation
+                        ContinueAnimationNewState("RunningShooting");
                     }
                     else
                     {
-                        ContinueAnimationNewState("JumpingDescentShooting");
+                        //Change state and animation
+                        ChangeState("Shooting");
                     }
-                }
-                else if (currentState.Contains("Falling"))
-                {
-                    ContinueAnimationNewState("FallingShooting");
-                }
-                else if (currentState.Contains("Running"))
-                {
 
-                    //Change state and animation
-                    ContinueAnimationNewState("RunningShooting");
+                    //Generate a Bullet
+                    gunShot.Play();
+                    GenerateBullet();
+                    shotDelay = (int)gameTime.TotalGameTime.TotalMilliseconds;
+                    Console.WriteLine("NewShot fired at: " + shotDelay);
                 }
-                else
-                {
-                    //Change state and animation
-                    ChangeState("Shooting");
-                }
-
-                //Generate a Bullet
-                gunShot.Play();
-                GenerateBullet();
             }
         }
 
@@ -261,7 +298,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// Called when the player attempts to dodge roll. This action can only
         /// be performed if the player is in a transformed state.
         /// </summary>
-        public void DodgeRoll()
+        private void DodgeRoll()
         {
             if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
             {
@@ -279,7 +316,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// Called when the player presses the transformation button.
         /// </summary>
-        public void Transform()
+        private void Transform()
         {
             if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
             {
@@ -302,8 +339,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="gameTime">The time the game has been running.</param>
         public override void Update(GameTime gameTime)
         {
-
-            /// -- Get User Input -- ///
+            // -- Get User Input -- //
             if (input.CheckKey(InputMonitor.RIGHT) || input.CheckButton(InputMonitor.RIGHT) || input.CheckLeftJoystickOnXAxis(InputMonitor.RIGHT))
             {
                 facing = SpriteEffects.None;
@@ -316,23 +352,23 @@ namespace WesternSpace.DrawableComponents.Actors
             }
             if (input.CheckPressAndReleaseKey(InputMonitor.SHOOT) || input.CheckPressAndReleaseButton(InputMonitor.SHOOT))
             {
-                Shoot();
+                Shoot(gameTime);
             }
             if (input.CheckPressAndReleaseKey(InputMonitor.JUMP) || input.CheckPressAndReleaseButton(InputMonitor.JUMP))
             {
                 Jump();
             }
 
-            /// -- Handle Physics -- ///
+            // -- Handle Physics -- //
             velocity = playerPhysics.ApplyPhysics(velocity);
 
-            /// -- Update Position -- ///
+            // -- Update Position -- //
             position += velocity;
 
-            /// --Reset the Velocity -- ///
+            // --Reset the Velocity -- //
             playerPhysics.ResetVelocity();
 
-            /// --- Check For Max Ascent of Jump -- ///
+            // -- Check For Max Ascent of Jump -- //
             if (currentState.Contains("Jumping"))
             {
                 if (((-0.5 <= velocity.Y) && (velocity.Y <= 0.08)) && (!currentState.Contains("Descent")))
@@ -341,7 +377,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
             }
 
-            /// -- Check for Final State Changes -- ///
+            // -- Check for Final State Changes -- //
             if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
             {
                 if (isOnGround)
@@ -404,7 +440,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// Creates a bullet object which travels in a straight line.
         /// </summary>
-        public void GenerateBullet()
+        private void GenerateBullet()
         {
             short direction = 1;
             Vector2 position = this.Position + new Vector2(40f, 23f);

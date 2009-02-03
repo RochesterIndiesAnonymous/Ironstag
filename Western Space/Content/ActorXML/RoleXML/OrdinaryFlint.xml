@@ -45,12 +45,12 @@
       <Frame DisplayTime="100" SheetIndex="8" />
       <Frame DisplayTime="100" SheetIndex="9" />
     </Animation>
-    <Animation AnimationKey="JumpingAscentShooting" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintJumpShoot1" FrameWidth="85" FrameHeight="61" IsOneShot="1" Parent="JumpingAscent">
+    <Animation AnimationKey="JumpingAscentShooting" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintJumpShoot1" FrameWidth="64" FrameHeight="61" IsOneShot="1" Parent="JumpingAscent">
       <Frame DisplayTime="50" SheetIndex="0" />
       <Frame DisplayTime="100" SheetIndex="1" />
       <Frame DisplayTime="100" SheetIndex="2" />
     </Animation>
-    <Animation AnimationKey="JumpingDescentShooting" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintJumpShoot2" FrameWidth="85" FrameHeight="61" IsOneShot="1" Parent="JumpingDescent">
+    <Animation AnimationKey="JumpingDescentShooting" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintJumpShoot2" FrameWidth="64" FrameHeight="61" IsOneShot="1" Parent="JumpingDescent">
       <Frame DisplayTime="250" SheetIndex="0" />
       <Frame DisplayTime="83" SheetIndex="1" />
     </Animation>
