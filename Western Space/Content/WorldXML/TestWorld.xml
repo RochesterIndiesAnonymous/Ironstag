@@ -1,14 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<World InteractiveMapFileName="TileMapXML\\BigTileMap" PlayerFileName="ActorXML\\FlintIronstag" PlayerPositionX="259" PlayerPositionY="79">
-  <!--<Parallax MapFileName="TileMapXML\\BigTileMap" ScrollSpeed="0">
-    <Layer LayerName="ForegroundParallax" LayerIndex="0" ZIndex="-100" />
-  </Parallax>-->
-
-  <MapLayer LayerName="MapForeground" LayerIndex="1" ZIndex="10" />
-  <MapLayer LayerName="MapBackground" LayerIndex="0" ZIndex="-10" />
-
-  <!--<Parallax MapFileName="TileMapXML\\BigTileMap" ScrollSpeed="0.25">
-    <Layer LayerName="BackgroundParallax" LayerIndex="0" ZIndex="-20" />
-  </Parallax>-->
-  
+﻿<?xml version="1.0" encoding="utf-8"?>
+<World InteractiveMapFileName="TileMapXML\\BigTileMap" PlayerFileName="ActorXML\\FlintIronstag" PlayerPositionX="278" PlayerPositionY="309">
+  <MapLayer LayerName="" LayerIndex="0" ZIndex="-10" />
+  <MapLayer LayerName="" LayerIndex="1" ZIndex="10" />
 </World>

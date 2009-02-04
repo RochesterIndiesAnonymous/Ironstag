@@ -27,6 +27,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
         public EdgeToggler(Screen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, TileSelector tileSelector)
             : base(parentScreen, spriteBatch, bounds)
         {
+            base.Draggable[0] = true;
             this.tileSelector = tileSelector;
             this.textureService = (ITextureService)Game.Services.GetService(typeof(ITextureService));
 

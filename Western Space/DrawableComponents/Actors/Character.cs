@@ -18,11 +18,28 @@ namespace WesternSpace.DrawableComponents.Actors
 {
     public abstract class Character : DrawableGameObject, ITileCollidable
     {
+        private string fileName;
+
+        public string FileName
+        {
+            get { return fileName; }
+        }
+
         private World world;
 
         public World World
         {
             get { return world; }
+        }
+
+        /// <summary>
+        /// The position of this character on the current screen, based on
+        ///  the world's camera's position.
+        /// </summary>
+        public Vector2 ScreenPosition
+        {
+            get { return Position - World.Camera.Position; }
+            set { Position = World.Camera.Position + value; }
         }
 
         /// <summary>
@@ -156,6 +173,7 @@ namespace WesternSpace.DrawableComponents.Actors
         public Character(Screen parentScreen, SpriteBatch spriteBatch, World world, Vector2 position, String xmlFile)
             : base(parentScreen, spriteBatch, position)
         {
+            this.fileName = xmlFile;
             this.world = world;
             this.Position = position;
             this.hotspotsFacingRight = new List<CollisionHotspot>();

@@ -154,7 +154,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 this.sheetIndex = (int)MathHelper.Clamp((this.sheetIndex + (amount > 0 ? 1 : -1)),
                                                                  0,
                                                                  textureService.SheetsArray.Count<SubTextureSheet>() - 1);
-                this.Bounds = new RectangleF(Position.X, Position.Y, selectingSheet.Texture.Width, selectingSheet.Texture.Height);
+                Bounds = new RectangleF(Position.X, Position.Y, selectingSheet.Texture.Width, selectingSheet.Texture.Height);
             }
             base.OnMouseScroll(amount);
         }
@@ -327,8 +327,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
                     // If they're all the same, we change ours to whatever theirs is.
                     // Otherwise, we change ours to "unknown" to illustrate that 
                     //  the tiles differ in the subTexture resulting from Tile.Textures[layerIndex,subLayerIndex].
-                    if (
-                        (from other in tiles
+                    if ((from other in tiles
                          where (
                             other != null &&
                             other.Textures[LayerIndex, SubLayerIndex] == first.Textures[LayerIndex, SubLayerIndex]

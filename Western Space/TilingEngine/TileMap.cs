@@ -14,6 +14,15 @@ namespace WesternSpace.TilingEngine
     // It knows nothing about how it should be drawn.
     public class TileMap : IXElementOutput
     {
+        private string fileName;
+
+        public string FileName
+        {
+            get { return fileName; }
+            set { fileName = value; }
+        }
+
+
         private int tileWidth;
 
         public int TileWidth
@@ -357,7 +366,8 @@ namespace WesternSpace.TilingEngine
         }
 
         public TileMap(string fileName)
-        { 
+        {
+            this.fileName = fileName;
             XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(fileName);
             int width, height;
 

@@ -97,6 +97,8 @@ namespace WesternSpace.Screens
                 TileMap bigMap = new TileMap(MAX_TILEMAP_WIDTH, MAX_TILEMAP_HEIGHT, 
                                           DEFAULT_TILE_WIDTH, DEFAULT_TILE_HEIGHT,
                                           LAYER_COUNT, SUB_LAYER_COUNT);
+                bigMap.FileName = world.Map.FileName;
+
                 // Backup the original map:
                 TileMap map = world.Map;
 
@@ -202,9 +204,12 @@ namespace WesternSpace.Screens
             ts.DrawOrder = 400;
             this.Components.Add(ts);
 
-            SaveButton saveButton = new SaveButton(this, sb, new RectangleF(5, 400, 30, 15), ts);
+            SaveButton saveButton = new SaveButton(this, sb, new RectangleF(5, 400, 30, 15), World);
             saveButton.DrawOrder = 401;
             this.Components.Add(saveButton);
+
+            PlayerMover pm = new PlayerMover(this, sb, World.Player);
+            this.Components.Add(pm);
         }
 
         private void CreateDebuggingInformationComponents()

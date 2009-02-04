@@ -39,9 +39,26 @@ namespace WesternSpace.DrawableComponents.EditorUI
             get { return heldTime; }
         }
 
+        /// <summary>
+        /// Whether or not this element will be moved using specific mouse
+        ///  buttons. Defaults all to false.
+        /// </summary>
+        private bool[] draggable;
+
+        public bool[] Draggable
+        {
+            get { return draggable; }
+        }
+
+        /// <summary>
+        /// Whether or not a certain button is currently being held down
+        ///  to drag this element, assuming it's draggable by that button.
+        /// </summary>
+        private bool[] dragging;
+
         // This element is used to represent the interactive area of 
         //  this UI component.
-        protected RectangleF bounds;
+        private RectangleF bounds;
 
         virtual public RectangleF Bounds
         {
@@ -139,7 +156,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         virtual protected bool MouseIsInside()
         {
-            return bounds.Contains(new PointF(inputManager.BetterMouse.ScaledPosition.X, inputManager.BetterMouse.ScaledPosition.Y));
+            return Bounds.Contains(new PointF(inputManager.BetterMouse.ScaledPosition.X, inputManager.BetterMouse.ScaledPosition.Y));
         }
 
         public EditorUIComponent(Screen parentScreen, SpriteBatch spriteBatch, RectangleF bounds)
@@ -150,6 +167,9 @@ namespace WesternSpace.DrawableComponents.EditorUI
             this.bounds = bounds;
             this.heldTime = new int[3];
             this.insideTime = 0;
+            this.draggable = new bool[3];
+            this.dragging = new bool[3];
+            dragging[0] = dragging[1] = dragging[2] = false;
         }
 
         public override void Initialize()
@@ -162,6 +182,30 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         public override void Update(GameTime gameTime)
         {
+            if (draggable[0] || draggable[1] || draggable[2])
+            {
+                Bounds = new RectangleF(Bounds.X + Mouse.ScaledMotion.X, Bounds.Y + Mouse.ScaledMotion.Y, Bounds.Width, Bounds.Height);
+                // Move our bounds if we're a draggable and
+                //  the mouse is inside and a draggable 
+                //  button is held.
+                bool anyHeldDown = false;
+                if (MouseIsInside())
+                {
+                    for (int button = 0; button < 3; ++button)
+                    {
+                        if (draggable[button] && dragging[button])
+                        {
+                            anyHeldDown = true;
+                            break;
+                        }
+                    }
+                }
+                if (!anyHeldDown)
+                {
+                    Bounds = new RectangleF(Bounds.X - Mouse.ScaledMotion.X, Bounds.Y - Mouse.ScaledMotion.Y, Bounds.Width, Bounds.Height);
+                }
+            }
+
             bool mouseIsInside = MouseIsInside();
 
             if (mouseIsInside)
@@ -176,7 +220,11 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 for (int i = 0; i < 3; ++i)
                 {
                     if (mouse.ButtonsClicked[i])
+                    {
+                        if (draggable[i])
+                            dragging[i] = true;
                         OnMouseClick(i);
+                    }
                     if (mouse.ButtonsHeld[i] > 0)
                     {
                         heldTime[i] += gameTime.ElapsedGameTime.Milliseconds;
@@ -184,6 +232,8 @@ namespace WesternSpace.DrawableComponents.EditorUI
                     }
                     else
                     {
+                        if (draggable[i])
+                            dragging[i] = false;
                         heldTime[i] = 0;
                     }
                     if (mouse.ButtonsUnclicked[i])

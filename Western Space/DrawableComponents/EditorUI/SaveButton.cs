@@ -14,17 +14,17 @@ using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.EditorUI
 {
-    // Quick hack to allow saving of your changes.
+    // Let's you change the starting position of the player.
     public class SaveButton : EditorUIComponent
     {
-        private TileSelector tileSelector;
+        private World world;
 
         private ITextureService textureService;
 
-        public SaveButton(Screen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, TileSelector tileSelector)
+        public SaveButton(Screen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, World world)
             : base(parentScreen, spriteBatch, bounds)
         {
-            this.tileSelector = tileSelector;
+            this.world = world;
             this.textureService = (ITextureService)Game.Services.GetService(typeof(ITextureService));
         }
 
@@ -34,12 +34,13 @@ namespace WesternSpace.DrawableComponents.EditorUI
         {
             if (button == 0) // Only handle left clicks, ignore others.
             {
-                TileMap orig = tileSelector.TileMap;
+                TileMap orig = world.Map;
 
                 // Save TileMap here.
                 TileMap copy = new TileMap(orig.Width, orig.Height,
                                            orig.TileWidth, orig.TileHeight,
                                            orig.LayerCount, orig.SubLayerCount);
+
 
                 Tile tile;
                 for (int i = 0; i < orig.Width; ++i)
@@ -52,9 +53,18 @@ namespace WesternSpace.DrawableComponents.EditorUI
                     }
                 }
                 copy.Minimize();
+                Vector2 worldOffset = new Vector2(((orig.Width - copy.Width) * orig.TileWidth) / 2, 
+                                                  ((orig.Height - copy.Height) * orig.TileHeight) / 2);
+
+                world.Player.Position -= worldOffset;
                 
-                XDocument doc = new XDocument(copy.ToXElement());
-                doc.Save("..\\..\\..\\Content\\TileMapXML\\BigTileMap.xml");
+                XDocument tileDoc = new XDocument(copy.ToXElement());
+                tileDoc.Save("..\\..\\..\\Content\\TileMapXML\\BigTileMap.xml");
+
+                XDocument worldDoc = new XDocument(world.ToXElement());
+                worldDoc.Save("..\\..\\..\\Content\\WorldXML\\TestWorld.xml");
+
+                world.Player.Position += worldOffset;
             }
             base.OnMouseUnclick(button);
         }

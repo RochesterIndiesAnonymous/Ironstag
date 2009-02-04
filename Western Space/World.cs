@@ -17,7 +17,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace WesternSpace
 {
-    public class World : GameObject
+    public class World : GameObject, IXElementOutput
     {
         public static readonly int PLAYER_DRAW_ORDER = 0;
 
@@ -44,7 +44,7 @@ namespace WesternSpace
         }
 
         // Secondary non-interactive tile maps that usually represent background layers/parallax.
-        private TileMap[] otherMaps;
+        private List<TileMap> otherMaps;
 
         // int represents the Z-index the layer is drawn at.
         public Dictionary<int, TileMapLayer> interactiveLayers;
@@ -83,6 +83,7 @@ namespace WesternSpace
             this.interactiveLayers = new Dictionary<int, TileMapLayer>();
             this.parallaxLayers = new Dictionary<int, TileMapLayer>();
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
+            otherMaps = new List<TileMap>();
 
             // Set up our collision systems:
             spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, new Point(40, 40));
@@ -103,6 +104,7 @@ namespace WesternSpace
             this.interactiveLayers = new Dictionary<int, TileMapLayer>();
             this.parallaxLayers = new Dictionary<int, TileMapLayer>();
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
+            otherMaps = new List<TileMap>();
 
             // Set up our collision systems:
             spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, new Point(40, 40));
@@ -214,6 +216,7 @@ namespace WesternSpace
                 TileMap tileMap;
 
                 tileMap = new TileMap(parallaxMap.Attribute("MapFileName").Value);
+                otherMaps.Add(tileMap);
 
                 float.TryParse(parallaxMap.Attribute("ScrollSpeed").Value, out ScrollSpeed);
 
@@ -236,5 +239,53 @@ namespace WesternSpace
             #endregion
         }
 
+
+        #region IXElementOutput Members
+
+        public XElement ToXElement()
+        {
+            XAttribute interactiveMapFileName = new XAttribute("InteractiveMapFileName", Map.FileName);
+
+            XAttribute playerPositionX = new XAttribute("PlayerPositionX", Player.Position.X);
+            XAttribute playerPositionY = new XAttribute("PlayerPositionY", Player.Position.Y);
+            XAttribute playerFileName = new XAttribute("PlayerFileName", Player.FileName);
+
+            XElement ret = new XElement("World", interactiveMapFileName, playerFileName, playerPositionX, playerPositionY);
+
+            foreach (int zIndex in interactiveLayers.Keys)
+            {
+                TileMapLayer tml = interactiveLayers[zIndex];
+                XElement imlElement = new XElement("MapLayer",
+                                                   new XAttribute("LayerName",""),
+                                                   new XAttribute("LayerIndex", tml.LayerIndex),
+                                                   new XAttribute("ZIndex", zIndex));
+                ret.Add(imlElement);
+            }
+
+            foreach (TileMap otherMap in otherMaps)
+            {
+                XElement parallax = new XElement("Parallax", new XAttribute("MapFileName", otherMap.FileName));
+                ret.Add(parallax);
+            }
+
+            foreach (int zIndex in parallaxLayers.Keys)
+            { 
+                TileMapLayer pml = parallaxLayers[zIndex];
+                XElement pmlElement = new XElement("MapLayer",
+                                                   new XAttribute("LayerName",null),
+                                                   new XAttribute("LayerIndex", pml.LayerIndex),
+                                                   new XAttribute("ZIndex", zIndex));
+                ret.Add(pmlElement);
+
+                IEnumerable<XElement> plaxs = from plax in ret.Descendants("Parallax") 
+                                              where plax.Attribute("MapFileName").Value == pml.TileMap.FileName
+                                              select plax;
+                plaxs.First<XElement>().Attribute("ScrollSpeed").Value = pml.ScrollSpeed.ToString();
+            }
+
+            return ret;
+        }
+
+        #endregion
     }
 }

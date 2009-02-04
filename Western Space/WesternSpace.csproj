@@ -96,6 +96,7 @@
     <Compile Include="DrawableComponents\Actors\EBandit.cs" />
     <Compile Include="DrawableComponents\Actors\Player.cs" />
     <Compile Include="DrawableComponents\EditorUI\ITilePropertyComponent.cs" />
+    <Compile Include="DrawableComponents\EditorUI\PlayerMover.cs" />
     <Compile Include="DrawableComponents\EditorUI\SaveButton.cs" />
     <Compile Include="DrawableComponents\EditorUI\EdgeToggler.cs" />
     <Compile Include="DrawableComponents\GameUI\GameUI.cs" />

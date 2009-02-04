@@ -92,6 +92,21 @@ namespace WesternSpace.Input
             }
         }
 
+        private Vector2 worldMotion;
+
+        /// <summary>
+        /// The distance the mouse has moved in the world since the previous frame.
+        /// This takes camera motion into account, even if the mouse doesn't technically
+        ///  move on it's own.
+        /// </summary>
+        public Vector2 WorldMotion
+        {
+            get
+            {
+                return worldMotion;
+            }
+        }
+
         private int scrollAmount;
 
         public int ScrollAmount
@@ -107,6 +122,7 @@ namespace WesternSpace.Input
             buttonsHeld = new int[3];
             buttonsUnclicked = new bool[3];
             position = new Vector2();
+            worldMotion = new Vector2();
             motion = new Vector2();
         }
 
@@ -119,6 +135,7 @@ namespace WesternSpace.Input
         public override void Update(GameTime gameTime)
         {
             MouseState currentState = inputManager.MouseState;
+            Vector2 previousWorldPosition = new Vector2(WorldPosition.X, WorldPosition.Y);
 
             ButtonState[] previousButtons = new ButtonState[3];
             ButtonState[] currentButtons = new ButtonState[3];
@@ -153,6 +170,7 @@ namespace WesternSpace.Input
             scrollAmount = currentState.ScrollWheelValue - previousState.ScrollWheelValue;
             motion = new Vector2(currentState.X, currentState.Y) - position;
             position = new Vector2(currentState.X, currentState.Y);
+            worldMotion = WorldPosition - previousWorldPosition;
             previousState = currentState;
             base.Update(gameTime);
         }
