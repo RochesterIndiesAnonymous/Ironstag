@@ -7,6 +7,7 @@ using WesternSpace.DrawableComponents.Actors;
 using System.Diagnostics;
 using WesternSpace.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
+using WesternSpace.Screens;
 /*
  * Note: I forgot to make sure these calculations the sprite position and stuff need to happen 
  * in screen space
@@ -33,12 +34,14 @@ namespace WesternSpace.Collision
         }
 
         protected Dictionary<int, List<Point>> objBinLookupTable;
-        public SpriteSpriteCollisionManager(Game game, Point binWH)
+        protected GameScreen gameScreen;
+        public SpriteSpriteCollisionManager(Game game, Screen parentScreen, Point binWH)
             : base(game)
         {
+            gameScreen = (GameScreen)parentScreen;
+            //gameScreen.World.Camera.
             registeredObject = new List<ISpriteCollideable>();
-            objectBinsToCheck = new List<GameObjectBin>();
-
+            objectBinsToCheck = new List<GameObjectBin>();            
             objBinLookupTable = new Dictionary<int, List<Point>>();
             
             binDimension = binWH;
@@ -84,7 +87,7 @@ namespace WesternSpace.Collision
             foreach (Point binCoord in listOfObjectBinCoord)
             {
                 // Add Object to Object Collision Grid
-                this.objCollisionGrid[binCoord.X, binCoord.Y].OnObjectAdded(gameObject);               
+                this.objCollisionGrid[binCoord.X, binCoord.Y].OnObjectAdded(gameObject);                
             }
             //// Update Look Up Table               
             this.objBinLookupTable[gameObject.IdNumber] = listOfObjectBinCoord;
@@ -98,10 +101,16 @@ namespace WesternSpace.Collision
             }
             //// Update Object Look Up Table               
             this.objBinLookupTable[gameObject.IdNumber] = listOfObjectBinCoord;
+            
         }
         public Point xformScreenCoordToBinCoord(Vector2 vector)
         {
+            // ScreenSpace
+            //float x = (vector.X - gameScreen.World.Camera.Position.X);
+            //float y = (vector.Y - gameScreen.World.Camera.Position.Y);
+            // GridSpace
             return new Point((int)vector.X / binDimension.X, (int)vector.Y / binDimension.Y);
+            //return new Point((int)x / binDimension.X, (int)y / binDimension.Y);
         }
         /*
          * Changed NewRectToCoord = getObjectCollisionBinCoord
@@ -151,9 +160,10 @@ namespace WesternSpace.Collision
             foreach (ISpriteCollideable gameObj in registeredObject)
             {                
                 newCoords = this.getObjectCollisionBinCoord(gameObj);
-                
+                // Lookup table contains the last coordnates of each game object
                 if (objBinLookupTable.TryGetValue(gameObj.IdNumber, out oldCoords))
                 {
+                    // Update Bin Only if the coords have changed
                     if (!CoordsEqual(oldCoords, newCoords))
                     {
                         Debug.Print(gameObj.IdNumber + " Occupies ");
@@ -161,11 +171,11 @@ namespace WesternSpace.Collision
                         {
                             Debug.Print(">" + coord.ToString());
                         }
+                        OnRemoveObjectFromBin(gameObj, oldCoords);
+                        OnAddObjectToBin(gameObj, newCoords);
                     }
-                   // Debug.Print("Update Object In Bin ID: " + gameObj.IdNumber + " New Coord: "
-                    //    + newCoords[0] + " Old Coord: " + oldCoords[0]);         
-                   OnRemoveObjectFromBin(gameObj, oldCoords);
-                   OnAddObjectToBin(gameObj, newCoords);
+                    //Debug.Print("Update Object In Bin ID: " + gameObj.IdNumber + " New Coord: "
+                    //    + newCoords[0] + " Old Coord: " + oldCoords[0]);                            
                 }
                 else
                 {
@@ -174,7 +184,7 @@ namespace WesternSpace.Collision
             }
             // make a copy of the bins to check
             IEnumerable<GameObjectBin> objBinsToCheckCopy = objectBinsToCheck.ToList();
-
+            // Scan all bins on the Object List to be Checked
             foreach (GameObjectBin gameObjBin in objBinsToCheckCopy)
             {                
                 for (int i = 0; i < gameObjBin.ListOfCollideableObjects.Count - 1; i++)
