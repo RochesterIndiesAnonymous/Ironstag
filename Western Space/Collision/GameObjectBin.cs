@@ -36,7 +36,7 @@ namespace WesternSpace.Collision
             if (!hasMultipleObjects && this.listOfCollideableObjects.Count > 1)
             {
                 // add this bin to a list of bins to check for collision
-                refCollisionManager.ObjBinsToCheck.Add(this);
+                refCollisionManager.ObjectBinsToCheck.Add(this);
                 hasMultipleObjects = true;
                 Debug.Print("Multiple Object in Bin: " + gridCoord.ToString() + " are true");
             }
@@ -47,7 +47,7 @@ namespace WesternSpace.Collision
             if (hasMultipleObjects && this.listOfCollideableObjects.Count < 2)
             {
                 // remove this bin from the list of bins to check for collision
-                refCollisionManager.ObjBinsToCheck.Remove(this);
+                refCollisionManager.ObjectBinsToCheck.Remove(this);
                 hasMultipleObjects = false;
                 Debug.Print("Multiple Object in Bin: " + gridCoord.ToString() + " are false");
             }

@@ -7,6 +7,10 @@ using WesternSpace.DrawableComponents.Actors;
 using System.Diagnostics;
 using WesternSpace.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
+/*
+ * Note: I forgot to make sure these calculations the sprite position and stuff need to happen 
+ * in screen space
+ */
 
 namespace WesternSpace.Collision
 {
@@ -21,18 +25,19 @@ namespace WesternSpace.Collision
         protected Point numOfBins;
         // Registered Object List
         protected List<ISpriteCollideable> registeredObject;
-        // Object Bins To Check
-        protected List<GameObjectBin> objBinsToCheck;
-        public List<GameObjectBin> ObjBinsToCheck
+        // Object Bins To Check (This is added to in Grid Bins when a bin contains multiple sprites)
+        protected List<GameObjectBin> objectBinsToCheck;
+        public List<GameObjectBin> ObjectBinsToCheck
         {
-            get { return objBinsToCheck; }
+            get { return objectBinsToCheck; }
         }
+
         protected Dictionary<int, List<Point>> objBinLookupTable;
         public SpriteSpriteCollisionManager(Game game, Point binWH)
             : base(game)
         {
             registeredObject = new List<ISpriteCollideable>();
-            objBinsToCheck = new List<GameObjectBin>();
+            objectBinsToCheck = new List<GameObjectBin>();
 
             objBinLookupTable = new Dictionary<int, List<Point>>();
             
@@ -54,18 +59,23 @@ namespace WesternSpace.Collision
         }
         public void addObjectToRegisteredObjectList(ISpriteCollideable collideableObject)
         {
-            
+            // add Object to Bins
             registeredObject.Add(collideableObject);
+            // assigns a id number to object
             collideableObject.IdNumber = IDNumberCount;
             Debug.Print("Object Added to Registered List: " + collideableObject.IdNumber);
+            // increments the idnumberCounter
             IDNumberCount++;
         }
         public void removeObjectToRegisteredObjectList(ISpriteCollideable collideableObject)
         {
+            // 
+            this.objBinLookupTable.Remove(collideableObject.IdNumber);
 
             OnRemoveObjectFromBin(collideableObject, this.getObjectCollisionBinCoord(collideableObject));
-            this.objBinLookupTable.Remove(collideableObject.IdNumber);
+            
             Debug.Print("Object Removed from Registered List: " + collideableObject.IdNumber);
+            // Removes the registered Object
             registeredObject.Remove(collideableObject);
 
         }       
@@ -74,15 +84,10 @@ namespace WesternSpace.Collision
             foreach (Point binCoord in listOfObjectBinCoord)
             {
                 // Add Object to Object Collision Grid
-                this.objCollisionGrid[binCoord.X, binCoord.Y].OnObjectAdded(gameObject);
-                // Update Look Up Table               
-                this.objBinLookupTable[gameObject.IdNumber] = listOfObjectBinCoord;
+                this.objCollisionGrid[binCoord.X, binCoord.Y].OnObjectAdded(gameObject);               
             }
-        }
-        protected void OnUpdateObjectInBin(ISpriteCollideable gameObject, List<Point> oldObjCoord, List<Point> newObjCoord)
-        {
-            OnRemoveObjectFromBin(gameObject, oldObjCoord);
-            OnAddObjectToBin(gameObject, newObjCoord);
+            //// Update Look Up Table               
+            this.objBinLookupTable[gameObject.IdNumber] = listOfObjectBinCoord;
         }
         protected void OnRemoveObjectFromBin(ISpriteCollideable gameObject, List<Point> listOfObjectBinCoord)
         {
@@ -90,16 +95,17 @@ namespace WesternSpace.Collision
             {
                 // Add Object to ObjectList of a Bin
                 this.objCollisionGrid[binCoord.X, binCoord.Y].OnObjectRemoved(gameObject);
-                // Update Object Look Up Table               
-                this.objBinLookupTable[gameObject.IdNumber] = listOfObjectBinCoord;
             }
+            //// Update Object Look Up Table               
+            this.objBinLookupTable[gameObject.IdNumber] = listOfObjectBinCoord;
         }
         public Point xformScreenCoordToBinCoord(Vector2 vector)
         {
             return new Point((int)vector.X / binDimension.X, (int)vector.Y / binDimension.Y);
         }
         /*
-         * NewRectToCoord - Takes the upperLeft and the lowerRight corner points
+         * Changed NewRectToCoord = getObjectCollisionBinCoord
+         * getObjectCollisionBinCoord - Takes the upperLeft and the lowerRight corner points
          * and interpolates between their x and y values to determin all of the
          * grid points they occupy         
          */
@@ -125,7 +131,18 @@ namespace WesternSpace.Collision
                 listOfBinCoord.Add(leftTop);
             }
             return listOfBinCoord;
-        }       
+        }
+        public Boolean CoordsEqual(List<Point> pointA, List<Point> pointB)
+        {
+            if (pointA.Count != pointB.Count)
+                return false;
+            for (int i = 0; i < pointA.Count; i++)
+            {
+                if (!pointA[i].Equals(pointB[i]))
+                    return false;
+            }
+            return true;
+        }
         public override void Update(GameTime gameTime)
         {
             List<Point> newCoords;
@@ -134,22 +151,29 @@ namespace WesternSpace.Collision
             foreach (ISpriteCollideable gameObj in registeredObject)
             {                
                 newCoords = this.getObjectCollisionBinCoord(gameObj);
+                
                 if (objBinLookupTable.TryGetValue(gameObj.IdNumber, out oldCoords))
                 {
+                    if (!CoordsEqual(oldCoords, newCoords))
+                    {
+                        Debug.Print(gameObj.IdNumber + " Occupies ");
+                        foreach (Point coord in newCoords)
+                        {
+                            Debug.Print(">" + coord.ToString());
+                        }
+                    }
                    // Debug.Print("Update Object In Bin ID: " + gameObj.IdNumber + " New Coord: "
-                    //    + newCoords[0] + " Old Coord: " + oldCoords[0]);
-                   this.OnUpdateObjectInBin(gameObj, oldCoords, newCoords);
+                    //    + newCoords[0] + " Old Coord: " + oldCoords[0]);         
+                   OnRemoveObjectFromBin(gameObj, oldCoords);
+                   OnAddObjectToBin(gameObj, newCoords);
                 }
                 else
                 {
                     this.OnAddObjectToBin(gameObj, newCoords);
                 }
             }
-            // Check Collision Bins (Collision Bins)
-            // Collection was modifed, need to recycle bullets
-
             // make a copy of the bins to check
-            IEnumerable<GameObjectBin> objBinsToCheckCopy = objBinsToCheck.ToList();
+            IEnumerable<GameObjectBin> objBinsToCheckCopy = objectBinsToCheck.ToList();
 
             foreach (GameObjectBin gameObjBin in objBinsToCheckCopy)
             {                
