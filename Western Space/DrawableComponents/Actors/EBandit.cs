@@ -289,7 +289,7 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             float shootTimer = 0f, shootTimeSpan = 3.0f;
 
-            shootTimer += (float)(gameTime.TotalRealTime.TotalSeconds%3.5);
+            shootTimer += (float)(gameTime.TotalRealTime.TotalSeconds%3.1);
 
             if (shootTimer >= shootTimeSpan)
             {
@@ -314,6 +314,8 @@ namespace WesternSpace.DrawableComponents.Actors
             }
 
             BanditNormalProjectile proj = new BanditNormalProjectile(this.ParentScreen, this.SpriteBatch, position, this, direction);
+            
+
         }
 
 

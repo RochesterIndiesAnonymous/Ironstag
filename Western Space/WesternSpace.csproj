@@ -89,7 +89,7 @@
     <Compile Include="AnimationFramework\AnimationPlayer.cs" />
     <Compile Include="AnimationFramework\Frame.cs" />
     <Compile Include="Collision\CollisionHotspot.cs" />
-    <Compile Include="Collision\GameObjectBin.cs" />
+    <Compile Include="Collision\CollisionObjectBin.cs" />
     <Compile Include="Collision\ISpriteCollideable.cs" />
     <Compile Include="Collision\ITileCollidable.cs" />
     <Compile Include="Collision\SpriteSpriteCollisionManager.cs" />

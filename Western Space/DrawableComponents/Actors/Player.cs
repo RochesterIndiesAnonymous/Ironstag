@@ -16,6 +16,7 @@ using WesternSpace.Physics;
 using WesternSpace.Utility;
 using WesternSpace.DrawableComponents.Projectiles;
 using WesternSpace.Interfaces;
+using System.Diagnostics;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
@@ -552,6 +553,7 @@ namespace WesternSpace.DrawableComponents.Actors
 
         public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
         {
+            Debug.Print("Player Hit By: " + characterCollidedWith.IdNumber);
             IDamaging damage = characterCollidedWith as IDamaging;
 
             ChangeState("Hit");

@@ -19,7 +19,7 @@ namespace WesternSpace.Collision
     {
         static int IDNumberCount = 0;
         // Object Collision Grid 
-        protected GameObjectBin[,] objCollisionGrid;
+        protected CollisionObjectBin[,] objectCollisionGrid;
         // Bin Dimensions
         protected Point binDimension;
         // Number Of Bins
@@ -27,8 +27,8 @@ namespace WesternSpace.Collision
         // Registered Object List
         protected List<ISpriteCollideable> registeredObject;
         // Object Bins To Check (This is added to in Grid Bins when a bin contains multiple sprites)
-        protected List<GameObjectBin> objectBinsToCheck;
-        public List<GameObjectBin> ObjectBinsToCheck
+        protected List<CollisionObjectBin> objectBinsToCheck;
+        public List<CollisionObjectBin> ObjectBinsToCheck
         {
             get { return objectBinsToCheck; }
         }
@@ -41,13 +41,13 @@ namespace WesternSpace.Collision
             gameScreen = (GameScreen)parentScreen;
             //gameScreen.World.Camera.
             registeredObject = new List<ISpriteCollideable>();
-            objectBinsToCheck = new List<GameObjectBin>();            
+            objectBinsToCheck = new List<CollisionObjectBin>();            
             objBinLookupTable = new Dictionary<int, List<Point>>();
             
             binDimension = binWH;
             numOfBins.X = game.GraphicsDevice.Viewport.Width / binWH.X;
             numOfBins.Y = game.GraphicsDevice.Viewport.Height / binWH.Y;
-            objCollisionGrid = new GameObjectBin[numOfBins.X, numOfBins.Y];
+            objectCollisionGrid = new CollisionObjectBin[numOfBins.X, numOfBins.Y];
         }
         public override void Initialize()
         {
@@ -55,7 +55,7 @@ namespace WesternSpace.Collision
             {
                 for (int x = 0; x < numOfBins.X; x++)
                 {
-                    objCollisionGrid[x, y] = new GameObjectBin(this, x, y);
+                    objectCollisionGrid[x, y] = new CollisionObjectBin(this, x, y);
                 }
             }
             base.Initialize();
@@ -81,26 +81,26 @@ namespace WesternSpace.Collision
             // Removes the registered Object
             registeredObject.Remove(collideableObject);
 
-        }       
-        protected void OnAddObjectToBin(ISpriteCollideable gameObject, List<Point> listOfObjectBinCoord)
+        }
+        protected void OnAddObjectToBin(ISpriteCollideable collideableObject, List<Point> listOfObjectBinCoord)
         {            
             foreach (Point binCoord in listOfObjectBinCoord)
             {
                 // Add Object to Object Collision Grid
-                this.objCollisionGrid[binCoord.X, binCoord.Y].OnObjectAdded(gameObject);                
+                this.objectCollisionGrid[binCoord.X, binCoord.Y].OnObjectAdded(collideableObject);                
             }
             //// Update Look Up Table               
-            this.objBinLookupTable[gameObject.IdNumber] = listOfObjectBinCoord;
+            this.objBinLookupTable[collideableObject.IdNumber] = listOfObjectBinCoord;
         }
-        protected void OnRemoveObjectFromBin(ISpriteCollideable gameObject, List<Point> listOfObjectBinCoord)
+        protected void OnRemoveObjectFromBin(ISpriteCollideable collideableObject, List<Point> listOfObjectBinCoord)
         {
             foreach (Point binCoord in listOfObjectBinCoord)
             {
                 // Add Object to ObjectList of a Bin
-                this.objCollisionGrid[binCoord.X, binCoord.Y].OnObjectRemoved(gameObject);
+                this.objectCollisionGrid[binCoord.X, binCoord.Y].OnObjectRemoved(collideableObject);
             }
             //// Update Object Look Up Table               
-            this.objBinLookupTable[gameObject.IdNumber] = listOfObjectBinCoord;
+            this.objBinLookupTable[collideableObject.IdNumber] = listOfObjectBinCoord;
             
         }
         public Point xformScreenCoordToBinCoord(Vector2 vector)
@@ -183,9 +183,9 @@ namespace WesternSpace.Collision
                 }
             }
             // make a copy of the bins to check
-            IEnumerable<GameObjectBin> objBinsToCheckCopy = objectBinsToCheck.ToList();
+            IEnumerable<CollisionObjectBin> objBinsToCheckCopy = objectBinsToCheck.ToList();
             // Scan all bins on the Object List to be Checked
-            foreach (GameObjectBin gameObjBin in objBinsToCheckCopy)
+            foreach (CollisionObjectBin gameObjBin in objBinsToCheckCopy)
             {                
                 for (int i = 0; i < gameObjBin.ListOfCollideableObjects.Count - 1; i++)
                 {
@@ -201,9 +201,9 @@ namespace WesternSpace.Collision
             }
             base.Update(gameTime);
         }
-        Boolean BoundingBoxA(ISpriteCollideable entityA, ISpriteCollideable entityB)
-        {          
-            return entityA.Rectangle.Intersects(entityB.Rectangle);
+        Boolean BoundingBoxA(ISpriteCollideable collideableObjectA, ISpriteCollideable collideableObjectB)
+        {
+            return collideableObjectA.Rectangle.Intersects(collideableObjectB.Rectangle);
         }
     }
 }

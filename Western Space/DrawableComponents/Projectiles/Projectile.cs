@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using WesternSpace.AnimationFramework;
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.DrawableComponents.Actors;
+using System.Diagnostics;
 
 namespace WesternSpace.DrawableComponents.Projectiles
 {
@@ -95,7 +96,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         public override void Initialize()
         {
             this.gameScreen.World.spriteCollisionManager.addObjectToRegisteredObjectList(this);
-
+            Debug.Print("Added Projectile");
             base.Initialize();
         }
 
