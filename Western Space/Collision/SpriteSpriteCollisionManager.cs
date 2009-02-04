@@ -47,7 +47,7 @@ namespace WesternSpace.Collision
             {
                 for (int x = 0; x < numOfBins.X; x++)
                 {
-                    objCollisionGrid[x, y] = new GameObjectBin(this);
+                    objCollisionGrid[x, y] = new GameObjectBin(this, x, y);
                 }
             }
             base.Initialize();

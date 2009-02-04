@@ -22,8 +22,10 @@ namespace WesternSpace.Collision
         {
             get { return listOfCollideableObjects; }
         }
-        public GameObjectBin(SpriteSpriteCollisionManager collisionManager)
+        protected Point gridCoord;
+        public GameObjectBin(SpriteSpriteCollisionManager collisionManager, int gridCoordX, int gridCoordY)
         {
+            this.gridCoord = new Point(gridCoordX, gridCoordY);
             this.listOfCollideableObjects = new List<ISpriteCollideable>();
             this.refCollisionManager = collisionManager;
             this.hasMultipleObjects = false;
@@ -36,7 +38,7 @@ namespace WesternSpace.Collision
                 // add this bin to a list of bins to check for collision
                 refCollisionManager.ObjBinsToCheck.Add(this);
                 hasMultipleObjects = true;
-                Debug.Print("Multiple Object are True");
+                Debug.Print("Multiple Object in Bin: " + gridCoord.ToString() + " are true");
             }
         }
         public void OnObjectRemoved(ISpriteCollideable gameObject)
@@ -47,7 +49,7 @@ namespace WesternSpace.Collision
                 // remove this bin from the list of bins to check for collision
                 refCollisionManager.ObjBinsToCheck.Remove(this);
                 hasMultipleObjects = false;
-                Debug.Print("Multiple Object are False");
+                Debug.Print("Multiple Object in Bin: " + gridCoord.ToString() + " are false");
             }
         }
     }
