@@ -23,7 +23,7 @@ namespace WesternSpace.Collision
         // Bin Dimensions
         protected Point binDimension;
         // Number Of Bins
-        protected Point numOfBins;
+        protected Point numOfBins;//k
         // Registered Object List
         protected List<ISpriteCollideable> registeredObject;
         // Object Bins To Check (This is added to in Grid Bins when a bin contains multiple sprites)
