@@ -54,14 +54,18 @@ namespace WesternSpace.Collision
         }
         public void addObjectToRegisteredObjectList(ISpriteCollideable collideableObject)
         {
+            
             registeredObject.Add(collideableObject);
             collideableObject.IdNumber = IDNumberCount;
+            Debug.Print("Object Added to Registered List: " + collideableObject.IdNumber);
             IDNumberCount++;
         }
         public void removeObjectToRegisteredObjectList(ISpriteCollideable collideableObject)
         {
-            OnRemoveObjectFromBin(collideableObject, this.NewRectToCoord(collideableObject.Rectangle));
+
+            OnRemoveObjectFromBin(collideableObject, this.rectToListOfGridCoord(collideableObject.Rectangle));
             this.objBinLookupTable.Remove(collideableObject.IdNumber);
+            Debug.Print("Object Removed from Registered List: " + collideableObject.IdNumber);
             registeredObject.Remove(collideableObject);
 
         }       
@@ -92,10 +96,14 @@ namespace WesternSpace.Collision
         }
         public Point xformScreenCoordToBinCoord(Vector2 vector)
         {
-            Point binCoord = new Point((int)vector.X / binDimension.X, (int)vector.Y / binDimension.Y);
-            return binCoord;
+            return new Point((int)vector.X / binDimension.X, (int)vector.Y / binDimension.Y);
         }
-        public List<Point> NewRectToCoord(Rectangle rect)
+        /*
+         * NewRectToCoord - Takes the upperLeft and the lowerRight corner points
+         * and interpolates between their x and y values to determin all of the
+         * grid points they occupy         
+         */        
+        public List<Point> rectToListOfGridCoord(Rectangle rect)
         {
             
             List<Point> list = new List<Point>();
@@ -125,9 +133,11 @@ namespace WesternSpace.Collision
             foreach (ISpriteCollideable gameObj in registeredObject)
             {
                 //newCoords = this.rectToBinCoord(gameObj.Rectangle);
-                newCoords = this.NewRectToCoord(gameObj.Rectangle);
+                newCoords = this.rectToListOfGridCoord(gameObj.Rectangle);
                 if (objBinLookupTable.TryGetValue(gameObj.IdNumber, out oldCoords))
                 {
+                   // Debug.Print("Update Object In Bin ID: " + gameObj.IdNumber + " New Coord: "
+                    //    + newCoords[0] + " Old Coord: " + oldCoords[0]);
                    this.OnUpdateObjectInBin(gameObj, oldCoords, newCoords);
                 }
                 else
@@ -143,15 +153,14 @@ namespace WesternSpace.Collision
 
             foreach (GameObjectBin gameObjBin in objBinsToCheckCopy)
             {                
-                for (int i = 0; i < gameObjBin.ListOfObjects.Count - 1; i++)
+                for (int i = 0; i < gameObjBin.ListOfCollideableObjects.Count - 1; i++)
                 {
-                    for (int j = 1; j < gameObjBin.ListOfObjects.Count; j++)
+                    for (int j = 1; j < gameObjBin.ListOfCollideableObjects.Count; j++)
                     {
-                        if(BoundingBoxA(gameObjBin.ListOfObjects.ElementAt(i), gameObjBin.ListOfObjects.ElementAt(j)))
+                        if (BoundingBoxA(gameObjBin.ListOfCollideableObjects.ElementAt(i), gameObjBin.ListOfCollideableObjects.ElementAt(j)))
                         {
-                            gameObjBin.ListOfObjects.ElementAt(i).OnSpriteCollision(gameObjBin.ListOfObjects.ElementAt(j));
-                            gameObjBin.ListOfObjects.ElementAt(j).OnSpriteCollision(gameObjBin.ListOfObjects.ElementAt(i));
-                            Debug.Print("Collision");
+                            gameObjBin.ListOfCollideableObjects.ElementAt(i).OnSpriteCollision(gameObjBin.ListOfCollideableObjects.ElementAt(j));
+                            gameObjBin.ListOfCollideableObjects.ElementAt(j).OnSpriteCollision(gameObjBin.ListOfCollideableObjects.ElementAt(i));                            
                         }
                     }
                 }             
