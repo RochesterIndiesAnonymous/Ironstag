@@ -3,43 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WesternSpace.DrawableComponents.Actors;
+using System.Diagnostics;
+using System.Drawing;
 
 namespace WesternSpace.Collision
 {
+    /********************************************************************
+     * GameObjectBin - Is a single Bin where collisions take place
+    ********************************************************************/
     public class GameObjectBin
-    {
-        protected SpriteSpriteCollisionManager refCollisionManager;
-        protected List<ISpriteCollideable> listOfObjects;
-        public List<ISpriteCollideable> ListOfObjects
-        {
-            get { return listOfObjects; }
-        }
-        protected int numberOfGameObjects;
+    {       
+        // Reference to Collision Manager
+        protected SpriteSpriteCollisionManager refCollisionManager;        
         protected Boolean hasMultipleObjects;
+        // List of Collideable Objects
+        protected List<ISpriteCollideable> listOfCollideableObjects;
+        public List<ISpriteCollideable> ListOfCollideableObjects
+        {
+            get { return listOfCollideableObjects; }
+        }
         public GameObjectBin(SpriteSpriteCollisionManager collisionManager)
         {
+            this.listOfCollideableObjects = new List<ISpriteCollideable>();
             this.refCollisionManager = collisionManager;
-            this.listOfObjects = new List<ISpriteCollideable>();
             this.hasMultipleObjects = false;
         }
         public void OnObjectAdded(ISpriteCollideable gameObject)
-        {            
-            this.listOfObjects.Add(gameObject);
-            numberOfGameObjects++;
-            if (!hasMultipleObjects && numberOfGameObjects > 1)
+        {
+            this.listOfCollideableObjects.Add(gameObject);
+            if (!hasMultipleObjects && this.listOfCollideableObjects.Count > 1)
             {
+                // add this bin to a list of bins to check for collision
                 refCollisionManager.ObjBinsToCheck.Add(this);
                 hasMultipleObjects = true;
+                Debug.Print("Multiple Object are True");
             }
         }
         public void OnObjectRemoved(ISpriteCollideable gameObject)
         {
-            this.listOfObjects.Remove(gameObject);
-            numberOfGameObjects--;
-            if (hasMultipleObjects)
+            this.listOfCollideableObjects.Remove(gameObject);
+            if (hasMultipleObjects && this.listOfCollideableObjects.Count < 2)
             {
+                // remove this bin from the list of bins to check for collision
                 refCollisionManager.ObjBinsToCheck.Remove(this);
                 hasMultipleObjects = false;
+                Debug.Print("Multiple Object are False");
             }
         }
     }
