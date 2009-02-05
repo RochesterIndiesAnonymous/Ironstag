@@ -193,8 +193,11 @@ namespace WesternSpace.Collision
                     {
                         if (BoundingBoxA(gameObjBin.ListOfCollideableObjects.ElementAt(i), gameObjBin.ListOfCollideableObjects.ElementAt(j)))
                         {
-                            gameObjBin.ListOfCollideableObjects.ElementAt(i).OnSpriteCollision(gameObjBin.ListOfCollideableObjects.ElementAt(j));
-                            gameObjBin.ListOfCollideableObjects.ElementAt(j).OnSpriteCollision(gameObjBin.ListOfCollideableObjects.ElementAt(i));                            
+                            ISpriteCollideable collidedObj1 = gameObjBin.ListOfCollideableObjects.ElementAt(i);
+                            ISpriteCollideable collidedObj2 = gameObjBin.ListOfCollideableObjects.ElementAt(j);
+
+                            collidedObj1.OnSpriteCollision(collidedObj2);
+                            collidedObj2.OnSpriteCollision(collidedObj1);                            
                         }
                     }
                 }             
