@@ -21,8 +21,8 @@ namespace WesternSpace.Screens
 {
     public class EditorScreen : Screen
     {
-        public static readonly int MAX_TILEMAP_WIDTH = 500;
-        public static readonly int MAX_TILEMAP_HEIGHT = 500;
+        public static readonly int MAX_TILEMAP_WIDTH = 501; // Silly hack: I made these odd numbers
+        public static readonly int MAX_TILEMAP_HEIGHT = 501;//  because even numbers resulted in sprite positions being off by a half-tile width/height
         public static readonly int LAYER_COUNT = 2;
         public static readonly int SUB_LAYER_COUNT = 2;
         public static readonly int DEFAULT_TILE_WIDTH = 24;
@@ -30,6 +30,25 @@ namespace WesternSpace.Screens
         public static readonly int DEFAULT_LAYER_SPACING = 10;
 
         public static readonly string WORLD_FILENAME = "WorldXML\\TestWorld";
+
+        public enum EditMode : int
+        {
+            TileEdit = 0,
+            SpriteEdit
+        }
+
+        private static int modeCount = Enum.GetValues(typeof(EditMode)).Length;
+
+        private EditMode mode;
+
+        public EditMode Mode
+        {
+            get { return mode; }
+            set 
+            { 
+                mode = value;
+            }
+        }
 
         /// <summary>
         /// The resolution settings to use when the game is running in windowed mode
@@ -51,11 +70,36 @@ namespace WesternSpace.Screens
 
         public static readonly string ScreenName = "Editor";
 
-        private TileEngine tileEngine;
-        private ISpriteBatchService batchService;
-        private World world;
+        private TileSelector tileSelector;
+
+        public TileSelector TileSelector
+        {
+            get { return tileSelector; }
+        }
+
+        private List<SubTextureSelector> subTextureSelectors;
+
+        public List<SubTextureSelector> SubTextureSelectors
+        {
+            get { return subTextureSelectors; }
+        }
+
+        private EdgeToggler edgeToggler;
+
+        public EdgeToggler EdgeToggler
+        {
+            get { return edgeToggler; }
+        }
+
+        private PlayerMover playerMover;
 
         private InputMonitor inputMonitor;
+
+        private TileEngine tileEngine;
+
+        private ISpriteBatchService batchService;
+
+        private World world;
 
         public World World
         {
@@ -66,6 +110,7 @@ namespace WesternSpace.Screens
             : base(game, name)
         {
             isFullScreen = false;
+            
         }
 
         /// <summary>
@@ -91,6 +136,9 @@ namespace WesternSpace.Screens
                 // Create a new, empty world:
                 world = new World(this, WORLD_FILENAME);
 
+                // We need to disable the SpriteSpriteCollisionManager because it makes some assumptions about
+                //  the gameScreen...
+                world.SpriteCollisionManager.Enabled = false;
                 
                 // Create an empty, maximally-sized tilemap to center
                 //  the loaded map onto:
@@ -129,6 +177,11 @@ namespace WesternSpace.Screens
                     }
                     else
                     {
+                        if (i == world.Map.LayerCount - 1)
+                        {
+                            tml.DrawBlanksEnabled = true;
+                            tml.DrawEdgesEnabled = true;
+                        }
                         tml.DrawOrder = World.PLAYER_DRAW_ORDER + i * DEFAULT_LAYER_SPACING;
                     }
                     world.interactiveLayers[tml.DrawOrder] = tml;
@@ -147,19 +200,108 @@ namespace WesternSpace.Screens
                 inputMonitor.AssignKey("EditorDown", Microsoft.Xna.Framework.Input.Keys.S);
                 inputMonitor.AssignKey("EditorAppend", Microsoft.Xna.Framework.Input.Keys.LeftShift);
                 inputMonitor.AssignKey("ToggleFullScreen", Microsoft.Xna.Framework.Input.Keys.F);
+                inputMonitor.AssignKey("EditorCycleMode", Microsoft.Xna.Framework.Input.Keys.Tab);
                 Components.Add(inputMonitor);
 
                 CreateUIComponents();
+
+                Mode = EditMode.SpriteEdit;
+                CycleMode();
 
                 // Initialize all components
                 base.Initialize();
             }
         }
 
+        private void CreateUIComponents()
+        {
+            SpriteBatch sb = batchService.GetSpriteBatch(DebuggingOutputComponent.SpriteBatchName);
+
+            // Where all the magic happens:
+            tileSelector = new TileSelector(this, sb, 
+                                               new RectangleF(40, 0, 600, 480),
+                                               world.interactiveLayers.Values.First<TileMapLayer>(),
+                                               inputMonitor);
+            tileSelector.DrawOrder = 0;
+            this.Components.Add(tileSelector);
+
+            this.subTextureSelectors = new List<SubTextureSelector>();
+
+            for (int i = 0; i < world.Map.LayerCount; ++i)
+            {
+                for (int j = 0; j < world.Map.SubLayerCount; ++j)
+                {
+                    int index = i * world.Map.SubLayerCount + j;
+
+                    SubTextureSelector subTexSel = new SubTextureSelector(this, sb, TileSelector, i, j);
+                    tileSelector.TilePropertyComponents.Add(subTexSel);
+                    subTexSel.DrawOrder = 25;
+                    this.Components.Add(subTexSel);
+                    SubTextureSelectors.Add(subTexSel);
+                }
+            }
+
+            RectangleF tmp = ((SubTextureSelector)tileSelector.TilePropertyComponents.Last<ITilePropertyComponent>()).Bounds;
+            tmp.Y += 20 + world.Map.TileHeight;
+            this.edgeToggler = new EdgeToggler(this, sb, tmp, TileSelector);
+            EdgeToggler.DrawOrder = 25;
+            TileSelector.TilePropertyComponents.Add(EdgeToggler);
+            this.Components.Add(EdgeToggler);
+
+            SaveButton saveButton = new SaveButton(this, sb, new RectangleF(5, 400, 30, 15), World);
+            saveButton.DrawOrder = 20;
+            this.Components.Add(saveButton);
+
+            playerMover = new PlayerMover(this, sb, World.Player);
+            this.Components.Add(playerMover);
+        }
+
+        public void CycleMode()
+        {
+            switch (Mode)
+            {
+                case EditMode.TileEdit:
+                    Console.Out.WriteLine("Switching to SpriteEdit mode..");
+                    Mode = EditMode.SpriteEdit;
+                    tileSelector.Enabled = false;
+                    tileSelector.Visible = false;
+                    foreach (SubTextureSelector sts in SubTextureSelectors)
+                    {
+                        sts.Enabled = false;
+                        sts.Visible = false;
+                    }
+                    EdgeToggler.Enabled = false;
+                    EdgeToggler.Visible = false;
+                    playerMover.Enabled = true;
+                    playerMover.Visible = true;
+                    break;
+                case EditMode.SpriteEdit:
+                    Console.Out.WriteLine("Switching to TileEdit mode..");
+                    Mode = EditMode.TileEdit;
+                    playerMover.Enabled = false;
+                    playerMover.Visible = false;
+                    tileSelector.Enabled = true;
+                    tileSelector.Visible = true;
+                    foreach (SubTextureSelector sts in SubTextureSelectors)
+                    {
+                        sts.Enabled = true;
+                        sts.Visible = true;
+                    }
+                    EdgeToggler.Enabled = true;
+                    EdgeToggler.Visible = true;
+                    break;
+            }
+        }
+
         public override void Update(GameTime gameTime)
         {
+            if (inputMonitor.CheckPressAndReleaseKey("EditorCycleMode"))
+            {
+                CycleMode();
+            }
+
             // Let keypresses move the camera:
-            if(inputMonitor.CheckKey("EditorLeft"))
+            if (inputMonitor.CheckKey("EditorLeft"))
             {
                 world.Camera.Position -= new Vector2(CAM_SPEED, 0);
             }
@@ -174,7 +316,7 @@ namespace WesternSpace.Screens
             else if (inputMonitor.CheckKey("EditorDown"))
             {
                 world.Camera.Position += new Vector2(0, CAM_SPEED);
-            } 
+            }
             else if (inputMonitor.CheckPressAndReleaseKey("ToggleFullScreen"))
             {
                 if (isFullScreen)
@@ -190,26 +332,6 @@ namespace WesternSpace.Screens
             }
 
             base.Update(gameTime);
-        }
-
-        private void CreateUIComponents()
-        {
-            SpriteBatch sb = batchService.GetSpriteBatch(DebuggingOutputComponent.SpriteBatchName);
-
-            // Where all the magic happens:
-            TileSelector ts = new TileSelector(this, sb, 
-                                               new RectangleF(40, 0, 600, 440),
-                                               world.interactiveLayers.Values.First<TileMapLayer>(),
-                                               inputMonitor);
-            ts.DrawOrder = 400;
-            this.Components.Add(ts);
-
-            SaveButton saveButton = new SaveButton(this, sb, new RectangleF(5, 400, 30, 15), World);
-            saveButton.DrawOrder = 401;
-            this.Components.Add(saveButton);
-
-            PlayerMover pm = new PlayerMover(this, sb, World.Player);
-            this.Components.Add(pm);
         }
 
         private void CreateDebuggingInformationComponents()

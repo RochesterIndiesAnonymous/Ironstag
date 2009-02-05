@@ -21,11 +21,20 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         private ITextureService textureService;
 
-        public SaveButton(Screen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, World world)
+        private Texture2D icon;
+
+        public SaveButton(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, World world)
             : base(parentScreen, spriteBatch, bounds)
         {
             this.world = world;
             this.textureService = (ITextureService)Game.Services.GetService(typeof(ITextureService));
+        }
+
+        public override void Initialize()
+        {
+            icon = ParentScreen.Game.Content.Load<Texture2D>("Textures\\floppy");
+            this.Bounds = new RectangleF(Bounds.X, Bounds.Y, icon.Width, icon.Height);
+            base.Initialize();
         }
 
         #region MOUSE EVENT HANDLERS
@@ -60,7 +69,6 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 
                 XDocument tileDoc = new XDocument(copy.ToXElement());
                 tileDoc.Save("..\\..\\..\\Content\\TileMapXML\\BigTileMap.xml");
-
                 XDocument worldDoc = new XDocument(world.ToXElement());
                 worldDoc.Save("..\\..\\..\\Content\\WorldXML\\TestWorld.xml");
 
@@ -71,5 +79,13 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         #endregion
 
+        public override void Draw(GameTime gameTime)
+        {
+            PrimitiveDrawer.Instance.DrawSolidRect(SpriteBatch, 
+                   new Microsoft.Xna.Framework.Rectangle(0, 0, 39, 480),
+                   Microsoft.Xna.Framework.Graphics.Color.Black);
+            SpriteBatch.Draw(icon, new Vector2((int)Bounds.X, (int)Bounds.Y), Color);
+            base.Draw(gameTime);
+        }
     }
 }

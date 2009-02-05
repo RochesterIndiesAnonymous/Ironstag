@@ -159,7 +159,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
             return Bounds.Contains(new PointF(inputManager.BetterMouse.ScaledPosition.X, inputManager.BetterMouse.ScaledPosition.Y));
         }
 
-        public EditorUIComponent(Screen parentScreen, SpriteBatch spriteBatch, RectangleF bounds)
+        public EditorUIComponent(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF bounds)
             :base(parentScreen, spriteBatch, new Vector2(bounds.X, bounds.Y))
         {
             this.Color = Microsoft.Xna.Framework.Graphics.Color.White;

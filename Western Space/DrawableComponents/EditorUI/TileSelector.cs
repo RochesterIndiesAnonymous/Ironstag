@@ -27,20 +27,6 @@ namespace WesternSpace.DrawableComponents.EditorUI
             get { return tilePropertyComponents; }
         }
 
-        private List<SubTextureSelector> subTextureSelectors;
-
-        public List<SubTextureSelector> SubTextureSelectors
-        {
-            get { return subTextureSelectors; }
-        }
-
-        private EdgeToggler edgeToggler;
-
-        public EdgeToggler EdgeToggler
-        {
-            get { return edgeToggler; }
-        }
-
         #endregion
 
         #region TileMap related members
@@ -81,7 +67,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
             set 
             {
                 selectedTileCoordinates = value;
-                foreach (ITilePropertyComponent tilePropertyComponent in tilePropertyComponents)
+                foreach (ITilePropertyComponent tilePropertyComponent in  tilePropertyComponents)
                 {
                     tilePropertyComponent.OnTileSelectionChange();
                 }
@@ -394,7 +380,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         #endregion
 
-        public TileSelector(Screen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, TileMapLayer tileMapLayer, InputMonitor inputMonitor)
+        public TileSelector(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, TileMapLayer tileMapLayer, InputMonitor inputMonitor)
             : base(parentScreen, spriteBatch, bounds)
         {
             this.tileMapLayer = tileMapLayer;
@@ -404,27 +390,6 @@ namespace WesternSpace.DrawableComponents.EditorUI
             this.selectButton = -1;
             this.selectedTileCoordinates = new List<int[]>();
             this.selectingTileCoordinates = new List<int[]>();
-
-            this.subTextureSelectors = new List<SubTextureSelector>();
-
-            for (int i = 0; i < TileMap.LayerCount; ++i)
-            {
-                for (int j = 0; j < TileMap.SubLayerCount; ++j)
-                {
-                    int index = i*TileMap.SubLayerCount + j;
-
-                    SubTextureSelector subTexSel = new SubTextureSelector(ParentScreen, SpriteBatch, this, i, j);
-                    this.TilePropertyComponents.Add(subTexSel);
-                    ParentScreen.Components.Add(subTexSel);
-                    SubTextureSelectors.Add(subTexSel);
-                }
-            }
-
-            RectangleF tmp = ((SubTextureSelector)TilePropertyComponents.Last<ITilePropertyComponent>()).Bounds;
-            tmp.Y += 20 + TileMap.TileHeight;
-            this.edgeToggler = new EdgeToggler(ParentScreen, SpriteBatch, tmp, this);
-            this.tilePropertyComponents.Add(edgeToggler);
-            ParentScreen.Components.Add(this.edgeToggler);
         }
 
         /// <summary>

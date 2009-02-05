@@ -26,7 +26,12 @@ namespace WesternSpace
         // The actual map that objects interact with.
         TileMap map;
 
-        public SpriteSpriteCollisionManager spriteCollisionManager;
+        private SpriteSpriteCollisionManager spriteCollisionManager;
+
+        public SpriteSpriteCollisionManager SpriteCollisionManager
+        {
+            get { return spriteCollisionManager; }
+        }
 
         private Song bgm;
 

@@ -166,13 +166,13 @@ namespace WesternSpace.DrawableComponents.EditorUI
             isSelectingSubTexture = value;
             tileSelector.Enabled = !value;
             tileSelector.Visible = !value;
-            this.DrawOrder = value ? 500 : 0;
-            foreach (SubTextureSelector sts in tileSelector.SubTextureSelectors)
+            this.DrawOrder = value ? 500 : 25;
+            foreach (SubTextureSelector sts in ((EditorScreen)ParentScreen).SubTextureSelectors)
             {
                 if (sts != this)
                 {
                     sts.Enabled = !value;
-                    sts.DrawOrder = value ? 0 : 500;
+                    sts.DrawOrder = value ? 25 : 500;
                 }
             }
 
@@ -189,7 +189,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
             }
         }
 
-        public SubTextureSelector(Screen parentScreen, SpriteBatch spriteBatch, TileSelector tileSelector, int layerIndex, int subLayerIndex)
+        public SubTextureSelector(EditorScreen parentScreen, SpriteBatch spriteBatch, TileSelector tileSelector, int layerIndex, int subLayerIndex)
             :base(parentScreen, spriteBatch, new RectangleF())
         {
             this.Color = Microsoft.Xna.Framework.Graphics.Color.White;

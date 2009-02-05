@@ -30,7 +30,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
             get { return player.World.Camera; }
         }
 
-        public PlayerMover(Screen parentScreen, SpriteBatch spriteBatch, Player player)
+        public PlayerMover(EditorScreen parentScreen, SpriteBatch spriteBatch, Player player)
             : base(parentScreen, spriteBatch, 
             new RectangleF(0, 0, 0, 0))
         {

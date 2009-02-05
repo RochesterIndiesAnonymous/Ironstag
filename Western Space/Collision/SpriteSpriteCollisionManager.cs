@@ -34,11 +34,11 @@ namespace WesternSpace.Collision
         }
 
         protected Dictionary<int, List<Point>> objBinLookupTable;
-        protected GameScreen gameScreen;
+        //protected GameScreen gameScreen;
         public SpriteSpriteCollisionManager(Game game, Screen parentScreen, Point binWH)
             : base(game)
         {
-            gameScreen = (GameScreen)parentScreen;
+            //gameScreen = (GameScreen)parentScreen;
             //gameScreen.World.Camera.
             registeredObject = new List<ISpriteCollideable>();
             objectBinsToCheck = new List<CollisionObjectBin>();            
