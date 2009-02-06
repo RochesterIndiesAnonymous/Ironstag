@@ -243,40 +243,40 @@ namespace WesternSpace.Collision
         }
         public override void Draw(GameTime gameTime)
         {            
-            //Characters
-            foreach (ISpriteCollideable collidableSprite in registeredObject)
-            {
-                PrimitiveDrawer.Instance.DrawRect(refSpriteBatch, collidableSprite.Rectangle, Color.Blue);
-                PrimitiveDrawer.Instance.DrawLine(refSpriteBatch,
-                    new Vector2(collidableSprite.Rectangle.X, collidableSprite.Rectangle.Y),
-                    new Vector2(collidableSprite.Rectangle.X+2, collidableSprite.Rectangle.Y), Color.White);
-                PrimitiveDrawer.Instance.DrawLine(refSpriteBatch,
-                    new Vector2(collidableSprite.Rectangle.Right, collidableSprite.Rectangle.Y),
-                    new Vector2(collidableSprite.Rectangle.Right + 2, collidableSprite.Rectangle.Y), Color.White);
-                PrimitiveDrawer.Instance.DrawLine(refSpriteBatch,
-                    new Vector2(collidableSprite.Rectangle.X, collidableSprite.Rectangle.Bottom),
-                    new Vector2(collidableSprite.Rectangle.X + 2, collidableSprite.Rectangle.Bottom), Color.White);
-            }
+            ////Characters
+            //foreach (ISpriteCollideable collidableSprite in registeredObject)
+            //{
+            //    PrimitiveDrawer.Instance.DrawRect(refSpriteBatch, collidableSprite.Rectangle, Color.Blue);
+            //    PrimitiveDrawer.Instance.DrawLine(refSpriteBatch,
+            //        new Vector2(collidableSprite.Rectangle.X, collidableSprite.Rectangle.Y),
+            //        new Vector2(collidableSprite.Rectangle.X+2, collidableSprite.Rectangle.Y), Color.White);
+            //    PrimitiveDrawer.Instance.DrawLine(refSpriteBatch,
+            //        new Vector2(collidableSprite.Rectangle.Right, collidableSprite.Rectangle.Y),
+            //        new Vector2(collidableSprite.Rectangle.Right + 2, collidableSprite.Rectangle.Y), Color.White);
+            //    PrimitiveDrawer.Instance.DrawLine(refSpriteBatch,
+            //        new Vector2(collidableSprite.Rectangle.X, collidableSprite.Rectangle.Bottom),
+            //        new Vector2(collidableSprite.Rectangle.X + 2, collidableSprite.Rectangle.Bottom), Color.White);
+            //}
             
-            //Grids
-            for (int y = 0; y < this.numOfBins.Y; y++)
-            {
-                for (int x = 0; x < this.numOfBins.X; x++)
-                {
-                    if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects == 0)
-                        PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
-                            new Rectangle((x * this.binDimension.X) + (int)this.camera.VisibleArea.X,
-                                (y * binDimension.Y) + (int)this.camera.VisibleArea.Y, this.binDimension.X, this.binDimension.Y), Color.Red);
-                    else if(this.objectCollisionGrid[x, y].NumberOfCollideableObjects == 1)
-                        PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
-                            new Rectangle((x * this.binDimension.X) + (int)this.camera.VisibleArea.X, 
-                                (y * binDimension.Y) + (int)this.camera.VisibleArea.Y, this.binDimension.X, this.binDimension.Y), Color.Purple);
-                    else if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects > 1)
-                        PrimitiveDrawer.Instance.DrawSolidRect(refSpriteBatch,
-                            new Rectangle((x * this.binDimension.X) + (int)this.camera.VisibleArea.X, 
-                                (y * binDimension.Y) + (int)this.camera.VisibleArea.Y, this.binDimension.X, this.binDimension.Y), Color.Green);                                            
-                }
-            } 
+            ////Grids
+            //for (int y = 0; y < this.numOfBins.Y; y++)
+            //{
+            //    for (int x = 0; x < this.numOfBins.X; x++)
+            //    {
+            //        if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects == 0)
+            //            PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
+            //                new Rectangle((x * this.binDimension.X) + (int)this.camera.VisibleArea.X,
+            //                    (y * binDimension.Y) + (int)this.camera.VisibleArea.Y, this.binDimension.X, this.binDimension.Y), Color.Red);
+            //        else if(this.objectCollisionGrid[x, y].NumberOfCollideableObjects == 1)
+            //            PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
+            //                new Rectangle((x * this.binDimension.X) + (int)this.camera.VisibleArea.X, 
+            //                    (y * binDimension.Y) + (int)this.camera.VisibleArea.Y, this.binDimension.X, this.binDimension.Y), Color.Purple);
+            //        else if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects > 1)
+            //            PrimitiveDrawer.Instance.DrawSolidRect(refSpriteBatch,
+            //                new Rectangle((x * this.binDimension.X) + (int)this.camera.VisibleArea.X, 
+            //                    (y * binDimension.Y) + (int)this.camera.VisibleArea.Y, this.binDimension.X, this.binDimension.Y), Color.Green);                                            
+            //    }
+            //} 
              
             base.Draw(gameTime);
         }

@@ -401,7 +401,7 @@ namespace WesternSpace.DrawableComponents.Actors
             {
                 int x = (int)(this.Position.X);
                 int y = (int)(this.Position.Y);
-                return new Rectangle(x, y, this.AnimationPlayer.Animation.FrameWidth, this.AnimationPlayer.Animation.FrameHeight);
+                return new Rectangle(x, y, currentAnimation.FrameWidth, currentAnimation.FrameHeight);
             }
         }
 
