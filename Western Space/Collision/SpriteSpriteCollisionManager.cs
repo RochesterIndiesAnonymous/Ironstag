@@ -20,6 +20,7 @@ namespace WesternSpace.Collision
     public class SpriteSpriteCollisionManager : DrawableGameComponent //GameComponent
     {
         static int IDNumberCount = 0;
+        static Boolean debug = false;
         // Object Collision Grid 
         protected CollisionObjectBin[,] objectCollisionGrid;
         // Bin Dimensions
@@ -242,66 +243,85 @@ namespace WesternSpace.Collision
             base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
-        {            
-            ////Characters
-            //foreach (ISpriteCollideable collidableSprite in registeredObject)
-            //{
-            //    PrimitiveDrawer.Instance.DrawRect(refSpriteBatch, collidableSprite.Rectangle, Color.Blue);
-            //    PrimitiveDrawer.Instance.DrawLine(refSpriteBatch,
-            //        new Vector2(collidableSprite.Rectangle.X, collidableSprite.Rectangle.Y),
-            //        new Vector2(collidableSprite.Rectangle.X+2, collidableSprite.Rectangle.Y), Color.White);
-            //    PrimitiveDrawer.Instance.DrawLine(refSpriteBatch,
-            //        new Vector2(collidableSprite.Rectangle.Right, collidableSprite.Rectangle.Y),
-            //        new Vector2(collidableSprite.Rectangle.Right + 2, collidableSprite.Rectangle.Y), Color.White);
-            //    PrimitiveDrawer.Instance.DrawLine(refSpriteBatch,
-            //        new Vector2(collidableSprite.Rectangle.X, collidableSprite.Rectangle.Bottom),
-            //        new Vector2(collidableSprite.Rectangle.X + 2, collidableSprite.Rectangle.Bottom), Color.White);
-            //}
-            
-            ////Grids
-            //for (int y = 0; y < this.numOfBins.Y; y++)
-            //{
-            //    for (int x = 0; x < this.numOfBins.X; x++)
-            //    {
-            //        if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects == 0)
-            //            PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
-            //                new Rectangle((x * this.binDimension.X) + (int)this.camera.VisibleArea.X,
-            //                    (y * binDimension.Y) + (int)this.camera.VisibleArea.Y, this.binDimension.X, this.binDimension.Y), Color.Red);
-            //        else if(this.objectCollisionGrid[x, y].NumberOfCollideableObjects == 1)
-            //            PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
-            //                new Rectangle((x * this.binDimension.X) + (int)this.camera.VisibleArea.X, 
-            //                    (y * binDimension.Y) + (int)this.camera.VisibleArea.Y, this.binDimension.X, this.binDimension.Y), Color.Purple);
-            //        else if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects > 1)
-            //            PrimitiveDrawer.Instance.DrawSolidRect(refSpriteBatch,
-            //                new Rectangle((x * this.binDimension.X) + (int)this.camera.VisibleArea.X, 
-            //                    (y * binDimension.Y) + (int)this.camera.VisibleArea.Y, this.binDimension.X, this.binDimension.Y), Color.Green);                                            
-            //    }
-            //} 
-             
+        {
+            if (debug)
+            {
+                ////Characters
+                foreach (ISpriteCollideable collidableSprite in registeredObject)
+                {
+                    PrimitiveDrawer.Instance.DrawRect(refSpriteBatch, collidableSprite.Rectangle, Color.Blue);
+                    PrimitiveDrawer.Instance.DrawLine(refSpriteBatch,
+                        new Vector2(collidableSprite.Rectangle.X, collidableSprite.Rectangle.Y),
+                        new Vector2(collidableSprite.Rectangle.X + 2, collidableSprite.Rectangle.Y), Color.White);
+                    PrimitiveDrawer.Instance.DrawLine(refSpriteBatch,
+                        new Vector2(collidableSprite.Rectangle.Right, collidableSprite.Rectangle.Y),
+                        new Vector2(collidableSprite.Rectangle.Right + 2, collidableSprite.Rectangle.Y), Color.White);
+                    PrimitiveDrawer.Instance.DrawLine(refSpriteBatch,
+                        new Vector2(collidableSprite.Rectangle.X, collidableSprite.Rectangle.Bottom),
+                        new Vector2(collidableSprite.Rectangle.X + 2, collidableSprite.Rectangle.Bottom), Color.White);
+                }
+
+                //Grids
+                for (int y = 0; y < this.numOfBins.Y; y++)
+                {
+                    for (int x = 0; x < this.numOfBins.X; x++)
+                    {
+                        if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects == 0)
+                            PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
+                                new Rectangle((x * this.binDimension.X) + (int)this.camera.VisibleArea.X,
+                                    (y * binDimension.Y) + (int)this.camera.VisibleArea.Y, this.binDimension.X, this.binDimension.Y), Color.Red);
+                        else if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects == 1)
+                            PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
+                                new Rectangle((x * this.binDimension.X) + (int)this.camera.VisibleArea.X,
+                                    (y * binDimension.Y) + (int)this.camera.VisibleArea.Y, this.binDimension.X, this.binDimension.Y), Color.Purple);
+                        else if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects > 1)
+                            PrimitiveDrawer.Instance.DrawSolidRect(refSpriteBatch,
+                                new Rectangle((x * this.binDimension.X) + (int)this.camera.VisibleArea.X,
+                                    (y * binDimension.Y) + (int)this.camera.VisibleArea.Y, this.binDimension.X, this.binDimension.Y), Color.Green);
+                    }
+                }
+            }     
             base.Draw(gameTime);
         }
         Boolean BoundingBox(ISpriteCollideable collideableObjectA, ISpriteCollideable collideableObjectB)
         {
             return collideableObjectA.Rectangle.Intersects(collideableObjectB.Rectangle);
         }
+        void GetTextureData(ISpriteCollideable spriteCollideable, out Color [] colorData)
+        {
+            Color[] newColorData = new Color[spriteCollideable.Rectangle.Width * spriteCollideable.Rectangle.Height];            
+            switch (spriteCollideable.collideableFacing)
+            {
+                case SpriteEffects.None:
+                    //Debug.Print("Not Fliped");
+                    spriteCollideable.CurrentAnimation.SpriteSheet.GetData(newColorData, 0,
+                        (spriteCollideable.Rectangle.Width * spriteCollideable.Rectangle.Height));            
+            
+                    break;
+                case SpriteEffects.FlipHorizontally:
+                    //Debug.Print("Fliped");
+                    Color [] FlippedColorData = new Color[spriteCollideable.Rectangle.Width * spriteCollideable.Rectangle.Height];
+                    spriteCollideable.CurrentAnimation.SpriteSheet.GetData(FlippedColorData, 0,
+                        (spriteCollideable.Rectangle.Width * spriteCollideable.Rectangle.Height));                                
+                    int x, y;
+                    for (y = 0; y < spriteCollideable.Rectangle.Height; y++)
+                        for (x = 0; x < spriteCollideable.Rectangle.Width; x++)
+                            newColorData[y * spriteCollideable.Rectangle.Width + (spriteCollideable.Rectangle.Width - 1 - x)] = FlippedColorData[y * spriteCollideable.Rectangle.Width + x];
 
+                    break;
+            }
+            colorData = newColorData;
+        }
         Boolean PixelCollision(ISpriteCollideable collideableObjectA,
             ISpriteCollideable collideableObjectB, GameTime gameTime)
         {
-            Color[] entityATextureData =
-                new Color[collideableObjectA.Rectangle.Width * collideableObjectA.Rectangle.Height];
-            collideableObjectA.CurrentAnimation.SpriteSheet.GetData(entityATextureData, 0, 
-                (collideableObjectA.Rectangle.Width * collideableObjectA.Rectangle.Height));            
-            Color[] entityBTextureData;
-            entityBTextureData =
-                new Color[collideableObjectB.Rectangle.Width * collideableObjectB.Rectangle.Height];
-            collideableObjectB.CurrentAnimation.SpriteSheet.GetData(entityBTextureData, 0,
-                (collideableObjectB.Rectangle.Width * collideableObjectB.Rectangle.Height));
-            if (IntersectPixels(collideableObjectA.Rectangle, entityATextureData,
-                collideableObjectB.Rectangle, entityBTextureData))
-            {
-                return true;
-            }         
+            Color[] objectTextureDataA;
+            Color[] objectTextureDataB;
+            GetTextureData(collideableObjectA, out objectTextureDataA);
+            GetTextureData(collideableObjectB, out objectTextureDataB);
+            if (IntersectPixels(collideableObjectA.Rectangle, objectTextureDataA,
+                collideableObjectB.Rectangle, objectTextureDataB))            
+                return true;            
             return false;
         }
         bool IntersectPixels(Rectangle rectA, Color[] dataA,

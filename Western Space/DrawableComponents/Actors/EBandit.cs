@@ -416,5 +416,21 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         #endregion
+
+        #region ISpriteCollideable Members
+
+
+        public SpriteEffects collideableFacing
+        {
+            get
+            {
+                return facing;
+            }
+            set
+            {
+                facing = value;
+            }
+        }
+        #endregion
      }
 }

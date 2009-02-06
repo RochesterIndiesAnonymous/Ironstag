@@ -218,5 +218,16 @@ namespace WesternSpace.DrawableComponents.Projectiles
         }
 
         #endregion
+
+        #region ISpriteCollideable Members
+
+
+        public SpriteEffects collideableFacing
+        {
+            get { return SpriteEffects.None; }
+            set { }
+        }
+
+        #endregion
     }
 }

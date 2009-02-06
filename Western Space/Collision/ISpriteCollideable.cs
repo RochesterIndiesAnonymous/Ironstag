@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using WesternSpace.DrawableComponents.Actors;
 using WesternSpace.AnimationFramework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace WesternSpace.Collision
 {
@@ -18,6 +19,11 @@ namespace WesternSpace.Collision
         Rectangle Rectangle
         {
             get;
+        }
+        SpriteEffects collideableFacing
+        {
+            get;
+            set;
         }
         Animation CurrentAnimation
         {
