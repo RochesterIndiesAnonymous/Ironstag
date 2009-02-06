@@ -16,11 +16,19 @@ namespace WesternSpace.Collision
         // Reference to Collision Manager
         protected SpriteSpriteCollisionManager refCollisionManager;        
         protected Boolean hasMultipleObjects;
+        public Boolean HasMultipleObjects
+        {
+            get { return hasMultipleObjects; }
+        }
         // List of Collideable Objects
         protected List<ISpriteCollideable> listOfCollideableObjects;
         public List<ISpriteCollideable> ListOfCollideableObjects
         {
             get { return listOfCollideableObjects; }
+        }
+        public int NumberOfCollideableObjects
+        {
+            get { return listOfCollideableObjects.Count; }
         }
         protected Point gridCoord;
         public CollisionObjectBin(SpriteSpriteCollisionManager collisionManager, int gridCoordX, int gridCoordY)
