@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using WesternSpace.DrawableComponents.Actors;
+using WesternSpace.AnimationFramework;
 
 namespace WesternSpace.Collision
 {
@@ -15,6 +16,10 @@ namespace WesternSpace.Collision
             get;
         }
         Rectangle Rectangle
+        {
+            get;
+        }
+        Animation CurrentAnimation
         {
             get;
         }

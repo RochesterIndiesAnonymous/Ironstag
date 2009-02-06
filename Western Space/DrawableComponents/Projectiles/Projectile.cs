@@ -208,5 +208,15 @@ namespace WesternSpace.DrawableComponents.Projectiles
         }
 
         #endregion
+
+        #region ISpriteCollideable Members
+
+
+        public Animation CurrentAnimation
+        {
+            get { return this.player.Animation; }
+        }
+
+        #endregion
     }
 }

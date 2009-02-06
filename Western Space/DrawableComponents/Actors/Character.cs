@@ -94,8 +94,9 @@ namespace WesternSpace.DrawableComponents.Actors
         public Rectangle Rectangle
         {
             get 
-            { 
-                return new Rectangle((int)Position.X, (int)Position.Y, animationPlayer.Animation.FrameWidth, animationPlayer.Animation.FrameHeight);
+            {
+                return new Rectangle((int)Position.X, (int)Position.Y,
+                    currentAnimation.FrameWidth, currentAnimation.FrameHeight);                    
             }
         }
 

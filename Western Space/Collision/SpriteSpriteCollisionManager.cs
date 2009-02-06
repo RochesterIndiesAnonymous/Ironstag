@@ -34,25 +34,21 @@ namespace WesternSpace.Collision
         {
             get { return objectBinsToCheck; }
         }
-        protected Dictionary<int, List<Point>> objBinLookupTable;
-        //protected GameScreen refGameScreen;
-        //protected GameScreen gameScreen;
+        protected Dictionary<int, List<Point>> objBinLookupTable;        
         SpriteBatch refSpriteBatch;
         ICameraService camera;
-        public SpriteSpriteCollisionManager(Game game, ISpriteBatchService sb, Point binWH)
+        public SpriteSpriteCollisionManager(Game game, ISpriteBatchService spriteBatch, Point binWH)
             : base(game)
         {
-            refSpriteBatch = sb.GetSpriteBatch("Camera Sensitive");
-            //refGameScreen = (GameScreen)parentScreen;           
             registeredObject = new List<ISpriteCollideable>();
             objectBinsToCheck = new List<CollisionObjectBin>();            
-            objBinLookupTable = new Dictionary<int, List<Point>>();            
+            objBinLookupTable = new Dictionary<int, List<Point>>();
+            refSpriteBatch = spriteBatch.GetSpriteBatch("Camera Sensitive");                   
             binDimension = binWH;
         }
         public override void Initialize()
         {
             camera = (ICameraService)ScreenManager.Instance.Services.GetService(typeof(ICameraService));
-
             numOfBins.X = (int)camera.VisibleArea.Width / binDimension.X;
             numOfBins.Y = (int)camera.VisibleArea.Height / binDimension.Y;
             objectCollisionGrid = new CollisionObjectBin[numOfBins.X, numOfBins.Y];
@@ -91,7 +87,7 @@ namespace WesternSpace.Collision
             registeredObject.Add(collideableObject);
             // assigns a id number to object
             collideableObject.IdNumber = IDNumberCount;
-            Debug.Print("Object Added to Registered List: " + collideableObject.IdNumber);
+            //Debug.Print("Object Added to Registered List: " + collideableObject.IdNumber);
             // increments the idnumberCounter
             IDNumberCount++;
         }
@@ -102,7 +98,7 @@ namespace WesternSpace.Collision
 
             OnRemoveObjectFromBin(collideableObject, this.getObjectCollisionBinCoord(collideableObject));
             
-            Debug.Print("Object Removed from Registered List: " + collideableObject.IdNumber);
+            //Debug.Print("Object Removed from Registered List: " + collideableObject.IdNumber);
             // Removes the registered Object
             registeredObject.Remove(collideableObject);
 
@@ -124,7 +120,7 @@ namespace WesternSpace.Collision
             {
                 // Remove Object to ObjectList of a Bin
                 if(binCoord.X >= 0 && binCoord.X < numOfBins.X && binCoord.Y >= 0 && binCoord.Y < numOfBins.Y)
-                this.objectCollisionGrid[binCoord.X, binCoord.Y].OnObjectRemoved(collideableObject);
+                    this.objectCollisionGrid[binCoord.X, binCoord.Y].OnObjectRemoved(collideableObject);
             }
             //// Update Object Look Up Table               
             this.objBinLookupTable[collideableObject.IdNumber] = listOfObjectBinCoord;
@@ -185,13 +181,11 @@ namespace WesternSpace.Collision
             List<Point> oldCoords;
             // Update Collision Bins
             foreach (ISpriteCollideable gameObj in registeredObject)
-            {
-                
+            {                
                 newCoords = this.getObjectCollisionBinCoord(gameObj);
                 // Lookup table contains the last coordnates of each game object
                 if (objBinLookupTable.TryGetValue(gameObj.IdNumber, out oldCoords))
-                {
-
+                {                     
                     if (findOutIfObjectIsInCameraSpace(gameObj) == false)
                     {
                         OnRemoveObjectFromBin(gameObj, oldCoords);
@@ -201,11 +195,11 @@ namespace WesternSpace.Collision
                         // Update Bin Only if the coords have changed
                         if (!CoordsEqual(oldCoords, newCoords))
                         {
-                            Debug.Print(gameObj.IdNumber + " Occupies ");
-                            foreach (Point coord in newCoords)
-                            {
-                                Debug.Print(">" + coord.ToString());
-                            }
+                            //Debug.Print(gameObj.IdNumber + " Occupies ");
+                            //foreach (Point coord in newCoords)
+                            //{
+                            //    Debug.Print(">" + coord.ToString());
+                            //}
                             OnRemoveObjectFromBin(gameObj, oldCoords);
                             OnAddObjectToBin(gameObj, newCoords);                            
                         }
@@ -215,12 +209,12 @@ namespace WesternSpace.Collision
                 {
                     if (findOutIfObjectIsInCameraSpace(gameObj))
                     {
-                        Debug.Print("Camera Pos:\n>" + camera.VisibleArea.ToString() +
-                            "\n>CameraLRTB: {" + 
-                            camera.VisibleArea.Left + "," + camera.VisibleArea.Right + "," +
-                            camera.VisibleArea.Top + "," + camera.VisibleArea.Bottom + "}" +
-                            "Sprite Pos: \n>" + gameObj.Rectangle.ToString()
-                        );
+                        //Debug.Print("Camera Pos:\n>" + camera.VisibleArea.ToString() +
+                        //    "\n>CameraLRTB: {" + 
+                        //    camera.VisibleArea.Left + "," + camera.VisibleArea.Right + "," +
+                        //    camera.VisibleArea.Top + "," + camera.VisibleArea.Bottom + "}" +
+                        //    "Sprite Pos: \n>" + gameObj.Rectangle.ToString()
+                        //);
                         this.OnAddObjectToBin(gameObj, newCoords);
                     }
                 }
@@ -234,7 +228,8 @@ namespace WesternSpace.Collision
                 {
                     for (int j = 1; j < gameObjBin.ListOfCollideableObjects.Count; j++)
                     {
-                        if (BoundingBoxA(gameObjBin.ListOfCollideableObjects.ElementAt(i), gameObjBin.ListOfCollideableObjects.ElementAt(j)))
+                        //if (BoundingBox(gameObjBin.ListOfCollideableObjects.ElementAt(i), gameObjBin.ListOfCollideableObjects.ElementAt(j)))
+                        if (PixelCollision(gameObjBin.ListOfCollideableObjects.ElementAt(i), gameObjBin.ListOfCollideableObjects.ElementAt(j), gameTime))
                         {
                             ISpriteCollideable collidedObj1 = gameObjBin.ListOfCollideableObjects.ElementAt(i);
                             ISpriteCollideable collidedObj2 = gameObjBin.ListOfCollideableObjects.ElementAt(j);
@@ -247,8 +242,7 @@ namespace WesternSpace.Collision
             base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
-        {
-            /*
+        {            
             //Characters
             foreach (ISpriteCollideable collidableSprite in registeredObject)
             {
@@ -283,12 +277,54 @@ namespace WesternSpace.Collision
                                 (y * binDimension.Y) + (int)this.camera.VisibleArea.Y, this.binDimension.X, this.binDimension.Y), Color.Green);                                            
                 }
             } 
-             */
+             
             base.Draw(gameTime);
         }
-        Boolean BoundingBoxA(ISpriteCollideable collideableObjectA, ISpriteCollideable collideableObjectB)
+        Boolean BoundingBox(ISpriteCollideable collideableObjectA, ISpriteCollideable collideableObjectB)
         {
             return collideableObjectA.Rectangle.Intersects(collideableObjectB.Rectangle);
+        }
+
+        Boolean PixelCollision(ISpriteCollideable collideableObjectA,
+            ISpriteCollideable collideableObjectB, GameTime gameTime)
+        {
+            Color[] entityATextureData =
+                new Color[collideableObjectA.Rectangle.Width * collideableObjectA.Rectangle.Height];
+            collideableObjectA.CurrentAnimation.SpriteSheet.GetData(entityATextureData, 0, 
+                (collideableObjectA.Rectangle.Width * collideableObjectA.Rectangle.Height));            
+            Color[] entityBTextureData;
+            entityBTextureData =
+                new Color[collideableObjectB.Rectangle.Width * collideableObjectB.Rectangle.Height];
+            collideableObjectB.CurrentAnimation.SpriteSheet.GetData(entityBTextureData, 0,
+                (collideableObjectB.Rectangle.Width * collideableObjectB.Rectangle.Height));
+            if (IntersectPixels(collideableObjectA.Rectangle, entityATextureData,
+                collideableObjectB.Rectangle, entityBTextureData))
+            {
+                return true;
+            }         
+            return false;
+        }
+        bool IntersectPixels(Rectangle rectA, Color[] dataA,
+                             Rectangle rectB, Color[] dataB)
+        {
+            int top = Math.Max(rectA.Top, rectB.Top);
+            int bottom = Math.Min(rectA.Bottom, rectB.Bottom);
+            int left = Math.Max(rectA.Left, rectB.Left);
+            int right = Math.Min(rectA.Right, rectB.Right);
+
+            for (int y = top; y < bottom; y++)
+            {
+                for (int x = left; x < right; x++)
+                {
+                    Color colorA = dataA[(x - rectA.Left) + (y - rectA.Top) * rectA.Width];
+                    Color colorB = dataB[(x - rectB.Left) + (y - rectB.Top) * rectB.Width];
+                    if (colorA.A != 0 && colorB.A != 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

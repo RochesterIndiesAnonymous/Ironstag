@@ -46,7 +46,7 @@ namespace WesternSpace.Collision
                 // add this bin to a list of bins to check for collision
                 refCollisionManager.ObjectBinsToCheck.Add(this);
                 hasMultipleObjects = true;
-                Debug.Print("Multiple Object in Bin: " + gridCoord.ToString() + " are true");
+                //Debug.Print("Multiple Object in Bin: " + gridCoord.ToString() + " are true");
             }
         }
         public void OnObjectRemoved(ISpriteCollideable gameObject)
@@ -57,7 +57,7 @@ namespace WesternSpace.Collision
                 // remove this bin from the list of bins to check for collision
                 refCollisionManager.ObjectBinsToCheck.Remove(this);
                 hasMultipleObjects = false;
-                Debug.Print("Multiple Object in Bin: " + gridCoord.ToString() + " are false");
+                //Debug.Print("Multiple Object in Bin: " + gridCoord.ToString() + " are false");
             }
         }
     }
