@@ -126,7 +126,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         public void Jump()
         {
-            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
             {
                 if (!currentState.Contains("Jumping") && !currentState.Contains("Falling"))
                 {
@@ -144,7 +144,7 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             int direction = 1;
 
-            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
             {
                 //Calculate Facing
                 if(facing.Equals(SpriteEffects.None))
@@ -184,7 +184,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         public void Shoot()
         {
-            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
             {
                 if (!currentState.Contains("Shooting"))
                 {
@@ -242,7 +242,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
 
                 // -- Check for Final State Changes -- //
-                if ((velocity.X == 0) && isOnGround && !currentState.Equals("Dead") && !currentState.Equals("Hit"))
+                if ((velocity.X == 0) && isOnGround && !currentState.Contains("Dead") && !currentState.Equals("Hit"))
                 {
 
                     if (animationPlayer.Animation.animationName.Equals("Idle") && !currentState.Equals("Idle"))

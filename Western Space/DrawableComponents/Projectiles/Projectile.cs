@@ -110,7 +110,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
             if (this.Position.X > gameScreen.World.Camera.VisibleArea.X + gameScreen.World.Camera.VisibleArea.Width || this.Position.X + this.player.Animation.FrameWidth < gameScreen.World.Camera.VisibleArea.X)
             {
                 // This allows the bullet to be garbage collected. Verified that garbage collection happens on 2/1/2009
-                this.gameScreen.World.SpriteCollisionManager.removeObjectToRegisteredObjectList(this);
+                this.gameScreen.World.SpriteCollisionManager.removeObjectFromRegisteredObjectList(this);
                 this.ParentScreen.Components.Remove(this);
                 this.Dispose();
                 return;
@@ -201,7 +201,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
             if (damage != null && damage.TakesDamageFrom != this.DoesDamageTo)
             {
                 // we hit
-                this.gameScreen.World.SpriteCollisionManager.removeObjectToRegisteredObjectList(this);
+                this.gameScreen.World.SpriteCollisionManager.removeObjectFromRegisteredObjectList(this);
                 this.ParentScreen.Components.Remove(this);
                 this.Dispose();
             }

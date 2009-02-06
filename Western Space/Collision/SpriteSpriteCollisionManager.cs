@@ -70,7 +70,7 @@ namespace WesternSpace.Collision
             // increments the idnumberCounter
             IDNumberCount++;
         }
-        public void removeObjectToRegisteredObjectList(ISpriteCollideable collideableObject)
+        public void removeObjectFromRegisteredObjectList(ISpriteCollideable collideableObject)
         {
             // 
             this.objBinLookupTable.Remove(collideableObject.IdNumber);

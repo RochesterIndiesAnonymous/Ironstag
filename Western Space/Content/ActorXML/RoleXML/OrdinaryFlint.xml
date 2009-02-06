@@ -63,6 +63,22 @@
     <Animation AnimationKey="Hit" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintHit" FrameWidth="64" FrameHeight="61" IsOneShot="1" Parent="Idle">
       <Frame DisplayTime="200" SheetIndex="0" />
     </Animation>
-    
+    <Animation AnimationKey="Dead" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintDead" FrameWidth="70" FrameHeight="61" IsOneShot="0" Parent="None">
+      <Frame DisplayTime="70" SheetIndex="0" />
+      <Frame DisplayTime="70" SheetIndex="1" />
+      <Frame DisplayTime="70" SheetIndex="2" />
+      <Frame DisplayTime="70" SheetIndex="3" />
+      <Frame DisplayTime="70" SheetIndex="4" />
+      <Frame DisplayTime="70" SheetIndex="5" />
+    </Animation>
+    <Animation AnimationKey="DeadAir" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintDeadAir" FrameWidth="70" FrameHeight="61" IsOneShot="0" Parent="None">
+      <Frame DisplayTime="70" SheetIndex="0" />
+      <Frame DisplayTime="70" SheetIndex="1" />
+      <Frame DisplayTime="70" SheetIndex="2" />
+      <Frame DisplayTime="70" SheetIndex="3" />
+    </Animation>
+    <Animation AnimationKey="DeadAirGround" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintDeadAirGround" FrameWidth="70" FrameHeight="61" IsOneShot="0" Parent="None">
+      <Frame DisplayTime="70" SheetIndex="0" />
+    </Animation>
   </Animations>
 </Cowboy>

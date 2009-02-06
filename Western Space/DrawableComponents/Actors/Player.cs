@@ -201,7 +201,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         private void Jump()
         {
-            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
             {
                 if (!currentState.Contains("Jumping") && !currentState.Contains("Falling"))
                 {
@@ -219,7 +219,7 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             int direction = 1;
 
-            if (!currentState.Equals("Dead") && !currentState.Equals("Hit") && !currentState.Equals("Shooting"))
+            if (!currentState.Contains("Dead") && !currentState.Equals("Hit") && !currentState.Equals("Shooting"))
             {
                 //Calculate Facing
                 if(facing.Equals(SpriteEffects.None))
@@ -265,7 +265,7 @@ namespace WesternSpace.DrawableComponents.Actors
             if (gameTime.TotalGameTime.TotalMilliseconds - shotDelay > shotCoolDown)
             {
 
-                if (!currentState.Equals("Dead") && !currentState.Equals("Hit") && !currentState.Contains("Shooting"))
+                if (!currentState.Contains("Dead") && !currentState.Equals("Hit") && !currentState.Contains("Shooting"))
                 {
                     if (currentState.Contains("Jumping"))
                     {
@@ -309,7 +309,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         private void DodgeRoll()
         {
-            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
             {
                 if (isTransformed)
                 {
@@ -327,7 +327,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         private void Transform()
         {
-            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
             {
                 if (isTransformed)
                 {
@@ -349,15 +349,21 @@ namespace WesternSpace.DrawableComponents.Actors
         public override void Update(GameTime gameTime)
         {
             // -- Get User Input -- //
-            if (input.CheckKey(InputMonitor.RIGHT) || input.CheckButton(InputMonitor.RIGHT) || input.CheckLeftJoystickOnXAxis(InputMonitor.RIGHT))
+            if ( input.CheckKey(InputMonitor.RIGHT) || input.CheckButton(InputMonitor.RIGHT) || input.CheckLeftJoystickOnXAxis(InputMonitor.RIGHT) )
             {
-                facing = SpriteEffects.None;
-                Move();
+                if(!currentState.Contains("Dead") && !currentState.Equals("Hit"))
+                {
+                    facing = SpriteEffects.None;
+                    Move();
+                }
             }
             if (input.CheckKey(InputMonitor.LEFT) || input.CheckButton(InputMonitor.LEFT) || input.CheckLeftJoystickOnXAxis(InputMonitor.LEFT))
             {
-                facing = SpriteEffects.FlipHorizontally;
-                Move();
+                if(!currentState.Contains("Dead") && !currentState.Equals("Hit"))
+                {
+                    facing = SpriteEffects.FlipHorizontally;
+                    Move();
+                }
             }
             if (input.CheckPressAndReleaseKey(InputMonitor.SHOOT) || input.CheckPressAndReleaseButton(InputMonitor.SHOOT))
             {
@@ -387,7 +393,7 @@ namespace WesternSpace.DrawableComponents.Actors
             }
 
             // -- Check for Final State Changes -- //
-            if (!currentState.Equals("Dead") && !currentState.Equals("Hit"))
+            if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
             {
                 if (isOnGround)
                 {
@@ -417,13 +423,27 @@ namespace WesternSpace.DrawableComponents.Actors
             }
             else
             {
-                if(currentState.Equals("Dead"))
+                if(currentState.Contains("Dead"))
                 {
-                    //Death Operations go here
+                    if(isOnGround && currentState.Equals("DeadAir"))
+                    {
+                        ChangeState("DeadAirGround");
+                    }
                 }
                 else if(currentState.Equals("Hit"))
                 {
-                    if (!animationPlayer.Animation.animationName.Equals(currentState))
+                    if (currentHealth <= 0)
+                    {
+                        if (isOnGround)
+                        {
+                            ChangeState("Dead");
+                        }
+                        else
+                        {
+                            ChangeState("DeadAir");
+                        }
+                    }
+                    else if (!animationPlayer.Animation.animationName.Equals(currentState))
                     {
                         ChangeState(animationPlayer.Animation.animationName);
                     }
@@ -460,7 +480,7 @@ namespace WesternSpace.DrawableComponents.Actors
             if (this.Facing == SpriteEffects.FlipHorizontally)
             {
                 direction = -1;
-                position = this.Position + new Vector2(10f, 20f);
+                position = this.Position - new Vector2(1f, -25f);
             }
 
             FlintNormalProjectile proj = new FlintNormalProjectile(this.ParentScreen, this.SpriteBatch, position, this, direction);
@@ -520,6 +540,15 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             if (this.TakesDamageFrom != damageItem.DoesDamageTo)
             {
+                ChangeState("Hit");
+                if (facing == SpriteEffects.FlipHorizontally)
+                {
+                    position += (-1) * hitPushBack;
+                }
+                else
+                {
+                    position += hitPushBack;
+                }
                 currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
             }
         }
@@ -557,16 +586,6 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             Debug.Print("Player Hit By: " + characterCollidedWith.IdNumber);
             IDamaging damage = characterCollidedWith as IDamaging;
-
-            ChangeState("Hit");
-            if (facing == SpriteEffects.FlipHorizontally)
-            {
-                position += (-1) * hitPushBack;
-            }
-            else
-            {
-                position += hitPushBack;
-            }
 
             if (damage != null)
             {
