@@ -13,13 +13,47 @@ namespace WesternSpace.Input
      */
     public class InputMonitor : GameComponent
     {
-        private static KeyboardState previousKeyboardState = new KeyboardState();
-        private static KeyboardState currentKeyboardState = new KeyboardState();
-        private static GamePadState previousPadState = new GamePadState();
-        private static GamePadState currentPadState = new GamePadState();
-        private static Dictionary<string, Keys> keyConfig = new Dictionary<string, Keys>();
-        private static Dictionary<string, Buttons> buttonConfig = new Dictionary<string, Buttons>();
-        private static Dictionary<string, float> leftJoystickConfig = new Dictionary<string, float>();
+#if !XBOX
+        private KeyboardState previousKeyboardState;
+
+        public KeyboardState PreviousKeyboardState
+        {
+            get { return previousKeyboardState; }
+        }
+
+
+        private KeyboardState currentKeyboardState;
+
+        public KeyboardState CurrentKeyboardState
+        {
+            get { return currentKeyboardState; }
+        }
+#endif
+
+        private GamePadState previousPadState;
+
+        public GamePadState PreviousPadState
+        {
+            get { return previousPadState; }
+        }
+
+
+        private GamePadState currentPadState;
+
+        public GamePadState CurrentPadState
+        {
+            get { return currentPadState; }
+        }
+
+
+        private Dictionary<string, List<IPressable>> pressables;
+
+        public Dictionary<string, List<IPressable>> Pressables
+        {
+            get { return pressables; }
+        }
+
+        private Dictionary<string, float> leftJoystickConfig = new Dictionary<string, float>();
 
         // Constants for checking keys
         public static readonly string JUMP = "Jump";
@@ -32,36 +66,50 @@ namespace WesternSpace.Input
         public static readonly string TRANSFORM = "Transform";
         public static readonly string PAUSE = "Pause";
 
+        private static InputMonitor instance;
+
+        public static InputMonitor Instance
+        {
+            get 
+            {
+                if (instance == null)
+                    instance = new InputMonitor(ScreenManager.Instance);
+                return instance; 
+            }
+        }
+
         /**
          * Constructor
          * Configures the default key configuration
          */
         public InputMonitor(Game game): base(game)
         {
+            this.pressables = new Dictionary<string, List<IPressable>>();
             // Configure Default Gamepad Mapping
-            this.AssignButton(JUMP, Buttons.A);
-            this.AssignButton(SHOOT, Buttons.X);
-            this.AssignButton(LEFT, Buttons.DPadLeft);
-            this.AssignButton(RIGHT, Buttons.DPadRight);
-            this.AssignButton(UP, Buttons.DPadUp);
-            this.AssignButton(DOWN, Buttons.DPadDown);
-            this.AssignButton(ROLL, Buttons.LeftTrigger);
-            this.AssignButton(TRANSFORM, Buttons.RightTrigger);
-            this.AssignButton(PAUSE, Buttons.Start);
+            this.AssignPressable(JUMP, new PressableButton(Buttons.A));
+            this.AssignPressable(SHOOT, new PressableButton(Buttons.X));
+            this.AssignPressable(LEFT, new PressableButton(Buttons.DPadLeft));
+            this.AssignPressable(RIGHT, new PressableButton(Buttons.DPadRight));
+            this.AssignPressable(UP, new PressableButton(Buttons.DPadUp));
+            this.AssignPressable(DOWN, new PressableButton(Buttons.DPadDown));
+            this.AssignPressable(ROLL, new PressableButton(Buttons.LeftTrigger));
+            this.AssignPressable(TRANSFORM, new PressableButton(Buttons.RightTrigger));
+            this.AssignPressable(PAUSE, new PressableButton(Buttons.Start));
+
             this.AssignLeftJoystick(LEFT, -0.5f);
             this.AssignLeftJoystick(RIGHT, 0.5f);
 
 #if !XBOX
             // Configure Default Keyboard Mapping
-            this.AssignKey(JUMP, Keys.Z);
-            this.AssignKey(SHOOT, Keys.X);
-            this.AssignKey(LEFT, Keys.Left);
-            this.AssignKey(RIGHT, Keys.Right);
-            this.AssignKey(UP, Keys.Up);
-            this.AssignKey(DOWN, Keys.Down);
-            this.AssignKey(ROLL, Keys.LeftControl);
-            this.AssignKey(TRANSFORM, Keys.A);
-            this.AssignKey(PAUSE, Keys.Space);
+            this.AssignPressable(JUMP, new PressableKey(Keys.Z));
+            this.AssignPressable(SHOOT, new PressableKey(Keys.X));
+            this.AssignPressable(LEFT, new PressableKey(Keys.Left));
+            this.AssignPressable(RIGHT, new PressableKey(Keys.Right));
+            this.AssignPressable(UP, new PressableKey(Keys.Up));
+            this.AssignPressable(DOWN, new PressableKey(Keys.Down));
+            this.AssignPressable(ROLL, new PressableKey(Keys.LeftControl));
+            this.AssignPressable(TRANSFORM, new PressableKey(Keys.A));
+            this.AssignPressable(PAUSE, new PressableKey(Keys.Space));
 #endif
         }
 
@@ -87,94 +135,22 @@ namespace WesternSpace.Input
 
         /**
          * Function for assigning key functions.
-         * Example: command could be "Jump" and key could be any key we pass in.
-         * Any number of commands can be stored. If it already exists, it will
-         * just be saved over the old binding
+         * Example: command could be "Jump" and pressable could be any pressable we pass in.
+         * Any number of commands can be stored, and have any number of pressables associated
+         * with them.
          */
-        public void AssignKey(string command, Keys key)
+        public void AssignPressable(string command, IPressable pressable)
         {
-            if (keyConfig.ContainsKey(command))
+            if (!pressables.ContainsKey(command))
             {
-                keyConfig[command] = key;
+                pressables[command] = new List<IPressable>();
             }
-            else
-            {
-                keyConfig.Add(command, key);
-            }
-        }
-
-        /**
-         * Function for assigning button functions.
-         * Example: command could be "Jump" and button could be the 'B' button.
-         * Any number of commands can be stored. If it already exists, it will
-         * just be saved over the old binding
-         */
-        public void AssignButton(string command, Buttons button)
-        {
-            if (buttonConfig.ContainsKey(command))
-            {
-                buttonConfig[command] = button;
-            }
-            else
-            {
-                buttonConfig.Add(command, button);
-            }
+            pressables[command].Add(pressable);
         }
 
         public void AssignLeftJoystick(string command, float threshold)
         {
             leftJoystickConfig[command] = threshold;
-        }
-
-        /**
-         * Checks the state of desired key by command name
-         */
-        public bool CheckKey(string command)
-        {
-
-            // If the command exists, check its state
-            if (keyConfig.ContainsKey(command))
-            {
-                // If key is currently down, report
-                if (currentKeyboardState.IsKeyDown(keyConfig[command]))
-                {
-                    return true;
-                }
-                // Otherwise, just report that the key is up
-                else
-                {
-                    return false;
-                }
-            }
-            // If the command doesn't exists, return NoMatch
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool CheckButton(string command)
-        {
-
-            // If the command exists, check its state
-            if (buttonConfig.ContainsKey(command))
-            {
-                // If key is currently down, report
-                if (currentPadState.IsButtonDown(buttonConfig[command]))
-                {
-                    return true;
-                }
-                // Otherwise, just report that the key is up
-                else
-                {
-                    return false;
-                }
-            }
-            // If the command doesn't exists, return NoMatch
-            else
-            {
-                return false;
-            }
         }
 
         public bool CheckLeftJoystickOnXAxis(string command)
@@ -197,46 +173,115 @@ namespace WesternSpace.Input
         }
 
         /// <summary>
-        /// Determines whether or not a key associated with a given command has been pressed and released.
+        /// Check if any pressables associated with a given command string are pressed.
         /// </summary>
-        /// <param name="command">The command whose associated key is to be checked.</param>
-        /// <returns>True if the key has been released, false otherwise.</returns>
-        public bool CheckPressAndReleaseKey(string command)
+        /// <param name="command">The command string to query.</param>
+        /// <returns>True if any associated pressable is pressed.</returns>
+        public bool IsPressed(string command)
         {
-            if (keyConfig.ContainsKey(command))
+            if (pressables.ContainsKey(command))
             {
-                if (currentKeyboardState.IsKeyDown(keyConfig[command]))
+                foreach (IPressable pressable in pressables[command])
                 {
-                    if (!previousKeyboardState.IsKeyDown(keyConfig[command]))
-                    {
+                    if (pressable.IsPressed)
                         return true;
-                    }
                 }
             }
-
             return false;
         }
 
         /// <summary>
-        /// Determines whether or not a button associated with a given command has been pressed and released.
+        /// Check if any pressables associated with a given command string are released.
         /// </summary>
-        /// <param name="command">The command whose associated button is to be checked.</param>
-        /// <returns>True if the button has been released, false otherwise.</returns>
-        public bool CheckPressAndReleaseButton(string command)
+        /// <param name="command">The command string to query.</param>
+        /// <returns>True if any associated pressable is released.</returns>
+        public bool IsReleased(string command)
         {
-            if (buttonConfig.ContainsKey(command))
+            if (pressables.ContainsKey(command))
             {
-                if (currentPadState.IsButtonDown(buttonConfig[command]))
+                foreach (IPressable pressable in pressables[command])
                 {
-                    if (!previousPadState.IsButtonDown(buttonConfig[command]))
-                    {
+                    if (pressable.IsReleased)
                         return true;
-                    }
                 }
             }
-
             return false;
         }
 
+        /// <summary>
+        /// Check if any pressables associated with a given command string have just been pressed.
+        /// </summary>
+        /// <param name="command">The command string to query.</param>
+        /// <returns>True if any associated pressable was just pressed since the last update.</returns>
+        public bool WasJustPressed(string command)
+        {
+            if (pressables.ContainsKey(command))
+            {
+                foreach (IPressable pressable in pressables[command])
+                {
+                    if (pressable.WasJustPressed)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Check if any pressables associated with a given command string have just been released.
+        /// </summary>
+        /// <param name="command">The command string to query.</param>
+        /// <returns>True if any associated pressable was just released since the last update.</returns>
+        public bool WasJustReleased(string command)
+        {
+            if (pressables.ContainsKey(command))
+            {
+                foreach (IPressable pressable in pressables[command])
+                {
+                    if (pressable.WasJustReleased)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Get the amount of time any pressables associated with a given command
+        /// were held down.
+        /// </summary>
+        /// <param name="command">The command string to query.</param>
+        /// <returns>The maximum time any associated pressables have been pressed for.</returns>
+        public int GetPressedTime(string command)
+        {
+            int max = 0;
+            if (pressables.ContainsKey(command))
+            {
+                foreach (IPressable pressable in pressables[command])
+                {
+                    if (max < pressable.PressedTime)
+                        max = pressable.PressedTime;
+                }
+            }
+            return max;
+        }
+
+        /// <summary>
+        /// Get the amount of time any pressables associated with a given command
+        /// have been released for.
+        /// </summary>
+        /// <param name="command">The command string to query.</param>
+        /// <returns>The maximum time any associated pressables have been released for.</returns>
+        public int GetReleasedTime(string command)
+        {
+            int max = 0;
+            if (pressables.ContainsKey(command))
+            {
+                foreach (IPressable pressable in pressables[command])
+                {
+                    if (max < pressable.ReleasedTime)
+                        max = pressable.ReleasedTime;
+                }
+            }
+            return max;
+        }
     }
 }

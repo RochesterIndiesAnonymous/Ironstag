@@ -89,6 +89,9 @@
     <Compile Include="AnimationFramework\AnimationPlayer.cs" />
     <Compile Include="AnimationFramework\Frame.cs" />
     <Compile Include="DrawableGameObject.cs" />
+    <Compile Include="Input\PressableButton.cs" />
+    <Compile Include="Input\PressableKey.cs" />
+    <Compile Include="Input\IPressable.cs" />
     <Compile Include="WorldObject.cs" />
     <Compile Include="Collision\CollisionHotspot.cs" />
     <Compile Include="Collision\CollisionObjectBin.cs" />

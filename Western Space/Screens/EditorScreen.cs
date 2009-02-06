@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Reflection;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
 using WesternSpace.AnimationFramework;
@@ -206,14 +207,14 @@ namespace WesternSpace.Screens
                 Components.Add(world);
 
                 // Set up editor controls:
-                inputMonitor = new InputMonitor(ScreenManager.Instance);
-                inputMonitor.AssignKey("EditorLeft", Microsoft.Xna.Framework.Input.Keys.A);
-                inputMonitor.AssignKey("EditorRight", Microsoft.Xna.Framework.Input.Keys.D);
-                inputMonitor.AssignKey("EditorUp", Microsoft.Xna.Framework.Input.Keys.W);
-                inputMonitor.AssignKey("EditorDown", Microsoft.Xna.Framework.Input.Keys.S);
-                inputMonitor.AssignKey("EditorAppend", Microsoft.Xna.Framework.Input.Keys.LeftShift);
-                inputMonitor.AssignKey("ToggleFullScreen", Microsoft.Xna.Framework.Input.Keys.F);
-                inputMonitor.AssignKey("EditorCycleMode", Microsoft.Xna.Framework.Input.Keys.Tab);
+                inputMonitor = InputMonitor.Instance;
+                inputMonitor.AssignPressable("EditorLeft", new PressableKey(Keys.A));
+                inputMonitor.AssignPressable("EditorRight", new PressableKey(Keys.D));
+                inputMonitor.AssignPressable("EditorUp", new PressableKey(Keys.W));
+                inputMonitor.AssignPressable("EditorDown", new PressableKey(Keys.S));
+                inputMonitor.AssignPressable("EditorAppend", new PressableKey(Keys.LeftShift));
+                inputMonitor.AssignPressable("ToggleFullScreen", new PressableKey(Keys.F));
+                inputMonitor.AssignPressable("EditorCycleMode", new PressableKey(Keys.Tab));
                 Components.Add(inputMonitor);
 
                 CreateUIComponents();
@@ -308,29 +309,29 @@ namespace WesternSpace.Screens
 
         public override void Update(GameTime gameTime)
         {
-            if (inputMonitor.CheckPressAndReleaseKey("EditorCycleMode"))
+            if (inputMonitor.WasJustPressed("EditorCycleMode"))
             {
                 CycleMode();
             }
 
             // Let keypresses move the camera:
-            if (inputMonitor.CheckKey("EditorLeft"))
+            if (inputMonitor.IsPressed("EditorLeft"))
             {
                 world.Camera.Position -= new Vector2(CAM_SPEED, 0);
             }
-            else if (inputMonitor.CheckKey("EditorRight"))
+            else if (inputMonitor.IsPressed("EditorRight"))
             {
                 world.Camera.Position += new Vector2(CAM_SPEED, 0);
             }
-            if (inputMonitor.CheckKey("EditorUp"))
+            if (inputMonitor.IsPressed("EditorUp"))
             {
                 world.Camera.Position -= new Vector2(0, CAM_SPEED);
             }
-            else if (inputMonitor.CheckKey("EditorDown"))
+            else if (inputMonitor.IsPressed("EditorDown"))
             {
                 world.Camera.Position += new Vector2(0, CAM_SPEED);
             }
-            else if (inputMonitor.CheckPressAndReleaseKey("ToggleFullScreen"))
+            else if (inputMonitor.WasJustPressed("ToggleFullScreen"))
             {
                 if (isFullScreen)
                 {

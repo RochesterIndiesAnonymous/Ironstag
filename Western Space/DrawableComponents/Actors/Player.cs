@@ -162,7 +162,7 @@ namespace WesternSpace.DrawableComponents.Actors
             gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
 
             //Temp: Sets the input monitor up.
-            input = new InputMonitor(this.Game);
+            input = InputMonitor.Instance;
         }
 
         /// <summary>
@@ -349,7 +349,7 @@ namespace WesternSpace.DrawableComponents.Actors
         public override void Update(GameTime gameTime)
         {
             // -- Get User Input -- //
-            if ( input.CheckKey(InputMonitor.RIGHT) || input.CheckButton(InputMonitor.RIGHT) || input.CheckLeftJoystickOnXAxis(InputMonitor.RIGHT) )
+            if ( input.IsPressed(InputMonitor.RIGHT) || input.CheckLeftJoystickOnXAxis(InputMonitor.RIGHT) )
             {
                 if(!currentState.Contains("Dead") && !currentState.Equals("Hit"))
                 {
@@ -357,7 +357,7 @@ namespace WesternSpace.DrawableComponents.Actors
                     Move();
                 }
             }
-            if (input.CheckKey(InputMonitor.LEFT) || input.CheckButton(InputMonitor.LEFT) || input.CheckLeftJoystickOnXAxis(InputMonitor.LEFT))
+            if (input.IsPressed(InputMonitor.LEFT) || input.CheckLeftJoystickOnXAxis(InputMonitor.LEFT))
             {
                 if(!currentState.Contains("Dead") && !currentState.Equals("Hit"))
                 {
@@ -365,11 +365,11 @@ namespace WesternSpace.DrawableComponents.Actors
                     Move();
                 }
             }
-            if (input.CheckPressAndReleaseKey(InputMonitor.SHOOT) || input.CheckPressAndReleaseButton(InputMonitor.SHOOT))
+            if (input.WasJustPressed(InputMonitor.SHOOT))
             {
                 Shoot(gameTime);
             }
-            if (input.CheckPressAndReleaseKey(InputMonitor.JUMP) || input.CheckPressAndReleaseButton(InputMonitor.JUMP))
+            if (input.WasJustPressed(InputMonitor.JUMP))
             {
                 Jump();
             }

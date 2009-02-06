@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using WesternSpace.DrawableComponents.Misc;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using WesternSpace.TilingEngine;
 using WesternSpace.Services;
 using WesternSpace.ServiceInterfaces;
@@ -81,8 +82,8 @@ namespace WesternSpace.Screens
                 batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
 
                 // Set up editor controls:
-                inputMonitor = new InputMonitor(ScreenManager.Instance);
-                inputMonitor.AssignKey("ToggleFullScreen", Microsoft.Xna.Framework.Input.Keys.F);
+                inputMonitor = InputMonitor.Instance;
+                inputMonitor.AssignPressable("ToggleFullScreen", new PressableKey(Keys.F));
                 Components.Add(inputMonitor);
 
                 CreateLayerComponents();
@@ -98,7 +99,7 @@ namespace WesternSpace.Screens
 
         public override void Update(GameTime gameTime)
         {
-            if (inputMonitor.CheckPressAndReleaseKey("ToggleFullScreen"))
+            if (inputMonitor.WasJustPressed("ToggleFullScreen"))
             {
                 if (isFullScreen)
                 {
