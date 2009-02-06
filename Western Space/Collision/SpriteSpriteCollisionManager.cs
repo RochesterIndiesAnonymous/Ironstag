@@ -293,35 +293,29 @@ namespace WesternSpace.Collision
             switch (spriteCollideable.collideableFacing)
             {
                 case SpriteEffects.None:
-                    //Debug.Print("Not Fliped");
-                    spriteCollideable.CurrentAnimation.SpriteSheet.GetData(newColorData, 0,
-                        (spriteCollideable.Rectangle.Width * spriteCollideable.Rectangle.Height));            
-            
+                    //Debug.Print("Not Fliped");                                           
+                    newColorData = spriteCollideable.CurrentAnimation.textureColorData;
                     break;
                 case SpriteEffects.FlipHorizontally:
                     //Debug.Print("Fliped");
-                    Color [] FlippedColorData = new Color[spriteCollideable.Rectangle.Width * spriteCollideable.Rectangle.Height];
-                    spriteCollideable.CurrentAnimation.SpriteSheet.GetData(FlippedColorData, 0,
-                        (spriteCollideable.Rectangle.Width * spriteCollideable.Rectangle.Height));                                
-                    int x, y;
-                    for (y = 0; y < spriteCollideable.Rectangle.Height; y++)
-                        for (x = 0; x < spriteCollideable.Rectangle.Width; x++)
-                            newColorData[y * spriteCollideable.Rectangle.Width + (spriteCollideable.Rectangle.Width - 1 - x)] = FlippedColorData[y * spriteCollideable.Rectangle.Width + x];
-
+                    newColorData = spriteCollideable.CurrentAnimation.GetHorizontalTextureDataFlip();
                     break;
             }
             colorData = newColorData;
         }
         Boolean PixelCollision(ISpriteCollideable collideableObjectA,
-            ISpriteCollideable collideableObjectB, GameTime gameTime)
+                               ISpriteCollideable collideableObjectB,
+                               GameTime gameTime)
         {
             Color[] objectTextureDataA;
             Color[] objectTextureDataB;
             GetTextureData(collideableObjectA, out objectTextureDataA);
             GetTextureData(collideableObjectB, out objectTextureDataB);
             if (IntersectPixels(collideableObjectA.Rectangle, objectTextureDataA,
-                collideableObjectB.Rectangle, objectTextureDataB))            
-                return true;            
+                collideableObjectB.Rectangle, objectTextureDataB))
+            {
+                return true;
+            }
             return false;
         }
         bool IntersectPixels(Rectangle rectA, Color[] dataA,

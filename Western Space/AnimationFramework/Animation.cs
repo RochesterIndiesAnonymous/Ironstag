@@ -22,7 +22,29 @@ namespace WesternSpace.AnimationFramework
         {
             get { return spriteSheet; }
         }
-
+        public Color[] textureColorData
+        {
+            get
+            {
+                Color [] newColorData = new Color[frameWidth * frameHeight];
+                spriteSheet.GetData(newColorData, 0, (frameWidth * frameHeight));
+                return newColorData;
+            }
+        }        
+        public Color[] GetHorizontalTextureDataFlip()
+        {
+            Color[] oldColorData = textureColorData;
+            Color[] newColorData = new Color[frameWidth * frameHeight];
+            int x, y;
+            for (y = 0; y < frameHeight; y++)
+            {
+                for (x = 0; x < frameWidth; x++)
+                {
+                    newColorData[y * frameWidth + (frameWidth - 1 - x)] = oldColorData[y * frameWidth + x];
+                }
+            }
+            return newColorData;
+        }
         // A collection containing all of the frames to be used
         // in this Animation.
         private List<Frame> frames;

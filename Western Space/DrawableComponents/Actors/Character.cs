@@ -62,7 +62,7 @@ namespace WesternSpace.DrawableComponents.Actors
 
         public String CurrentState
         {
-            get { return currentState; }
+            get { return currentState;  }
             set { currentState = value; }
         }
 
