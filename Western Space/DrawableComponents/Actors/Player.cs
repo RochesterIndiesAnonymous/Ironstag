@@ -23,6 +23,7 @@ namespace WesternSpace.DrawableComponents.Actors
     public class Player : Character, IDamageable, ISpriteCollideable
     {
         /// Constants ///
+        public static readonly string XMLFILENAME = Character.XMLPATH + "\\" + typeof(Player).Name;
         private static readonly string COWBOY = "Cowboy";
         private static readonly string SPACE_COWBOY = "SpaceCowboy";
 
@@ -99,17 +100,17 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="spriteBatch">The sprite batch which handles drawing this object.</param>
         /// <param name="position">The initial position of this character.</param>
         /// <param name="xmlFile">The XML file which houses the information for this character.</param>
-        public Player(Screen parentScreen , SpriteBatch spriteBatch, World world, Vector2 position, String xmlFile)
-            : base(parentScreen, spriteBatch, world, position, xmlFile)
+        public Player(World world, SpriteBatch spriteBatch,  Vector2 position)
+            : base(world, spriteBatch, position)
         {
             //Set the character's Name
             name = "Flint Ironstag";
 
             //Load the player information from the XML file
-            LoadPlayerXmlFile(xmlFile);
+            LoadPlayerXmlFile();
 
             //Load the Player's Roles
-            SetUpRoles(xmlFile);
+            SetUpRoles();
 
             //Set current health
             currentHealth = maxHealth;
@@ -168,9 +169,9 @@ namespace WesternSpace.DrawableComponents.Actors
         /// Sets up the Character's individual Roles.
         /// </summary>
         /// <param name="xmlFile">The xml file containing the role information.</param>
-        public override void SetUpRoles(string xmlFile)
+        public override void SetUpRoles()
         {
-            Cowboy cowboy = new Cowboy(xmlFile, COWBOY);
+            Cowboy cowboy = new Cowboy(XMLFILENAME, COWBOY);
             //SpaceCowboy spaceCowboy = new SpaceCowboy(xmlFile, SPACE_COWBOY);
 
             this.roleMap.Add(COWBOY, cowboy);
@@ -439,10 +440,10 @@ namespace WesternSpace.DrawableComponents.Actors
         /// Loads a Character's information from a specified XML file.
         /// </summary>
         /// <param name="fileName">The name of the xml file housing the character's information.</param>
-        private void LoadPlayerXmlFile(string fileName)
+        private void LoadPlayerXmlFile()
         {
             //Create a new XDocument from the given file name.
-            XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(fileName);
+            XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(XMLFILENAME);
 
             Int32.TryParse(fileContents.Root.Element("Health").Attribute("MaxHealth").Value, out this.maxHealth);
             Int32.TryParse(fileContents.Root.Element("Transformation").Attribute("MaxGauge").Value, out this.maxGauge);
@@ -541,6 +542,7 @@ namespace WesternSpace.DrawableComponents.Actors
             }
         }
 
+        /* MOVED TO CHARACTER
         public Rectangle Rectangle
         {
             get 
@@ -549,7 +551,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 int y = (int)(this.Position.Y);
                 return new Rectangle(x, y, this.AnimationPlayer.Animation.FrameWidth, this.AnimationPlayer.Animation.FrameHeight);
             }
-        }
+        }*/
 
         public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
         {

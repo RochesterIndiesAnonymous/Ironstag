@@ -289,8 +289,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActorXML\FlintIronstag.xml">
-      <Name>FlintIronstag</Name>
+    <Compile Include="ActorXML\Player.xml">
+      <Name>Player</Name>
       <Importer>XDocumentImporter</Importer>
       <Processor>XDocumentProcessor</Processor>
     </Compile>
@@ -310,8 +310,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActorXML\Bandit.xml">
-      <Name>Bandit</Name>
+    <Compile Include="ActorXML\EBandit.xml">
+      <Name>EBandit</Name>
       <Importer>XDocumentImporter</Importer>
       <Processor>XDocumentProcessor</Processor>
     </Compile>

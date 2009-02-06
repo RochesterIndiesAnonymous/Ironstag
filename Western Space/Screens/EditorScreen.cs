@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -21,7 +22,7 @@ namespace WesternSpace.Screens
 {
     public class EditorScreen : Screen
     {
-        public static readonly int MAX_TILEMAP_WIDTH = 501; // Silly hack: I made these odd numbers
+        public static readonly int MAX_TILEMAP_WIDTH = 501; // Silly hack: I made these odd (as opposed to even) numbers
         public static readonly int MAX_TILEMAP_HEIGHT = 501;//  because even numbers resulted in sprite positions being off by a half-tile width/height
         public static readonly int LAYER_COUNT = 2;
         public static readonly int SUB_LAYER_COUNT = 2;
@@ -91,7 +92,7 @@ namespace WesternSpace.Screens
             get { return edgeToggler; }
         }
 
-        private PlayerMover playerMover;
+        private CharacterMover playerMover;
 
         private InputMonitor inputMonitor;
 
@@ -123,6 +124,18 @@ namespace WesternSpace.Screens
         {
             if (!this.IsInitialized)
             {
+                IEnumerable<Type> types = from type in System.Reflection.Assembly.GetAssembly(typeof(Character)).GetTypes()
+                                          where type.IsSubclassOf(typeof(Character))
+                                          select type;
+                List<ConstructorInfo> spriteConstructorInfos = new List<ConstructorInfo>();
+                Console.Out.WriteLine("Character type count: " + types.Count<Type>() + "\nTypes:\n");
+                Type[] expectedCharacterArguments = new Type[]{typeof(Screen), typeof(SpriteBatch), typeof(World), typeof(Vector2), typeof(String)};
+                foreach (Type type in types)
+                {
+                    spriteConstructorInfos.Add(type.GetConstructor(expectedCharacterArguments));
+                    Console.Out.WriteLine(type.Name);
+                }
+
                 tileEngine = new TileEngine();
 
                 fullScreenSettings = new ResolutionSettings(640, 480, 640,
@@ -252,7 +265,7 @@ namespace WesternSpace.Screens
             saveButton.DrawOrder = 20;
             this.Components.Add(saveButton);
 
-            playerMover = new PlayerMover(this, sb, World.Player);
+            playerMover = new CharacterMover(this, sb, World.Player);
             this.Components.Add(playerMover);
         }
 

@@ -16,25 +16,25 @@ using WesternSpace.DrawableComponents.Actors;
 namespace WesternSpace.DrawableComponents.EditorUI
 {
     // Let's you change the starting position of the player.
-    public class PlayerMover : EditorUIComponent
+    public class CharacterMover : EditorUIComponent
     {
-        private Player player;
+        private Character character;
 
-        public Player Player
+        public Character Character
         {
-            get { return player; }
+            get { return character; }
         }
 
         public ICameraService Camera
         {
-            get { return player.World.Camera; }
+            get { return character.World.Camera; }
         }
 
-        public PlayerMover(EditorScreen parentScreen, SpriteBatch spriteBatch, Player player)
+        public CharacterMover(EditorScreen parentScreen, SpriteBatch spriteBatch, Character character)
             : base(parentScreen, spriteBatch, 
             new RectangleF(0, 0, 0, 0))
         {
-            this.player = player;
+            this.character = character;
             base.Draggable[0] = true; // Draggable with the left mouse button!
         }
 
@@ -42,12 +42,12 @@ namespace WesternSpace.DrawableComponents.EditorUI
         {
             get
             {
-                return new RectangleF(player.ScreenPosition.X, player.ScreenPosition.Y, 
-                                      player.Rectangle.Width, player.Rectangle.Height);
+                return new RectangleF(character.ScreenPosition.X, character.ScreenPosition.Y, 
+                                      character.Rectangle.Width, character.Rectangle.Height);
             }
             set 
             {
-                player.ScreenPosition = new Vector2(value.X, value.Y);
+                character.ScreenPosition = new Vector2(value.X, value.Y);
             }
         }
 

@@ -16,32 +16,9 @@ using WesternSpace.Utility;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    public abstract class Character : DrawableGameObject, ITileCollidable
+    public abstract class Character : WorldObject, ITileCollidable
     {
-        private string fileName;
-
-        public string FileName
-        {
-            get { return fileName; }
-        }
-
-        private World world;
-
-        public World World
-        {
-            get { return world; }
-        }
-
-        /// <summary>
-        /// The position of this character on the current screen, based on
-        ///  the world's camera's position.
-        /// </summary>
-        public Vector2 ScreenPosition
-        {
-            get { return Position - World.Camera.Position; }
-            set { Position = World.Camera.Position + value; }
-        }
-
+        public static readonly string XMLPATH = "ActorXML";
         /// <summary>
         /// The name used to identify a specific character.
         /// </summary>
@@ -114,6 +91,14 @@ namespace WesternSpace.DrawableComponents.Actors
             get { return animationPlayer; }
         }
 
+        public Rectangle Rectangle
+        {
+            get 
+            { 
+                return new Rectangle((int)Position.X, (int)Position.Y, animationPlayer.Animation.FrameWidth, animationPlayer.Animation.FrameHeight);
+            }
+        }
+
         // The character's velocity vector. Determine's the
         // character's movement direction.
 
@@ -170,11 +155,9 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="spriteBatch">The sprite batch used to draw this object.</param>
         /// <param name="position">The character's position in the world.</param>
         /// <param name="xmlFile">The XML file name which stores the Character's data.</param>
-        public Character(Screen parentScreen, SpriteBatch spriteBatch, World world, Vector2 position, String xmlFile)
-            : base(parentScreen, spriteBatch, position)
+        public Character(World world, SpriteBatch spriteBatch, Vector2 position)
+            : base(world, spriteBatch, position)
         {
-            this.fileName = xmlFile;
-            this.world = world;
             this.Position = position;
             this.hotspotsFacingRight = new List<CollisionHotspot>();
             this.hotspotsFacingLeft = new List<CollisionHotspot>();
@@ -244,7 +227,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// Creates the role objects for a given character.
         /// </summary>
         /// <param name="xmlFile">The xml file which stores role information.</param>
-        public abstract void SetUpRoles(String xmlFile);
+        public abstract void SetUpRoles();
 
         #region ITileCollideable Members
         protected List<CollisionHotspot> hotspotsFacingLeft;

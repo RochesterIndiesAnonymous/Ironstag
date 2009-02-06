@@ -22,6 +22,7 @@ namespace WesternSpace.DrawableComponents.Actors
     class EBandit : Character, IDamageable, ISpriteCollideable
      {
         /// Constants ///
+        public static readonly string XMLFILENAME = Character.XMLPATH + "\\" + typeof(EBandit).Name;
         private static readonly string BANDIT = "Bandit";
 
         /// <summary>
@@ -42,21 +43,21 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// Constructor for Flint Ironstag.
         /// </summary>
-        /// <param name="parentScreen">The screen which this object is a part of.</param>
+        /// <param name="world">The world this EBandit belongs to</param>
         /// <param name="spriteBatch">The sprite batch which handles drawing this object.</param>
         /// <param name="position">The initial position of this character.</param>
         /// <param name="xmlFile">The XML file which houses the information for this character.</param>
-        public EBandit(Screen parentScreen , SpriteBatch spriteBatch, World world, Vector2 position, String xmlFile)
-            : base(parentScreen, spriteBatch, world, position, xmlFile)
+        public EBandit(World world, SpriteBatch spriteBatch, Vector2 position)
+            : base(world, spriteBatch, position)
         {
             //Set the character's Name
             name = "Bandit";
 
             //Load the player information from the XML file
-            LoadBanditXmlFile(xmlFile);
+            LoadBanditXmlFile(XMLFILENAME);
 
             //Load the Player's Roles
-            SetUpRoles(xmlFile);
+            SetUpRoles();
 
             //Set current health
             currentHealth = maxHealth;
@@ -110,9 +111,9 @@ namespace WesternSpace.DrawableComponents.Actors
         /// Sets up the Character's individual Roles.
         /// </summary>
         /// <param name="xmlFile">The xml file containing the role information.</param>
-        public override void SetUpRoles(string xmlFile)
+        public override void SetUpRoles()
         {
-            Bandit bandit = new Bandit(xmlFile, BANDIT);
+            Bandit bandit = new Bandit(XMLFILENAME, BANDIT);
 
             this.roleMap.Add(BANDIT, bandit);
 
@@ -394,7 +395,7 @@ namespace WesternSpace.DrawableComponents.Actors
             }
         }
 
-        public Rectangle Rectangle
+        public new Rectangle Rectangle
         {
             get
             {

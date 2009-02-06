@@ -66,6 +66,16 @@ namespace WesternSpace
         }
 
         /// <summary>
+        /// A list of all non-player Characters in the world.
+        /// </summary>
+        private List<Character> characters;
+
+        public List<Character> Characters
+        {
+            get { return characters; }
+        }
+
+        /// <summary>
         /// Prevent any components that belong in the world (enemies, the player, etc)
         ///  from being Update()d. This will essentially set "Enabled = false" on all
         ///  characters in the world.
@@ -186,15 +196,14 @@ namespace WesternSpace
             SpriteBatch sb = batchService.GetSpriteBatch(Character.SpriteBatchName);
 
             // Add the player:
-            string playerXMLFileName = fileContents.Root.Attribute("PlayerFileName").Value;
             Vector2 playerPosition = new Vector2(float.Parse(fileContents.Root.Attribute("PlayerPositionX").Value),
                                                  float.Parse(fileContents.Root.Attribute("PlayerPositionY").Value));
 
-            player = new Player(ParentScreen, sb, this, playerPosition, playerXMLFileName);
+            player = new Player(this, sb, playerPosition);
             player.UpdateOrder = 3;
             player.DrawOrder = PLAYER_DRAW_ORDER;
 
-            EBandit bandit1 = new EBandit(ParentScreen, sb, this, new Vector2(500, 79), "ActorXML\\Bandit");
+            EBandit bandit1 = new EBandit(this, sb, new Vector2(500, 79));
             bandit1.UpdateOrder = 3;
             bandit1.DrawOrder = PLAYER_DRAW_ORDER;
 
@@ -253,9 +262,8 @@ namespace WesternSpace
 
             XAttribute playerPositionX = new XAttribute("PlayerPositionX", Player.Position.X);
             XAttribute playerPositionY = new XAttribute("PlayerPositionY", Player.Position.Y);
-            XAttribute playerFileName = new XAttribute("PlayerFileName", Player.FileName);
 
-            XElement ret = new XElement("World", interactiveMapFileName, playerFileName, playerPositionX, playerPositionY);
+            XElement ret = new XElement("World", interactiveMapFileName, playerPositionX, playerPositionY);
 
             foreach (int zIndex in interactiveLayers.Keys)
             {
