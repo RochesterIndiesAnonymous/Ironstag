@@ -21,7 +21,7 @@ namespace XMLDocContentProcessor
         {
 
             // calc the number of characters that will be read
-            int count = (int)(input.BaseStream.Length - input.BaseStream.Position);
+            int count = input.ReadInt32();
 
             // create a string reader to store the data that will be read
             StringBuilder sb = new StringBuilder(count, count);

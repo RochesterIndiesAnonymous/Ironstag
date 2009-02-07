@@ -23,6 +23,7 @@ namespace XMLDocContentProcessor
         protected override void Write(ContentWriter output, DataContainer value)
         {
             // write the string data stored in value as a character array
+            output.Write(value.Data.Length);
             output.Write(value.Data.ToCharArray());
         }
 
