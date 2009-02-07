@@ -223,6 +223,10 @@
       <Project>{73FD57B1-BEED-4B82-803C-7D16DB4EBF6A}</Project>
       <Name>XnaXmlContentPipeline</Name>
     </ProjectReference>
+    <ProjectReference Include="..\XnaXmlContentReader\XnaXmlContentReader.csproj">
+      <Project>{B62E3300-5C2D-4BE0-B306-DFE1FFEFBD67}</Project>
+      <Name>XnaXmlContentReader</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

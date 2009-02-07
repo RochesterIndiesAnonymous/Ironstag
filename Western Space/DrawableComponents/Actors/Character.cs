@@ -17,7 +17,7 @@ using WesternSpace.Physics;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    public abstract class Character : WorldObject, ITileCollidable, IPhysical
+    public abstract class Character : WorldObject, ITileCollidable, WesternSpace.Physics.IPhysical
     {
 
         #region IPhysical Members

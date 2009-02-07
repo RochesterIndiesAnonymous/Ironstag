@@ -45,13 +45,18 @@
     <Compile Include="Properties\Resources.Designer.cs" />
     <Compile Include="XDocumentImporter.cs" />
     <Compile Include="XDocumentProcessor.cs" />
-    <Compile Include="XDocumentReader.cs" />
     <Compile Include="XDocumentWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XnaXmlContentReader\XnaXmlContentReader.csproj">
+      <Project>{B62E3300-5C2D-4BE0-B306-DFE1FFEFBD67}</Project>
+      <Name>XnaXmlContentReader</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
