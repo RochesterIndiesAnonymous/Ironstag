@@ -36,7 +36,14 @@ namespace XMLDocContentProcessor
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
             // return the assembly-qualified name for the XMLDocumentReader type.
-            return typeof(XDocumentReader).AssemblyQualifiedName;
+            if (targetPlatform == TargetPlatform.Xbox360)
+            {
+                return "XMLDocContentProcessor.XDocumentReader, XnaXmlContentReaderXBox, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
+            }
+            else
+            {
+                return typeof(XDocumentReader).AssemblyQualifiedName;
+            }
         }
     }
 }

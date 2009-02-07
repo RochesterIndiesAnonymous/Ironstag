@@ -219,10 +219,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XnaXmlContentPipeline\XnaXmlContentPipeline.csproj">
-      <Project>{73FD57B1-BEED-4B82-803C-7D16DB4EBF6A}</Project>
-      <Name>XnaXmlContentPipeline</Name>
-    </ProjectReference>
     <ProjectReference Include="..\XnaXmlContentReader\XnaXmlContentReader.csproj">
       <Project>{B62E3300-5C2D-4BE0-B306-DFE1FFEFBD67}</Project>
       <Name>XnaXmlContentReader</Name>
