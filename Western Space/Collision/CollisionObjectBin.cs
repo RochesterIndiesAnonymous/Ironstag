@@ -30,10 +30,15 @@ namespace WesternSpace.Collision
         {
             get { return listOfCollideableObjects.Count; }
         }
-        protected Vector2 gridCoord;
+        //protected Vector2 gridCoord;
+        // Coordinates in GridSpace Usefull for debugging
+        protected int xCoordInGrid;
+        protected int yCoordInGrid;
         public CollisionObjectBin(SpriteSpriteCollisionManager collisionManager, int gridCoordX, int gridCoordY)
         {
-            this.gridCoord = new Vector2(gridCoordX, gridCoordY);
+            //this.gridCoord = new Vector2(gridCoordX, gridCoordY);
+            this.xCoordInGrid = gridCoordX;
+            this.yCoordInGrid = gridCoordY;
             this.listOfCollideableObjects = new List<ISpriteCollideable>();
             this.refCollisionManager = collisionManager;
             this.hasMultipleObjects = false;
