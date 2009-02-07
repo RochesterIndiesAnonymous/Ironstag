@@ -6,10 +6,10 @@ using WesternSpace.ServiceInterfaces;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System.Drawing;
 
 using WesternSpace.Interfaces;
 using WesternSpace.Screens;
+using WesternSpace.Utility;
 
 namespace WesternSpace.Services
 {
@@ -26,7 +26,7 @@ namespace WesternSpace.Services
         /// <summary>
         /// The visible area of the world in the form of a rectangle
         /// </summary>
-        private RectangleF visibleArea;
+        private RectangleF2 visibleArea;
 
         private Matrix viewMatrix;
 
@@ -81,7 +81,7 @@ namespace WesternSpace.Services
         /// <summary>
         /// The visible area of the world in the form of a rectangle
         /// </summary>
-        public RectangleF VisibleArea
+        public RectangleF2 VisibleArea
         {
             get
             {
@@ -119,7 +119,7 @@ namespace WesternSpace.Services
             inputManager = (IInputManagerService)this.Game.Services.GetService(typeof(IInputManagerService));
             resolutionService = (IScreenResolutionService)this.Game.Services.GetService(typeof(IScreenResolutionService));
             if(this.visibleArea == null)
-                this.visibleArea = new RectangleF();
+                this.visibleArea = new RectangleF2();
 
             base.Initialize();
         }
@@ -139,7 +139,7 @@ namespace WesternSpace.Services
         /// </summary>
         public void UpdateVisibleArea(ScreenResolutionService resolutionService)
         {
-            visibleArea = new RectangleF(position.X, position.Y, resolutionService.StartTextureWidth, resolutionService.StartTextureHeight);
+            visibleArea = new RectangleF2(position.X, position.Y, resolutionService.StartTextureWidth, resolutionService.StartTextureHeight);
         }
 
         /// <summary>

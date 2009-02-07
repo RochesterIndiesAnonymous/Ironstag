@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using WesternSpace.DrawableComponents.Actors;
 using System.Diagnostics;
-using System.Drawing;
+using Microsoft.Xna.Framework;
 
 namespace WesternSpace.Collision
 {
@@ -30,10 +30,10 @@ namespace WesternSpace.Collision
         {
             get { return listOfCollideableObjects.Count; }
         }
-        protected Point gridCoord;
+        protected Vector2 gridCoord;
         public CollisionObjectBin(SpriteSpriteCollisionManager collisionManager, int gridCoordX, int gridCoordY)
         {
-            this.gridCoord = new Point(gridCoordX, gridCoordY);
+            this.gridCoord = new Vector2(gridCoordX, gridCoordY);
             this.listOfCollideableObjects = new List<ISpriteCollideable>();
             this.refCollisionManager = collisionManager;
             this.hasMultipleObjects = false;

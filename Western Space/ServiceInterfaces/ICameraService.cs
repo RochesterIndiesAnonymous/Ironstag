@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using System.Drawing;
+
 using WesternSpace.Interfaces;
+using WesternSpace.Utility;
 
 namespace WesternSpace.ServiceInterfaces
 {
@@ -41,7 +42,7 @@ namespace WesternSpace.ServiceInterfaces
         /// <summary>
         /// The visible area of the world in the form of a rectangle
         /// </summary>
-        RectangleF VisibleArea
+        RectangleF2 VisibleArea
         {
             get;
         }
