@@ -289,18 +289,13 @@ namespace WesternSpace.Collision
         }
         void GetTextureData(ISpriteCollideable spriteCollideable, out Color [] colorData)
         {
-            Color[] newColorData = new Color[spriteCollideable.Rectangle.Width * spriteCollideable.Rectangle.Height];            
-            switch (spriteCollideable.collideableFacing)
-            {
-                case SpriteEffects.None:
-                    //Debug.Print("Not Fliped");                                           
-                    newColorData = spriteCollideable.CurrentAnimation.textureColorData;
-                    break;
-                case SpriteEffects.FlipHorizontally:
-                    //Debug.Print("Fliped");
-                    newColorData = spriteCollideable.CurrentAnimation.GetHorizontalTextureDataFlip();
-                    break;
-            }
+            Color[] newColorData = new Color[spriteCollideable.Rectangle.Width * spriteCollideable.Rectangle.Height];         
+            if (spriteCollideable.collideableFacing == SpriteEffects.FlipHorizontally)            
+                newColorData = spriteCollideable.CurrentAnimation.GetHorizontalTextureDataFlip();            
+            else if (spriteCollideable.collideableFacing == SpriteEffects.FlipVertically)            
+                Debug.Print("Vertical Flip function not complete");                            
+            else              
+                newColorData = spriteCollideable.CurrentAnimation.textureColorData;            
             colorData = newColorData;
         }
         Boolean PixelCollision(ISpriteCollideable collideableObjectA,
