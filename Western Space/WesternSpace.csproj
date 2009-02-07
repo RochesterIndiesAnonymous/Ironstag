@@ -92,6 +92,7 @@
     <Compile Include="Input\PressableButton.cs" />
     <Compile Include="Input\PressableKey.cs" />
     <Compile Include="Input\IPressable.cs" />
+    <Compile Include="Physics\IPhysical.cs" />
     <Compile Include="Utility\RectangleF2.cs" />
     <Compile Include="WorldObject.cs" />
     <Compile Include="Collision\CollisionHotspot.cs" />

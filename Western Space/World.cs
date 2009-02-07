@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.Collision;
 using Microsoft.Xna.Framework.Media;
 using WesternSpace.DrawableComponents.Misc;
+using WesternSpace.Physics;
 
 namespace WesternSpace
 {
@@ -23,6 +24,15 @@ namespace WesternSpace
         public static readonly int PLAYER_DRAW_ORDER = 0;
 
         private ISpriteBatchService batchService;
+
+
+        private PhysicsHandler physicsHandler;
+
+        public PhysicsHandler PhysicsHandler
+        {
+            get { return physicsHandler; }
+        }
+
 
         // The actual map that objects interact with.
         TileMap map;
@@ -126,7 +136,6 @@ namespace WesternSpace
             spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, batchService, new Point(40, 40));
             ParentScreen.Components.Add(spriteCollisionManager);
 
-
             bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
             MediaPlayer.Play(bgm);
 
@@ -138,6 +147,8 @@ namespace WesternSpace
         {
             camera = (ICameraService)ScreenManager.Instance.Services.GetService(typeof(ICameraService));
             base.Initialize();
+            
+            this.physicsHandler = new PhysicsHandler(this);
         }
 
         public override void Update(GameTime gameTime)

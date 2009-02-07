@@ -13,11 +13,47 @@ using WesternSpace.Collision;
 using WesternSpace.TilingEngine;
 using WesternSpace.Screens;
 using WesternSpace.Utility;
+using WesternSpace.Physics;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    public abstract class Character : WorldObject, ITileCollidable
+    public abstract class Character : WorldObject, ITileCollidable, IPhysical
     {
+
+        #region IPhysical Members
+
+        public PhysicsHandler PhysicsHandler
+        {
+            get { return World.PhysicsHandler; }
+        }
+
+        private Vector2 netForce;
+
+        public Vector2 NetForce
+        {
+            get { return netForce; }
+            set { netForce = value; }
+        }
+
+        private Vector2 velocity;
+
+        public Vector2 Velocity
+        {
+            get { return velocity; }
+            set { velocity = value; }
+        }
+
+        private float mass;
+
+        public float Mass
+        {
+            get { return mass; }
+            set { mass = value; }
+        }
+
+        #endregion
+
+
         public static readonly string XMLPATH = "ActorXML";
         /// <summary>
         /// The name used to identify a specific character.
@@ -98,21 +134,6 @@ namespace WesternSpace.DrawableComponents.Actors
                 return new Rectangle((int)Position.X, (int)Position.Y,
                     currentAnimation.FrameWidth, currentAnimation.FrameHeight);                    
             }
-        }
-
-        // The character's velocity vector. Determine's the
-        // character's movement direction.
-
-        /// <summary>
-        /// The character's Velocity vector. Determine's the
-        /// character's movement direction and speed.
-        /// </summary>
-        public Vector2 velocity;
-
-        public Vector2 Velocity
-        {
-            get { return velocity; }
-            set { velocity = value; }
         }
 
         /// <summary>
@@ -230,6 +251,55 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="xmlFile">The xml file which stores role information.</param>
         public abstract void SetUpRoles();
 
+
+        #region MOVED FROM PhysicsHandler
+
+        /// <summary>
+        /// Vector representing the Acceleration due to gravity.
+        /// </summary>
+        public readonly Vector2 gravity = new Vector2(0f, 0.2f);
+
+        /// <summary>
+        /// Vector representing the Velocity of moving on the ground.
+        /// </summary>
+        readonly Vector2 groundVelocity = new Vector2(3f, 0f);
+
+        /// <summary>
+        /// Vector representing the Velocity of moving in the air.
+        ///</summary>
+        readonly Vector2 airVelocity = new Vector2(2f, 0f);
+
+        readonly Vector2 jumpVelocity = new Vector2(0f, 10f);
+
+
+        /// <summary>
+        /// Applies the set ground velocity to a velocity vector.
+        /// </summary>
+        /// <param name="direction">The direction the object is facing. Right = 1, Left = -1</param>
+        public void ApplyGroundMove(int direction)
+        {
+            velocity.X = (direction * groundVelocity.X);
+        }
+
+        /// <summary>
+        /// Applies the set air velocity to a velocity vector.
+        /// </summary>
+        /// <param name="direction">The direction the object is facing. Right = 1, Left = -1</param>
+        public void ApplyAirMove(int direction)
+        {
+            velocity.X = (direction * airVelocity.X);
+        }
+
+        /// <summary>
+        /// Applies the set jump velocity to a velocity vector.
+        /// </summary>
+        public void ApplyJump()
+        {
+            velocity.Y -= jumpVelocity.Y;
+        }
+
+        #endregion
+
         #region ITileCollideable Members
         protected List<CollisionHotspot> hotspotsFacingLeft;
         protected List<CollisionHotspot> hotspotsFacingRight;
@@ -264,6 +334,25 @@ namespace WesternSpace.DrawableComponents.Actors
             foreach (CollisionHotspot hotspot in Hotspots)
             {
                 hotspot.Collide();
+                if (hotspot.DidCollide)
+                {
+                    switch (hotspot.HotSpotType)
+                    {
+                        case HOTSPOT_TYPE.bottom:
+                            velocity.Y = 0;
+                            break;
+                        case HOTSPOT_TYPE.top:
+                            velocity.Y = 0;
+                            break;
+
+                        case HOTSPOT_TYPE.left:
+                            velocity.X = 0;
+                            break;
+                        case HOTSPOT_TYPE.right:
+                            velocity.X = 0;
+                            break; 
+                    }
+                }
             }
 
             isOnGround = false;

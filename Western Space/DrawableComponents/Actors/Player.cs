@@ -28,12 +28,6 @@ namespace WesternSpace.DrawableComponents.Actors
         private static readonly string SPACE_COWBOY = "SpaceCowboy";
 
         /// <summary>
-        /// Calculates the necessary changes in the player's
-        /// velocity depending upong the player's actions.
-        /// </summary>
-        PhysicsHandler playerPhysics;
-
-        /// <summary>
         /// Temporary use of InputMonitor until it becomes a service.
         /// </summary>
         InputMonitor input;
@@ -103,6 +97,7 @@ namespace WesternSpace.DrawableComponents.Actors
         public Player(World world, SpriteBatch spriteBatch,  Vector2 position)
             : base(world, spriteBatch, position)
         {
+            Mass = 1;
             //Set the character's Name
             name = "Flint Ironstag";
 
@@ -114,9 +109,6 @@ namespace WesternSpace.DrawableComponents.Actors
 
             //Set current health
             currentHealth = maxHealth;
-
-            //Instantiate the Physics Handler
-            playerPhysics = new PhysicsHandler();
 
             //Set the character's transformation guage
             currentGauge = maxGauge;
@@ -131,7 +123,7 @@ namespace WesternSpace.DrawableComponents.Actors
             currentState = "Idle";
 
             //Set the Velocity
-            velocity = new Vector2(0, 0);
+            Velocity = new Vector2(0, 0);
 
             //Set the position
             this.Position = position;
@@ -205,7 +197,7 @@ namespace WesternSpace.DrawableComponents.Actors
             {
                 if (!currentState.Contains("Jumping") && !currentState.Contains("Falling"))
                 {
-                    playerPhysics.ApplyJump();
+                    ApplyJump();
                     ChangeState("JumpingAscent");
                     isOnGround = false;
                 }
@@ -235,7 +227,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 {
                     if (!currentState.Contains("Jumping"))
                     {
-                        playerPhysics.ApplyGroundMove(direction);
+                        ApplyGroundMove(direction);
                         if (!currentState.Contains("Shooting"))
                         {
                             ChangeState("Running");
@@ -252,7 +244,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
                 else
                 {
-                    playerPhysics.ApplyAirMove(direction);
+                    ApplyAirMove(direction);
                 }
             }
         }
@@ -374,19 +366,12 @@ namespace WesternSpace.DrawableComponents.Actors
                 Jump();
             }
 
-            // -- Handle Physics -- //
-            velocity = playerPhysics.ApplyPhysics(velocity);
-
-            // -- Update Position -- //
-            position += velocity;
-
-            // --Reset the Velocity -- //
-            playerPhysics.ResetVelocity();
+            NetForce += gravity / Mass;
 
             // -- Check For Max Ascent of Jump -- //
             if (currentState.Contains("Jumping"))
             {
-                if (((-0.5 <= velocity.Y) && (velocity.Y <= 0.08)) && (!currentState.Contains("Descent")))
+                if (((-0.5 <= Velocity.Y) && (Velocity.Y <= 0.08)) && (!currentState.Contains("Descent")))
                 {
                         ChangeState("JumpingDescent");
                 }
@@ -401,7 +386,7 @@ namespace WesternSpace.DrawableComponents.Actors
                     {
                         ChangeState(animationPlayer.Animation.animationName);
                     }
-                    else if (!currentState.Contains("Shooting") && (velocity.X == 0) && (velocity.Y >= 0))
+                    else if (!currentState.Contains("Shooting") && (Velocity.X == 0) && (Velocity.Y >= 0))
                     {
                         ChangeState("Idle");
                     }
@@ -414,7 +399,7 @@ namespace WesternSpace.DrawableComponents.Actors
                     }
                     else if (!currentState.Contains("Jumping"))
                     {
-                        if ((velocity.Y >= 0) && !currentState.Contains("Falling"))
+                        if ((Velocity.Y >= 0) && !currentState.Contains("Falling"))
                         {
                             ChangeState("Falling");
                         }
@@ -449,6 +434,9 @@ namespace WesternSpace.DrawableComponents.Actors
                     }
                 }
             }
+
+            // -- Handle Physics -- //
+            PhysicsHandler.ApplyPhysics(this);
 
             /// -- Animation Player Update Frames -- ///
             animationPlayer.Update(gameTime);

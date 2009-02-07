@@ -26,11 +26,6 @@ namespace WesternSpace.DrawableComponents.Actors
         private static readonly string BANDIT = "Bandit";
 
         /// <summary>
-        /// The physics handler which takes care of the Bandit's physics.
-        /// </summary>
-        PhysicsHandler banditPhysics;
-
-        /// <summary>
         /// Sound Effect will be moved later on.
         /// </summary>
         SoundEffect gunShot;
@@ -62,9 +57,6 @@ namespace WesternSpace.DrawableComponents.Actors
             //Set current health
             currentHealth = maxHealth;
 
-            //Instantiate the Physics Handler
-            banditPhysics = new PhysicsHandler();
-
             //Create the Animation Player and give it the Idle Animation
             this.animationPlayer = new AnimationPlayer(spriteBatch, currentRole.AnimationMap["Idle"]);
 
@@ -75,7 +67,7 @@ namespace WesternSpace.DrawableComponents.Actors
             currentState = "Idle";
 
             //Set the Velocity
-            velocity = new Vector2(0, 0);
+            Velocity = new Vector2(0, 0);
 
             //Set the position
             this.Position = position;
@@ -130,7 +122,7 @@ namespace WesternSpace.DrawableComponents.Actors
             {
                 if (!currentState.Contains("Jumping") && !currentState.Contains("Falling"))
                 {
-                    banditPhysics.ApplyJump();
+                    ApplyJump();
                     ChangeState("JumpingAscent");
                     isOnGround = false;
                 }
@@ -158,7 +150,7 @@ namespace WesternSpace.DrawableComponents.Actors
 
                 if (isOnGround)
                 {
-                    banditPhysics.ApplyGroundMove(direction);
+                    ApplyGroundMove(direction);
                     if (!currentState.Contains("Shooting"))
                     {
                         ChangeState("Running");
@@ -174,7 +166,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
                 else
                 {
-                    banditPhysics.ApplyAirMove(direction);
+                    ApplyAirMove(direction);
                 }
             }
         }
@@ -224,25 +216,19 @@ namespace WesternSpace.DrawableComponents.Actors
                 banditAI(gameTime);
 
                 // -- Handle Physics -- //
-                velocity = banditPhysics.ApplyPhysics(velocity);
-
-                // -- Update Position -- //
-                position += velocity;
-
-                // --Reset the Velocity -- //
-                banditPhysics.ResetVelocity();
+                PhysicsHandler.ApplyPhysics(this);
 
                 // --- Check For Max Ascent of Jump -- //
                 if (currentState.Contains("Jumping"))
                 {
-                    if ((-0.5 <= velocity.Y) || (velocity.Y <= 0.8))
+                    if ((-0.5 <= Velocity.Y) || (Velocity.Y <= 0.8))
                     {
                         ChangeState("JumpingDescent");
                     }
                 }
 
                 // -- Check for Final State Changes -- //
-                if ((velocity.X == 0) && isOnGround && !currentState.Contains("Dead") && !currentState.Equals("Hit"))
+                if ((Velocity.X == 0) && isOnGround && !currentState.Contains("Dead") && !currentState.Equals("Hit"))
                 {
 
                     if (animationPlayer.Animation.animationName.Equals("Idle") && !currentState.Equals("Idle"))

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<World InteractiveMapFileName="TileMapXML\\BigTileMap" PlayerFileName="ActorXML\\FlintIronstag" PlayerPositionX="241" PlayerPositionY="299">
+<World InteractiveMapFileName="TileMapXML\\BigTileMap" PlayerPositionX="401" PlayerPositionY="23">
   <MapLayer LayerName="" LayerIndex="0" ZIndex="-10" />
   <MapLayer LayerName="" LayerIndex="1" ZIndex="10" />
 </World>
