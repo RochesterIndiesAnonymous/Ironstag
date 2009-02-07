@@ -14,6 +14,7 @@ using WesternSpace.DrawableComponents.Actors;
 using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.Collision;
 using Microsoft.Xna.Framework.Media;
+using WesternSpace.DrawableComponents.Misc;
 
 namespace WesternSpace
 {
@@ -207,11 +208,17 @@ namespace WesternSpace
             bandit1.UpdateOrder = 3;
             bandit1.DrawOrder = PLAYER_DRAW_ORDER;
 
+            SmallCactus smallCactus1 = new SmallCactus(this, sb, new Vector2(700, 336));
+            smallCactus1.UpdateOrder = 3;
+            smallCactus1.DrawOrder = PLAYER_DRAW_ORDER;
+
             spriteCollisionManager.addObjectToRegisteredObjectList(player);
             spriteCollisionManager.addObjectToRegisteredObjectList(bandit1);
+            //spriteCollisionManager.addObjectToRegisteredObjectList(smallCactus1);
 
             ParentScreen.Components.Add(player);
             ParentScreen.Components.Add(bandit1);
+   
 
             #endregion
 

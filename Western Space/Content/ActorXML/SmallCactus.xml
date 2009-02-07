@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SmallCactus>
+  <Animations>
+    <Animation AnimationKey="ExcitingCactusAnimation" IsLoop="0" SpriteSheet="Textures\\Enemies\\SmallCactus" FrameWidth="24" FrameHeight="24" IsOneShot="0" Parent="None">
+      <Frame DisplayTime="100" SheetIndex="0" />
+    </Animation>
+  </Animations>
+</SmallCactus>

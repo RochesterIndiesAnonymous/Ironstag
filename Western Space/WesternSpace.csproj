@@ -88,6 +88,7 @@
     <Compile Include="AnimationFramework\Animation.cs" />
     <Compile Include="AnimationFramework\AnimationPlayer.cs" />
     <Compile Include="AnimationFramework\Frame.cs" />
+    <Compile Include="DrawableComponents\Misc\SmallCactus.cs" />
     <Compile Include="DrawableGameObject.cs" />
     <Compile Include="Input\PressableButton.cs" />
     <Compile Include="Input\PressableKey.cs" />
