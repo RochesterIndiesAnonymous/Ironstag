@@ -112,7 +112,7 @@ namespace WesternSpace
             otherMaps = new List<TileMap>();
 
             // Set up our collision systems:
-            spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, batchService, new Point(40, 40));
+            spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, batchService, 40, 40);
             ParentScreen.Components.Add(spriteCollisionManager);
 
             bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
@@ -133,7 +133,7 @@ namespace WesternSpace
             otherMaps = new List<TileMap>();
 
             // Set up our collision systems:
-            spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, batchService, new Point(40, 40));
+            spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, batchService, 40, 40);
             ParentScreen.Components.Add(spriteCollisionManager);
 
             bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
