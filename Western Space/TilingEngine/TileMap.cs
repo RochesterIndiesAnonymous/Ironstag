@@ -371,14 +371,14 @@ namespace WesternSpace.TilingEngine
             XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(fileName);
             int width, height;
 
-            Int32.TryParse(fileContents.Root.Attribute("Width").Value, out width);
-            Int32.TryParse(fileContents.Root.Attribute("Height").Value, out height);
+            width = Int32.Parse(fileContents.Root.Attribute("Width").Value);
+            height = Int32.Parse(fileContents.Root.Attribute("Height").Value);
 
-            Int32.TryParse(fileContents.Root.Attribute("TileWidth").Value, out tileWidth);
-            Int32.TryParse(fileContents.Root.Attribute("TileHeight").Value, out tileHeight);
+            tileWidth = Int32.Parse(fileContents.Root.Attribute("TileWidth").Value);
+            tileHeight = Int32.Parse(fileContents.Root.Attribute("TileHeight").Value);
 
-            Int32.TryParse(fileContents.Root.Attribute("LayerCount").Value, out layerCount);
-            Int32.TryParse(fileContents.Root.Attribute("SubLayerCount").Value, out subLayerCount);
+            layerCount = Int32.Parse(fileContents.Root.Attribute("LayerCount").Value);
+            subLayerCount = Int32.Parse(fileContents.Root.Attribute("SubLayerCount").Value);
 
             tiles = new Tile[width, height];
             
@@ -392,7 +392,7 @@ namespace WesternSpace.TilingEngine
             int i;
             foreach (XElement sheet in allSheets)
             {
-                Int32.TryParse(sheet.Attribute("i").Value, out i);
+                i = Int32.Parse(sheet.Attribute("i").Value);
                 string sheetFileName = sheet.Attribute("fn").Value;
                 sheets[i] = textureService.GetSheet(sheetFileName);
                 sheetIndex.Add(sheetFileName, i);
@@ -492,7 +492,7 @@ namespace WesternSpace.TilingEngine
             }
 
             int edgeInt;
-            Int32.TryParse(xelement.Attribute("e").Value, out edgeInt);
+            edgeInt = Int32.Parse(xelement.Attribute("e").Value);
 
             bool[] edges = new bool[4];
             for (int k = 0; k < 4; ++k)

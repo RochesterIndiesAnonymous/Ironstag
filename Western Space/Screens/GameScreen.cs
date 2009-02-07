@@ -83,7 +83,9 @@ namespace WesternSpace.Screens
 
                 // Set up editor controls:
                 inputMonitor = InputMonitor.Instance;
+#if !XBOX
                 inputMonitor.AssignPressable("ToggleFullScreen", new PressableKey(Keys.F));
+#endif
                 Components.Add(inputMonitor);
 
                 CreateLayerComponents();

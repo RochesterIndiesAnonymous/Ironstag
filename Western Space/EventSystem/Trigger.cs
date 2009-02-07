@@ -52,7 +52,7 @@ namespace WesternSpace.EventSystem
             }
 
             // Parse the value to an int.
-            Int32.TryParse(value, out this.value);
+            this.value = Int32.Parse(value);
         }
 
         public void addEvent(Event e)

@@ -279,7 +279,7 @@ namespace WesternSpace.DrawableComponents.Actors
             //Create a new XDocument from the given file name.
             XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(fileName);
 
-            Int32.TryParse(fileContents.Root.Element("Health").Attribute("MaxHealth").Value, out this.maxHealth);
+            this.maxHealth = Int32.Parse(fileContents.Root.Element("Health").Attribute("MaxHealth").Value);
         }
 
         /// <summary>

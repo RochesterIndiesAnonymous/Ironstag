@@ -1,16 +1,16 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
-    <ProjectGuid>{CCFD85DF-E138-4AE5-B44E-BF13AE4F09C0}</ProjectGuid>
-    <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}</ProjectGuid>
+    <ProjectTypeGuids>{2DF5C3F4-5A5F-47a9-8E94-23B4456F55E2};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">Xbox 360</Platform>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WesternSpace</RootNamespace>
     <AssemblyName>Western Space</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <XnaFrameworkVersion>v3.0</XnaFrameworkVersion>
-    <XnaPlatform>Windows</XnaPlatform>
+    <XnaPlatform>Xbox 360</XnaPlatform>
     <XnaCrossPlatformGroupID>20673b11-375e-4246-83c0-c3720142b7ef</XnaCrossPlatformGroupID>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
@@ -30,67 +30,37 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Xbox 360' ">
+    <OutputPath>bin\Xbox 360\Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\x86\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <PlatformTarget>x86</PlatformTarget>
-    <XnaCompressContent>false</XnaCompressContent>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\x86\Release</OutputPath>
-    <DefineConstants>TRACE;WINDOWS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <PlatformTarget>x86</PlatformTarget>
+    <DefineConstants>DEBUG;TRACE;XBOX;XBOX360</DefineConstants>
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.Xna.Framework, Version=3.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=x86">
-      <Private>False</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Game, Version=3.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
-      <Private>False</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="mscorlib">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Xbox 360' ">
+    <OutputPath>bin\Xbox 360\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE;XBOX;XBOX360</DefineConstants>
+    <XnaCompressContent>true</XnaCompressContent>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="AnimationFramework\Animation.cs" />
     <Compile Include="AnimationFramework\AnimationPlayer.cs" />
     <Compile Include="AnimationFramework\Frame.cs" />
-    <Compile Include="DrawableComponents\Misc\SmallCactus.cs" />
     <Compile Include="DrawableGameObject.cs" />
     <Compile Include="Input\PressableButton.cs" />
-    <Compile Include="Input\PressableKey.cs" />
     <Compile Include="Input\IPressable.cs" />
     <Compile Include="Utility\RectangleF2.cs" />
     <Compile Include="WorldObject.cs" />
@@ -101,10 +71,6 @@
     <Compile Include="Collision\SpriteSpriteCollisionManager.cs" />
     <Compile Include="DrawableComponents\Actors\EBandit.cs" />
     <Compile Include="DrawableComponents\Actors\Player.cs" />
-    <Compile Include="DrawableComponents\EditorUI\ITilePropertyComponent.cs" />
-    <Compile Include="DrawableComponents\EditorUI\CharacterMover.cs" />
-    <Compile Include="DrawableComponents\EditorUI\SaveButton.cs" />
-    <Compile Include="DrawableComponents\EditorUI\EdgeToggler.cs" />
     <Compile Include="DrawableComponents\GameUI\GameUI.cs" />
     <Compile Include="DrawableComponents\Projectiles\BanditNormalProjectile.cs" />
     <Compile Include="DrawableComponents\Projectiles\FlintNormalProjectile.cs" />
@@ -122,9 +88,6 @@
     <Compile Include="SubTextureSheet.cs" />
     <Compile Include="DrawableComponents\Actors\Character.cs" />
     <Compile Include="DrawableComponents\Actors\ToadMan.cs" />
-    <Compile Include="DrawableComponents\EditorUI\TileSelector.cs" />
-    <Compile Include="DrawableComponents\EditorUI\EditorUIComponent.cs" />
-    <Compile Include="DrawableComponents\EditorUI\SubTextureSelector.cs" />
     <Compile Include="DrawableComponents\Misc\DebuggingOutputComponent.cs" />
     <Compile Include="DrawableComponents\Misc\FPSComponent.cs" />
     <Compile Include="DrawableComponents\Misc\MapCoordinateComponent.cs" />
@@ -147,10 +110,8 @@
     <Compile Include="ServiceInterfaces\ILayerService.cs" />
     <Compile Include="ServiceInterfaces\ITextureService.cs" />
     <Compile Include="Services\CameraService.cs" />
-    <Compile Include="Screens\EditorScreen.cs" />
     <Compile Include="Services\GraphicsDeviceMangerService.cs" />
     <Compile Include="ServiceInterfaces\ICameraService.cs" />
-    <Compile Include="Services\InputManagerService.cs" />
     <Compile Include="ServiceInterfaces\ISpriteBatchService.cs" />
     <Compile Include="ServiceInterfaces\IScreenResolutionService.cs" />
     <Compile Include="Services\LayerService.cs" />
@@ -217,6 +178,32 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="mscorlib">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>False</Private>
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <Private>False</Private>
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\XnaXmlContentPipeline\XnaXmlContentPipeline.csproj">
       <Project>{73FD57B1-BEED-4B82-803C-7D16DB4EBF6A}</Project>

@@ -191,16 +191,16 @@ namespace WesternSpace.AnimationFramework
                     spriteSheet = textureService.GetTexture(spriteSheetName);
 
                     //Parse the frame width and height from the XML file and save the values.
-                    Int32.TryParse(animation.Attribute("FrameWidth").Value, out this.frameWidth);
-                    Int32.TryParse(animation.Attribute("FrameHeight").Value, out this.frameHeight);
+                    this.frameWidth = Int32.Parse(animation.Attribute("FrameWidth").Value);
+                    this.frameHeight = Int32.Parse(animation.Attribute("FrameHeight").Value);
 
                     //Sets if this animation is to loop or not.
                     int loopInt = 0;
-                    Int32.TryParse(animation.Attribute("IsLoop").Value, out loopInt);
+                    loopInt = Int32.Parse(animation.Attribute("IsLoop").Value);
 
                     //Check if this animation is a One Shot or not.
                     int oneShotInt = 0;
-                    Int32.TryParse(animation.Attribute("IsOneShot").Value, out oneShotInt);
+                    oneShotInt = Int32.Parse(animation.Attribute("IsOneShot").Value);
 
                     //"Convert" the ints to booleans
                     if (loopInt == 0)
@@ -228,10 +228,10 @@ namespace WesternSpace.AnimationFramework
                     for (int i = 0; i < frames.Length; i++)
                     {
                         int sheetIndex = 0;
-                        Int32.TryParse(frames[i].Attribute("SheetIndex").Value, out sheetIndex);
+                        sheetIndex = Int32.Parse(frames[i].Attribute("SheetIndex").Value);
 
                         int displayTimeInMs = 0;
-                        Int32.TryParse(frames[i].Attribute("DisplayTime").Value, out displayTimeInMs);
+                        displayTimeInMs = Int32.Parse(frames[i].Attribute("DisplayTime").Value);
 
                         this.frames.Add(new Frame(sheetIndex, displayTimeInMs, i));
                     }

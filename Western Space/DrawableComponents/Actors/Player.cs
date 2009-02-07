@@ -465,8 +465,8 @@ namespace WesternSpace.DrawableComponents.Actors
             //Create a new XDocument from the given file name.
             XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(XMLFILENAME);
 
-            Int32.TryParse(fileContents.Root.Element("Health").Attribute("MaxHealth").Value, out this.maxHealth);
-            Int32.TryParse(fileContents.Root.Element("Transformation").Attribute("MaxGauge").Value, out this.maxGauge);
+            this.maxHealth = Int32.Parse(fileContents.Root.Element("Health").Attribute("MaxHealth").Value);
+            this.maxGauge = Int32.Parse(fileContents.Root.Element("Transformation").Attribute("MaxGauge").Value);
         }
 
         /// <summary>
@@ -584,7 +584,9 @@ namespace WesternSpace.DrawableComponents.Actors
 
         public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
         {
+#if !XBOX || !DEBUG
             Debug.Print("Player Hit By: " + characterCollidedWith.IdNumber);
+#endif
             IDamaging damage = characterCollidedWith as IDamaging;
 
             if (damage != null)

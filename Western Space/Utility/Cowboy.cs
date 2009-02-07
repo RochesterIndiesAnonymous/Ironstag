@@ -110,7 +110,7 @@ namespace WesternSpace.Utility
         {
             //Create a new XDocument from the given file name.
             XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(xmlFile);
-            Int32.TryParse(fileContents.Root.Element("Attributes").Attribute("ShootCoolDown").Value, out this.shootCoolDown);
+            this.shootCoolDown = Int32.Parse(fileContents.Root.Element("Attributes").Attribute("ShootCoolDown").Value);
         }
     }
 }

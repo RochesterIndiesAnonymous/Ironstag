@@ -117,11 +117,11 @@ namespace WesternSpace
 
             // create our services
             CreateServices();
-
+#if !XBOX
             // create our screens
             Screen editorScreen = new EditorScreen(this, EditorScreen.ScreenName);
             this.screenList.Add(editorScreen);
-            
+#endif   
             Screen gameScreen = new GameScreen(this, GameScreen.ScreenName);
             this.screenList.Add(gameScreen);
 
@@ -255,11 +255,12 @@ namespace WesternSpace
             this.Services.AddService(typeof(IGraphicsDeviceManagerService), graphicsService);
 
             // create out input manager
+#if !XBOX
             InputManagerService input = new InputManagerService(this);
             input.UpdateOrder = 0;
             this.Services.AddService(typeof(IInputManagerService), input);
             this.Components.Add(input);
-
+#endif
             // create our layer service
             ILayerService layer = new LayerService();
             this.Services.AddService(typeof(ILayerService), layer);

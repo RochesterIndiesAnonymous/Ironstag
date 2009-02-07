@@ -291,10 +291,12 @@ namespace WesternSpace.Collision
         {
             Color[] newColorData = new Color[spriteCollideable.Rectangle.Width * spriteCollideable.Rectangle.Height];         
             if (spriteCollideable.collideableFacing == SpriteEffects.FlipHorizontally)            
-                newColorData = spriteCollideable.CurrentAnimation.GetHorizontalTextureDataFlip();            
-            else if (spriteCollideable.collideableFacing == SpriteEffects.FlipVertically)            
-                Debug.Print("Vertical Flip function not complete");                            
-            else              
+                newColorData = spriteCollideable.CurrentAnimation.GetHorizontalTextureDataFlip();
+            else if (spriteCollideable.collideableFacing == SpriteEffects.FlipVertically)
+            {
+                //Debug.Print("Vertical Flip function not complete");
+            }
+            else
                 newColorData = spriteCollideable.CurrentAnimation.textureColorData;            
             colorData = newColorData;
         }

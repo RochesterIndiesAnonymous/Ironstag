@@ -180,8 +180,8 @@ namespace WesternSpace
                 int LayerIndex, ZIndex;
 
                 LayerName = mapLayer.Attribute("LayerName").Value;
-                Int32.TryParse(mapLayer.Attribute("LayerIndex").Value, out LayerIndex);
-                Int32.TryParse(mapLayer.Attribute("ZIndex").Value, out ZIndex);
+                LayerIndex = Int32.Parse(mapLayer.Attribute("LayerIndex").Value);
+                ZIndex = Int32.Parse(mapLayer.Attribute("ZIndex").Value);
 
                 interactiveLayers[ZIndex] = new TileMapLayer(ParentScreen, batchService.GetSpriteBatch(TileMapLayer.SpriteBatchName), map, LayerIndex);
                 interactiveLayers[ZIndex].DrawOrder = ZIndex;
@@ -208,9 +208,9 @@ namespace WesternSpace
             bandit1.UpdateOrder = 3;
             bandit1.DrawOrder = PLAYER_DRAW_ORDER;
 
-            SmallCactus smallCactus1 = new SmallCactus(this, sb, new Vector2(700, 336));
-            smallCactus1.UpdateOrder = 3;
-            smallCactus1.DrawOrder = PLAYER_DRAW_ORDER;
+            //SmallCactus smallCactus1 = new SmallCactus(this, sb, new Vector2(700, 336));
+            //smallCactus1.UpdateOrder = 3;
+            //smallCactus1.DrawOrder = PLAYER_DRAW_ORDER;
 
             spriteCollisionManager.addObjectToRegisteredObjectList(player);
             spriteCollisionManager.addObjectToRegisteredObjectList(bandit1);
@@ -239,7 +239,7 @@ namespace WesternSpace
                 tileMap = new TileMap(parallaxMap.Attribute("MapFileName").Value);
                 otherMaps.Add(tileMap);
 
-                float.TryParse(parallaxMap.Attribute("ScrollSpeed").Value, out ScrollSpeed);
+                ScrollSpeed = Single.Parse(parallaxMap.Attribute("ScrollSpeed").Value);
 
                 foreach (XElement parallaxLayer in allParallaxLayers)
                 {
@@ -247,8 +247,8 @@ namespace WesternSpace
                     int LayerIndex, ZIndex;
                     
                     LayerName = parallaxLayer.Attribute("LayerName").Value;
-                    Int32.TryParse(parallaxLayer.Attribute("LayerIndex").Value, out LayerIndex);
-                    Int32.TryParse(parallaxLayer.Attribute("ZIndex").Value, out ZIndex);
+                    LayerIndex = Int32.Parse(parallaxLayer.Attribute("LayerIndex").Value);
+                    ZIndex = Int32.Parse(parallaxLayer.Attribute("ZIndex").Value);
 
                     parallaxLayers[ZIndex] = new TileMapLayer(ParentScreen, batchService.GetSpriteBatch(TileMapLayer.SpriteBatchName), tileMap, LayerIndex, ScrollSpeed);
                     parallaxLayers[ZIndex].DrawOrder = ZIndex;

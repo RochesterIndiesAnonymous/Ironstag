@@ -96,7 +96,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         public override void Initialize()
         {
             this.gameScreen.World.SpriteCollisionManager.addObjectToRegisteredObjectList(this);
-            Debug.Print("Added Projectile");
+            //Debug.Print("Added Projectile");
             base.Initialize();
         }
 

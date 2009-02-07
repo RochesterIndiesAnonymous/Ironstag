@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternSpace", "Western Spa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XnaXmlContentPipeline", "XnaXmlContentPipeline\XnaXmlContentPipeline.csproj", "{73FD57B1-BEED-4B82-803C-7D16DB4EBF6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbox 360 Copy of WesternSpace", "Western Space\Xbox 360 Copy of WesternSpace.csproj", "{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -45,6 +47,22 @@ Global
 		{73FD57B1-BEED-4B82-803C-7D16DB4EBF6A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{73FD57B1-BEED-4B82-803C-7D16DB4EBF6A}.Release|x86.ActiveCfg = Release|Any CPU
 		{73FD57B1-BEED-4B82-803C-7D16DB4EBF6A}.Release|Xbox 360.ActiveCfg = Release|Any CPU
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Debug|Any CPU.ActiveCfg = Debug|Xbox 360
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Debug|Mixed Platforms.ActiveCfg = Debug|Xbox 360
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Debug|Mixed Platforms.Build.0 = Debug|Xbox 360
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Debug|Mixed Platforms.Deploy.0 = Debug|Xbox 360
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Debug|x86.ActiveCfg = Debug|Xbox 360
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Debug|Xbox 360.ActiveCfg = Debug|Xbox 360
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Debug|Xbox 360.Build.0 = Debug|Xbox 360
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Debug|Xbox 360.Deploy.0 = Debug|Xbox 360
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Release|Any CPU.ActiveCfg = Release|Xbox 360
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Release|Mixed Platforms.ActiveCfg = Release|Xbox 360
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Release|Mixed Platforms.Build.0 = Release|Xbox 360
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Release|Mixed Platforms.Deploy.0 = Release|Xbox 360
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Release|x86.ActiveCfg = Release|Xbox 360
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Release|Xbox 360.ActiveCfg = Release|Xbox 360
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Release|Xbox 360.Build.0 = Release|Xbox 360
+		{83EE98B3-FD74-4DFB-88A3-A6A596A4E823}.Release|Xbox 360.Deploy.0 = Release|Xbox 360
 		{8FF2AD5E-E0B9-4F61-A2A8-DD282461EE82}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{8FF2AD5E-E0B9-4F61-A2A8-DD282461EE82}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{8FF2AD5E-E0B9-4F61-A2A8-DD282461EE82}.Debug|x86.ActiveCfg = Debug|x86
