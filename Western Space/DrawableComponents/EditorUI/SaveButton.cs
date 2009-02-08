@@ -62,17 +62,17 @@ namespace WesternSpace.DrawableComponents.EditorUI
                     }
                 }
                 copy.Minimize();
-                Vector2 worldOffset = new Vector2(((orig.Width - copy.Width) * orig.TileWidth) / 2, 
-                                                  ((orig.Height - copy.Height) * orig.TileHeight) / 2);
+                Vector2 worldOffset = new Vector2(((orig.Width/2 - copy.Width/2) * orig.TileWidth), 
+                                                  ((orig.Height/2 - copy.Height/2) * orig.TileHeight));
 
-                world.Player.Position -= worldOffset;
+                world.ShiftWorldObjects(-worldOffset);
                 
                 XDocument tileDoc = new XDocument(copy.ToXElement());
                 tileDoc.Save("..\\..\\..\\Content\\TileMapXML\\BigTileMap.xml");
                 XDocument worldDoc = new XDocument(world.ToXElement());
                 worldDoc.Save("..\\..\\..\\Content\\WorldXML\\TestWorld.xml");
 
-                world.Player.Position += worldOffset;
+                world.ShiftWorldObjects(worldOffset);
             }
             base.OnMouseUnclick(button);
         }

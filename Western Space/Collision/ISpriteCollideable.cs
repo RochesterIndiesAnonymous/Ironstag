@@ -25,10 +25,6 @@ namespace WesternSpace.Collision
             get;
             set;
         }
-        Animation CurrentAnimation
-        {
-            get;
-        }
 
         void OnSpriteCollision(ISpriteCollideable characterCollidedWith);
     }

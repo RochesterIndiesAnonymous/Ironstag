@@ -83,7 +83,7 @@ namespace WesternSpace.DrawableComponents.Misc
             }
         }
 
-        WesternSpace.AnimationFramework.Animation ISpriteCollideable.CurrentAnimation
+        Animation CurrentAnimation
         {
             get { return animationPlayer.Animation; }
         }

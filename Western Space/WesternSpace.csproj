@@ -87,6 +87,8 @@
     <Compile Include="AnimationFramework\Animation.cs" />
     <Compile Include="AnimationFramework\AnimationPlayer.cs" />
     <Compile Include="AnimationFramework\Frame.cs" />
+    <Compile Include="DrawableComponents\EditorUI\WorldObjectMover.cs" />
+    <Compile Include="DrawableComponents\EditorUI\WorldObjectPlacer.cs" />
     <Compile Include="DrawableComponents\Misc\SmallCactus.cs" />
     <Compile Include="DrawableGameObject.cs" />
     <Compile Include="Input\PressableButton.cs" />
@@ -103,7 +105,6 @@
     <Compile Include="DrawableComponents\Actors\EBandit.cs" />
     <Compile Include="DrawableComponents\Actors\Player.cs" />
     <Compile Include="DrawableComponents\EditorUI\ITilePropertyComponent.cs" />
-    <Compile Include="DrawableComponents\EditorUI\CharacterMover.cs" />
     <Compile Include="DrawableComponents\EditorUI\SaveButton.cs" />
     <Compile Include="DrawableComponents\EditorUI\EdgeToggler.cs" />
     <Compile Include="DrawableComponents\GameUI\GameUI.cs" />

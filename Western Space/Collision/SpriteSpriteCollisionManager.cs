@@ -231,8 +231,8 @@ namespace WesternSpace.Collision
                 {
                     for (int j = 1; j < gameObjBin.ListOfCollideableObjects.Count; j++)
                     {
-                        //if (BoundingBox(gameObjBin.ListOfCollideableObjects.ElementAt(i), gameObjBin.ListOfCollideableObjects.ElementAt(j)))
-                        if (PixelCollision(gameObjBin.ListOfCollideableObjects.ElementAt(i), gameObjBin.ListOfCollideableObjects.ElementAt(j), gameTime))
+                        if (BoundingBox(gameObjBin.ListOfCollideableObjects.ElementAt(i), gameObjBin.ListOfCollideableObjects.ElementAt(j)))
+                        //if (PixelCollision(gameObjBin.ListOfCollideableObjects.ElementAt(i), gameObjBin.ListOfCollideableObjects.ElementAt(j), gameTime))
                         {
                             ISpriteCollideable collidedObj1 = gameObjBin.ListOfCollideableObjects.ElementAt(i);
                             ISpriteCollideable collidedObj2 = gameObjBin.ListOfCollideableObjects.ElementAt(j);
@@ -301,6 +301,8 @@ namespace WesternSpace.Collision
         {
             return collideableObjectA.Rectangle.Intersects(collideableObjectB.Rectangle);
         }
+
+        /*
         void GetTextureData(ISpriteCollideable spriteCollideable, out Color [] colorData)
         {
             Color[] newColorData = new Color[spriteCollideable.Rectangle.Width * spriteCollideable.Rectangle.Height];         
@@ -351,5 +353,7 @@ namespace WesternSpace.Collision
             }
             return false;
         }
+
+         * */
     }
 }

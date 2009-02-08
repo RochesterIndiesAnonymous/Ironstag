@@ -17,6 +17,11 @@ namespace WesternSpace.DrawableComponents.EditorUI
     /// </summary>
     public class EditorUIComponent : DrawableGameObject
     {
+        public EditorScreen EditorScreen
+        {
+            get { return (EditorScreen)ParentScreen; }
+        }
+
         // Time the mouse is pressed inside this component in milliseconds
         private int[] heldTime;
 
@@ -55,6 +60,21 @@ namespace WesternSpace.DrawableComponents.EditorUI
         ///  to drag this element, assuming it's draggable by that button.
         /// </summary>
         private bool[] dragging;
+
+
+        /// <summary>
+        /// Useful to ensure that the mouse actually clicked inside of this 
+        ///  component when checking other factors.
+        /// Set to true once the mouse clicks inside of it, and reset to false
+        ///  immediately after OnMouseUnclick(Outside) is called.
+        ///  
+        /// </summary>
+        private bool[] didClickInside;
+
+        public bool[] DidClickInside
+        {
+            get { return didClickInside; }
+        }
 
         // This element is used to represent the interactive area of 
         //  this UI component.
@@ -153,6 +173,15 @@ namespace WesternSpace.DrawableComponents.EditorUI
         {
         }
 
+        /// <summary>
+        /// Called immediately after OnMouseUnclick() if the associated
+        ///  button both clicked and unclicked inside of this component.
+        /// </summary>
+        /// <param name="button">The button that was unclicked.</param>
+        virtual protected void OnMouseClickAndUnclick(int button)
+        {
+        }
+
 
         virtual protected bool MouseIsInside()
         {
@@ -169,7 +198,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
             this.insideTime = 0;
             this.draggable = new bool[3];
             this.dragging = new bool[3];
-            dragging[0] = dragging[1] = dragging[2] = false;
+            this.didClickInside = new bool[3];
         }
 
         public override void Initialize()
@@ -223,6 +252,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
                     {
                         if (draggable[i])
                             dragging[i] = true;
+                        didClickInside[i] = true;
                         OnMouseClick(i);
                     }
                     if (mouse.ButtonsHeld[i] > 0)
@@ -237,7 +267,10 @@ namespace WesternSpace.DrawableComponents.EditorUI
                         heldTime[i] = 0;
                     }
                     if (mouse.ButtonsUnclicked[i])
+                    {
                         OnMouseUnclick(i);
+                        didClickInside[i] = false;
+                    }
                 }
                 int scrollAmount = mouse.ScrollAmount;
                 if (scrollAmount != 0)
@@ -261,6 +294,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 {
                     if (mouse.ButtonsClicked[i])
                         OnMouseClickOutside(i);
+
                     if (mouse.ButtonsHeld[i] > 0)
                     {
                         heldTime[i] += gameTime.ElapsedGameTime.Milliseconds;
@@ -271,7 +305,14 @@ namespace WesternSpace.DrawableComponents.EditorUI
                         heldTime[i] = 0;
                     }
                     if (mouse.ButtonsUnclicked[i])
+                    {
                         OnMouseUnClickOutside(i);
+                        if(didClickInside[i])
+                        {
+                            OnMouseClickAndUnclick(i);
+                            didClickInside[i] = false;
+                        }
+                    }
                 }
                 int scrollAmount = mouse.ScrollAmount;
                 if (scrollAmount != 0)
@@ -286,7 +327,8 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         public override void Draw(GameTime gameTime)
         {
-            Microsoft.Xna.Framework.Rectangle rect = new Microsoft.Xna.Framework.Rectangle((int)Bounds.X, (int)Bounds.Y, (int)Bounds.Width, (int)Bounds.Height);
+            Microsoft.Xna.Framework.Rectangle rect = new Microsoft.Xna.Framework.Rectangle((int)Bounds.X, (int)Bounds.Y,
+                                                                                        (int)Bounds.Width, (int)Bounds.Height);
             PrimitiveDrawer.Instance.DrawRect(this.SpriteBatch, rect, this.color);
             base.Draw(gameTime);
         }

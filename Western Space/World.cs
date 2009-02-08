@@ -79,22 +79,56 @@ namespace WesternSpace
         /// <summary>
         /// A list of all non-player Characters in the world.
         /// </summary>
-        private List<Character> characters;
+        private List<WorldObject> worldObjects;
 
-        public List<Character> Characters
+        public void AddWorldObject(WorldObject worldObject)
         {
-            get { return characters; }
+            worldObject.Enabled = !Paused;
+
+            player.UpdateOrder = 3; // Need to standardize this.
+            worldObject.DrawOrder = PLAYER_DRAW_ORDER; // ...and this.
+
+            if(worldObject.GetType() is ISpriteCollideable)
+                spriteCollisionManager.addObjectToRegisteredObjectList((ISpriteCollideable)worldObject);
+
+            worldObjects.Add(worldObject);
+            ParentScreen.Components.Add(worldObject);
         }
+
+        /// <summary>
+        /// Shift every world object in the world (including the Player)
+        /// by a given offset. This is really only used by the editor.
+        /// </summary>
+        /// <param name="offset"></param>
+        public void ShiftWorldObjects(Vector2 offset)
+        {
+            foreach (WorldObject worldObject in worldObjects)
+            {
+                worldObject.Position += offset;
+            }
+            Player.Position += offset;
+        }
+
+        private bool paused = false;
 
         /// <summary>
         /// Prevent any components that belong in the world (enemies, the player, etc)
         ///  from being Update()d. This will essentially set "Enabled = false" on all
-        ///  characters in the world.
+        ///  characters in the world, when Paused is set to false.
         /// </summary>
-        public void Pause()
+        public bool Paused
         {
-            player.Enabled = false;
-            this.Enabled = false;
+            get { return paused; }
+            set 
+            {
+                player.Enabled = !value;
+                foreach (WorldObject worldObject in worldObjects)
+                {
+                    worldObject.Enabled = !value;
+                }
+                this.Enabled = !value;
+                this.paused = value;
+            }
         }
 
         /// <summary>
@@ -104,6 +138,7 @@ namespace WesternSpace
         public World(Screen parentScreen, Player player)
             : base(parentScreen)
         {
+            this.worldObjects = new List<WorldObject>();
             this.player = player;
             ParentScreen.Components.Add(player);
             this.interactiveLayers = new Dictionary<int, TileMapLayer>();
@@ -127,6 +162,7 @@ namespace WesternSpace
         public World(Screen parentScreen, string fileName)
             : base(parentScreen)
         {
+            this.worldObjects = new List<WorldObject>();
             this.interactiveLayers = new Dictionary<int, TileMapLayer>();
             this.parallaxLayers = new Dictionary<int, TileMapLayer>();
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
@@ -214,22 +250,17 @@ namespace WesternSpace
             player = new Player(this, sb, playerPosition);
             player.UpdateOrder = 3;
             player.DrawOrder = PLAYER_DRAW_ORDER;
+            ParentScreen.Components.Add(player);
+            spriteCollisionManager.addObjectToRegisteredObjectList(player);
 
             EBandit bandit1 = new EBandit(this, sb, new Vector2(500, 79));
-            bandit1.UpdateOrder = 3;
-            bandit1.DrawOrder = PLAYER_DRAW_ORDER;
 
-            //SmallCactus smallCactus1 = new SmallCactus(this, sb, new Vector2(700, 336));
-            //smallCactus1.UpdateOrder = 3;
-            //smallCactus1.DrawOrder = PLAYER_DRAW_ORDER;
+            SmallCactus smallCactus1 = new SmallCactus(this, sb, new Vector2(700, 336));
 
-            spriteCollisionManager.addObjectToRegisteredObjectList(player);
             spriteCollisionManager.addObjectToRegisteredObjectList(bandit1);
-            //spriteCollisionManager.addObjectToRegisteredObjectList(smallCactus1);
+            spriteCollisionManager.addObjectToRegisteredObjectList(smallCactus1);
 
-            ParentScreen.Components.Add(player);
             ParentScreen.Components.Add(bandit1);
-   
 
             #endregion
 

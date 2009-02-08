@@ -52,6 +52,14 @@ namespace WesternSpace.Screens
             }
         }
 
+        private ConstructorInfo[] worldObjectCtorInfos;
+
+        public ConstructorInfo[] WorldObjectCtorInfos
+        {
+            get { return worldObjectCtorInfos; }
+            set { worldObjectCtorInfos = value; }
+        }
+
         /// <summary>
         /// The resolution settings to use when the game is running in windowed mode
         /// </summary>
@@ -93,7 +101,28 @@ namespace WesternSpace.Screens
             get { return edgeToggler; }
         }
 
-        private CharacterMover playerMover;
+        private WorldObjectMover playerMover;
+
+        public WorldObjectMover PlayerMover
+        {
+            get { return playerMover; }
+        }
+
+
+        private WorldObjectPlacer worldObjectPlacer;
+
+        public WorldObjectPlacer WorldObjectPlacer
+        {
+            get { return worldObjectPlacer; }
+        }
+
+        private List<WorldObjectMover> worldObjectMovers;
+
+        public List<WorldObjectMover> WorldObjectMovers
+        {
+            get { return worldObjectMovers; }
+
+        }
 
         private InputMonitor inputMonitor;
 
@@ -125,16 +154,22 @@ namespace WesternSpace.Screens
         {
             if (!this.IsInitialized)
             {
-                IEnumerable<Type> types = from type in System.Reflection.Assembly.GetAssembly(typeof(Character)).GetTypes()
-                                          where type.IsSubclassOf(typeof(Character))
+                Type[] expectedCharacterArguments = new Type[]{typeof(World), typeof(SpriteBatch), typeof(Vector2)};
+
+                IEnumerable<Type> types = from type in System.Reflection.Assembly.GetAssembly(typeof(WorldObject)).GetTypes()
+                                          where type.IsSubclassOf(typeof(WorldObject)) && 
+                                                type.GetConstructor(expectedCharacterArguments) != null &&
+                                               !type.IsAbstract
                                           select type;
-                List<ConstructorInfo> spriteConstructorInfos = new List<ConstructorInfo>();
-                Console.Out.WriteLine("Character type count: " + types.Count<Type>() + "\nTypes:\n");
-                Type[] expectedCharacterArguments = new Type[]{typeof(Screen), typeof(SpriteBatch), typeof(World), typeof(Vector2), typeof(String)};
+                worldObjectCtorInfos = new ConstructorInfo[types.Count<Type>()];
+
+                Console.Out.WriteLine("World object type count: " + types.Count<Type>() + "\nTypes:\n");
+                int index = 0;
                 foreach (Type type in types)
                 {
-                    spriteConstructorInfos.Add(type.GetConstructor(expectedCharacterArguments));
-                    Console.Out.WriteLine(type.Name);
+                    worldObjectCtorInfos[index] = (type.GetConstructor(expectedCharacterArguments));
+                    ++index;
+                    Console.Out.WriteLine(index + " " + type.Name);
                 }
 
                 tileEngine = new TileEngine();
@@ -203,7 +238,7 @@ namespace WesternSpace.Screens
                 }
                 world.Initialize();
                 world.Camera.Position = world.Player.Position;// -new Vector2(world.Camera.VisibleArea.Width / 2, world.Camera.VisibleArea.Height / 2);
-                world.Pause();
+                world.Paused = true;
                 Components.Add(world);
 
                 // Set up editor controls:
@@ -266,7 +301,10 @@ namespace WesternSpace.Screens
             saveButton.DrawOrder = 20;
             this.Components.Add(saveButton);
 
-            playerMover = new CharacterMover(this, sb, World.Player);
+            worldObjectPlacer = new WorldObjectPlacer(this, sb, new RectangleF(40, 0, 600, 480), World);
+            //this.Components.Add(worldObjectPlacer);
+
+            playerMover = new WorldObjectMover(this, sb, World.Player);
             this.Components.Add(playerMover);
         }
 
@@ -286,6 +324,8 @@ namespace WesternSpace.Screens
                     }
                     EdgeToggler.Enabled = false;
                     EdgeToggler.Visible = false;
+                    worldObjectPlacer.Enabled = true;
+                    worldObjectPlacer.Visible = true;
                     playerMover.Enabled = true;
                     playerMover.Visible = true;
                     break;
@@ -301,6 +341,8 @@ namespace WesternSpace.Screens
                         sts.Enabled = true;
                         sts.Visible = true;
                     }
+                    worldObjectPlacer.Enabled = false;
+                    worldObjectPlacer.Visible = false;
                     EdgeToggler.Enabled = true;
                     EdgeToggler.Visible = true;
                     break;
