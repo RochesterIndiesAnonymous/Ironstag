@@ -35,7 +35,7 @@ namespace WesternSpace.DrawableComponents.Actors
             set { netForce = value; }
         }
 
-        private Vector2 velocity;
+        protected Vector2 velocity;
 
         public Vector2 Velocity
         {
@@ -50,12 +50,11 @@ namespace WesternSpace.DrawableComponents.Actors
             get { return mass; }
             set { mass = value; }
         }
+        #endregion
 
         protected int boundingBoxWidth;
 
         protected int boundingBoxHeight;
-
-        #endregion
 
         public Vector2 UpperLeft
         {
@@ -246,6 +245,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 try
                 {
                     currentState = newState;
+                    currentAnimation = currentRole.AnimationMap[newState];
                     animationPlayer.PlayAnimation(currentRole.AnimationMap[newState]);
                 }
                 catch(KeyNotFoundException knfe)
@@ -347,11 +347,15 @@ namespace WesternSpace.DrawableComponents.Actors
 
         public void ApplyGroundFriction()
         {
-            velocity.X = 0f;
+            if (!currentState.Contains("Hit"))
+            {
+                velocity.X = 0f;
+            }
         }
 
         public void ApplyAirFriction()
         {
+            if(!currentState.Contains("Hit"))
             velocity.X = velocity.X * (0.5f);
         }
 
@@ -429,13 +433,13 @@ namespace WesternSpace.DrawableComponents.Actors
             animationPlayer.Draw(gameTime, this.SpriteBatch, UpperLeft, facing);
 
             
-            #region FOR DEBUGGING COLLISION
+        /*    #region FOR DEBUGGING COLLISION
             foreach (CollisionHotspot hotspot in Hotspots)
             {
                 PrimitiveDrawer.Instance.DrawLine(SpriteBatch, hotspot.WorldPosition, hotspot.WorldPosition + new Vector2(1, 1), Color.Black);
             }
             #endregion
-            
+        */    
         }
 
         #endregion

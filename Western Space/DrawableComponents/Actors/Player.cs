@@ -17,6 +17,7 @@ using WesternSpace.Utility;
 using WesternSpace.DrawableComponents.Projectiles;
 using WesternSpace.Interfaces;
 using System.Diagnostics;
+using WesternSpace.DrawableComponents.WorldObjects;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
@@ -77,6 +78,10 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         private Vector2 hitPushBack;
 
+        /// The velocity to move the player back with when dead.
+        /// </summary>
+        private Vector2 deathPushBack;
+
         /// <summary>
         /// The amount of time before the player can shoot again.
         /// </summary>
@@ -87,13 +92,16 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         private int shotDelay;
 
+        /// Flint's hat object for use in the dying animation.
+        /// </summary>
+        private FlintHat hat;
+
         /// <summary>
         /// Constructor for Flint Ironstag.
         /// </summary>
         /// <param name="parentScreen">The screen which this object is a part of.</param>
         /// <param name="spriteBatch">The sprite batch which handles drawing this object.</param>
         /// <param name="position">The initial position of this character.</param>
-        /// <param name="xmlFile">The XML file which houses the information for this character.</param>
         public Player(World world, SpriteBatch spriteBatch,  Vector2 position)
             : base(world, spriteBatch, position)
         {
@@ -158,7 +166,10 @@ namespace WesternSpace.DrawableComponents.Actors
             shotDelay = 0;
 
             //Sets the hitback Vector
-            hitPushBack = new Vector2(-7f, 0f);
+            hitPushBack = new Vector2(-2f, 0f);
+
+            //Sets the death push back vector
+            deathPushBack = new Vector2(-2f, 0f);
 
             //Temp: Loads the gunshot sound.
             gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
@@ -459,12 +470,28 @@ namespace WesternSpace.DrawableComponents.Actors
                         if (isOnGround)
                         {
                             ChangeState("Dead");
-                            this.Velocity = Vector2.Zero;
+                            //this.Velocity = Vector2.Zero;
                         }
                         else
                         {
                             ChangeState("DeadAir");
                         }
+
+                        if (facing == SpriteEffects.FlipHorizontally)
+                        {
+                            velocity= (-1) * deathPushBack;
+                        }
+                        else
+                        {
+                            velocity += deathPushBack;
+                        }
+
+                        if (hat == null)
+                        {
+                            hat = new FlintHat(this.ParentScreen, this.World, this.SpriteBatch, position, this);
+                        }
+                        hat.ChangeState("Fall");
+
                     }
                     else if (!animationPlayer.Animation.animationName.Equals(currentState))
                     {
@@ -475,8 +502,6 @@ namespace WesternSpace.DrawableComponents.Actors
 
             /// -- Animation Player Update Frames -- ///
             animationPlayer.Update(gameTime);
-
-           //Console.WriteLine("CURRENTSTATE: " + this.currentState + " VEL: " + this.Velocity + "IsONGROUND: "+isOnGround);
 
             base.Update(gameTime);
         }
@@ -563,18 +588,19 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="damageItem">The other world object that the player collided with</param>
         public void TakeDamage(IDamaging damageItem)
         {
-            if (this.TakesDamageFrom != damageItem.DoesDamageTo)
-            {
-                ChangeState("Hit");
-                if (facing == SpriteEffects.FlipHorizontally)
+
+                if (this.TakesDamageFrom != damageItem.DoesDamageTo)
                 {
-                    position += (-1) * hitPushBack;
-                }
-                else
-                {
-                    position += hitPushBack;
-                }
-                currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
+                    ChangeState("Hit");
+                    if (facing == SpriteEffects.FlipHorizontally)
+                    {
+                        Velocity = (-1) * hitPushBack;
+                    }
+                    else
+                    {
+                        Velocity = hitPushBack;
+                    }
+                    currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
             }
         }
 
@@ -599,13 +625,16 @@ namespace WesternSpace.DrawableComponents.Actors
         public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
         {
 #if !XBOX && DEBUG
-            Debug.Print("Player Hit By: " + characterCollidedWith.IdNumber);
+            //Debug.Print("Player Hit By: " + characterCollidedWith.IdNumber);
 #endif
             IDamaging damage = characterCollidedWith as IDamaging;
 
-            if (damage != null)
+            if (!currentState.Contains("Hit") && !currentState.Contains("Dead"))
             {
-                this.TakeDamage(damage);
+                if (damage != null)
+                {
+                    this.TakeDamage(damage);
+                }
             }
         }
 
