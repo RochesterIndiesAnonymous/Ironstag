@@ -33,7 +33,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
         public WorldObjectPlacer(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, World world)
             : base(parentScreen, spriteBatch, bounds)
         {
-            this.index = 2;
+            this.index = 1;
             this.world = world;
         }
 

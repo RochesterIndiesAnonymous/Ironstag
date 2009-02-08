@@ -120,13 +120,6 @@ namespace WesternSpace.Screens
 
         private void CreateSprites()
         {
-            /* WILL BE MOVED TO WORLD SOON...
-            ToadMan toadMan = new ToadMan(this, batchService.GetSpriteBatch(Character.SpriteBatchName), new Vector2(100, 150), "SpriteXML\\FlintIronstag");
-            toadMan.UpdateOrder = 3;
-            toadMan.DrawOrder = 0;
-            this.Components.Add(toadMan);
-            */
-
             GameUI ui = new GameUI(this, batchService.GetSpriteBatch(GameUI.SpriteBatchName), new Vector2(0f, 0f), world.Player);
             ui.DrawOrder = -10;
             this.Components.Add(ui);

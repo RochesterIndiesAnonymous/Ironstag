@@ -187,7 +187,7 @@ namespace WesternSpace.Screens
 
                 // We need to disable the SpriteSpriteCollisionManager because it makes some assumptions about
                 //  the gameScreen...
-                world.SpriteCollisionManager.Enabled = false;
+                world.SpriteCollisionManager.Enabled = true;
                 
                 // Create an empty, maximally-sized tilemap to center
                 //  the loaded map onto:
@@ -238,7 +238,7 @@ namespace WesternSpace.Screens
                 }
                 world.Initialize();
                 world.Camera.Position = world.Player.Position;// -new Vector2(world.Camera.VisibleArea.Width / 2, world.Camera.VisibleArea.Height / 2);
-                world.Paused = true;
+                world.Paused = false;
                 Components.Add(world);
 
                 // Set up editor controls:
@@ -302,7 +302,7 @@ namespace WesternSpace.Screens
             this.Components.Add(saveButton);
 
             worldObjectPlacer = new WorldObjectPlacer(this, sb, new RectangleF(40, 0, 600, 480), World);
-            //this.Components.Add(worldObjectPlacer);
+            this.Components.Add(worldObjectPlacer);
 
             playerMover = new WorldObjectMover(this, sb, World.Player);
             this.Components.Add(playerMover);

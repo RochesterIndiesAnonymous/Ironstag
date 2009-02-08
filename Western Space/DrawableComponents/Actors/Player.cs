@@ -141,12 +141,13 @@ namespace WesternSpace.DrawableComponents.Actors
             hotspots.Add(new CollisionHotspot(this, new Vector2(30, 60), HOTSPOT_TYPE.bottom));
         */
            // hotspots.Add(new CollisionHotspot(this, new Vector2(3, -27), HOTSPOT_TYPE.top));
-              hotspots.Add(new CollisionHotspot(this, new Vector2(0, -27), HOTSPOT_TYPE.top));
-              hotspots.Add(new CollisionHotspot(this, new Vector2(-12, 16), HOTSPOT_TYPE.left));
-              hotspots.Add(new CollisionHotspot(this, new Vector2(-12, -12), HOTSPOT_TYPE.left));
-              hotspots.Add(new CollisionHotspot(this, new Vector2(12, 16), HOTSPOT_TYPE.right));
-              hotspots.Add(new CollisionHotspot(this, new Vector2(12, -12), HOTSPOT_TYPE.right));
-              hotspots.Add(new CollisionHotspot(this, new Vector2(0, 32), HOTSPOT_TYPE.bottom));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(0, -27), HOTSPOT_TYPE.top));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(-11, 20), HOTSPOT_TYPE.left));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(-11, -20), HOTSPOT_TYPE.left));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(11, 20), HOTSPOT_TYPE.right));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(11, -20), HOTSPOT_TYPE.right));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(-5, 32), HOTSPOT_TYPE.bottom));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(5, 32), HOTSPOT_TYPE.bottom));
          
             Hotspots = hotspots;
 

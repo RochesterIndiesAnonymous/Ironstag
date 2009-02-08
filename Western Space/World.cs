@@ -88,11 +88,23 @@ namespace WesternSpace
             player.UpdateOrder = 3; // Need to standardize this.
             worldObject.DrawOrder = PLAYER_DRAW_ORDER; // ...and this.
 
-            if(worldObject.GetType() is ISpriteCollideable)
+            if(worldObject is ISpriteCollideable)
                 spriteCollisionManager.addObjectToRegisteredObjectList((ISpriteCollideable)worldObject);
 
             worldObjects.Add(worldObject);
             ParentScreen.Components.Add(worldObject);
+        }
+
+        public void RemoveWorldObject(WorldObject worldObject)
+        {
+            /*if (worldObjects.Contains(worldObject))
+            {*/                
+                if (worldObject is ISpriteCollideable)
+                    spriteCollisionManager.removeObjectFromRegisteredObjectList((ISpriteCollideable)worldObject);
+                worldObjects.Remove(worldObject);
+                ParentScreen.Components.Remove(worldObject);
+            //}
+            
         }
 
         /// <summary>
@@ -254,13 +266,10 @@ namespace WesternSpace
             spriteCollisionManager.addObjectToRegisteredObjectList(player);
 
             EBandit bandit1 = new EBandit(this, sb, new Vector2(500, 150));
-
             SmallCactus smallCactus1 = new SmallCactus(this, sb, new Vector2(700, 336));
+            AddWorldObject(bandit1);
+            AddWorldObject(smallCactus1);
 
-            spriteCollisionManager.addObjectToRegisteredObjectList(bandit1);
-            spriteCollisionManager.addObjectToRegisteredObjectList(smallCactus1);
-
-            ParentScreen.Components.Add(bandit1);
 
             #endregion
 
