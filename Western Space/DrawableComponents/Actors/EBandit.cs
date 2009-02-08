@@ -100,6 +100,9 @@ namespace WesternSpace.DrawableComponents.Actors
             //Setup the Bounding Box
             boundingBoxHeight = 59;
             boundingBoxWidth = 34;
+            this.boundingBoxOffset = new Vector2();
+            this.boundingBoxOffset.X = boundingBoxWidth / 2;
+            this.boundingBoxOffset.Y = boundingBoxHeight / 2;
         }
 
         /// <summary>

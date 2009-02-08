@@ -48,12 +48,9 @@ namespace WesternSpace.DrawableComponents.Projectiles
         /// <summary>
         /// The direction to draw the projectile in
         /// </summary>
-        private SpriteEffects animationDirection;
+        private SpriteEffects facing;
 
-        /// <summary>
-        /// The object that is used to draw the projectile to the screen
-        /// </summary>
-        private AnimationPlayer player;
+        protected Texture2D texture;
 
         /// <summary>
         /// The collision manager that this projectile needs to register with
@@ -66,23 +63,23 @@ namespace WesternSpace.DrawableComponents.Projectiles
         /// </summary>
         private GameScreen gameScreen;
 
-        public Projectile(Screen screen, SpriteBatch batch, Vector2 position, Animation animation, short direction,
+        public Projectile(Screen screen, SpriteBatch batch, Vector2 position, Texture2D texture, short direction,
             Vector2 velocity, object owner, DamageCategory doesDamageTo, int amountOfDamage)
             : base(screen, batch, position)
         {
-            player = new AnimationPlayer(batch, animation);
 
+            this.texture = texture;
             this.direction = direction;
             this.velocity = velocity;
             this.owner = owner;
             this.doesDamageTo = doesDamageTo;
             this.amountOfDamage = amountOfDamage;
 
-            animationDirection = SpriteEffects.None;
+            facing = SpriteEffects.None;
 
             if (direction == 1)
             {
-                animationDirection = SpriteEffects.FlipHorizontally;
+                facing = SpriteEffects.FlipHorizontally;
             }
 
             gameScreen = (GameScreen)screen;
@@ -107,7 +104,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         public override void Update(GameTime gameTime)
         {
             // check to see if we are outside the camera.
-            if (this.Position.X > gameScreen.World.Camera.VisibleArea.X + gameScreen.World.Camera.VisibleArea.Width || this.Position.X + this.player.Animation.FrameWidth < gameScreen.World.Camera.VisibleArea.X)
+            if (this.Position.X > gameScreen.World.Camera.VisibleArea.X + gameScreen.World.Camera.VisibleArea.Width || this.Position.X + this.texture.Width < gameScreen.World.Camera.VisibleArea.X)
             {
                 // This allows the bullet to be garbage collected. Verified that garbage collection happens on 2/1/2009
                 this.gameScreen.World.SpriteCollisionManager.removeObjectFromRegisteredObjectList(this);
@@ -115,9 +112,6 @@ namespace WesternSpace.DrawableComponents.Projectiles
                 this.Dispose();
                 return;
             }
-
-            // update the animation player
-            player.Update(gameTime);
 
             // update the position of the projectile
             this.Position += (direction * this.velocity);
@@ -132,7 +126,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         public override void Draw(GameTime gameTime)
         {
             // draw the projectile
-            player.Draw(gameTime, this.SpriteBatch, this.Position, animationDirection);
+            SpriteBatch.Draw(texture, Position, Color.White);
 
             base.Draw(gameTime);
         }
@@ -190,7 +184,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
             {
                 int x = (int)(this.Position.X);
                 int y = (int)(this.Position.Y);
-                return new Rectangle(x, y, this.player.Animation.FrameWidth, this.player.Animation.FrameHeight);
+                return new Rectangle(x, y, this.texture.Width, this.texture.Height);
             }
         }
 
@@ -211,11 +205,6 @@ namespace WesternSpace.DrawableComponents.Projectiles
 
         #region ISpriteCollideable Members
 
-
-        public Animation CurrentAnimation
-        {
-            get { return this.player.Animation; }
-        }
 
         #endregion
 

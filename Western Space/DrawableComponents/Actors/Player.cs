@@ -96,6 +96,8 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         private FlintHat hat;
 
+        private bool invincible = false;
+
         /// <summary>
         /// Constructor for Flint Ironstag.
         /// </summary>
@@ -184,6 +186,9 @@ namespace WesternSpace.DrawableComponents.Actors
             this.boundingBoxOffset = new Vector2();
             this.boundingBoxOffset.X = boundingBoxWidth/2;
             this.boundingBoxOffset.Y = boundingBoxHeight/2;
+
+            //Set Invincibility
+            invincible = false;
         }
 
         /// <summary>
@@ -396,6 +401,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 Jump();
             }
 
+            // -- Apply the Effects of Various Forces -- //
             NetForce += gravity / Mass;
 
             if ((input.WasJustReleased(InputMonitor.RIGHT) || input.WasJustReleased(InputMonitor.LEFT)) && !isOnGround)
@@ -458,6 +464,7 @@ namespace WesternSpace.DrawableComponents.Actors
             }
             else
             {
+                //Perform Dead and Hit operations here
                 if(currentState.Contains("Dead"))
                 {
                     if(isOnGround && currentState.Equals("DeadAir"))
@@ -489,6 +496,7 @@ namespace WesternSpace.DrawableComponents.Actors
                             velocity = deathPushBack;
                         }
 
+                        //Trigger Flint's Hat to Fall
                         if (hat == null)
                         {
                             hat = new FlintHat(this.ParentScreen, this.World, this.SpriteBatch, position, this);
@@ -503,7 +511,21 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
             }
 
-            /// -- Animation Player Update Frames -- ///
+            // -- Check Invincibility Timer -- //
+            if (invincible)
+            {
+                float invincibilityTimer = 0f, invincibilityTimeSpan = 1.0f;
+
+                invincibilityTimer += (float)(gameTime.TotalRealTime.TotalSeconds % 1.015);
+
+                if (invincibilityTimer >= invincibilityTimeSpan)
+                {
+                    invincible = false;
+                    invincibilityTimer = 0f;
+                }
+            }
+
+            // -- Animation Player Update Frames -- //
             animationPlayer.Update(gameTime);
 
             base.Update(gameTime);
@@ -592,9 +614,10 @@ namespace WesternSpace.DrawableComponents.Actors
         public void TakeDamage(IDamaging damageItem)
         {
 
-                if (this.TakesDamageFrom != damageItem.DoesDamageTo)
+                if ((this.TakesDamageFrom != damageItem.DoesDamageTo) && !invincible)
                 {
                     ChangeState("Hit");
+                    invincible = true;
                     if (facing == SpriteEffects.FlipHorizontally)
                     {
                         Velocity = (-1) * hitPushBack;

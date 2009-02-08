@@ -8,6 +8,7 @@ using WesternSpace.Utility;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using WesternSpace.Physics;
+using WesternSpace.ServiceInterfaces;
 
 namespace WesternSpace.DrawableComponents.Projectiles
 {
@@ -19,7 +20,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         /// <summary>
         /// The animation object to to use for animating this projectile
         /// </summary>
-        private static readonly Animation FlintProjectileAnimation = new Animation("ActorXML\\ProjectileXML\\FlintBullet", "Bullet");
+        private static readonly Texture2D texture = ((ITextureService)ScreenManager.Instance.Services.GetService(typeof(ITextureService))).GetTexture("Textures\\FlintIronstag\\FlintBullet");
 
         /// <summary>
         /// The amount of damage a single projectile does to the player
@@ -40,7 +41,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         /// <param name="owner">The character that fired this projectile, in this case the player</param>
         /// <param name="direction">The direction that is projectile is moving. 1 to the right, -1 to left</param>
         public FlintNormalProjectile(Screen screen, SpriteBatch batch, Vector2 position, object owner, short direction)
-            : base(screen, batch, position, FlintNormalProjectile.FlintProjectileAnimation, direction, FlintNormalProjectile.Velocity,
+            : base(screen, batch, position, texture, direction, FlintNormalProjectile.Velocity,
                 owner, DamageCategory.Enemy, FlintNormalProjectile.Damage)
         {
         }
