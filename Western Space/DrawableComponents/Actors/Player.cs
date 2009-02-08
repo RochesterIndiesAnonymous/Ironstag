@@ -409,7 +409,7 @@ namespace WesternSpace.DrawableComponents.Actors
             {
                 ApplyAirFriction();
             }
-            else if ((!input.IsPressed(InputMonitor.RIGHT) && !input.IsPressed(InputMonitor.LEFT)) && isOnGround)
+            else if ((!input.IsPressed(InputMonitor.RIGHT) && !input.IsPressed(InputMonitor.LEFT) && !input.CheckLeftJoystickOnXAxis(InputMonitor.RIGHT) && !input.CheckLeftJoystickOnXAxis(InputMonitor.LEFT)) && isOnGround)
             {
                 ApplyGroundFriction();
             }
