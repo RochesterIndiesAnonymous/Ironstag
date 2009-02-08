@@ -23,8 +23,8 @@ namespace WesternSpace.Screens
 {
     public class EditorScreen : Screen
     {
-        public static readonly int MAX_TILEMAP_WIDTH = 501; // Silly hack: I made these odd (as opposed to even) numbers
-        public static readonly int MAX_TILEMAP_HEIGHT = 501;//  because even numbers resulted in sprite positions being off by a half-tile width/height
+        public static readonly int MAX_TILEMAP_WIDTH = 501;
+        public static readonly int MAX_TILEMAP_HEIGHT = 501;
         public static readonly int LAYER_COUNT = 2;
         public static readonly int SUB_LAYER_COUNT = 2;
         public static readonly int DEFAULT_TILE_WIDTH = 24;
@@ -50,14 +50,6 @@ namespace WesternSpace.Screens
             { 
                 mode = value;
             }
-        }
-
-        private ConstructorInfo[] worldObjectCtorInfos;
-
-        public ConstructorInfo[] WorldObjectCtorInfos
-        {
-            get { return worldObjectCtorInfos; }
-            set { worldObjectCtorInfos = value; }
         }
 
         /// <summary>
@@ -141,7 +133,7 @@ namespace WesternSpace.Screens
             : base(game, name)
         {
             isFullScreen = false;
-            
+            Game.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -154,24 +146,6 @@ namespace WesternSpace.Screens
         {
             if (!this.IsInitialized)
             {
-                Type[] expectedCharacterArguments = new Type[]{typeof(World), typeof(SpriteBatch), typeof(Vector2)};
-
-                IEnumerable<Type> types = from type in System.Reflection.Assembly.GetAssembly(typeof(WorldObject)).GetTypes()
-                                          where type.IsSubclassOf(typeof(WorldObject)) && 
-                                                type.GetConstructor(expectedCharacterArguments) != null &&
-                                               !type.IsAbstract
-                                          select type;
-                worldObjectCtorInfos = new ConstructorInfo[types.Count<Type>()];
-
-                Console.Out.WriteLine("World object type count: " + types.Count<Type>() + "\nTypes:\n");
-                int index = 0;
-                foreach (Type type in types)
-                {
-                    worldObjectCtorInfos[index] = (type.GetConstructor(expectedCharacterArguments));
-                    ++index;
-                    Console.Out.WriteLine(index + " " + type.Name);
-                }
-
                 tileEngine = new TileEngine();
 
                 fullScreenSettings = new ResolutionSettings(640, 480, 640,
@@ -187,7 +161,7 @@ namespace WesternSpace.Screens
 
                 // We need to disable the SpriteSpriteCollisionManager because it makes some assumptions about
                 //  the gameScreen...
-                world.SpriteCollisionManager.Enabled = true;
+                world.SpriteCollisionManager.Enabled = false;
                 
                 // Create an empty, maximally-sized tilemap to center
                 //  the loaded map onto:
@@ -213,7 +187,7 @@ namespace WesternSpace.Screens
                     Components.Remove(tml);
                 }
                 world.interactiveLayers.Clear();
-                world.Player.Position += new Vector2(world.Map.TileWidth * offsetX, world.Map.TileWidth * offsetY);
+                world.ShiftWorldObjects(new Vector2(world.Map.TileWidth * offsetX, world.Map.TileWidth * offsetY));
 
                 for (int i = 0; i < world.Map.LayerCount; ++i)
                 {
@@ -236,9 +210,11 @@ namespace WesternSpace.Screens
                     world.interactiveLayers[tml.DrawOrder] = tml;
                     Components.Add(world.interactiveLayers[tml.DrawOrder]);
                 }
+
                 world.Initialize();
                 world.Camera.Position = world.Player.Position;// -new Vector2(world.Camera.VisibleArea.Width / 2, world.Camera.VisibleArea.Height / 2);
-                world.Paused = false;
+                world.Paused = true;
+
                 Components.Add(world);
 
                 // Set up editor controls:
@@ -290,6 +266,14 @@ namespace WesternSpace.Screens
                 }
             }
 
+            this.worldObjectMovers = new List<WorldObjectMover>();
+            foreach (WorldObject wo in World.WorldObjects)
+            {
+                WorldObjectMover wom = new WorldObjectMover(this, sb, wo);
+                WorldObjectMovers.Add(wom);
+                this.Components.Add(wom);
+            }
+
             RectangleF tmp = ((SubTextureSelector)tileSelector.TilePropertyComponents.Last<ITilePropertyComponent>()).Bounds;
             tmp.Y += 20 + world.Map.TileHeight;
             this.edgeToggler = new EdgeToggler(this, sb, tmp, TileSelector);
@@ -302,6 +286,7 @@ namespace WesternSpace.Screens
             this.Components.Add(saveButton);
 
             worldObjectPlacer = new WorldObjectPlacer(this, sb, new RectangleF(40, 0, 600, 480), World);
+            worldObjectPlacer.DrawOrder = 25;
             this.Components.Add(worldObjectPlacer);
 
             playerMover = new WorldObjectMover(this, sb, World.Player);
@@ -315,12 +300,18 @@ namespace WesternSpace.Screens
                 case EditMode.TileEdit:
                     Console.Out.WriteLine("Switching to SpriteEdit mode..");
                     Mode = EditMode.SpriteEdit;
+                    Game.IsMouseVisible = false;
                     tileSelector.Enabled = false;
                     tileSelector.Visible = false;
                     foreach (SubTextureSelector sts in SubTextureSelectors)
                     {
                         sts.Enabled = false;
                         sts.Visible = false;
+                    }
+                    foreach (WorldObjectMover wom in worldObjectMovers)
+                    {
+                        wom.Enabled = true;
+                        wom.Visible = true;
                     }
                     EdgeToggler.Enabled = false;
                     EdgeToggler.Visible = false;
@@ -332,10 +323,16 @@ namespace WesternSpace.Screens
                 case EditMode.SpriteEdit:
                     Console.Out.WriteLine("Switching to TileEdit mode..");
                     Mode = EditMode.TileEdit;
+                    Game.IsMouseVisible = true;
                     playerMover.Enabled = false;
                     playerMover.Visible = false;
                     tileSelector.Enabled = true;
                     tileSelector.Visible = true;
+                    foreach (WorldObjectMover wom in worldObjectMovers)
+                    {
+                        wom.Enabled = false;
+                        wom.Visible = false;
+                    }
                     foreach (SubTextureSelector sts in SubTextureSelectors)
                     {
                         sts.Enabled = true;

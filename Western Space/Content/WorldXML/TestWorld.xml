@@ -1,5 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<World InteractiveMapFileName="TileMapXML\\BigTileMap" PlayerPositionX="401" PlayerPositionY="23">
+<World InteractiveMapFileName="TileMapXML\\BigTileMap" PlayerPositionX="386" PlayerPositionY="33">
   <MapLayer LayerName="" LayerIndex="0" ZIndex="-10" />
   <MapLayer LayerName="" LayerIndex="1" ZIndex="10" />
+  <o n="SmallCactus" x="320" y="337" />
+  <o n="SmallCactus" x="338" y="337" />
+  <o n="SmallCactus" x="473" y="337" />
+  <o n="SmallCactus" x="462" y="326" />
+  <o n="SmallCactus" x="454" y="337" />
+  <o n="SmallCactus" x="329" y="325" />
+  <o n="SmallCactus" x="561" y="337" />
+  <o n="SmallCactus" x="578" y="336" />
+  <o n="SmallCactus" x="594" y="336" />
+  <o n="SmallCactus" x="610" y="336" />
+  <o n="EBandit" x="668" y="331" />
+  <o n="EBandit" x="320" y="233" />
 </World>

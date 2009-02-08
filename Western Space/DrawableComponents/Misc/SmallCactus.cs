@@ -17,9 +17,9 @@ namespace WesternSpace.DrawableComponents.Misc
     /// </summary>
     public class SmallCactus : WorldObject, ISpriteCollideable, IDamaging
     {
+        private Texture2D texture;
+
         private Rectangle boundingRectangle;
-        private AnimationPlayer animationPlayer;
-        private Animation excitingCactusAnimation;
 
         /// <summary>
         /// Camera used to see if the enemy is visible.
@@ -29,9 +29,7 @@ namespace WesternSpace.DrawableComponents.Misc
         public SmallCactus(World world, SpriteBatch spriteBatch, Vector2 position) : base(world,spriteBatch,position)
         {
             boundingRectangle = new Rectangle((int)Position.X, (int)Position.Y, 24, 24);
-
-            excitingCactusAnimation = new Animation("ActorXML\\SmallCactus", "ExcitingCactusAnimation");
-            this.animationPlayer = new AnimationPlayer(spriteBatch, excitingCactusAnimation);
+            this.texture = ((ITextureService)ScreenManager.Instance.Services.GetService(typeof(ITextureService))).GetTexture("Textures\\Enemies\\SmallCactus");
         }
 
         public override void Initialize()
@@ -42,11 +40,12 @@ namespace WesternSpace.DrawableComponents.Misc
 
         public override void Draw(GameTime gameTime)
         {
-            if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.animationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
-            {
+            //if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.animationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
+            //{
                 //Let the Animation Player Draw
-                animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position, SpriteEffects.None);
-            }
+            SpriteBatch.Draw(texture, Position, Color.White);
+            //}
+            base.Draw(gameTime);
         }
 
         #region ISpriteCollideable Members
@@ -79,11 +78,6 @@ namespace WesternSpace.DrawableComponents.Misc
             {
                 // A cactus shouldn't flip.
             }
-        }
-
-        Animation CurrentAnimation
-        {
-            get { return animationPlayer.Animation; }
         }
 
         void ISpriteCollideable.OnSpriteCollision(ISpriteCollideable characterCollidedWith)

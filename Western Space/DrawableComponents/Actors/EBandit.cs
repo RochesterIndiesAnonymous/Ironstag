@@ -264,11 +264,11 @@ namespace WesternSpace.DrawableComponents.Actors
 
         public override void Draw(GameTime gameTime)
         {
-            if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
-            {
+            //if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
+            //{
                 //Let the Animation Player Draw
                 animationPlayer.Draw(gameTime, this.SpriteBatch, UpperLeft, facing);
-            }
+            //}
         }
 
         /// <summary>

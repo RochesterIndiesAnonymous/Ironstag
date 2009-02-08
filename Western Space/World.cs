@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Xml.Linq;
+using System.Reflection;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 
 using WesternSpace.Services;
 using WesternSpace.ServiceInterfaces;
@@ -11,9 +14,7 @@ using WesternSpace.TilingEngine;
 using WesternSpace.Screens;
 using WesternSpace.Interfaces;
 using WesternSpace.DrawableComponents.Actors;
-using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.Collision;
-using Microsoft.Xna.Framework.Media;
 using WesternSpace.DrawableComponents.Misc;
 using WesternSpace.Physics;
 
@@ -25,12 +26,27 @@ namespace WesternSpace
 
         private ISpriteBatchService batchService;
 
+        private SpriteBatch spriteBatch;
+
+        public SpriteBatch SpriteBatch
+        {
+            get { return spriteBatch; }
+        }
 
         private PhysicsHandler physicsHandler;
 
         public PhysicsHandler PhysicsHandler
         {
             get { return physicsHandler; }
+        }
+
+
+        private ConstructorInfo[] worldObjectCtorInfos;
+
+        public ConstructorInfo[] WorldObjectCtorInfos
+        {
+            get { return worldObjectCtorInfos; }
+            set { worldObjectCtorInfos = value; }
         }
 
 
@@ -57,6 +73,7 @@ namespace WesternSpace
         public ICameraService Camera
         {
             get { return camera; }
+            set { camera = value; }
         }
 
         // Secondary non-interactive tile maps that usually represent background layers/parallax.
@@ -80,6 +97,11 @@ namespace WesternSpace
         /// A list of all non-player Characters in the world.
         /// </summary>
         private List<WorldObject> worldObjects;
+
+        public List<WorldObject> WorldObjects
+        {
+            get { return worldObjects; }
+        }
 
         public void AddWorldObject(WorldObject worldObject)
         {
@@ -143,6 +165,29 @@ namespace WesternSpace
             }
         }
 
+
+        private void LoadCtorInfos()
+        {
+            Type[] expectedCharacterArguments = new Type[] { typeof(World), typeof(SpriteBatch), typeof(Vector2) };
+
+            IEnumerable<Type> types = from type in System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
+                                      where type.IsSubclassOf(typeof(WorldObject)) &&
+                                           !(type.Name == "Player") &&
+                                            type.GetConstructor(expectedCharacterArguments) != null &&
+                                           !type.IsAbstract
+                                      select type;
+            worldObjectCtorInfos = new ConstructorInfo[types.Count<Type>()];
+
+            Console.Out.WriteLine("World object type count: " + types.Count<Type>() + "\nTypes:\n");
+            int index = 0;
+            foreach (Type type in types)
+            {
+                worldObjectCtorInfos[index] = (type.GetConstructor(expectedCharacterArguments));
+                ++index;
+                Console.Out.WriteLine(index + " " + type.Name);
+            }
+        }
+
         /// <summary>
         /// Create an empty world.
         /// </summary>
@@ -164,6 +209,8 @@ namespace WesternSpace
 
             bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
             MediaPlayer.Play(bgm);
+
+            LoadCtorInfos();
         }
 
         /// <summary>
@@ -187,6 +234,10 @@ namespace WesternSpace
             bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
             MediaPlayer.Play(bgm);
 
+            // The spritebatch to be used when creating all of our worldObjects:
+            spriteBatch = batchService.GetSpriteBatch(Character.SpriteBatchName);
+            LoadCtorInfos();
+
             // Load the contents of the world from the specified XML file:
             LoadWorldXmlFile(fileName);
         }
@@ -195,7 +246,6 @@ namespace WesternSpace
         {
             camera = (ICameraService)ScreenManager.Instance.Services.GetService(typeof(ICameraService));
             base.Initialize();
-            
             this.physicsHandler = new PhysicsHandler(this);
         }
 
@@ -252,24 +302,29 @@ namespace WesternSpace
 
 
             #region LOAD CHARACTERS
-            // The spritebatch to be used when creating all of our characters:
-            SpriteBatch sb = batchService.GetSpriteBatch(Character.SpriteBatchName);
 
             // Add the player:
             Vector2 playerPosition = new Vector2(float.Parse(fileContents.Root.Attribute("PlayerPositionX").Value),
                                                  float.Parse(fileContents.Root.Attribute("PlayerPositionY").Value));
 
-            player = new Player(this, sb, playerPosition);
+            player = new Player(this, spriteBatch, playerPosition);
             player.UpdateOrder = 3;
             player.DrawOrder = PLAYER_DRAW_ORDER;
             ParentScreen.Components.Add(player);
             spriteCollisionManager.addObjectToRegisteredObjectList(player);
 
-            EBandit bandit1 = new EBandit(this, sb, new Vector2(500, 150));
-            SmallCactus smallCactus1 = new SmallCactus(this, sb, new Vector2(700, 336));
-            AddWorldObject(bandit1);
-            AddWorldObject(smallCactus1);
+            foreach (XElement woElement in fileContents.Descendants("o"))
+            {
+                string name = woElement.Attribute("n").Value;
+                Vector2 position = new Vector2();
+                position.X = float.Parse(woElement.Attribute("x").Value);
+                position.Y = float.Parse(woElement.Attribute("y").Value);
 
+                ConstructorInfo ci = (from CI in WorldObjectCtorInfos
+                                      where CI.DeclaringType.Name == name
+                                      select CI).First<ConstructorInfo>();
+                AddWorldObject((WorldObject)ci.Invoke(new object[]{this, SpriteBatch, position}));
+            }
 
             #endregion
 
@@ -352,6 +407,11 @@ namespace WesternSpace
                                               where plax.Attribute("MapFileName").Value == pml.TileMap.FileName
                                               select plax;
                 plaxs.First<XElement>().Attribute("ScrollSpeed").Value = pml.ScrollSpeed.ToString();
+            }
+
+            foreach (WorldObject wo in worldObjects)
+            {
+                ret.Add(wo.ToXElement());
             }
 
             return ret;

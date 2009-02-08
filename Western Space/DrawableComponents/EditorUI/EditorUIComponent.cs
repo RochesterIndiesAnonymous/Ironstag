@@ -269,6 +269,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
                     if (mouse.ButtonsUnclicked[i])
                     {
                         OnMouseUnclick(i);
+                        OnMouseClickAndUnclick(i);
                         didClickInside[i] = false;
                     }
                 }
@@ -309,7 +310,6 @@ namespace WesternSpace.DrawableComponents.EditorUI
                         OnMouseUnClickOutside(i);
                         if(didClickInside[i])
                         {
-                            OnMouseClickAndUnclick(i);
                             didClickInside[i] = false;
                         }
                     }

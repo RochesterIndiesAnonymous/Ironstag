@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using WesternSpace.Interfaces;
 using WesternSpace.Screens;
+using System.Xml.Linq;
 
 namespace WesternSpace
 {
@@ -55,9 +56,9 @@ namespace WesternSpace
 
         #region IXElementOutput Members
 
-        public System.Xml.Linq.XElement ToXElement()
+        public XElement ToXElement()
         {
-            throw new NotImplementedException();
+            return new XElement("o", new XAttribute("n", this.GetType().Name), new XAttribute("x", Position.X), new XAttribute("y", Position.Y));
         }
 
         #endregion
