@@ -51,8 +51,35 @@ namespace WesternSpace.DrawableComponents.Actors
             set { mass = value; }
         }
 
+        protected int boundingBoxWidth;
+
+        protected int boundingBoxHeight;
+
         #endregion
 
+        public Vector2 UpperLeft
+        {
+            get
+            {
+                if (facing.Equals(SpriteEffects.None))
+                {
+                    return new Vector2((position.X - currentAnimation.CenterOffsetX), (position.Y - currentAnimation.CenterOffsetY));
+                }
+                else if (facing.Equals(SpriteEffects.FlipHorizontally))
+                {
+                    return new Vector2((position.X - (currentAnimation.FrameWidth - currentAnimation.CenterOffsetX)), (position.Y - currentAnimation.CenterOffsetY));
+                }
+                else if (facing.Equals(SpriteEffects.FlipVertically))
+                {
+                    return Vector2.Zero;
+                }
+                else
+                {
+                    //Fuck if I know
+                    return Vector2.Zero;
+                }
+            }
+        }
 
         public static readonly string XMLPATH = "ActorXML";
         /// <summary>
@@ -131,8 +158,8 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             get 
             {
-                return new Rectangle((int)Position.X, (int)Position.Y,
-                    currentAnimation.FrameWidth, currentAnimation.FrameHeight);                    
+                return new Rectangle((int)Position.X-currentAnimation.CenterOffsetX, (int)Position.Y-CurrentAnimation.CenterOffsetY,
+                    boundingBoxWidth, boundingBoxHeight);                    
             }
         }
 
@@ -298,6 +325,16 @@ namespace WesternSpace.DrawableComponents.Actors
             velocity.Y -= jumpVelocity.Y;
         }
 
+        public void ApplyGroundFriction()
+        {
+            velocity.X = 0f;
+        }
+
+        public void ApplyAirFriction()
+        {
+            velocity.X = velocity.X * (0.5f);
+        }
+
         #endregion
 
         #region ITileCollideable Members
@@ -319,8 +356,8 @@ namespace WesternSpace.DrawableComponents.Actors
                     {
                         h = HOTSPOT_TYPE.left;
                     }
-                    CollisionHotspot newHotspot = new CollisionHotspot(this,new Vector2(this.CurrentAnimation.FrameWidth - hotspot.Offset.X,hotspot.Offset.Y),h);
-
+                    //CollisionHotspot newHotspot = new CollisionHotspot(this,new Vector2(this.CurrentAnimation.FrameWidth - hotspot.Offset.X,hotspot.Offset.Y),h);
+                   CollisionHotspot newHotspot = new CollisionHotspot(this, new Vector2((-1) * hotspot.Offset.X, hotspot.Offset.Y), h);
                     hotspotsFacingLeft.Add(newHotspot);
                 }
             }
@@ -369,16 +406,16 @@ namespace WesternSpace.DrawableComponents.Actors
         public override void Draw(GameTime gameTime)
         {
             //Let the Animation Player Draw
-            animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position, facing);
+            animationPlayer.Draw(gameTime, this.SpriteBatch, UpperLeft, facing);
 
-            /*
+            
             #region FOR DEBUGGING COLLISION
             foreach (CollisionHotspot hotspot in Hotspots)
             {
                 PrimitiveDrawer.Instance.DrawLine(SpriteBatch, hotspot.WorldPosition, hotspot.WorldPosition + new Vector2(1, 1), Color.Black);
             }
             #endregion
-            */
+            
         }
 
         #endregion

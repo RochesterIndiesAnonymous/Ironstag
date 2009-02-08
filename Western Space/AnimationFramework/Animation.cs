@@ -45,6 +45,19 @@ namespace WesternSpace.AnimationFramework
             }
             return newColorData;
         }
+
+        private int centerOffsetX;
+        public int CenterOffsetX
+        {
+            get { return centerOffsetX; }
+        }
+
+        private int centerOffsetY;
+        public int CenterOffsetY
+        {
+            get { return centerOffsetY; }
+        }
+
         // A collection containing all of the frames to be used
         // in this Animation.
         private List<Frame> frames;
@@ -197,6 +210,11 @@ namespace WesternSpace.AnimationFramework
                     //Sets if this animation is to loop or not.
                     int loopInt = 0;
                     loopInt = Int32.Parse(animation.Attribute("IsLoop").Value);
+
+                    //Gets the Offset of the center to the top left corner of this animation
+                    centerOffsetX = Int32.Parse(animation.Attribute("CenterOffsetX").Value);
+
+                    centerOffsetY = Int32.Parse(animation.Attribute("CenterOffsetY").Value);
 
                     //Check if this animation is a One Shot or not.
                     int oneShotInt = 0;

@@ -45,11 +45,12 @@ namespace WesternSpace.DrawableComponents.Actors
         public EBandit(World world, SpriteBatch spriteBatch, Vector2 position)
             : base(world, spriteBatch, position)
         {
+            Mass = 1;
             //Set the character's Name
             name = "Bandit";
 
             //Load the player information from the XML file
-            LoadBanditXmlFile(XMLFILENAME);
+            LoadBanditXmlFile();
 
             //Load the Player's Roles
             SetUpRoles();
@@ -76,14 +77,29 @@ namespace WesternSpace.DrawableComponents.Actors
             facing = SpriteEffects.FlipHorizontally;
 
             //Initializes the player's hotspots.
-            this.Hotspots.Add(new CollisionHotspot(this, new Vector2(16, 0), HOTSPOT_TYPE.top));
+          /*  this.Hotspots.Add(new CollisionHotspot(this, new Vector2(16, 0), HOTSPOT_TYPE.top));
             this.Hotspots.Add(new CollisionHotspot(this, new Vector2(0, 30), HOTSPOT_TYPE.left));
             this.Hotspots.Add(new CollisionHotspot(this, new Vector2(36, 30), HOTSPOT_TYPE.right));
             this.Hotspots.Add(new CollisionHotspot(this, new Vector2(7, 60), HOTSPOT_TYPE.bottom));
             //this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(27, 60), HOTSPOT_TYPE.bottom));
+*/
+            List<CollisionHotspot> hotspots = new List<CollisionHotspot>();
+            hotspots.Add(new CollisionHotspot(this, new Vector2(13, -27), HOTSPOT_TYPE.top));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(1, -6), HOTSPOT_TYPE.left));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(1, 12), HOTSPOT_TYPE.left));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(17, -6), HOTSPOT_TYPE.right));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(17, 12), HOTSPOT_TYPE.right));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(11, 30), HOTSPOT_TYPE.bottom));
+
+            Hotspots = hotspots;
+
 
             //Temp: Loads the gunshot sound.
             gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
+
+            //Setup the Bounding Box
+            boundingBoxHeight = 59;
+            boundingBoxWidth = 34;
         }
 
         /// <summary>
@@ -91,10 +107,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         public override void Initialize()
         {
-            //collision = (SpriteSpriteCollisionManager)this.Game.Services.GetService(typeof(SpriteSpriteCollisionManager));
             camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
-
-            //collision.RegisteredObjectList.Add(this);
 
             base.Initialize();
         }
@@ -215,9 +228,6 @@ namespace WesternSpace.DrawableComponents.Actors
                 // -- AI -- //
                 banditAI(gameTime);
 
-                // -- Handle Physics -- //
-                PhysicsHandler.ApplyPhysics(this);
-
                 // --- Check For Max Ascent of Jump -- //
                 if (currentState.Contains("Jumping"))
                 {
@@ -226,6 +236,8 @@ namespace WesternSpace.DrawableComponents.Actors
                         ChangeState("JumpingDescent");
                     }
                 }
+
+                NetForce += gravity / Mass;
 
                 // -- Check for Final State Changes -- //
                 if ((Velocity.X == 0) && isOnGround && !currentState.Contains("Dead") && !currentState.Equals("Hit"))
@@ -241,6 +253,9 @@ namespace WesternSpace.DrawableComponents.Actors
                     }
                 }
 
+                // -- Handle Physics -- //
+                PhysicsHandler.ApplyPhysics(this);
+
                 // -- Animation Player Update Frames -- //
                 animationPlayer.Update(gameTime);
                 base.Update(gameTime);
@@ -252,7 +267,7 @@ namespace WesternSpace.DrawableComponents.Actors
             if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
             {
                 //Let the Animation Player Draw
-                animationPlayer.Draw(gameTime, this.SpriteBatch, this.Position, facing);
+                animationPlayer.Draw(gameTime, this.SpriteBatch, UpperLeft, facing);
             }
         }
 
@@ -260,10 +275,10 @@ namespace WesternSpace.DrawableComponents.Actors
         /// Loads a Character's information from a specified XML file.
         /// </summary>
         /// <param name="fileName">The name of the xml file housing the character's information.</param>
-        private void LoadBanditXmlFile(string fileName)
+        private void LoadBanditXmlFile()
         {
             //Create a new XDocument from the given file name.
-            XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(fileName);
+            XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(XMLFILENAME);
 
             this.maxHealth = Int32.Parse(fileContents.Root.Element("Health").Attribute("MaxHealth").Value);
         }
@@ -292,17 +307,16 @@ namespace WesternSpace.DrawableComponents.Actors
         public void GenerateBullet()
         {
             short direction = 1;
-            Vector2 position = this.Position + new Vector2(40f, 23f);
+            Vector2 position = this.Position + new Vector2(40f, 5f);
 
             if (this.Facing == SpriteEffects.FlipHorizontally)
             {
                 direction = -1;
-                position = this.Position + new Vector2(10f, 20f);
+                position = this.Position + new Vector2(10f, 5f);
             }
 
             BanditNormalProjectile proj = new BanditNormalProjectile(this.ParentScreen, this.SpriteBatch, position, this, direction);
             
-
         }
 
 
@@ -381,16 +395,6 @@ namespace WesternSpace.DrawableComponents.Actors
             }
         }
 
-        public new Rectangle Rectangle
-        {
-            get
-            {
-                int x = (int)(this.Position.X);
-                int y = (int)(this.Position.Y);
-                return new Rectangle(x, y, currentAnimation.FrameWidth, currentAnimation.FrameHeight);
-            }
-        }
-
         public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
         {
             IDamaging damage = characterCollidedWith as IDamaging;
@@ -420,3 +424,8 @@ namespace WesternSpace.DrawableComponents.Actors
         #endregion
      }
 }
+
+
+
+
+

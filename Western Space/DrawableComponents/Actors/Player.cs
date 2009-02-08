@@ -133,12 +133,21 @@ namespace WesternSpace.DrawableComponents.Actors
 
             //Initializes the player's hotspots.
             List<CollisionHotspot> hotspots = new List<CollisionHotspot>();
-            hotspots.Add(new CollisionHotspot(this, new Vector2(32, 3), HOTSPOT_TYPE.top));
+          /*hotspots.Add(new CollisionHotspot(this, new Vector2(32, 3), HOTSPOT_TYPE.top));
             hotspots.Add(new CollisionHotspot(this, new Vector2(20, 24), HOTSPOT_TYPE.left));
             hotspots.Add(new CollisionHotspot(this, new Vector2(20, 42), HOTSPOT_TYPE.left));
             hotspots.Add(new CollisionHotspot(this, new Vector2(36, 24), HOTSPOT_TYPE.right));
             hotspots.Add(new CollisionHotspot(this, new Vector2(36, 42), HOTSPOT_TYPE.right));
             hotspots.Add(new CollisionHotspot(this, new Vector2(30, 60), HOTSPOT_TYPE.bottom));
+        */
+           // hotspots.Add(new CollisionHotspot(this, new Vector2(3, -27), HOTSPOT_TYPE.top));
+              hotspots.Add(new CollisionHotspot(this, new Vector2(13, -27), HOTSPOT_TYPE.top));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(1, -6), HOTSPOT_TYPE.left));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(1, 12), HOTSPOT_TYPE.left));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(17, -6), HOTSPOT_TYPE.right));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(17, 12), HOTSPOT_TYPE.right));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(11, 30), HOTSPOT_TYPE.bottom));
+         
             Hotspots = hotspots;
 
             //Set up the ShotCoolDown Timer
@@ -155,6 +164,11 @@ namespace WesternSpace.DrawableComponents.Actors
 
             //Temp: Sets the input monitor up.
             input = InputMonitor.Instance;
+
+            //Set the Bounding Box Height and Width
+            this.boundingBoxHeight = 61;
+            this.boundingBoxWidth = 33;
+
         }
 
         /// <summary>
@@ -368,6 +382,15 @@ namespace WesternSpace.DrawableComponents.Actors
 
             NetForce += gravity / Mass;
 
+            if ((input.WasJustReleased(InputMonitor.RIGHT) || input.WasJustReleased(InputMonitor.LEFT)) && !isOnGround)
+            {
+                ApplyAirFriction();
+            }
+            else if ((!input.IsPressed(InputMonitor.RIGHT) && !input.IsPressed(InputMonitor.LEFT)) && isOnGround)
+            {
+                ApplyGroundFriction();
+            }
+
             // -- Check For Max Ascent of Jump -- //
             if (currentState.Contains("Jumping"))
             {
@@ -389,6 +412,14 @@ namespace WesternSpace.DrawableComponents.Actors
                     else if (!currentState.Contains("Shooting") && (Velocity.X == 0) && (Velocity.Y >= 0))
                     {
                         ChangeState("Idle");
+                    }
+                    else if (!currentState.Contains("Shooting") && (Velocity.X != 0))
+                    {
+                        ChangeState("Running");
+                    }
+                    else if (currentState.Contains("Shooting") && (Velocity.X != 0))
+                    {
+                        ChangeState("RunningShooting");
                     }
                 }
                 else
@@ -441,6 +472,8 @@ namespace WesternSpace.DrawableComponents.Actors
             /// -- Animation Player Update Frames -- ///
             animationPlayer.Update(gameTime);
 
+            Console.WriteLine("CURRENTSTATE: " + this.currentState + " VEL: " + this.Velocity + "IsONGROUND: "+isOnGround);
+
             base.Update(gameTime);
         }
 
@@ -463,7 +496,7 @@ namespace WesternSpace.DrawableComponents.Actors
         private void GenerateBullet()
         {
             short direction = 1;
-            Vector2 position = this.Position + new Vector2(40f, 23f);
+            Vector2 position = this.Position + new Vector2(40f, -5f);
 
             if (this.Facing == SpriteEffects.FlipHorizontally)
             {

@@ -29,7 +29,6 @@ namespace WesternSpace.DrawableComponents.Misc
         public SmallCactus(World world, SpriteBatch spriteBatch, Vector2 position) : base(world,spriteBatch,position)
         {
             boundingRectangle = new Rectangle((int)Position.X, (int)Position.Y, 24, 24);
-            this.ParentScreen.Components.Add(this);
 
             excitingCactusAnimation = new Animation("ActorXML\\SmallCactus", "ExcitingCactusAnimation");
             this.animationPlayer = new AnimationPlayer(spriteBatch, excitingCactusAnimation);
@@ -38,7 +37,6 @@ namespace WesternSpace.DrawableComponents.Misc
         public override void Initialize()
         {
             camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
-            this.World.SpriteCollisionManager.addObjectToRegisteredObjectList(this);
             base.Initialize();
         }
 

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <FlintBullet>
   <Animations>
-    <Animation AnimationKey="Bullet" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintBullet" FrameWidth="8" FrameHeight="7" IsOneShot="0" Parent="None">
+    <Animation AnimationKey="Bullet" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintBullet" FrameWidth="8" FrameHeight="7" CenterOffsetX="3" CenterOffsetY="4" IsOneShot="0" Parent="None">
       <Frame DisplayTime="100" SheetIndex="0" />
     </Animation>
   </Animations>

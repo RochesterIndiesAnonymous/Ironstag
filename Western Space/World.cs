@@ -253,7 +253,7 @@ namespace WesternSpace
             ParentScreen.Components.Add(player);
             spriteCollisionManager.addObjectToRegisteredObjectList(player);
 
-            EBandit bandit1 = new EBandit(this, sb, new Vector2(500, 79));
+            EBandit bandit1 = new EBandit(this, sb, new Vector2(500, 150));
 
             SmallCactus smallCactus1 = new SmallCactus(this, sb, new Vector2(700, 336));
 
