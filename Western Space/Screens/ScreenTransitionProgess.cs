@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WesternSpace.Screens
 {
-    public enum ScreenTransitionStateProgess
+    public enum ScreenTransitionProgess
     {
         Fading,
         Brightening

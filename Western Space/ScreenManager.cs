@@ -90,9 +90,7 @@ namespace WesternSpace
         /// </summary>
         private static ResolutionSettings fullScreenSettings;
 
-        private Effect alphaEffect;
-
-        private ScreenTransitionState transitionState;
+        private ScreenTransition transitionState;
 
         /// <summary>
         /// Holds our single reference to our game
@@ -163,8 +161,6 @@ namespace WesternSpace
 
             sb = new SpriteBatch(GraphicsDevice);
 
-            alphaEffect = this.Content.Load<Effect>("System\\Effects\\SetAlphaValue");
-
             /* //For profiling:
             this.IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = false;
@@ -198,35 +194,11 @@ namespace WesternSpace
 
             if (transitionState != null)
             {
-                if (transitionState.CurrentProgress == ScreenTransitionStateProgess.Fading && transitionState.CurrentAlphaValue <= 0.0f)
+                transitionState.Update();
+
+                if (transitionState.IsTransitionComplete)
                 {
-                    transitionState.CurrentProgress = ScreenTransitionStateProgess.Brightening;
-                    transitionState.CurrentAlphaValue = 0.0f;
-
-                    Screen screenToRemove = (from sc in this.ScreenList
-                                             where sc.Name == transitionState.FromScreenName
-                                             select sc).First();
-
-                    this.RemoveScreenFromDisplay(screenToRemove);
-
-                    if (transitionState.ResetGame)
-                    {
-                        this.screenList.Remove(screenToRemove);
-
-                        Screen gameScreen = new GameScreen(this, GameScreen.ScreenName);
-                        this.screenList.Add(gameScreen);
-                    }
-
-                    Screen screenToAdd = (from sc in this.ScreenList
-                                          where sc.Name == transitionState.ToScreenName
-                                          select sc).First();
-
-                    this.AddScreenToDisplay(screenToAdd);
-                }
-
-                if (transitionState.CurrentProgress == ScreenTransitionStateProgess.Brightening && transitionState.CurrentAlphaValue >= 1.0f)
-                {
-                    this.transitionState = null;
+                    transitionState = null;
                 }
             }
 
@@ -255,16 +227,11 @@ namespace WesternSpace
 
             graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 0.0f, 0);
 
-
-
             sb.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
 
             if (transitionState != null)
             {
-                alphaEffect.Parameters["AlphaValue"].SetValue(transitionState.CurrentAlphaValue);
-
-                alphaEffect.Begin();
-                alphaEffect.CurrentTechnique.Passes[0].Begin();
+                transitionState.BeginTransition();
             }
 
             GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.Point;
@@ -274,18 +241,9 @@ namespace WesternSpace
 
             if (transitionState != null)
             {
-                alphaEffect.CurrentTechnique.Passes[0].End();
-                alphaEffect.End();
-
-                if (transitionState.CurrentProgress == ScreenTransitionStateProgess.Fading)
-                {
-                    transitionState.CurrentAlphaValue -= transitionState.FadeAlphaStep;
-                }
-                else if (transitionState.CurrentProgress == ScreenTransitionStateProgess.Brightening)
-                {
-                    transitionState.CurrentAlphaValue += transitionState.BrightenAlphaStep;
-                }
+                transitionState.EndTransition();
             }
+
             sb.End();
         }
 
@@ -392,7 +350,7 @@ namespace WesternSpace
             this.Components.Add(batchService);
         }
 
-        public void Transition(ScreenTransitionState transition)
+        public void Transition(ScreenTransition transition)
         {
             Screen s = (from sc in this.ScreenList
                         where sc.Name == transition.FromScreenName

@@ -37,7 +37,7 @@ namespace WesternSpace.Screens
         {
             if (InputMonitor.Instance.WasJustReleased(InputMonitor.PAUSE) || InputMonitor.Instance.WasJustReleased(InputMonitor.JUMP))
             {
-                ScreenTransitionState sts = new ScreenTransitionState("TitleScreen", "Game", 0.01f, 0.01f, false);
+                ScreenTransition sts = new ScreenTransition("TitleScreen", "Game", 0.01f, 0.01f, false);
                 ScreenManager.Instance.Transition(sts);
             }
 
