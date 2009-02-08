@@ -107,8 +107,8 @@ namespace WesternSpace.Services
             {
                 if (!oldKeyboardState.IsKeyDown(Keys.F12))
                 {
-                    ScreenManager.Instance.RemoveScreen(GameScreen.ScreenName);
-                    ScreenManager.Instance.AddScreen(EditorScreen.ScreenName);
+                    ScreenManager.Instance.RemoveScreenFromDisplay(GameScreen.ScreenName);
+                    ScreenManager.Instance.AddScreenToDisplay(EditorScreen.ScreenName);
                 }
             }
 
@@ -116,8 +116,8 @@ namespace WesternSpace.Services
             {
                 if (!oldKeyboardState.IsKeyDown(Keys.F11))
                 {
-                    ScreenManager.Instance.RemoveScreen(EditorScreen.ScreenName);
-                    ScreenManager.Instance.AddScreen(GameScreen.ScreenName);
+                    ScreenManager.Instance.RemoveScreenFromDisplay(EditorScreen.ScreenName);
+                    ScreenManager.Instance.AddScreenToDisplay(GameScreen.ScreenName);
                 }
             }
 

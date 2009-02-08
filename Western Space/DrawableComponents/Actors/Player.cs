@@ -18,6 +18,7 @@ using WesternSpace.DrawableComponents.Projectiles;
 using WesternSpace.Interfaces;
 using System.Diagnostics;
 using WesternSpace.DrawableComponents.WorldObjects;
+using WesternSpace.DrawableComponents.Misc;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
@@ -503,6 +504,10 @@ namespace WesternSpace.DrawableComponents.Actors
                         }
                         hat.ChangeState("Fall");
 
+                        // trigger game over screen
+                        ISpriteBatchService batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
+                        GameOverContents goc = new GameOverContents(this.ParentScreen, batchService.GetSpriteBatch(GameOverContents.SpriteBatchName), new Vector2(0, 0));
+                        this.ParentScreen.Components.Add(goc);
                     }
                     else if (!animationPlayer.Animation.animationName.Equals(currentState))
                     {

@@ -72,6 +72,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -90,6 +91,7 @@
     <Compile Include="AnimationFramework\Frame.cs" />
     <Compile Include="DrawableComponents\EditorUI\WorldObjectMover.cs" />
     <Compile Include="DrawableComponents\EditorUI\WorldObjectPlacer.cs" />
+    <Compile Include="DrawableComponents\Misc\GameOverContents.cs" />
     <Compile Include="DrawableComponents\Misc\SmallCactus.cs" />
     <Compile Include="DrawableComponents\Misc\TitleScreenContents.cs" />
     <Compile Include="DrawableComponents\WorldObjects\FlintHat.cs" />

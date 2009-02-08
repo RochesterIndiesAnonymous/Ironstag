@@ -51,7 +51,15 @@ namespace WesternSpace.Screens
             set { currentAlphaValue = value; }
         }
 
-        public ScreenTransitionState(string fromScreenName, string toScreenName, float fadeAlphaStep, float brightenAlphaStep)
+        private bool resetGame;
+
+        public bool ResetGame
+        {
+            get { return resetGame; }
+            set { resetGame = value; }
+        }
+
+        public ScreenTransitionState(string fromScreenName, string toScreenName, float fadeAlphaStep, float brightenAlphaStep, bool resetGame)
         {
             this.fromScreenName = fromScreenName;
             this.toScreenName = toScreenName;
@@ -59,6 +67,7 @@ namespace WesternSpace.Screens
             this.brightenAlphaStep = brightenAlphaStep;
             this.currentAlphaValue = 1.0f;
             this.currentProgress = ScreenTransitionStateProgess.Fading;
+            this.resetGame = resetGame;
         }
     }
 }

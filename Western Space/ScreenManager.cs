@@ -209,6 +209,14 @@ namespace WesternSpace
 
                     this.RemoveScreenFromDisplay(screenToRemove);
 
+                    if (transitionState.ResetGame)
+                    {
+                        this.screenList.Remove(screenToRemove);
+
+                        Screen gameScreen = new GameScreen(this, GameScreen.ScreenName);
+                        this.screenList.Add(gameScreen);
+                    }
+
                     Screen screenToAdd = (from sc in this.ScreenList
                                           where sc.Name == transitionState.ToScreenName
                                           select sc).First();
@@ -297,7 +305,7 @@ namespace WesternSpace
         /// Adds a screen by its name.
         /// </summary>
         /// <param name="name">The name of the screen to add</param>
-        public void AddScreen(string name)
+        public void AddScreenToDisplay(string name)
         {
             Screen screenToAdd = (from screen in screenList
                                   where screen.Name == name
@@ -325,7 +333,7 @@ namespace WesternSpace
         /// Removes a screen by its name.
         /// </summary>
         /// <param name="name">The ame of the screen to remove</param>
-        public void RemoveScreen(string name)
+        public void RemoveScreenFromDisplay(string name)
         {
             IEnumerable<Screen> screens = (from component in this.Components
                                            where component is Screen
@@ -409,7 +417,7 @@ namespace WesternSpace
                 throw new ArgumentException("ToScreenName is not a known screen", "TransitionState.ToScreenName");
             }
 
-            if (this.Components.Contains(s))
+            if (!transition.ResetGame && this.Components.Contains(s))
             {
                 throw new ArgumentException("ToScreenName is currently being drawn to the screen", "TransitionState.ToScreenName");
             }
