@@ -10,16 +10,12 @@ using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.Screens;
 using WesternSpace.Utility;
 using WesternSpace.ServiceInterfaces;
-/*
- * Note: I forgot to make sure these calculations the sprite position and stuff need to happen 
- * in screen space
- */
 
 namespace WesternSpace.Collision
 {
     public class SpriteSpriteCollisionManager : DrawableGameComponent //GameComponent
     {
-        static int IDNumberCount = 0;
+        protected int IDNumberCounter = 0;
         static Boolean debug = true;
         // Object Collision Grid 
         protected CollisionObjectBin[,] objectCollisionGrid;
@@ -37,9 +33,14 @@ namespace WesternSpace.Collision
         {
             get { return objectBinsToCheck; }
         }
-        protected Dictionary<int, List<Point>> objBinLookupTable;        
-        SpriteBatch refSpriteBatch;
-        ICameraService camera;
+        // Dictionary of points that an object occupies
+        // int = object id number
+        // List<Point> = the object points that it occupies
+        protected Dictionary<int, List<Point>> objBinLookupTable;
+        // Reference to a spritebatch
+        protected SpriteBatch refSpriteBatch;
+        // Reference to the camera class
+        protected ICameraService camera;
         public SpriteSpriteCollisionManager(Game game, ISpriteBatchService spriteBatch, int binWidth, int binHeight)
             : base(game)
         {
@@ -90,10 +91,10 @@ namespace WesternSpace.Collision
             // add Object to Bins
             registeredObject.Add(collideableObject);
             // assigns a id number to object
-            collideableObject.IdNumber = IDNumberCount;
+            collideableObject.IdNumber = this.IDNumberCounter;
             //Debug.Print("Object Added to Registered List: " + collideableObject.IdNumber);
             // increments the idnumberCounter
-            IDNumberCount++;
+            IDNumberCounter++;
         }
         public void removeObjectFromRegisteredObjectList(ISpriteCollideable collideableObject)
         {
@@ -263,24 +264,36 @@ namespace WesternSpace.Collision
                 }
 
                 //Grids
+                int positionX = 0;
+                int positionY = 0;
                 for (int y = 0; y < gridHeight; y++)
                 {
                     for (int x = 0; x < gridWidth; x++)
                     {
                         if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects == 0)
+                        {
                             PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
-                                new Rectangle((x * this.binWidth) + (int)this.camera.VisibleArea.X,
-                                    (y * this.binHeight) + (int)this.camera.VisibleArea.Y, this.binWidth, this.binHeight), Color.Red);
+                                new Rectangle(positionX + (int)this.camera.VisibleArea.X,
+                                              positionY + (int)this.camera.VisibleArea.Y,
+                                              this.binWidth, this.binHeight), Color.Red);
+                        }
                         else if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects == 1)
+                        {
                             PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
-                                new Rectangle((x * this.binWidth) + (int)this.camera.VisibleArea.X,
-                                    (y * this.binHeight) + (int)this.camera.VisibleArea.Y, this.binWidth, this.binHeight), Color.Purple);
+                                new Rectangle(positionX + (int)this.camera.VisibleArea.X,
+                                              positionY + (int)this.camera.VisibleArea.Y,
+                                              this.binWidth, this.binHeight), Color.Purple);
+                        }
                         else if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects > 1)
                             PrimitiveDrawer.Instance.DrawSolidRect(refSpriteBatch,
-                                new Rectangle((x * this.binWidth) + (int)this.camera.VisibleArea.X,
-                                    (y * this.binHeight) + (int)this.camera.VisibleArea.Y, this.binWidth, this.binHeight), Color.Green);
+                                new Rectangle(positionX + (int)this.camera.VisibleArea.X,
+                                              positionY + (int)this.camera.VisibleArea.Y,
+                                              this.binWidth, this.binHeight), Color.Green);
+                        positionX += binWidth;
                     }
-                }
+                    positionX = 0;
+                    positionY += binHeight;
+                }               
             }     
             base.Draw(gameTime);
         }
@@ -310,7 +323,7 @@ namespace WesternSpace.Collision
             GetTextureData(collideableObjectA, out objectTextureDataA);
             GetTextureData(collideableObjectB, out objectTextureDataB);
             if (IntersectPixels(collideableObjectA.Rectangle, objectTextureDataA,
-                collideableObjectB.Rectangle, objectTextureDataB))
+                                collideableObjectB.Rectangle, objectTextureDataB))
             {
                 return true;
             }
