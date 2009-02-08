@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.DrawableComponents.Misc;
 using WesternSpace.Utility;
+using WesternSpace.Input;
 
 namespace WesternSpace
 {
@@ -70,6 +71,26 @@ namespace WesternSpace
         }
 
         /// <summary>
+        /// The game is currently in full screen mode
+        /// </summary>
+        private bool isFullScreen;
+
+        /// <summary>
+        /// The resolution settings to use when the game is running in windowed mode
+        /// </summary>
+        private static ResolutionSettings windowedSettings = new ResolutionSettings(320, 240, 640, 480, false);
+
+        public static ResolutionSettings WindowedSettings
+        {
+            get { return ScreenManager.windowedSettings; }
+        }
+
+        /// <summary>
+        /// The full screen settings to use when using full screen. This is calculated based on the main display of the user
+        /// </summary>
+        private static ResolutionSettings fullScreenSettings;
+
+        /// <summary>
         /// Holds our single reference to our game
         /// </summary>
         private static ScreenManager instance;
@@ -98,6 +119,8 @@ namespace WesternSpace
             // XNA does not like it if this is not created here.
             graphics = new GraphicsDeviceManager(this);
 
+            this.isFullScreen = false;
+
             screenList = new List<Screen>();
         }
 
@@ -109,8 +132,9 @@ namespace WesternSpace
         /// </summary>
         protected override void Initialize()
         {
+            fullScreenSettings = new ResolutionSettings(320, 240, this.GraphicsDevice.DisplayMode.Width, this.GraphicsDevice.DisplayMode.Height, true);
+
             //Initialization Logic
-            this.IsMouseVisible = true;
 
             // Set our XNA content directory
             Content.RootDirectory = "Content";
@@ -127,7 +151,7 @@ namespace WesternSpace
 
             this.AddScreenToDisplay(gameScreen);
 
-            resolutionService = new ScreenResolutionService(graphics, GameScreen.WindowedSettings );
+            resolutionService = new ScreenResolutionService(graphics, ScreenManager.WindowedSettings );
             this.Services.AddService(typeof(IScreenResolutionService), resolutionService);
 
             sb = new SpriteBatch(GraphicsDevice);
@@ -137,6 +161,7 @@ namespace WesternSpace
             graphics.SynchronizeWithVerticalRetrace = false;
             graphics.ApplyChanges();
             */
+
             // Initialize all components
             base.Initialize();
         }
@@ -148,6 +173,20 @@ namespace WesternSpace
         /// <param name="gameTime">Time relative to the game</param>
         protected override void Update(GameTime gameTime)
         {
+            if (InputMonitor.Instance.WasJustPressed("ToggleFullScreen"))
+            {
+                if (isFullScreen)
+                {
+                    isFullScreen = false;
+                    ResolutionService.CurrentResolutionSettings = windowedSettings;
+                }
+                else
+                {
+                    isFullScreen = true;
+                    ResolutionService.CurrentResolutionSettings = fullScreenSettings;
+                }
+            }
+
             base.Update(gameTime);
         }
 
@@ -261,6 +300,12 @@ namespace WesternSpace
             this.Services.AddService(typeof(IInputManagerService), input);
             this.Components.Add(input);
 #endif
+
+#if !XBOX
+            InputMonitor.Instance.AssignPressable("ToggleFullScreen", new PressableKey(Keys.F));
+#endif
+            this.Components.Add(InputMonitor.Instance);
+
             // create our layer service
             ILayerService layer = new LayerService();
             this.Services.AddService(typeof(ILayerService), layer);

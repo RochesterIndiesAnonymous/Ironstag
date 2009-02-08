@@ -28,30 +28,6 @@ namespace WesternSpace.Screens
         private ISpriteBatchService batchService;
         private World world;
 
-        private bool isFullScreen;
-
-        /* MOVED TO WORLD:
-        public SpriteTileCollisionManager tileCollisionManager;
-        public SpriteSpriteCollisionManager spriteCollisionManager;
-        */
-
-        private InputMonitor inputMonitor;
-
-        /// <summary>
-        /// The resolution settings to use when the game is running in windowed mode
-        /// </summary>
-        private static ResolutionSettings windowedSettings = new ResolutionSettings(320, 240, 640, 480, false);
-
-        public static ResolutionSettings WindowedSettings
-        {
-            get { return GameScreen.windowedSettings; }
-        }
-
-        /// <summary>
-        /// The full screen settings to use when using full screen. This is calculated based on the main display of the user
-        /// </summary>
-        private static ResolutionSettings fullScreenSettings;
-
         public World World
         {
             get { return world; }
@@ -60,7 +36,6 @@ namespace WesternSpace.Screens
         public GameScreen(Game game, string name)
             : base(game, name)
         {
-            this.isFullScreen = false;
         }
 
         /// <summary>
@@ -75,24 +50,15 @@ namespace WesternSpace.Screens
             {
                 tileEngine = new TileEngine();
 
-                fullScreenSettings = new ResolutionSettings(320, 240, this.Game.GraphicsDevice.DisplayMode.Width, this.Game.GraphicsDevice.DisplayMode.Height, true);
-
                 // CreateSprites needs the animation data service
                 // animationDataService = (IAnimationDataService)this.Game.Services.GetService(typeof(IAnimationDataService));
                 batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
-
-                // Set up editor controls:
-                inputMonitor = InputMonitor.Instance;
-#if !XBOX
-                inputMonitor.AssignPressable("ToggleFullScreen", new PressableKey(Keys.F));
-#endif
-                Components.Add(inputMonitor);
 
                 CreateLayerComponents();
 
                 CreateSprites();
 
-                //CreateDebuggingInformationComponents();
+                CreateDebuggingInformationComponents();
 
                 // Initialize all components
                 base.Initialize();
@@ -101,20 +67,6 @@ namespace WesternSpace.Screens
 
         public override void Update(GameTime gameTime)
         {
-            if (inputMonitor.WasJustPressed("ToggleFullScreen"))
-            {
-                if (isFullScreen)
-                {
-                    isFullScreen = false;
-                    ScreenManager.Instance.ResolutionService.CurrentResolutionSettings = windowedSettings;
-                }
-                else
-                {
-                    isFullScreen = true;
-                    ScreenManager.Instance.ResolutionService.CurrentResolutionSettings = fullScreenSettings;
-                }
-            }
-
             base.Update(gameTime);
         }
 

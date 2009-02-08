@@ -596,20 +596,9 @@ namespace WesternSpace.DrawableComponents.Actors
             }
         }
 
-        /* MOVED TO CHARACTER
-        public Rectangle Rectangle
-        {
-            get 
-            {
-                int x = (int)(this.Position.X);
-                int y = (int)(this.Position.Y);
-                return new Rectangle(x, y, this.AnimationPlayer.Animation.FrameWidth, this.AnimationPlayer.Animation.FrameHeight);
-            }
-        }*/
-
         public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
         {
-#if !XBOX || !DEBUG
+#if !XBOX && DEBUG
             Debug.Print("Player Hit By: " + characterCollidedWith.IdNumber);
 #endif
             IDamaging damage = characterCollidedWith as IDamaging;

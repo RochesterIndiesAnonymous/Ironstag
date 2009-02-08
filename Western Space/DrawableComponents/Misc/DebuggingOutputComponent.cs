@@ -69,7 +69,7 @@ namespace WesternSpace.DrawableComponents.Misc
             this.Enabled = false;
 
             //Setup the font
-            font = this.Game.Content.Load<SpriteFont>("Fonts\\Pala");
+            font = this.Game.Content.Load<SpriteFont>("System\\Fonts\\Pala");
 
             base.Initialize();
         }

@@ -70,6 +70,7 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml">
       <Private>False</Private>
@@ -95,6 +96,7 @@
     <Compile Include="Input\PressableKey.cs" />
     <Compile Include="Input\IPressable.cs" />
     <Compile Include="Physics\IPhysical.cs" />
+    <Compile Include="Screens\TitleScreen.cs" />
     <Compile Include="Utility\RectangleF2.cs" />
     <Compile Include="WorldObject.cs" />
     <Compile Include="Collision\CollisionHotspot.cs" />

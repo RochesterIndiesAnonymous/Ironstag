@@ -59,12 +59,12 @@
     <Compile Include="AnimationFramework\Animation.cs" />
     <Compile Include="AnimationFramework\AnimationPlayer.cs" />
     <Compile Include="AnimationFramework\Frame.cs" />
-    <Compile Include="DrawableComponents\EditorUI\WorldObjectMover.cs" />
-    <Compile Include="DrawableComponents\EditorUI\WorldObjectPlacer.cs" />
+    <Compile Include="DrawableComponents\Misc\SmallCactus.cs" />
     <Compile Include="DrawableGameObject.cs" />
     <Compile Include="Input\PressableButton.cs" />
     <Compile Include="Input\IPressable.cs" />
     <Compile Include="Physics\IPhysical.cs" />
+    <Compile Include="Screens\TitleScreen.cs" />
     <Compile Include="Utility\RectangleF2.cs" />
     <Compile Include="WorldObject.cs" />
     <Compile Include="Collision\CollisionHotspot.cs" />
