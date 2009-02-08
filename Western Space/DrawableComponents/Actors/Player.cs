@@ -483,7 +483,7 @@ namespace WesternSpace.DrawableComponents.Actors
                         }
                         else
                         {
-                            velocity += deathPushBack;
+                            velocity = deathPushBack;
                         }
 
                         if (hat == null)

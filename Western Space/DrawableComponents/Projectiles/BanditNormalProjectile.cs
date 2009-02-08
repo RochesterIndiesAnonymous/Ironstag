@@ -24,7 +24,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         /// <summary>
         /// The amount of damage a single projectile does to the player
         /// </summary>
-        private static readonly int Damage = 100;
+        private static readonly int Damage = 25;
         
         /// <summary>
         /// The speed of the projectile

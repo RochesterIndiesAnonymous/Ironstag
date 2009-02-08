@@ -284,10 +284,10 @@ namespace WesternSpace.DrawableComponents.WorldObjects
             }
 
             #region FOR DEBUGGING COLLISION
-            foreach (CollisionHotspot hotspot in Hotspots)
+          /*  foreach (CollisionHotspot hotspot in Hotspots)
             {
                 PrimitiveDrawer.Instance.DrawLine(SpriteBatch, hotspot.WorldPosition, hotspot.WorldPosition + new Vector2(1, 1), Color.Black);
-            }
+            }*/
             #endregion
         }
 
