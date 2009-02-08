@@ -242,6 +242,7 @@ namespace WesternSpace.DrawableComponents.Actors
                     if (!currentState.Contains("Jumping"))
                     {
                         ApplyGroundMove(direction);
+
                         if (!currentState.Contains("Shooting"))
                         {
                             ChangeState("Running");
@@ -391,6 +392,9 @@ namespace WesternSpace.DrawableComponents.Actors
                 ApplyGroundFriction();
             }
 
+            // -- Handle Physics -- //
+            PhysicsHandler.ApplyPhysics(this);
+
             // -- Check For Max Ascent of Jump -- //
             if (currentState.Contains("Jumping"))
             {
@@ -444,6 +448,7 @@ namespace WesternSpace.DrawableComponents.Actors
                     if(isOnGround && currentState.Equals("DeadAir"))
                     {
                         ChangeState("DeadAirGround");
+                        this.Velocity = Vector2.Zero;
                     }
                 }
                 else if(currentState.Equals("Hit"))
@@ -453,6 +458,7 @@ namespace WesternSpace.DrawableComponents.Actors
                         if (isOnGround)
                         {
                             ChangeState("Dead");
+                            this.Velocity = Vector2.Zero;
                         }
                         else
                         {
@@ -466,13 +472,10 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
             }
 
-            // -- Handle Physics -- //
-            PhysicsHandler.ApplyPhysics(this);
-
             /// -- Animation Player Update Frames -- ///
             animationPlayer.Update(gameTime);
 
-            Console.WriteLine("CURRENTSTATE: " + this.currentState + " VEL: " + this.Velocity + "IsONGROUND: "+isOnGround);
+           //Console.WriteLine("CURRENTSTATE: " + this.currentState + " VEL: " + this.Velocity + "IsONGROUND: "+isOnGround);
 
             base.Update(gameTime);
         }
@@ -496,12 +499,12 @@ namespace WesternSpace.DrawableComponents.Actors
         private void GenerateBullet()
         {
             short direction = 1;
-            Vector2 position = this.Position + new Vector2(40f, -5f);
+            Vector2 position = this.Position + new Vector2(10, -11f);
 
             if (this.Facing == SpriteEffects.FlipHorizontally)
             {
                 direction = -1;
-                position = this.Position - new Vector2(1f, -25f);
+                position = this.Position - new Vector2(25f, 13f);
             }
 
             FlintNormalProjectile proj = new FlintNormalProjectile(this.ParentScreen, this.SpriteBatch, position, this, direction);

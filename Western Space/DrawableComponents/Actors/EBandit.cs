@@ -293,6 +293,16 @@ namespace WesternSpace.DrawableComponents.Actors
 
             shootTimer += (float)(gameTime.TotalRealTime.TotalSeconds%3.1);
 
+            if (World.Player.Position.X < this.position.X)
+            {
+                facing = SpriteEffects.FlipHorizontally;
+            }
+            else
+            {
+                facing = SpriteEffects.None;
+            }
+
+            //Shoot Logic
             if (shootTimer >= shootTimeSpan)
             {
                 Shoot();
@@ -307,12 +317,12 @@ namespace WesternSpace.DrawableComponents.Actors
         public void GenerateBullet()
         {
             short direction = 1;
-            Vector2 position = this.Position + new Vector2(40f, 5f);
+            Vector2 position = this.Position + new Vector2(23f, -15f);
 
             if (this.Facing == SpriteEffects.FlipHorizontally)
             {
                 direction = -1;
-                position = this.Position + new Vector2(10f, 5f);
+                position = this.Position + new Vector2(-23f, -15);
             }
 
             BanditNormalProjectile proj = new BanditNormalProjectile(this.ParentScreen, this.SpriteBatch, position, this, direction);

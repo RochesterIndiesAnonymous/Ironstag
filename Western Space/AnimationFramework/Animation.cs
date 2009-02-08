@@ -78,15 +78,6 @@ namespace WesternSpace.AnimationFramework
             get { return isLooping; }
         }
 
-        // Determines if the animation should return to
-        // the previous animation when it finishes playing.
-        bool isOneShot;
-
-        public bool IsOneShot
-        {
-            get { return isOneShot; }
-        }
-
         /// <summary>
         /// Determines if the animation is the default 
         /// animation or not.
@@ -216,10 +207,6 @@ namespace WesternSpace.AnimationFramework
 
                     centerOffsetY = Int32.Parse(animation.Attribute("CenterOffsetY").Value);
 
-                    //Check if this animation is a One Shot or not.
-                    int oneShotInt = 0;
-                    oneShotInt = Int32.Parse(animation.Attribute("IsOneShot").Value);
-
                     //"Convert" the ints to booleans
                     if (loopInt == 0)
                     {
@@ -228,15 +215,6 @@ namespace WesternSpace.AnimationFramework
                     else
                     {
                         this.isLooping = true;
-                    }
-
-                    if (oneShotInt == 0)
-                    {
-                        this.isOneShot = false;
-                    }
-                    else
-                    {
-                        this.isOneShot = true;
                     }
 
                     this.parentName= animation.Attribute("Parent").Value;

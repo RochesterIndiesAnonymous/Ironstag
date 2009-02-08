@@ -224,7 +224,7 @@ namespace WesternSpace.AnimationFramework
             }
 
             //If the Animation is finished and was a oneshot, play the default animation
-            if (Animation.IsOneShot && isDonePlaying())
+            if ((Animation.parentName != "None") && isDonePlaying())
             {
                 PlayAnimation(animation.parentAnimation, currentFrame.FrameIndex, animation.parentAnimation.FrameCount - 1);
             }

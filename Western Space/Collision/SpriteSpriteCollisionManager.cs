@@ -16,7 +16,7 @@ namespace WesternSpace.Collision
     public class SpriteSpriteCollisionManager : DrawableGameComponent //GameComponent
     {
         protected int IDNumberCounter = 0;
-        static Boolean debug = true;
+        static Boolean debug = false;
         // Object Collision Grid 
         protected CollisionObjectBin[,] objectCollisionGrid;
         // Number Of Bins

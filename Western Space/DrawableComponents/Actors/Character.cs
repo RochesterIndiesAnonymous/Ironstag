@@ -75,7 +75,6 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
                 else
                 {
-                    //Fuck if I know
                     return Vector2.Zero;
                 }
             }
@@ -158,8 +157,26 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             get 
             {
-                return new Rectangle((int)Position.X-currentAnimation.CenterOffsetX, (int)Position.Y-CurrentAnimation.CenterOffsetY,
-                    boundingBoxWidth, boundingBoxHeight);                    
+
+                if (facing.Equals(SpriteEffects.None))
+                {
+                    return new Rectangle( (int)(position.X - currentAnimation.CenterOffsetX), (int)(position.Y - currentAnimation.CenterOffsetY), boundingBoxWidth, boundingBoxHeight);
+                }
+                else if (facing.Equals(SpriteEffects.FlipHorizontally))
+                {
+                    return new Rectangle((int)(position.X - (boundingBoxWidth - currentAnimation.CenterOffsetX)), (int)(position.Y - currentAnimation.CenterOffsetY), boundingBoxWidth, boundingBoxHeight);
+                }
+                else if (facing.Equals(SpriteEffects.FlipVertically))
+                {
+                    return new Rectangle();
+                }
+                else
+                {
+                    return new Rectangle();
+                }
+
+                //return new Rectangle((int)Position.X-currentAnimation.CenterOffsetX, (int)Position.Y-CurrentAnimation.CenterOffsetY,
+                  //  boundingBoxWidth, boundingBoxHeight);                    
             }
         }
 
@@ -305,7 +322,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="direction">The direction the object is facing. Right = 1, Left = -1</param>
         public void ApplyGroundMove(int direction)
         {
-            velocity.X = (direction * groundVelocity.X);
+                velocity.X = (direction * groundVelocity.X);
         }
 
         /// <summary>
@@ -314,7 +331,10 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="direction">The direction the object is facing. Right = 1, Left = -1</param>
         public void ApplyAirMove(int direction)
         {
-            velocity.X = (direction * airVelocity.X);
+            if (!currentState.Contains("Dead"))
+            {
+                velocity.X = (direction * airVelocity.X);
+            }
         }
 
         /// <summary>
