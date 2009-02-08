@@ -222,7 +222,7 @@ namespace WesternSpace.Collision
                     }
                 }
             }
-            // make a copy of the bins to check
+            // Make a copy of the bins to check so when a bin is removed the loop doesnt freak out 
             IEnumerable<CollisionObjectBin> objBinsToCheckCopy = objectBinsToCheck.ToList();
             // Scan all bins on the Object List to be Checked
             foreach (CollisionObjectBin gameObjBin in objBinsToCheckCopy)
@@ -248,19 +248,10 @@ namespace WesternSpace.Collision
         {
             if (debug)
             {
-                ////Characters
+                // Draw a Rectangle around the characters
                 foreach (ISpriteCollideable collidableSprite in registeredObject)
                 {
-                    PrimitiveDrawer.Instance.DrawRect(refSpriteBatch, collidableSprite.Rectangle, Color.Blue);
-                    PrimitiveDrawer.Instance.DrawLine(refSpriteBatch,
-                        new Vector2(collidableSprite.Rectangle.X, collidableSprite.Rectangle.Y),
-                        new Vector2(collidableSprite.Rectangle.X + 2, collidableSprite.Rectangle.Y), Color.White);
-                    PrimitiveDrawer.Instance.DrawLine(refSpriteBatch,
-                        new Vector2(collidableSprite.Rectangle.Right, collidableSprite.Rectangle.Y),
-                        new Vector2(collidableSprite.Rectangle.Right + 2, collidableSprite.Rectangle.Y), Color.White);
-                    PrimitiveDrawer.Instance.DrawLine(refSpriteBatch,
-                        new Vector2(collidableSprite.Rectangle.X, collidableSprite.Rectangle.Bottom),
-                        new Vector2(collidableSprite.Rectangle.X + 2, collidableSprite.Rectangle.Bottom), Color.White);
+                    PrimitiveDrawer.Instance.DrawRect(refSpriteBatch, collidableSprite.Rectangle, Color.Blue);               
                 }
 
                 //Grids
@@ -285,10 +276,12 @@ namespace WesternSpace.Collision
                                               this.binWidth, this.binHeight), Color.Purple);
                         }
                         else if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects > 1)
+                        {
                             PrimitiveDrawer.Instance.DrawSolidRect(refSpriteBatch,
                                 new Rectangle(positionX + (int)this.camera.VisibleArea.X,
                                               positionY + (int)this.camera.VisibleArea.Y,
                                               this.binWidth, this.binHeight), Color.Green);
+                        }
                         positionX += binWidth;
                     }
                     positionX = 0;
