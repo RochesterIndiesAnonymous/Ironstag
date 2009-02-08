@@ -68,21 +68,15 @@ namespace WesternSpace.Collision
         }
         public Boolean findOutIfObjectIsInCameraSpace(ISpriteCollideable collideableObject)
         {
-            if (findOutIfPointIsInCameraSpace(new Vector2(
-                collideableObject.Rectangle.Left,
-                collideableObject.Rectangle.Top)) &&
-            findOutIfPointIsInCameraSpace(new Vector2(
-                collideableObject.Rectangle.Right,
-                collideableObject.Rectangle.Bottom)))
-            {
-                return true;
-            }
+            if (findOutIfPointIsInCameraSpace(collideableObject.Rectangle.Left, collideableObject.Rectangle.Top) &&
+                findOutIfPointIsInCameraSpace(collideableObject.Rectangle.Right, collideableObject.Rectangle.Bottom))            
+                return true;            
             return false;
         }
-        public Boolean findOutIfPointIsInCameraSpace(Vector2 vector)
+        public Boolean findOutIfPointIsInCameraSpace(float x, float y)
         {
-            if (vector.X >= camera.VisibleArea.Left && vector.X < camera.VisibleArea.Right &&
-                vector.Y >= camera.VisibleArea.Top  && vector.Y < camera.VisibleArea.Bottom)
+            if (x >= camera.VisibleArea.Left && x < camera.VisibleArea.Right &&
+                y >= camera.VisibleArea.Top && y < camera.VisibleArea.Bottom)
                 return true;
             return false;
         }
@@ -104,18 +98,16 @@ namespace WesternSpace.Collision
             // Debug.Print("Object Removed from Registered List: " + collideableObject.IdNumber);
             // Removes the registered Object
             registeredObject.Remove(collideableObject);
-
         }
         protected void OnAddObjectToBin(ISpriteCollideable collideableObject, List<Point> listOfObjectBinCoord)
         {
-                foreach (Point binCoord in listOfObjectBinCoord)
-                {
-                    // Add Object to Object Collision Grid
-                    this.objectCollisionGrid[binCoord.X, binCoord.Y].OnObjectAdded(collideableObject);
-                }
-                //// Update Look Up Table               
-                this.objBinLookupTable[collideableObject.IdNumber] = listOfObjectBinCoord;
-        
+            foreach (Point binCoord in listOfObjectBinCoord)
+            {
+                // Add Object to Object Collision Grid
+                this.objectCollisionGrid[binCoord.X, binCoord.Y].OnObjectAdded(collideableObject);
+            }
+            //// Update Look Up Table               
+            this.objBinLookupTable[collideableObject.IdNumber] = listOfObjectBinCoord;
         }
         protected void OnRemoveObjectFromBin(ISpriteCollideable collideableObject, List<Point> listOfObjectBinCoord)
         {
@@ -126,8 +118,7 @@ namespace WesternSpace.Collision
                     this.objectCollisionGrid[binCoord.X, binCoord.Y].OnObjectRemoved(collideableObject);
             }
             //// Update Object Look Up Table               
-            this.objBinLookupTable[collideableObject.IdNumber] = listOfObjectBinCoord;
-            
+            this.objBinLookupTable[collideableObject.IdNumber] = listOfObjectBinCoord;            
         }
         public Point xformScreenCoordToBinCoord(Vector2 vector)
         {
@@ -259,7 +250,7 @@ namespace WesternSpace.Collision
                 int positionY = 0;
                 for (int y = 0; y < gridHeight; y++)
                 {
-                    for (int x = 0; x < gridWidth; x++)
+                    for (int x = 0; x < gridWidth; x++)                    
                     {
                         if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects == 0)
                         {
@@ -272,7 +263,7 @@ namespace WesternSpace.Collision
                         {
                             PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
                                 new Rectangle(positionX + (int)this.camera.VisibleArea.X,
-                                              positionY + (int)this.camera.VisibleArea.Y,
+                                              positionY + (int)this.camera.VisibleArea.Y, 
                                               this.binWidth, this.binHeight), Color.Purple);
                         }
                         else if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects > 1)
