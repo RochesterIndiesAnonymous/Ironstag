@@ -178,9 +178,12 @@ namespace WesternSpace.DrawableComponents.Actors
             input = InputMonitor.Instance;
 
             //Set the Bounding Box Height and Width
+            // Lou note: We should define this in XML.
             this.boundingBoxHeight = 61;
             this.boundingBoxWidth = 33;
-
+            this.boundingBoxOffset = new Vector2();
+            this.boundingBoxOffset.X = boundingBoxWidth/2;
+            this.boundingBoxOffset.Y = boundingBoxHeight/2;
         }
 
         /// <summary>
@@ -637,12 +640,6 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
             }
         }
-
-        #endregion
-        
-
-        #region ISpriteCollideable Members
-
 
         public SpriteEffects collideableFacing
         {

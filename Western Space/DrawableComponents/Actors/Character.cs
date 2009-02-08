@@ -56,6 +56,8 @@ namespace WesternSpace.DrawableComponents.Actors
 
         protected int boundingBoxHeight;
 
+        protected Vector2 boundingBoxOffset;
+
         public Vector2 UpperLeft
         {
             get
@@ -159,11 +161,11 @@ namespace WesternSpace.DrawableComponents.Actors
 
                 if (facing.Equals(SpriteEffects.None))
                 {
-                    return new Rectangle( (int)(position.X - currentAnimation.CenterOffsetX), (int)(position.Y - currentAnimation.CenterOffsetY), boundingBoxWidth, boundingBoxHeight);
+                    return new Rectangle((int)(position.X - boundingBoxOffset.X), (int)(position.Y - boundingBoxOffset.Y), boundingBoxWidth, boundingBoxHeight);
                 }
                 else if (facing.Equals(SpriteEffects.FlipHorizontally))
                 {
-                    return new Rectangle((int)(position.X - (boundingBoxWidth - currentAnimation.CenterOffsetX)), (int)(position.Y - currentAnimation.CenterOffsetY), boundingBoxWidth, boundingBoxHeight);
+                    return new Rectangle((int)(position.X - (boundingBoxWidth - boundingBoxOffset.X)), (int)(position.Y - boundingBoxOffset.Y), boundingBoxWidth, boundingBoxHeight);
                 }
                 else if (facing.Equals(SpriteEffects.FlipVertically))
                 {
@@ -229,7 +231,7 @@ namespace WesternSpace.DrawableComponents.Actors
             this.roleMap = new Dictionary<string, Role>();
 	        //idNumber = idNumberCount;
             //idNumberCount++;
-
+            this.boundingBoxOffset = new Vector2();
             //Set up the Roles for this Character
         }
 
@@ -433,13 +435,14 @@ namespace WesternSpace.DrawableComponents.Actors
             animationPlayer.Draw(gameTime, this.SpriteBatch, UpperLeft, facing);
 
             
-        /*    #region FOR DEBUGGING COLLISION
+            #region FOR DEBUGGING COLLISION
             foreach (CollisionHotspot hotspot in Hotspots)
             {
                 PrimitiveDrawer.Instance.DrawLine(SpriteBatch, hotspot.WorldPosition, hotspot.WorldPosition + new Vector2(1, 1), Color.Black);
             }
+            PrimitiveDrawer.Instance.DrawRect(SpriteBatch, Rectangle, Color.Black);
             #endregion
-        */    
+            
         }
 
         #endregion
