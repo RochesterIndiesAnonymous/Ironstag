@@ -90,6 +90,10 @@ namespace WesternSpace
         /// </summary>
         private static ResolutionSettings fullScreenSettings;
 
+        private Effect alphaEffect;
+
+        private ScreenTransitionState transitionState;
+
         /// <summary>
         /// Holds our single reference to our game
         /// </summary>
@@ -145,16 +149,21 @@ namespace WesternSpace
             // create our screens
             Screen editorScreen = new EditorScreen(this, EditorScreen.ScreenName);
             this.screenList.Add(editorScreen);
-#endif   
+#endif
             Screen gameScreen = new GameScreen(this, GameScreen.ScreenName);
             this.screenList.Add(gameScreen);
 
-            this.AddScreenToDisplay(gameScreen);
+            Screen titleScreen = new TitleScreen();
+            this.screenList.Add(titleScreen);
 
-            resolutionService = new ScreenResolutionService(graphics, ScreenManager.WindowedSettings );
+            this.AddScreenToDisplay(titleScreen);
+
+            resolutionService = new ScreenResolutionService(graphics, ScreenManager.WindowedSettings);
             this.Services.AddService(typeof(IScreenResolutionService), resolutionService);
 
             sb = new SpriteBatch(GraphicsDevice);
+
+            alphaEffect = this.Content.Load<Effect>("System\\Effects\\SetAlphaValue");
 
             /* //For profiling:
             this.IsFixedTimeStep = false;
@@ -187,6 +196,32 @@ namespace WesternSpace
                 }
             }
 
+            if (transitionState != null)
+            {
+                if (transitionState.CurrentProgress == ScreenTransitionStateProgess.Fading && transitionState.CurrentAlphaValue <= 0.0f)
+                {
+                    transitionState.CurrentProgress = ScreenTransitionStateProgess.Brightening;
+                    transitionState.CurrentAlphaValue = 0.0f;
+
+                    Screen screenToRemove = (from sc in this.ScreenList
+                                             where sc.Name == transitionState.FromScreenName
+                                             select sc).First();
+
+                    this.RemoveScreenFromDisplay(screenToRemove);
+
+                    Screen screenToAdd = (from sc in this.ScreenList
+                                          where sc.Name == transitionState.ToScreenName
+                                          select sc).First();
+
+                    this.AddScreenToDisplay(screenToAdd);
+                }
+
+                if (transitionState.CurrentProgress == ScreenTransitionStateProgess.Brightening && transitionState.CurrentAlphaValue >= 1.0f)
+                {
+                    this.transitionState = null;
+                }
+            }
+
             base.Update(gameTime);
         }
 
@@ -195,7 +230,7 @@ namespace WesternSpace
         /// </summary>
         /// <param name="gameTime">Time relative to the game</param>
         protected override void Draw(GameTime gameTime)
-        {            
+        {
             graphics.GraphicsDevice.SetRenderTarget(0, resolutionService.RenderTarget);
 
             GraphicsDevice.Clear(Color.Black);
@@ -211,12 +246,38 @@ namespace WesternSpace
             Texture2D screen = resolutionService.RenderTarget.GetTexture();
 
             graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 0.0f, 0);
-     
+
+
+
             sb.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
+
+            if (transitionState != null)
+            {
+                alphaEffect.Parameters["AlphaValue"].SetValue(transitionState.CurrentAlphaValue);
+
+                alphaEffect.Begin();
+                alphaEffect.CurrentTechnique.Passes[0].Begin();
+            }
+
             GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.Point;
             GraphicsDevice.SamplerStates[0].MinFilter = TextureFilter.Point;
             GraphicsDevice.SamplerStates[0].MipFilter = TextureFilter.Point;
             sb.Draw(screen, resolutionService.ScaleRectangle, Color.White);
+
+            if (transitionState != null)
+            {
+                alphaEffect.CurrentTechnique.Passes[0].End();
+                alphaEffect.End();
+
+                if (transitionState.CurrentProgress == ScreenTransitionStateProgess.Fading)
+                {
+                    transitionState.CurrentAlphaValue -= transitionState.FadeAlphaStep;
+                }
+                else if (transitionState.CurrentProgress == ScreenTransitionStateProgess.Brightening)
+                {
+                    transitionState.CurrentAlphaValue += transitionState.BrightenAlphaStep;
+                }
+            }
             sb.End();
         }
 
@@ -271,8 +332,8 @@ namespace WesternSpace
                                            select component).Cast<Screen>();
 
             Screen screenToRemove = (from screen in screens
-                                    where screen.Name == name
-                                    select screen).FirstOrDefault();
+                                     where screen.Name == name
+                                     select screen).FirstOrDefault();
 
             if (screenToRemove != null && this.Components.Contains(screenToRemove))
             {
@@ -321,6 +382,39 @@ namespace WesternSpace
             batchService.UpdateOrder = 2;
             this.Services.AddService(typeof(ISpriteBatchService), batchService);
             this.Components.Add(batchService);
+        }
+
+        public void Transition(ScreenTransitionState transition)
+        {
+            Screen s = (from sc in this.ScreenList
+                        where sc.Name == transition.FromScreenName
+                        select sc).FirstOrDefault();
+
+            if (s == null)
+            {
+                throw new ArgumentException("FromScreenName is not a known screen", "TransitionState.FromScreenName");
+            }
+
+            if (!this.Components.Contains(s))
+            {
+                throw new ArgumentException("FromScreenName is currently not being drawn to the screen", "TransitionState.FromScreenName");
+            }
+
+            s = (from sc in this.ScreenList
+                 where sc.Name == transition.ToScreenName
+                 select sc).FirstOrDefault();
+
+            if (s == null)
+            {
+                throw new ArgumentException("ToScreenName is not a known screen", "TransitionState.ToScreenName");
+            }
+
+            if (this.Components.Contains(s))
+            {
+                throw new ArgumentException("ToScreenName is currently being drawn to the screen", "TransitionState.ToScreenName");
+            }
+
+            this.transitionState = transition;
         }
     }
 }

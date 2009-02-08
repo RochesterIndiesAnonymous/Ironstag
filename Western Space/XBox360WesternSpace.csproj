@@ -60,11 +60,14 @@
     <Compile Include="AnimationFramework\AnimationPlayer.cs" />
     <Compile Include="AnimationFramework\Frame.cs" />
     <Compile Include="DrawableComponents\Misc\SmallCactus.cs" />
+    <Compile Include="DrawableComponents\Misc\TitleScreenContents.cs" />
     <Compile Include="DrawableComponents\WorldObjects\FlintHat.cs" />
     <Compile Include="DrawableGameObject.cs" />
     <Compile Include="Input\PressableButton.cs" />
     <Compile Include="Input\IPressable.cs" />
     <Compile Include="Physics\IPhysical.cs" />
+    <Compile Include="Screens\ScreenTransitionState.cs" />
+    <Compile Include="Screens\ScreenTransitionStateProgess.cs" />
     <Compile Include="Screens\TitleScreen.cs" />
     <Compile Include="Utility\RectangleF2.cs" />
     <Compile Include="WorldObject.cs" />
