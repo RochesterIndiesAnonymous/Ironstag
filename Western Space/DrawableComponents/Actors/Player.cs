@@ -100,7 +100,12 @@ namespace WesternSpace.DrawableComponents.Actors
         private bool invincible = false;
 
         private int invincibilityTimer = 0;
+
         private const int INVINCIBILITY_TIME_SPAN = 1000;
+
+        private TimeSpan gameOverTimer = TimeSpan.Zero;
+
+        private bool gameOverDisplayed = false;
 
         /// <summary>
         /// Constructor for Flint Ironstag.
@@ -505,17 +510,28 @@ namespace WesternSpace.DrawableComponents.Actors
                             hat = new FlintHat(this.ParentScreen, this.World, this.SpriteBatch, position, this);
                         }
                         hat.ChangeState("Fall");
-
-                        // trigger game over screen
-                        ISpriteBatchService batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
-                        GameOverContents goc = new GameOverContents(this.ParentScreen, batchService.GetSpriteBatch(GameOverContents.SpriteBatchName), new Vector2(0, 0));
-                        this.ParentScreen.Components.Add(goc);
                     }
                     else if (!animationPlayer.Animation.animationName.Equals(currentState))
                     {
                         ChangeState(animationPlayer.Animation.animationName);
                     }
                 }
+            }
+
+            if (hat != null && hat.AnimationPlayer.isDonePlaying() && gameOverTimer == TimeSpan.Zero && !gameOverDisplayed)
+            {
+                gameOverTimer = gameTime.TotalRealTime;
+            }
+
+            TimeSpan timerCheck = gameTime.TotalRealTime - gameOverTimer;
+
+            if(gameOverTimer != TimeSpan.Zero && !gameOverDisplayed && timerCheck.Seconds >= 2)
+            {
+                // trigger game over screen
+                ISpriteBatchService batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
+                GameOverContents goc = new GameOverContents(this.ParentScreen, batchService.GetSpriteBatch(GameOverContents.SpriteBatchName), new Vector2(0, 0));
+                this.ParentScreen.Components.Add(goc);
+                gameOverDisplayed = true;
             }
 
             // -- Check Invincibility Timer -- //
@@ -635,9 +651,11 @@ namespace WesternSpace.DrawableComponents.Actors
                     }
                     currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
 
-                   if (damageItem is Projectile && !currentState.Contains("Dead"))
+                    Projectile p = damageItem as Projectile;
+
+                    if (p != null && !currentState.Contains("Dead"))
                     {
-                        this.World.RemoveWorldObject(damageItem as Projectile);
+                        this.World.RemoveWorldObject(p);
                         Dispose();
                     }
             }

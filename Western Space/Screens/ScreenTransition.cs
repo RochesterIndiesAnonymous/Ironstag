@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using WesternSpace.ServiceInterfaces;
+using Microsoft.Xna.Framework;
 
 namespace WesternSpace.Screens
 {
@@ -90,13 +92,23 @@ namespace WesternSpace.Screens
 
                     Screen gameScreen = new GameScreen(ScreenManager.Instance, GameScreen.ScreenName);
                     ScreenManager.Instance.ScreenList.Add(gameScreen);
+
+                    ICameraService camera = (ICameraService)ScreenManager.Instance.Services.GetService(typeof(ICameraService));
+                    camera.Position = new Vector2(0, 0);
+
                 }
 
                 Screen screenToAdd = (from sc in ScreenManager.Instance.ScreenList
                                       where sc.Name == this.ToScreenName
                                       select sc).First();
 
+                screenToAdd.Enabled = false;
                 ScreenManager.Instance.AddScreenToDisplay(screenToAdd);
+            }
+
+            if (this.IsTransitionComplete)
+            {
+                this.EnableNewScreen();
             }
         }
 
@@ -121,6 +133,15 @@ namespace WesternSpace.Screens
             {
                 this.currentAlphaValue += this.brightenAlphaStep;
             }
+        }
+
+        private void EnableNewScreen()
+        {
+            Screen screenToAdd = (from sc in ScreenManager.Instance.ScreenList
+                                  where sc.Name == this.ToScreenName
+                                  select sc).First();
+
+            screenToAdd.Enabled = true;
         }
     }
 }
