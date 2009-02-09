@@ -99,6 +99,9 @@ namespace WesternSpace.DrawableComponents.Actors
 
         private bool invincible = false;
 
+        private int invincibilityTimer = 0;
+        private const int INVINCIBILITY_TIME_SPAN = 1000;
+
         /// <summary>
         /// Constructor for Flint Ironstag.
         /// </summary>
@@ -519,15 +522,13 @@ namespace WesternSpace.DrawableComponents.Actors
             // -- Check Invincibility Timer -- //
             if (invincible)
             {
-                float invincibilityTimer = 0f, invincibilityTimeSpan = 1.0f;
-
-                invincibilityTimer += (float)(gameTime.TotalRealTime.TotalSeconds % 1.015);
+                invincibilityTimer += (gameTime.ElapsedGameTime.Milliseconds);
                 this.Visible = !this.Visible;
 
-                if (invincibilityTimer >= invincibilityTimeSpan)
+                if (invincibilityTimer >= INVINCIBILITY_TIME_SPAN)
                 {
                     invincible = false;
-                    invincibilityTimer = 0f;
+                    invincibilityTimer = 0;
                     this.Visible = true;
                 }
             }
@@ -565,7 +566,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 position = this.Position - new Vector2(25f, 13f);
             }
 
-            FlintNormalProjectile proj = new FlintNormalProjectile(this.ParentScreen, this.SpriteBatch, position, this, direction);
+            FlintNormalProjectile proj = new FlintNormalProjectile(this.world, this.SpriteBatch, position, this, direction);
         }
 
         #region IDamageable Members
@@ -634,6 +635,12 @@ namespace WesternSpace.DrawableComponents.Actors
                         Velocity = hitPushBack;
                     }
                     currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
+
+                   if (damageItem is Projectile && !currentState.Contains("Dead"))
+                    {
+                        this.World.RemoveWorldObject(damageItem as Projectile);
+                        Dispose();
+                    }
             }
         }
 

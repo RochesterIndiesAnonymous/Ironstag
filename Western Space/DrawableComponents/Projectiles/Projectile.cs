@@ -18,7 +18,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
     /// <summary>
     /// Manages the the creation, updating, drawing, and destruction of a projectile
     /// </summary>
-    public class Projectile : DrawableGameObject, ISpriteCollideable, IDamaging, IDisposable
+    public class Projectile : WorldObject, ISpriteCollideable, IDamaging, IDisposable
     {
         /// <summary>
         /// The speed at which this projectile moves across the screen
@@ -63,9 +63,9 @@ namespace WesternSpace.DrawableComponents.Projectiles
         /// </summary>
         private GameScreen gameScreen;
 
-        public Projectile(Screen screen, SpriteBatch batch, Vector2 position, Texture2D texture, short direction,
+        public Projectile(World world, SpriteBatch batch, Vector2 position, Texture2D texture, short direction,
             Vector2 velocity, object owner, DamageCategory doesDamageTo, int amountOfDamage)
-            : base(screen, batch, position)
+            : base(world, batch, position)
         {
 
             this.texture = texture;
@@ -82,9 +82,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
                 facing = SpriteEffects.FlipHorizontally;
             }
 
-            gameScreen = (GameScreen)screen;
-
-            this.ParentScreen.Components.Add(this);
+            this.World.AddWorldObject(this);
         }
 
         /// <summary>
@@ -92,7 +90,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         /// </summary>
         public override void Initialize()
         {
-            this.gameScreen.World.SpriteCollisionManager.addObjectToRegisteredObjectList(this);
+
             //Debug.Print("Added Projectile");
             base.Initialize();
         }
@@ -104,11 +102,10 @@ namespace WesternSpace.DrawableComponents.Projectiles
         public override void Update(GameTime gameTime)
         {
             // check to see if we are outside the camera.
-            if (this.Position.X > gameScreen.World.Camera.VisibleArea.X + gameScreen.World.Camera.VisibleArea.Width || this.Position.X + this.texture.Width < gameScreen.World.Camera.VisibleArea.X)
+            if (this.Position.X > this.World.Camera.VisibleArea.X + this.World.Camera.VisibleArea.Width || this.Position.X + this.texture.Width < this.World.Camera.VisibleArea.X)
             {
                 // This allows the bullet to be garbage collected. Verified that garbage collection happens on 2/1/2009
-                this.gameScreen.World.SpriteCollisionManager.removeObjectFromRegisteredObjectList(this);
-                this.ParentScreen.Components.Remove(this);
+                this.World.RemoveWorldObject(this);
                 this.Dispose();
                 return;
             }
@@ -195,9 +192,9 @@ namespace WesternSpace.DrawableComponents.Projectiles
             if (damage != null && damage.TakesDamageFrom != this.DoesDamageTo)
             {
                 // we hit
-                this.gameScreen.World.SpriteCollisionManager.removeObjectFromRegisteredObjectList(this);
+               /* this.gameScreen.World.SpriteCollisionManager.removeObjectFromRegisteredObjectList(this);
                 this.ParentScreen.Components.Remove(this);
-                this.Dispose();
+                this.Dispose(); */
             }
         }
 

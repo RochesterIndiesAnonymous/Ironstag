@@ -323,12 +323,19 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             if (this.TakesDamageFrom != damageItem.DoesDamageTo)
             {
+
+                if (damageItem is Projectile && !currentState.Equals("Dead"))
+                {
+                    this.World.RemoveWorldObject(damageItem as Projectile);
+                    Dispose();
+                }
                 currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
                 if (currentHealth <= 0)
                 {
                     //NetForce += gravity / Mass;
                     ChangeState("Dead");
                 }
+
             }
         }
 

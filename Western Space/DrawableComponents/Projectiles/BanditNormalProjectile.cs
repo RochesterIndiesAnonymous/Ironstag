@@ -40,8 +40,8 @@ namespace WesternSpace.DrawableComponents.Projectiles
         /// <param name="position">The position of the projectile in world coordinates</param>
         /// <param name="owner">The character that fired this projectile</param>
         /// <param name="direction">The direction that is projectile is moving. 1 to the right, -1 to left</param>
-        public BanditNormalProjectile(Screen screen, SpriteBatch batch, Vector2 position, object owner, short direction)
-            : base(screen, batch, position, texture, direction, BanditNormalProjectile.Velocity,
+        public BanditNormalProjectile(World world, SpriteBatch batch, Vector2 position, object owner, short direction)
+            : base(world, batch, position, texture, direction, BanditNormalProjectile.Velocity,
                 owner, DamageCategory.Player, BanditNormalProjectile.Damage)
         {
         }

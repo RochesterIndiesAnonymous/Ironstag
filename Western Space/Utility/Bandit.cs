@@ -29,14 +29,14 @@ namespace WesternSpace.Utility
             Animation idle = new Animation(xmlFile, IDLE);
             Animation running = new Animation(xmlFile, RUNNING);
             Animation shooting = new Animation(xmlFile, SHOOTING);
-            //Animation dead = new Animation(xmlFile, DEAD);
+            Animation dead = new Animation(xmlFile, DEAD);
             //Animation hit = new Animation(xmlFile, HIT);
 
 
             this.animationMap.Add(IDLE, idle);
             this.animationMap.Add(RUNNING, running);
             this.animationMap.Add(SHOOTING, shooting);
-            //this.animationMap.Add(DEAD, dead);
+            this.animationMap.Add(DEAD, dead);
             //this.animationMap.Add(HIT, hit);
         }
     }

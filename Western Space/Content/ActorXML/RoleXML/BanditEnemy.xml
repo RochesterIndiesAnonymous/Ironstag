@@ -32,5 +32,11 @@
       <Frame DisplayTime="550" SheetIndex="0" />
       <Frame DisplayTime="83" SheetIndex="1" />
     </Animation>
+    <Animation AnimationKey="Dead" IsLoop="0" SpriteSheet="Textures\\Enemies\\BanditDead" FrameWidth="64" FrameHeight="61" CenterOffsetX="17" CenterOffsetY="31" Parent="None">
+      <Frame DisplayTime="250" SheetIndex="0" />
+      <Frame DisplayTime="70" SheetIndex="1" />
+      <Frame DisplayTime="83" SheetIndex="2" />
+      <Frame DisplayTime="83" SheetIndex="3" />
+    </Animation>
   </Animations>
 </Bandit>

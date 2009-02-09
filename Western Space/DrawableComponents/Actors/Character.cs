@@ -58,6 +58,8 @@ namespace WesternSpace.DrawableComponents.Actors
 
         protected Vector2 boundingBoxOffset;
 
+        protected World world;
+
         public Vector2 UpperLeft
         {
             get
@@ -232,6 +234,8 @@ namespace WesternSpace.DrawableComponents.Actors
 	        //idNumber = idNumberCount;
             //idNumberCount++;
             this.boundingBoxOffset = new Vector2();
+
+            this.world = world;
             //Set up the Roles for this Character
         }
 

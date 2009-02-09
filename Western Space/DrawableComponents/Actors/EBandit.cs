@@ -263,6 +263,10 @@ namespace WesternSpace.DrawableComponents.Actors
                 animationPlayer.Update(gameTime);
                 base.Update(gameTime);
             }
+            else if(currentState.Contains("Dead"))
+            {
+
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -292,24 +296,27 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="gameTime">The time the game has been running.</param>
         private void banditAI(GameTime gameTime)
         {
-            float shootTimer = 0f, shootTimeSpan = 3.0f;
-
-            shootTimer += (float)(gameTime.TotalRealTime.TotalSeconds%3.1);
-
-            if (World.Player.Position.X < this.position.X)
+            if (!currentState.Contains("Dead") && !world.Player.CurrentState.Contains("Dead"))
             {
-                facing = SpriteEffects.FlipHorizontally;
-            }
-            else
-            {
-                facing = SpriteEffects.None;
-            }
+                float shootTimer = 0f, shootTimeSpan = 3.0f;
 
-            //Shoot Logic
-            if (shootTimer >= shootTimeSpan)
-            {
-                Shoot();
-                shootTimer = 0f;
+                shootTimer += (float)(gameTime.TotalRealTime.TotalSeconds % 3.1);
+
+                if (World.Player.Position.X < this.position.X)
+                {
+                    facing = SpriteEffects.FlipHorizontally;
+                }
+                else
+                {
+                    facing = SpriteEffects.None;
+                }
+
+                //Shoot Logic
+                if (shootTimer >= shootTimeSpan)
+                {
+                    Shoot();
+                    shootTimer = 0f;
+                }
             }
 
         }
@@ -328,7 +335,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 position = this.Position + new Vector2(-23f, -15);
             }
 
-            BanditNormalProjectile proj = new BanditNormalProjectile(this.ParentScreen, this.SpriteBatch, position, this, direction);
+            BanditNormalProjectile proj = new BanditNormalProjectile(this.World, this.SpriteBatch, position, this, direction);
             
         }
 
@@ -387,6 +394,17 @@ namespace WesternSpace.DrawableComponents.Actors
             if (this.TakesDamageFrom != damageItem.DoesDamageTo)
             {
                 currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
+
+                if (damageItem is Projectile && !currentState.Equals("Dead"))
+                {
+                    this.World.RemoveWorldObject(damageItem as Projectile);
+                    Dispose();
+                }
+
+                if (currentHealth <= 0)
+                {
+                    ChangeState("Dead");
+                }
             }
         }
 
