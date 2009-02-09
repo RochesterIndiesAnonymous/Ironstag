@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<World InteractiveMapFileName="TileMapXML\\BigTileMap" PlayerPositionX="395" PlayerPositionY="106">
+<World InteractiveMapFileName="TileMapXML\\BigTileMap" PlayerPositionX="423" PlayerPositionY="284">
   <MapLayer LayerName="" LayerIndex="0" ZIndex="-10" />
   <MapLayer LayerName="" LayerIndex="1" ZIndex="10" />
+  <o n="Explosion" x="0" y="0" />
+  <o n="Explosion" x="0" y="0" />
+  <o n="Explosion" x="0" y="0" />
   <o n="EVulture" x="0" y="0" />
   <o n="EVulture" x="0" y="0" />
   <o n="EVulture" x="311" y="61" />
@@ -85,13 +88,90 @@
   <o n="EVulture" x="781" y="89" />
   <o n="EVulture" x="799" y="89" />
   <o n="EVulture" x="846" y="138" />
-  <o n="EVulture" x="884" y="182" />
+  <o n="EVulture" x="800" y="172" />
   <o n="EVulture" x="873" y="129" />
   <o n="EVulture" x="808" y="-5" />
   <o n="EVulture" x="765" y="-1" />
   <o n="EBandit" x="532" y="223" />
-  <o n="EBandit" x="587" y="226" />
+  <o n="EBandit" x="584" y="209" />
   <o n="EBandit" x="632" y="229" />
   <o n="EBandit" x="309" y="228" />
   <o n="EBandit" x="344" y="229" />
+  <o n="ExplosiveBarrel" x="554" y="250" />
+  <o n="ExplosiveBarrel" x="577" y="249" />
+  <o n="ExplosiveBarrel" x="599" y="250" />
+  <o n="ExplosiveBarrel" x="621" y="250" />
+  <o n="ExplosiveBarrel" x="614" y="230" />
+  <o n="ExplosiveBarrel" x="591" y="230" />
+  <o n="ExplosiveBarrel" x="569" y="229" />
+  <o n="ExplosiveBarrel" x="580" y="207" />
+  <o n="ExplosiveBarrel" x="602" y="208" />
+  <o n="ExplosiveBarrel" x="593" y="185" />
+  <o n="ExplosiveBarrel" x="789" y="347" />
+  <o n="ExplosiveBarrel" x="812" y="346" />
+  <o n="ExplosiveBarrel" x="836" y="345" />
+  <o n="ExplosiveBarrel" x="859" y="347" />
+  <o n="ExplosiveBarrel" x="882" y="346" />
+  <o n="ExplosiveBarrel" x="903" y="347" />
+  <o n="ExplosiveBarrel" x="925" y="346" />
+  <o n="ExplosiveBarrel" x="947" y="345" />
+  <o n="ExplosiveBarrel" x="967" y="345" />
+  <o n="ExplosiveBarrel" x="990" y="346" />
+  <o n="ExplosiveBarrel" x="1013" y="346" />
+  <o n="ExplosiveBarrel" x="803" y="327" />
+  <o n="ExplosiveBarrel" x="826" y="326" />
+  <o n="ExplosiveBarrel" x="849" y="327" />
+  <o n="ExplosiveBarrel" x="872" y="327" />
+  <o n="ExplosiveBarrel" x="895" y="326" />
+  <o n="ExplosiveBarrel" x="915" y="326" />
+  <o n="ExplosiveBarrel" x="939" y="324" />
+  <o n="ExplosiveBarrel" x="961" y="323" />
+  <o n="ExplosiveBarrel" x="979" y="322" />
+  <o n="ExplosiveBarrel" x="1002" y="325" />
+  <o n="ExplosiveBarrel" x="984" y="302" />
+  <o n="ExplosiveBarrel" x="964" y="302" />
+  <o n="ExplosiveBarrel" x="945" y="299" />
+  <o n="ExplosiveBarrel" x="926" y="302" />
+  <o n="ExplosiveBarrel" x="903" y="302" />
+  <o n="ExplosiveBarrel" x="880" y="303" />
+  <o n="ExplosiveBarrel" x="857" y="305" />
+  <o n="ExplosiveBarrel" x="836" y="306" />
+  <o n="ExplosiveBarrel" x="813" y="306" />
+  <o n="ExplosiveBarrel" x="827" y="283" />
+  <o n="ExplosiveBarrel" x="851" y="283" />
+  <o n="ExplosiveBarrel" x="870" y="281" />
+  <o n="ExplosiveBarrel" x="892" y="280" />
+  <o n="ExplosiveBarrel" x="916" y="281" />
+  <o n="ExplosiveBarrel" x="939" y="278" />
+  <o n="ExplosiveBarrel" x="959" y="278" />
+  <o n="ExplosiveBarrel" x="949" y="256" />
+  <o n="ExplosiveBarrel" x="925" y="256" />
+  <o n="ExplosiveBarrel" x="903" y="257" />
+  <o n="ExplosiveBarrel" x="883" y="257" />
+  <o n="ExplosiveBarrel" x="860" y="258" />
+  <o n="ExplosiveBarrel" x="837" y="258" />
+  <o n="ExplosiveBarrel" x="853" y="234" />
+  <o n="ExplosiveBarrel" x="877" y="237" />
+  <o n="ExplosiveBarrel" x="899" y="234" />
+  <o n="ExplosiveBarrel" x="920" y="233" />
+  <o n="ExplosiveBarrel" x="941" y="233" />
+  <o n="ExplosiveBarrel" x="868" y="215" />
+  <o n="ExplosiveBarrel" x="889" y="213" />
+  <o n="ExplosiveBarrel" x="911" y="213" />
+  <o n="ExplosiveBarrel" x="931" y="213" />
+  <o n="ExplosiveBarrel" x="881" y="194" />
+  <o n="ExplosiveBarrel" x="978" y="278" />
+  <o n="ExplosiveBarrel" x="970" y="256" />
+  <o n="ExplosiveBarrel" x="962" y="236" />
+  <o n="ExplosiveBarrel" x="954" y="213" />
+  <o n="ExplosiveBarrel" x="903" y="192" />
+  <o n="ExplosiveBarrel" x="925" y="192" />
+  <o n="ExplosiveBarrel" x="947" y="192" />
+  <o n="ExplosiveBarrel" x="893" y="172" />
+  <o n="ExplosiveBarrel" x="916" y="171" />
+  <o n="ExplosiveBarrel" x="939" y="172" />
+  <o n="ExplosiveBarrel" x="927" y="151" />
+  <o n="ExplosiveBarrel" x="905" y="151" />
+  <o n="ExplosiveBarrel" x="918" y="131" />
+  <o n="EBandit" x="922" y="90" />
 </World>

@@ -87,7 +87,7 @@ namespace WesternSpace.Collision
             // assigns a id number to object
             collideableObject.IdNumber = this.IDNumberCounter;
             //Debug.Print("Object Added to Registered List: " + collideableObject.IdNumber);
-            // increments the idnumberCounter
+            // increments the idnumberCounter 
             IDNumberCounter++;
         }
         public void removeObjectFromRegisteredObjectList(ISpriteCollideable collideableObject)

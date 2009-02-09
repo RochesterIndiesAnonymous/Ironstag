@@ -58,6 +58,11 @@ namespace WesternSpace.AnimationFramework
             get { return centerOffsetY; }
         }
 
+        public Vector2 CenterOffset
+        {
+            get { return new Vector2(centerOffsetX, centerOffsetY); }
+        }
+
         // A collection containing all of the frames to be used
         // in this Animation.
         private List<Frame> frames;

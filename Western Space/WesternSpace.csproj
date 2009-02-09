@@ -92,6 +92,7 @@
     <Compile Include="DrawableComponents\Actors\EVulture.cs" />
     <Compile Include="DrawableComponents\EditorUI\WorldObjectMover.cs" />
     <Compile Include="DrawableComponents\EditorUI\WorldObjectPlacer.cs" />
+    <Compile Include="DrawableComponents\Misc\Explosion.cs" />
     <Compile Include="DrawableComponents\Misc\GameOverContents.cs" />
     <Compile Include="DrawableComponents\Misc\SmallCactus.cs" />
     <Compile Include="DrawableComponents\Misc\TitleScreenContents.cs" />

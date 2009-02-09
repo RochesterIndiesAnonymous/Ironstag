@@ -136,6 +136,13 @@ namespace WesternSpace.Screens
             Game.IsMouseVisible = true;
         }
 
+        private int offsetX, offsetY;
+
+        public Vector2 Offset
+        {
+            get { return new Vector2(offsetX * World.Map.TileWidth, offsetY * World.Map.TileHeight); }
+        }
+
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -174,10 +181,8 @@ namespace WesternSpace.Screens
                 TileMap map = world.Map;
 
                 // Compute the point where we want to blit it onto the empty map:
-                int offsetX, offsetY;
-
-                offsetX = (bigMap.Width / 2) - (map.Width / 2);
-                offsetY = (bigMap.Height / 2) - (map.Height / 2);
+                this.offsetX = (bigMap.Width / 2) - (map.Width / 2);
+                this.offsetY = (bigMap.Height / 2) - (map.Height / 2);
 
                 bigMap.BlitTileMap(map, offsetX, offsetY);
 
