@@ -19,7 +19,7 @@ namespace WesternSpace.Collision
     // between the objects. It currently supports Bounding Box Algorithm
     public class SpriteSpriteCollisionManager : DrawableGameComponent //GameComponent
     {        
-        static Boolean debug = true;
+        static Boolean debug = false;
         // IDNumberCounter gets incremented every time a new object is added
         protected int IDNumberCounter = 0;
         // Object Collision Grid 

@@ -101,7 +101,7 @@ namespace WesternSpace.DrawableComponents.Misc
 
         float IDamaging.AmountOfDamage
         {
-            get { return 1; }
+            get { return 10; }
         }
 
         #endregion
