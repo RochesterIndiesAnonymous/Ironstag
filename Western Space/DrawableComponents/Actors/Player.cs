@@ -522,11 +522,13 @@ namespace WesternSpace.DrawableComponents.Actors
                 float invincibilityTimer = 0f, invincibilityTimeSpan = 1.0f;
 
                 invincibilityTimer += (float)(gameTime.TotalRealTime.TotalSeconds % 1.015);
+                this.Visible = !this.Visible;
 
                 if (invincibilityTimer >= invincibilityTimeSpan)
                 {
                     invincible = false;
                     invincibilityTimer = 0f;
+                    this.Visible = true;
                 }
             }
 
