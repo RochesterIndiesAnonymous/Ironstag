@@ -96,7 +96,7 @@ namespace WesternSpace.Collision
             //Debug.Print("Object Added to Registered List: " + collideableObject.IdNumber);
         }
         // Removes an object from the registered object list
-        // the object is removed immediately
+        // the object is removed on the next update
         public void removeObjectFromRegisteredObjectList(ISpriteCollideable collideableObject)
         {
             // Removes the object from the registered object list           
@@ -148,8 +148,7 @@ namespace WesternSpace.Collision
                 if (binCoord.X >= 0 && binCoord.X < gridWidth && binCoord.Y >= 0 && binCoord.Y < gridHeight)
                     this.objectCollisionGrid[binCoord.X, binCoord.Y].OnObjectRemoved(collideableObject);
             }
-            // Update Object Look Up Table               
-            //this.objBinLookupTable[collideableObject.IdNumber] = listOfObjectBinCoord;            
+            // Remove from Object Look Up Table                         
             this.objBinLookupTable.Remove(collideableObject.IdNumber);
         }
         // Transform World Coordinates to Bin Coordinates
@@ -204,7 +203,7 @@ namespace WesternSpace.Collision
         }
         public override void Update(GameTime gameTime)
         {
-            // This is the list of registered game objects
+            // I make a copy of the registeredObjectList so i can remove things from the real one
             IEnumerable<ISpriteCollideable> registeredObjectCopy = registeredObject.ToList();            
             List<Point> newCoords;
             List<Point> oldCoords;
@@ -218,14 +217,13 @@ namespace WesternSpace.Collision
                     // Removes any object that has been flagged for removal
                     if (collideableGameObject.removeFromRegistrationList)
                     {                        
-                        // Remove Object from Bins
+                        // Remove a flagged Object from Bins
                         this.OnRemoveObjectFromBin(collideableGameObject, oldCoords);
                         // Remove Object from Registration List
                         this.registeredObject.Remove(collideableGameObject);
                         continue;
                     }
-                    // if we find out an object is not in camera space
-                    // we remove it from the bins
+                    // if we find an object is not the cameras view we remove it from the bins
                     if (!findOutIfObjectIsInCameraSpace(collideableGameObject))
                         OnRemoveObjectFromBin(collideableGameObject, oldCoords);
                     else
@@ -251,8 +249,7 @@ namespace WesternSpace.Collision
                 // run after the camera is created
                 else
                 {
-                    // first we find out if the object is in the
-                    // cameraspace
+                    // first we find out if the object is in the cameras view
                     if (findOutIfObjectIsInCameraSpace(collideableGameObject))
                     {
                         //Debug.Print("Camera Pos:\n>" + camera.VisibleArea.ToString() +
@@ -261,6 +258,7 @@ namespace WesternSpace.Collision
                         //    camera.VisibleArea.Top + "," + camera.VisibleArea.Bottom + "}" +
                         //    "Sprite Pos: \n>" + gameObj.Rectangle.ToString()
                         //);
+                        // Then we add it to a objectbin
                         this.OnAddObjectToBin(collideableGameObject, newCoords);
                     }
                 }
