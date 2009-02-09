@@ -319,7 +319,7 @@ namespace WesternSpace.DrawableComponents.Actors
         ///</summary>
         readonly Vector2 airVelocity = new Vector2(2f, 0f);
 
-        readonly Vector2 jumpVelocity = new Vector2(0f, 10f);
+        readonly Vector2 jumpVelocity = new Vector2(0f, 1f);
 
 
         /// <summary>
@@ -346,9 +346,9 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// Applies the set jump velocity to a velocity vector.
         /// </summary>
-        public void ApplyJump()
+        public void ApplyJump(float pressedTime)
         {
-            velocity.Y -= jumpVelocity.Y;
+            velocity.Y += pressedTime*(-1)*jumpVelocity.Y;
         }
 
         public virtual void ApplyGroundFriction()

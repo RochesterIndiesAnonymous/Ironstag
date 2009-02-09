@@ -93,6 +93,10 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         private int shotDelay;
 
+        bool reachedMaxJump = false;
+
+        readonly float maxJumpHeight = -6f;
+
         /// Flint's hat object for use in the dying animation.
         /// </summary>
         private FlintHat hat;
@@ -234,15 +238,49 @@ namespace WesternSpace.DrawableComponents.Actors
         /// Called when the player presses the jump button. If the player is already
         /// in a jumping state then no action is to occurr.
         /// </summary>
-        private void Jump()
+        private void StartJump()
         {
+           // Console.WriteLine("PLAYER VEL: " + velocity+" REACHED MAX: "+reachedMaxJump+" MAX JUMP VEL: "+maxJumpHeight);
             if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
             {
                 if (!currentState.Contains("Jumping") && !currentState.Contains("Falling"))
                 {
-                    ApplyJump();
+                   // Console.WriteLine("START JUMP INVOKED");
+                    ApplyJump(1);
                     ChangeState("JumpingAscent");
                     isOnGround = false;
+                    reachedMaxJump = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when the player presses the jump button. If the player is already
+        /// in a jumping state then no action is to occurr.
+        /// </summary>
+        private void Jump(int pressedTime)
+        {
+
+           // Console.WriteLine("PLAYER VEL: " + velocity+" REACHED MAX: "+reachedMaxJump+" MAX JUMP VEL: "+maxJumpHeight);
+            if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
+            {
+                if (!currentState.Contains("Descent") && !currentState.Contains("Falling"))
+                {
+                    if (pressedTime > 0 && !reachedMaxJump)
+                    {
+                        ApplyJump(1);
+                    }
+                    else
+                    {
+                        ApplyJump(0);
+                        reachedMaxJump = true;
+                    }
+
+                    if (velocity.Y <= maxJumpHeight)
+                    {
+                        //Console.WriteLine("Reached Max: " + velocity.Y + " MAX JUMP: " + maxJumpHeight);
+                        reachedMaxJump = true;
+                    }
                 }
             }
         }
@@ -407,7 +445,18 @@ namespace WesternSpace.DrawableComponents.Actors
             }
             if (input.WasJustPressed(InputMonitor.JUMP))
             {
-                Jump();
+                Console.WriteLine("JUMP WASJUSTPRESSED  --Pressed Time: "+input.GetPressedTime(InputMonitor.JUMP));
+                StartJump();
+            }
+            else if (input.WasJustReleased(InputMonitor.JUMP))
+            {
+                Console.WriteLine("JUMP WASJUSTRELEASED  --Pressed Time: "+input.GetPressedTime(InputMonitor.JUMP));
+                Jump(input.GetPressedTime(InputMonitor.JUMP));
+            }
+            else if (input.IsPressed(InputMonitor.JUMP))
+            {
+                Console.WriteLine("JUMP ISPRESSED  --Pressed Time: "+input.GetPressedTime(InputMonitor.JUMP));
+                Jump(input.GetPressedTime(InputMonitor.JUMP));
             }
 
             // -- Apply the Effects of Various Forces -- //

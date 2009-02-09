@@ -145,7 +145,7 @@ namespace WesternSpace.DrawableComponents.Actors
             {
                 if (!currentState.Contains("Jumping") && !currentState.Contains("Falling"))
                 {
-                    ApplyJump();
+                    ApplyJump(1);
                     ChangeState("JumpingAscent");
                     isOnGround = false;
                 }
