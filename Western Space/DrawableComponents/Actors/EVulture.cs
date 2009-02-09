@@ -183,11 +183,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="gameTime">The time the game has been running.</param>
         public override void Update(GameTime gameTime)
         {
-            if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
-            {
-                // -- AI -- //
-                vultureAI(gameTime);
-
+           
                 NetForce += gravity / Mass;
 
                 // -- Check for Final State Changes -- //
@@ -214,7 +210,13 @@ namespace WesternSpace.DrawableComponents.Actors
                 // -- Animation Player Update Frames -- //
                 animationPlayer.Update(gameTime);
                 base.Update(gameTime);
-            }
+
+                if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
+                {
+                    // -- AI -- //
+                    vultureAI(gameTime);
+                }
+
         }
 
         public override void Draw(GameTime gameTime)

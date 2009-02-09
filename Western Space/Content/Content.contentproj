@@ -423,13 +423,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\LargeCactus1.png">
-      <Name>LargeCactus1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\TNTBarrel.png">
       <Name>TNTBarrel</Name>
       <Importer>TextureImporter</Importer>
@@ -446,6 +439,13 @@
   <ItemGroup>
     <Compile Include="Textures\Enemies\BanditDead.png">
       <Name>BanditDead</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Enemies\LargeCactus1.png">
+      <Name>LargeCactus1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

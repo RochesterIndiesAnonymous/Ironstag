@@ -226,46 +226,42 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="gameTime">The time the game has been running.</param>
         public override void Update(GameTime gameTime)
         {
+            // --- Check For Max Ascent of Jump -- //
+            if (currentState.Contains("Jumping"))
+            {
+                if ((-0.5 <= Velocity.Y) || (Velocity.Y <= 0.8))
+                {
+                    ChangeState("JumpingDescent");
+                }
+            }
+
+            NetForce += gravity / Mass;
+
+            // -- Check for Final State Changes -- //
+            if ((Velocity.X == 0) && isOnGround && !currentState.Contains("Dead") && !currentState.Equals("Hit"))
+            {
+
+                if (animationPlayer.Animation.animationName.Equals("Idle") && !currentState.Equals("Idle"))
+                {
+                    ChangeState("Idle");
+                }
+                else if (!currentState.Contains("Shooting"))
+                {
+                    ChangeState("Idle");
+                }
+            }
+
+            // -- Handle Physics -- //
+            PhysicsHandler.ApplyPhysics(this);
+
+            // -- Animation Player Update Frames -- //
+            animationPlayer.Update(gameTime);
+            base.Update(gameTime);
+
             if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
             {
                 // -- AI -- //
                 banditAI(gameTime);
-
-                // --- Check For Max Ascent of Jump -- //
-                if (currentState.Contains("Jumping"))
-                {
-                    if ((-0.5 <= Velocity.Y) || (Velocity.Y <= 0.8))
-                    {
-                        ChangeState("JumpingDescent");
-                    }
-                }
-
-                NetForce += gravity / Mass;
-
-                // -- Check for Final State Changes -- //
-                if ((Velocity.X == 0) && isOnGround && !currentState.Contains("Dead") && !currentState.Equals("Hit"))
-                {
-
-                    if (animationPlayer.Animation.animationName.Equals("Idle") && !currentState.Equals("Idle"))
-                    {
-                        ChangeState("Idle");
-                    }
-                    else if (!currentState.Contains("Shooting"))
-                    {
-                        ChangeState("Idle");
-                    }
-                }
-
-                // -- Handle Physics -- //
-                PhysicsHandler.ApplyPhysics(this);
-
-                // -- Animation Player Update Frames -- //
-                animationPlayer.Update(gameTime);
-                base.Update(gameTime);
-            }
-            else if(currentState.Contains("Dead"))
-            {
-
             }
         }
 

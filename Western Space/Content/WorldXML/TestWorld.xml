@@ -5,9 +5,10 @@
   <o n="Explosion" x="0" y="0" />
   <o n="Explosion" x="0" y="0" />
   <o n="Explosion" x="0" y="0" />
+  <o n="Explosion" x="0" y="0" />
+  <o n="Explosion" x="0" y="0" />
   <o n="EVulture" x="0" y="0" />
   <o n="EVulture" x="0" y="0" />
-  <o n="EVulture" x="311" y="61" />
   <o n="SmallCactus" x="320" y="337" />
   <o n="SmallCactus" x="338" y="337" />
   <o n="SmallCactus" x="473" y="337" />
@@ -20,78 +21,14 @@
   <o n="SmallCactus" x="610" y="336" />
   <o n="EBandit" x="677" y="329" />
   <o n="EVulture" x="525" y="124" />
-  <o n="EVulture" x="595" y="82" />
   <o n="EVulture" x="626" y="174" />
-  <o n="EVulture" x="488" y="200" />
-  <o n="EVulture" x="403" y="182" />
-  <o n="EVulture" x="308" y="164" />
   <o n="EVulture" x="136" y="-348" />
   <o n="EVulture" x="304" y="-354" />
   <o n="EVulture" x="377" y="-347" />
   <o n="EVulture" x="500" y="-328" />
-  <o n="EVulture" x="581" y="-277" />
-  <o n="EVulture" x="659" y="-140" />
-  <o n="EVulture" x="586" y="-145" />
-  <o n="EVulture" x="426" y="-141" />
-  <o n="EVulture" x="314" y="-134" />
-  <o n="EVulture" x="239" y="-129" />
-  <o n="EVulture" x="167" y="-77" />
-  <o n="EVulture" x="280" y="-40" />
-  <o n="EVulture" x="374" y="-45" />
-  <o n="EVulture" x="605" y="-57" />
-  <o n="EVulture" x="766" y="-70" />
-  <o n="EVulture" x="911" y="-49" />
-  <o n="EVulture" x="883" y="67" />
-  <o n="EVulture" x="852" y="181" />
-  <o n="EVulture" x="688" y="134" />
-  <o n="EVulture" x="475" y="72" />
-  <o n="EVulture" x="289" y="63" />
-  <o n="EVulture" x="104" y="58" />
   <o n="EVulture" x="57" y="185" />
-  <o n="EVulture" x="149" y="290" />
-  <o n="EVulture" x="279" y="238" />
-  <o n="EVulture" x="379" y="122" />
-  <o n="EVulture" x="398" y="-6" />
-  <o n="EVulture" x="509" y="-59" />
-  <o n="EVulture" x="661" y="17" />
-  <o n="EVulture" x="801" y="103" />
-  <o n="EVulture" x="942" y="11" />
-  <o n="EVulture" x="757" y="-122" />
-  <o n="EVulture" x="645" y="-121" />
-  <o n="EVulture" x="533" y="-51" />
-  <o n="EVulture" x="421" y="62" />
-  <o n="EVulture" x="295" y="190" />
-  <o n="EVulture" x="152" y="254" />
   <o n="EVulture" x="6" y="254" />
   <o n="EVulture" x="42" y="118" />
-  <o n="EVulture" x="155" y="-14" />
-  <o n="EVulture" x="270" y="-103" />
-  <o n="EVulture" x="344" y="-21" />
-  <o n="EVulture" x="370" y="106" />
-  <o n="EVulture" x="436" y="159" />
-  <o n="EVulture" x="562" y="84" />
-  <o n="EVulture" x="702" y="28" />
-  <o n="EVulture" x="710" y="55" />
-  <o n="EVulture" x="766" y="127" />
-  <o n="EVulture" x="680" y="8" />
-  <o n="EVulture" x="560" y="12" />
-  <o n="EVulture" x="566" y="6" />
-  <o n="EVulture" x="438" y="3" />
-  <o n="EVulture" x="435" y="-8" />
-  <o n="EVulture" x="451" y="-91" />
-  <o n="EVulture" x="579" y="-84" />
-  <o n="EVulture" x="671" y="-112" />
-  <o n="EVulture" x="723" y="-14" />
-  <o n="EVulture" x="848" y="57" />
-  <o n="EVulture" x="866" y="53" />
-  <o n="EVulture" x="868" y="-2" />
-  <o n="EVulture" x="781" y="89" />
-  <o n="EVulture" x="799" y="89" />
-  <o n="EVulture" x="846" y="138" />
-  <o n="EVulture" x="800" y="172" />
-  <o n="EVulture" x="873" y="129" />
-  <o n="EVulture" x="808" y="-5" />
-  <o n="EVulture" x="765" y="-1" />
   <o n="EBandit" x="532" y="223" />
   <o n="EBandit" x="584" y="209" />
   <o n="EBandit" x="632" y="229" />
@@ -174,4 +111,29 @@
   <o n="ExplosiveBarrel" x="905" y="151" />
   <o n="ExplosiveBarrel" x="918" y="131" />
   <o n="EBandit" x="922" y="90" />
+  <o n="LargeCactus1" x="1254" y="295" />
+  <o n="LargeCactus1" x="208" y="293" />
+  <o n="LargeCactus1" x="2170" y="295" />
+  <o n="LargeCactus1" x="1552" y="295" />
+  <o n="LargeCactus1" x="1660" y="296" />
+  <o n="LargeCactus1" x="1770" y="296" />
+  <o n="LargeCactus1" x="1730" y="296" />
+  <o n="LargeCactus1" x="1607" y="296" />
+  <o n="LargeCactus1" x="1675" y="296" />
+  <o n="LargeCactus1" x="1492" y="297" />
+  <o n="LargeCactus1" x="1583" y="284" />
+  <o n="LargeCactus1" x="1704" y="310" />
+  <o n="EBandit" x="1655" y="332" />
+  <o n="LargeCactus1" x="1629" y="304" />
+  <o n="SmallCactus" x="1523" y="339" />
+  <o n="SmallCactus" x="1545" y="339" />
+  <o n="SmallCactus" x="1582" y="337" />
+  <o n="SmallCactus" x="1603" y="341" />
+  <o n="SmallCactus" x="1629" y="338" />
+  <o n="SmallCactus" x="1653" y="342" />
+  <o n="SmallCactus" x="1680" y="341" />
+  <o n="SmallCactus" x="1728" y="341" />
+  <o n="SmallCactus" x="1704" y="334" />
+  <o n="SmallCactus" x="1760" y="343" />
+  <o n="SmallCactus" x="1795" y="341" />
 </World>

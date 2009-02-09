@@ -94,6 +94,7 @@
     <Compile Include="DrawableComponents\EditorUI\WorldObjectPlacer.cs" />
     <Compile Include="DrawableComponents\Misc\Explosion.cs" />
     <Compile Include="DrawableComponents\Misc\GameOverContents.cs" />
+    <Compile Include="DrawableComponents\Misc\LargeCactus1.cs" />
     <Compile Include="DrawableComponents\Misc\SmallCactus.cs" />
     <Compile Include="DrawableComponents\Misc\TitleScreenContents.cs" />
     <Compile Include="DrawableComponents\WorldObjects\ExplosiveBarrel.cs" />
