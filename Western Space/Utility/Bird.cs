@@ -9,7 +9,7 @@ namespace WesternSpace.Utility
     class Bird : Role
     {
         /// Constants ///
-        //public static readonly string DEAD = "Dead";
+        public static readonly string DEAD = "Dead";
         //public static readonly string CLIMBING = "Climbing";
         //public static readonly string DIVING = "Diving";
         //public static readonly string ATTACKING = "Attacking";
@@ -26,13 +26,13 @@ namespace WesternSpace.Utility
 
         public override void SetUpAnimation(String xmlFile)
         {
-            //Animation dead = new Animation(xmlFile, DEAD);
+            Animation dead = new Animation(xmlFile, DEAD);
             //Animation climbing = new Animation(xmlFile, CLIMBING);
             //Animation diving = new Animation(xmlFile, DIVING);
             //Animation attacking = new Animation(xmlFile, ATTACKING);
             Animation flying = new Animation(xmlFile, FLYING);
           
-            //this.animationMap.Add(DEAD, dead);
+            this.animationMap.Add(DEAD, dead);
             //this.animationMap.Add(CLIMBING, climbing);
             //this.animationMap.Add(DIVING, diving);
             //this.animationMap.Add(ATTACKING, attacking);

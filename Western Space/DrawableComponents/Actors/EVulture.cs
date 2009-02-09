@@ -76,13 +76,6 @@ namespace WesternSpace.DrawableComponents.Actors
             //Set the facing
             facing = SpriteEffects.None;
 
-            //Initializes the player's hotspots.
-            /*  this.Hotspots.Add(new CollisionHotspot(this, new Vector2(16, 0), HOTSPOT_TYPE.top));
-              this.Hotspots.Add(new CollisionHotspot(this, new Vector2(0, 30), HOTSPOT_TYPE.left));
-              this.Hotspots.Add(new CollisionHotspot(this, new Vector2(36, 30), HOTSPOT_TYPE.right));
-              this.Hotspots.Add(new CollisionHotspot(this, new Vector2(7, 60), HOTSPOT_TYPE.bottom));
-              //this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(27, 60), HOTSPOT_TYPE.bottom));
-  */
             List<CollisionHotspot> hotspots = new List<CollisionHotspot>();
             hotspots.Add(new CollisionHotspot(this, new Vector2(0, -4), HOTSPOT_TYPE.top));
             hotspots.Add(new CollisionHotspot(this, new Vector2(-13, -3), HOTSPOT_TYPE.left));
@@ -129,19 +122,15 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         /// <summary>
-        /// Called when the player presses the jump button. If the player is already
-        /// in a jumping state then no action is to occurr.
+        /// Called when the Vulture should dive. If the Vulture is being hit, it will not dive
         /// </summary>
-        /*public void Jump()
+        /*public void Dive()
         {
             if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
             {
-                if (!currentState.Contains("Jumping") && !currentState.Contains("Falling"))
-                {
-                    ApplyJump();
-                    ChangeState("JumpingAscent");
-                    isOnGround = false;
-                }
+                
+                  
+                
             }
         }*/
 
@@ -187,39 +176,7 @@ namespace WesternSpace.DrawableComponents.Actors
             }
         }
         */
-        /// <summary>
-        /// Causes the enemy to generate a projectile and change its state accordingly.
-        /// </summary>
-       /* public void Shoot()
-        {
-            if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
-            {
-                if (!currentState.Contains("Shooting"))
-                {
-                    if (currentState.Contains("Jumping"))
-                    {
-                        //Change state and animation
-                        //ChangeState("JumpingShooting");
-                    }
-                    else if (currentState.Contains("Running"))
-                    {
-                        //Change state and animation
-                        //ChangeState("RunningShooting");
-                    }
-                    else
-                    {
-                        //Change state and animation
-                        ChangeState("Shooting");
-
-                        gunShot.Play();
-                    }
-
-                    //Generate a Bullet
-                    GenerateBullet();
-                }
-            }
-        }
-        */
+      
         /// <summary>
         /// Called every Update
         /// </summary>
@@ -292,45 +249,26 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="gameTime">The time the game has been running.</param>
         private void vultureAI(GameTime gameTime)
         {
-            NetForce -= gravity;
-            if (World.Player.Position.X + 75 < this.position.X)
+            if (!currentState.Contains("Dead"))
             {
-                facing = SpriteEffects.None;
-                Velocity = new Vector2(-2, 0);
-            }
-            if (World.Player.Position.X - 75 > this.position.X)
-            {
-                facing = SpriteEffects.FlipHorizontally;
-                Velocity = new Vector2(2, 0);
+                // Keeps the vulture in the air
+                NetForce -= gravity;
+
+                // If the vulture flys too far away from the player it will turn around and fly the other direction
+                if (World.Player.Position.X + 125 < this.position.X)
+                {
+                    facing = SpriteEffects.None;
+                    Velocity = new Vector2(-2, 0);
+                }
+                if (World.Player.Position.X - 125 > this.position.X)
+                {
+                    facing = SpriteEffects.FlipHorizontally;
+                    Velocity = new Vector2(2, 0);
+                }
             }
 
-            //Shoot Logic
-            /*if (shootTimer >= shootTimeSpan)
-            {
-                Shoot();
-                shootTimer = 0f;
-            }*/
 
         }
-
-        /// <summary>
-        /// Creates a bullet object which travels in a straight line.
-        /// </summary>
-        /*public void GenerateBullet()
-        {
-            short direction = 1;
-            Vector2 position = this.Position + new Vector2(23f, -15f);
-
-            if (this.Facing == SpriteEffects.FlipHorizontally)
-            {
-                direction = -1;
-                position = this.Position + new Vector2(-23f, -15);
-            }
-
-            BanditNormalProjectile proj = new BanditNormalProjectile(this.ParentScreen, this.SpriteBatch, position, this, direction);
-
-        }*/
-
 
         /// <summary>
         /// Called on a Sprite Collision?
@@ -386,6 +324,11 @@ namespace WesternSpace.DrawableComponents.Actors
             if (this.TakesDamageFrom != damageItem.DoesDamageTo)
             {
                 currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
+                if (currentHealth <= 0)
+                {
+                    //NetForce += gravity / Mass;
+                    ChangeState("Dead");
+                }
             }
         }
 
