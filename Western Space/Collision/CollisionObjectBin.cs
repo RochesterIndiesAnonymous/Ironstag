@@ -30,22 +30,25 @@ namespace WesternSpace.Collision
         {
             get { return listOfCollideableObjects.Count; }
         }
-        //protected Vector2 gridCoord;
-        // Coordinates in GridSpace Usefull for debugging
+        // GridSpace Coordinates usefull for debugging
         protected int xCoordInGrid;
         protected int yCoordInGrid;
         public CollisionObjectBin(SpriteSpriteCollisionManager collisionManager, int gridCoordX, int gridCoordY)
-        {
-            //this.gridCoord = new Vector2(gridCoordX, gridCoordY);
-            this.xCoordInGrid = gridCoordX;
-            this.yCoordInGrid = gridCoordY;
+        {       
             this.listOfCollideableObjects = new List<ISpriteCollideable>();
             this.refCollisionManager = collisionManager;
             this.hasMultipleObjects = false;
+            this.xCoordInGrid = gridCoordX;
+            this.yCoordInGrid = gridCoordY;                                    
         }
+        // This function is called when a object needs to be added to bin
         public void OnObjectAdded(ISpriteCollideable gameObject)
         {
+            // Add object to the object list
             this.listOfCollideableObjects.Add(gameObject);
+            // If this bin does not have multiple objects and the the number of
+            // collideable objects are greater than 1. the bin adds itself the
+            // managerslist of object bins to check
             if (!hasMultipleObjects && this.listOfCollideableObjects.Count > 1)
             {
                 // add this bin to a list of bins to check for collision
@@ -54,9 +57,14 @@ namespace WesternSpace.Collision
                 //Debug.Print("Multiple Object in Bin: " + gridCoord.ToString() + " are true");
             }
         }
+        // This function is called when a object needs to be removed from a bin
         public void OnObjectRemoved(ISpriteCollideable gameObject)
         {
+            // Remove Object from the object list
             this.listOfCollideableObjects.Remove(gameObject);
+            // If this bin has multiple objects and the the number of
+            // collideable objects are less than 2. the bin removes itself from 
+            // the managerslist of object bins to check
             if (hasMultipleObjects && this.listOfCollideableObjects.Count < 2)
             {
                 // remove this bin from the list of bins to check for collision
