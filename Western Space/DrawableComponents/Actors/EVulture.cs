@@ -68,13 +68,13 @@ namespace WesternSpace.DrawableComponents.Actors
             currentState = "Flying";
 
             //Set the Velocity
-            Velocity = new Vector2(1, 0);
+            Velocity = new Vector2(-2, 0);
 
             //Set the position
             this.Position = position;
 
             //Set the facing
-            facing = SpriteEffects.FlipHorizontally;
+            facing = SpriteEffects.None;
 
             //Initializes the player's hotspots.
             /*  this.Hotspots.Add(new CollisionHotspot(this, new Vector2(16, 0), HOTSPOT_TYPE.top));
@@ -292,17 +292,16 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="gameTime">The time the game has been running.</param>
         private void vultureAI(GameTime gameTime)
         {
-            //float shootTimer = 0f, shootTimeSpan = 3.0f;
-
-            //shootTimer += (float)(gameTime.TotalRealTime.TotalSeconds % 3.1);
-
-            if (World.Player.Position.X < this.position.X)
-            {
-                facing = SpriteEffects.FlipHorizontally;
-            }
-            else
+            NetForce -= gravity;
+            if (World.Player.Position.X + 75 < this.position.X)
             {
                 facing = SpriteEffects.None;
+                Velocity = new Vector2(-2, 0);
+            }
+            if (World.Player.Position.X - 75 > this.position.X)
+            {
+                facing = SpriteEffects.FlipHorizontally;
+                Velocity = new Vector2(2, 0);
             }
 
             //Shoot Logic
