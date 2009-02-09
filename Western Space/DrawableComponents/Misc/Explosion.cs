@@ -69,9 +69,11 @@ namespace WesternSpace.DrawableComponents.Misc
             get { return WesternSpace.Utility.DamageCategory.All; }
         }
 
+        float amountOfDamage = 15;
         public float AmountOfDamage
         {
-            get { return 15; }
+            get { return amountOfDamage; }
+            set { amountOfDamage = value; }
         }
 
         #endregion

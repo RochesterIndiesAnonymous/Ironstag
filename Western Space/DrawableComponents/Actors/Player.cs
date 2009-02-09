@@ -637,7 +637,7 @@ namespace WesternSpace.DrawableComponents.Actors
         public void TakeDamage(IDamaging damageItem)
         {
 
-                if ((this.TakesDamageFrom != damageItem.DoesDamageTo) && !invincible)
+                if ((this.TakesDamageFrom != damageItem.DoesDamageTo) && (damageItem.AmountOfDamage != 0) && !invincible)
                 {
                     ChangeState("Hit");
                     invincible = true;

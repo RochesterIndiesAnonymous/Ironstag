@@ -40,6 +40,7 @@ namespace WesternSpace.Interfaces
         float AmountOfDamage
         {
             get;
+            set;
         }
     }
 }

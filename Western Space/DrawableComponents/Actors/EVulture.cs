@@ -24,6 +24,8 @@ namespace WesternSpace.DrawableComponents.Actors
         /// Constants ///
         public static readonly string XMLFILENAME = Character.XMLPATH + "\\" + typeof(EVulture).Name;
         private static readonly string VULTURE = "Vulture";
+        private readonly Vector2 airMovement = new Vector2(-2f, 0f);
+        private readonly Vector2 gravity = new Vector2(0f, 0.4f);
 
         /// <summary>
         /// Sound Effect will be moved later on.
@@ -36,6 +38,7 @@ namespace WesternSpace.DrawableComponents.Actors
         private ICameraService camera;
 
         bool flewThisFrame;
+        int flyCount = 0;
 
         bool secondFlyFrame;
         /// <summary>
@@ -259,28 +262,43 @@ namespace WesternSpace.DrawableComponents.Actors
                 if (World.Player.Position.X + 100 < this.position.X)
                 {
                     facing = SpriteEffects.None;
-                    Velocity = new Vector2(-2, NetForce.Y);
+                    velocity.X = airMovement.X;
                 }
                 if (World.Player.Position.X - 100 > this.position.X)
                 {
                     facing = SpriteEffects.FlipHorizontally;
-                    Velocity = new Vector2(2, NetForce.Y);
+                    velocity.X = (-1)*airMovement.X;
                 }
                 //Console.WriteLine("FlewThisFrame?: " + flewThisFrame + " If condition: " + ((this.animationPlayer.CurrentFrame.FrameIndex % 2)==0));
                 if ((this.animationPlayer.CurrentFrame.FrameIndex % 2)==0 && (!flewThisFrame))
                 {
-                    
-                    NetForce -= gravity / Mass;
-                    flewThisFrame = true;
-                      
-                    Console.WriteLine("1st:: Netforce: " + NetForce + " Velocity: " + Velocity);
+                    if (flyCount >= 1)
+                    {
+                        flewThisFrame = true;
+                        flyCount = 0;
+                    }
+                    else
+                    {
+                        flyCount++;
+                    }
+                    velocity.Y = (-1)*gravity.Y;
+
+                    Console.WriteLine("1st:: FlyCount: " + flyCount + " Velocity: " + Velocity +"FlewThisFrame: "+flewThisFrame);
                 }
                 else if((this.animationPlayer.CurrentFrame.FrameIndex % 2)!=0 && (flewThisFrame)){
                     
-                    flewThisFrame = false;
-                       
-                    NetForce += new Vector2(0,.2f);
-                    Console.WriteLine("2nd:: Netforce: " + NetForce + " Velocity: " + Velocity);
+                    if (flyCount >= 1)
+                    {
+                        flewThisFrame = false;
+                        flyCount = 0;
+                    }
+                    else
+                    {
+                        flyCount++;
+                    }
+
+                    velocity.Y = gravity.Y;
+                    Console.WriteLine("2nd:: FlyCount: " + flyCount + " Velocity: " + Velocity + "FlewThisFrame: " + flewThisFrame);
                 }
             }
 
@@ -350,6 +368,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 if (currentHealth <= 0)
                 {
                     ChangeState("Dead");
+                    this.amountOfDamage = 0;
                 }
             }
         }
@@ -429,9 +448,11 @@ namespace WesternSpace.DrawableComponents.Actors
             get { return DamageCategory.Player; }
         }
 
+        float amountOfDamage = 10;
         float IDamaging.AmountOfDamage
         {
-            get { return 10; }
+            get { return amountOfDamage; }
+            set { amountOfDamage = value; }
         }
 
         #endregion

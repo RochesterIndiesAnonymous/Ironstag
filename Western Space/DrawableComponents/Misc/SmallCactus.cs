@@ -115,9 +115,11 @@ namespace WesternSpace.DrawableComponents.Misc
             get { return DamageCategory.Player; }
         }
 
+        float amountOfDamage = 10;
         float IDamaging.AmountOfDamage
         {
-            get { return 10; }
+            get { return amountOfDamage; }
+            set { amountOfDamage = value; }
         }
 
         #endregion

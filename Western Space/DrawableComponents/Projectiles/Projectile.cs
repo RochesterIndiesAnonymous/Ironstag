@@ -38,7 +38,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         /// <summary>
         /// The amount of damage this projectile will do when it hits an enemy
         /// </summary>
-        private int amountOfDamage;
+        private float amountOfDamage;
 
         /// <summary>
         /// The direction constant to apply to the velocity vector
@@ -143,6 +143,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         public float AmountOfDamage
         {
             get { return amountOfDamage; }
+            set { amountOfDamage = value; }
         }
 
         #endregion
