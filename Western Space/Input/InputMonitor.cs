@@ -131,6 +131,24 @@ namespace WesternSpace.Input
             // Get the newest KeyboardState
             currentKeyboardState = Keyboard.GetState();
 #endif
+
+            foreach (List<IPressable> pressableList in Pressables.Values)
+            {
+                foreach (IPressable pressable in pressableList)
+                {
+                    pressable.Update(gameTime);
+                }
+            }
+
+            #region FOR DEBUG
+            /*
+            foreach (string command in Pressables.Keys)
+            {
+                if (IsPressed(command))
+                    System.Console.WriteLine(command + ": " + GetPressedTime(command));
+            }
+            */
+            #endregion
         }
 
         /**
