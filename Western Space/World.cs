@@ -313,9 +313,6 @@ namespace WesternSpace
             ParentScreen.Components.Add(player);
             spriteCollisionManager.addObjectToRegisteredObjectList(player);
 
-            Explosion expl = new Explosion(this, SpriteBatch, Vector2.Zero);
-            AddWorldObject(expl);
-
             foreach (XElement woElement in fileContents.Descendants("o"))
             {
                 string name = woElement.Attribute("n").Value;

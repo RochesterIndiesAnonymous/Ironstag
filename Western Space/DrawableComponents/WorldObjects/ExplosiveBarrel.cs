@@ -30,6 +30,13 @@ namespace WesternSpace.DrawableComponents.WorldObjects
             this.texture = ((ITextureService)ScreenManager.Instance.Services.GetService(typeof(ITextureService))).GetTexture("Textures\\TNTBarrel");
             this.halfWidth = this.texture.Width / 2;
             this.halfHeight = this.texture.Height / 2;
+            this.currentHealth = MaxHealth;
+
+            hotspots = new List<CollisionHotspot>();
+            hotspots.Add(new CollisionHotspot(this, new Vector2(0, -halfHeight), HOTSPOT_TYPE.top));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(-halfWidth, 0), HOTSPOT_TYPE.left));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(halfWidth, 0), HOTSPOT_TYPE.right));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(0, halfHeight), HOTSPOT_TYPE.bottom));
         }
 
         public override void Draw(GameTime gameTime)
@@ -37,6 +44,9 @@ namespace WesternSpace.DrawableComponents.WorldObjects
             SpriteBatch.Draw(texture, Position-new Vector2(halfWidth, halfHeight), Color.White);
             base.Draw(gameTime);
         }
+
+        private float SLIDE_FRICTION = 0.7f;
+        private float BOUNCE_FRICTION = 0.7f;
 
         public override void Update(GameTime gameTime)
         {
@@ -48,13 +58,46 @@ namespace WesternSpace.DrawableComponents.WorldObjects
                 this.Dispose();
                 return;
             }
-            // Otherwise, apply some gravity for shits and grins
+            if (currentHealth != MaxHealth && false)
+            {
+                NetForce += (new Vector2(0, 0.2f)) * Mass;
+                World.PhysicsHandler.ApplyPhysics(this);
+
+                // DO ALL COLLISIONS HERE
+                foreach (CollisionHotspot hotspot in Hotspots)
+                {
+                    hotspot.Collide();
+                    if (hotspot.DidCollide)
+                    {
+                        switch (hotspot.HotSpotType)
+                        {
+                            case HOTSPOT_TYPE.bottom:
+                                velocity.Y *= -BOUNCE_FRICTION;
+                                velocity.X *= SLIDE_FRICTION;
+                                break;
+                            case HOTSPOT_TYPE.top:
+                                velocity.Y *= -BOUNCE_FRICTION;
+                                velocity.X *= SLIDE_FRICTION;
+                                break;
+
+                            case HOTSPOT_TYPE.left:
+                                velocity.X *= -BOUNCE_FRICTION;
+                                velocity.Y *= SLIDE_FRICTION;
+                                break;
+                            case HOTSPOT_TYPE.right:
+                                velocity.X *= -BOUNCE_FRICTION;
+                                velocity.Y *= SLIDE_FRICTION;
+                                break;
+                        }
+                    }
+                }
+            }
             base.Update(gameTime);
         }
 
         #region IDamageable Members
 
-        private static readonly float MAX_HEALTH = 20; // This is one highly volatile barrel.
+        private static readonly float MAX_HEALTH = 90; // This is one highly volatile barrel.
 
         public float MaxHealth
         {
@@ -156,15 +199,27 @@ namespace WesternSpace.DrawableComponents.WorldObjects
             {
                 this.TakeDamage((IDamaging)objectCollidedWith);
             }
+
+            if (objectCollidedWith is IPhysical)
+            {
+                Vector2 force = ((IPhysical)objectCollidedWith).Position - Position;
+                float force_amount = 8.0f;
+                force /= force.Length(); // Normalize vector to merely be directional.
+                force *= force_amount;
+                //((IPhysical)objectCollidedWith).NetForce += force;
+                //this.NetForce -= force;
+            }
         }
 
         #endregion
 
         #region ITileCollidable Members
 
+        private List<CollisionHotspot> hotspots;
+
         public List<CollisionHotspot> Hotspots
         {
-            get { throw new NotImplementedException(); }
+            get { return hotspots; }
         }
 
         #endregion

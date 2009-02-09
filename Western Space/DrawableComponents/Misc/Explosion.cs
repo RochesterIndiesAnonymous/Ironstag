@@ -40,7 +40,7 @@ namespace WesternSpace.DrawableComponents.Misc
         public override void Draw(GameTime gameTime)
         {
             animationPlayer.Draw(gameTime, SpriteBatch, Position - animationPlayer.Animation.CenterOffset, SpriteEffects.None);
-            PrimitiveDrawer.Instance.DrawRect(SpriteBatch, Rectangle, Color.Black);
+            //PrimitiveDrawer.Instance.DrawRect(SpriteBatch, Rectangle, Color.Black);
             base.Draw(gameTime);
         }
 
@@ -66,7 +66,7 @@ namespace WesternSpace.DrawableComponents.Misc
 
         public WesternSpace.Utility.DamageCategory DoesDamageTo
         {
-            get { return WesternSpace.Utility.DamageCategory.Enemy; }
+            get { return WesternSpace.Utility.DamageCategory.All; }
         }
 
         public float AmountOfDamage

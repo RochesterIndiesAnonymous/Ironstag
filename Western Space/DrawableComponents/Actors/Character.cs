@@ -440,11 +440,13 @@ namespace WesternSpace.DrawableComponents.Actors
 
             
             #region FOR DEBUGGING COLLISION
+            /*
             foreach (CollisionHotspot hotspot in Hotspots)
             {
                 PrimitiveDrawer.Instance.DrawLine(SpriteBatch, hotspot.WorldPosition, hotspot.WorldPosition + new Vector2(1, 1), Color.Black);
             }
             PrimitiveDrawer.Instance.DrawRect(SpriteBatch, Rectangle, Color.Black);
+            */
             #endregion
             
         }
