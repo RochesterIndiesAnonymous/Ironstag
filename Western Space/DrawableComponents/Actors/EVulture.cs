@@ -35,6 +35,9 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         private ICameraService camera;
 
+        bool flewThisFrame;
+
+        bool secondFlyFrame;
         /// <summary>
         /// Constructor for Vulture.
         /// </summary>
@@ -69,12 +72,15 @@ namespace WesternSpace.DrawableComponents.Actors
 
             //Set the Velocity
             Velocity = new Vector2(-2, 0);
+            NetForce = Vector2.Zero;
 
             //Set the position
             this.Position = position;
 
             //Set the facing
             facing = SpriteEffects.None;
+            flewThisFrame = false;
+            secondFlyFrame = false;
 
             List<CollisionHotspot> hotspots = new List<CollisionHotspot>();
             hotspots.Add(new CollisionHotspot(this, new Vector2(0, -4), HOTSPOT_TYPE.top));
@@ -183,8 +189,8 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="gameTime">The time the game has been running.</param>
         public override void Update(GameTime gameTime)
         {
-           
-                NetForce += gravity / Mass;
+
+                
 
                 // -- Check for Final State Changes -- //
                 if (currentState.Contains("Dead") && this.animationPlayer.isDonePlaying())
@@ -203,7 +209,7 @@ namespace WesternSpace.DrawableComponents.Actors
                         ChangeState("Idle");
                     }
                 }*/
-
+                vultureAI(gameTime);
                 // -- Handle Physics -- //
                 PhysicsHandler.ApplyPhysics(this);
 
@@ -211,11 +217,11 @@ namespace WesternSpace.DrawableComponents.Actors
                 animationPlayer.Update(gameTime);
                 base.Update(gameTime);
 
-                if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
-                {
+              //  if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
+              //  {
                     // -- AI -- //
-                    vultureAI(gameTime);
-                }
+
+               // }
 
         }
 
@@ -248,19 +254,33 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             if (!currentState.Contains("Dead"))
             {
-                // Keeps the vulture in the air
-                NetForce -= gravity;
-
+                
                 // If the vulture flys too far away from the player it will turn around and fly the other direction
                 if (World.Player.Position.X + 100 < this.position.X)
                 {
                     facing = SpriteEffects.None;
-                    Velocity = new Vector2(-2, 0);
+                    Velocity = new Vector2(-2, NetForce.Y);
                 }
                 if (World.Player.Position.X - 100 > this.position.X)
                 {
                     facing = SpriteEffects.FlipHorizontally;
-                    Velocity = new Vector2(2, 0);
+                    Velocity = new Vector2(2, NetForce.Y);
+                }
+                //Console.WriteLine("FlewThisFrame?: " + flewThisFrame + " If condition: " + ((this.animationPlayer.CurrentFrame.FrameIndex % 2)==0));
+                if ((this.animationPlayer.CurrentFrame.FrameIndex % 2)==0 && (!flewThisFrame))
+                {
+                    
+                    NetForce -= gravity / Mass;
+                    flewThisFrame = true;
+                      
+                    Console.WriteLine("1st:: Netforce: " + NetForce + " Velocity: " + Velocity);
+                }
+                else if((this.animationPlayer.CurrentFrame.FrameIndex % 2)!=0 && (flewThisFrame)){
+                    
+                    flewThisFrame = false;
+                       
+                    NetForce += new Vector2(0,.2f);
+                    Console.WriteLine("2nd:: Netforce: " + NetForce + " Velocity: " + Velocity);
                 }
             }
 
