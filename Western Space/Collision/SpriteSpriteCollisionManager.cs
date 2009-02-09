@@ -17,8 +17,15 @@ namespace WesternSpace.Collision
     // You pretty much add a ISpriteCollideable interface to an object and 
     // register it with this manager and this takes care of the collision detection
     // between the objects. It currently supports Bounding Box Algorithm
+
+    // When you add an object to the collision manager it doesnt add it immediatle
+    // it added it in the next frame or update i did this to avoid situations where
+    // the camera was not created
+
+    // Note: I am going to try to do the same with the removal
     public class SpriteSpriteCollisionManager : DrawableGameComponent //GameComponent
     {        
+        // Set this to enable debug visualization
         static Boolean debug = false;
         // IDNumberCounter gets incremented every time a new object is added
         protected int IDNumberCounter = 0;
@@ -92,15 +99,8 @@ namespace WesternSpace.Collision
         // the object is removed immediately
         public void removeObjectFromRegisteredObjectList(ISpriteCollideable collideableObject)
         {
-            // Removes the object from the registered object list
-            registeredObject.Remove(collideableObject);
-            // Remove Object from the object bin lookup table 
-            objBinLookupTable.Remove(collideableObject.IdNumber);
-            
-
-            // Removes object directly from the object bin
-            OnRemoveObjectFromBin(collideableObject, this.getObjectCollisionBinCoord(collideableObject));                        
-         
+            // Removes the object from the registered object list           
+            collideableObject.removeFromRegistrationList = true;            
             // Debug.Print("Object Removed from Registered List: " + collideableObject.IdNumber);
         }
         // Finds out if the object is in camera space
@@ -149,7 +149,8 @@ namespace WesternSpace.Collision
                     this.objectCollisionGrid[binCoord.X, binCoord.Y].OnObjectRemoved(collideableObject);
             }
             // Update Object Look Up Table               
-            this.objBinLookupTable[collideableObject.IdNumber] = listOfObjectBinCoord;            
+            //this.objBinLookupTable[collideableObject.IdNumber] = listOfObjectBinCoord;            
+            this.objBinLookupTable.Remove(collideableObject.IdNumber);
         }
         // Transform World Coordinates to Bin Coordinates
         protected Point WorldCoordToBinCoord(Vector2 vector)
@@ -202,28 +203,34 @@ namespace WesternSpace.Collision
             return true;
         }
         public override void Update(GameTime gameTime)
-        {         
+        {
+            // This is the list of registered game objects
+            IEnumerable<ISpriteCollideable> registeredObjectCopy = registeredObject.ToList();            
             List<Point> newCoords;
             List<Point> oldCoords;
-            // Update Collision Bins
-            // This is the list of register game objects
-            foreach (ISpriteCollideable gameObj in registeredObject)
+            foreach (ISpriteCollideable collideableGameObject in registeredObjectCopy)
             {
                 // We get the new position of the game object
-                newCoords = this.getObjectCollisionBinCoord(gameObj);
+                newCoords = this.getObjectCollisionBinCoord(collideableGameObject);                
                 // Lookup table contains the last coordnates of each game object
-                if (objBinLookupTable.TryGetValue(gameObj.IdNumber, out oldCoords))
+                if (objBinLookupTable.TryGetValue(collideableGameObject.IdNumber, out oldCoords))
                 {
-                    // We find out if the object is in camera space
-                    // if it is not we remove it from the object bin 
-                    if (findOutIfObjectIsInCameraSpace(gameObj) == false)
-                    {
-                        OnRemoveObjectFromBin(gameObj, oldCoords);
+                    // Removes any object that has been flagged for removal
+                    if (collideableGameObject.removeFromRegistrationList)
+                    {                        
+                        // Remove Object from Bins
+                        this.OnRemoveObjectFromBin(collideableGameObject, oldCoords);
+                        // Remove Object from Registration List
+                        this.registeredObject.Remove(collideableGameObject);
+                        continue;
                     }
-                    // if it is not we add it to the object bins
+                    // if we find out an object is not in camera space
+                    // we remove it from the bins
+                    if (!findOutIfObjectIsInCameraSpace(collideableGameObject))
+                        OnRemoveObjectFromBin(collideableGameObject, oldCoords);
                     else
                     {
-                        // We only update the bins that the coordnates have changed
+                        // We only update the objects that their coordnates have changed
                         if (!CoordsEqual(oldCoords, newCoords))
                         {
                             //Debug.Print(gameObj.IdNumber + " Occupies ");
@@ -232,21 +239,21 @@ namespace WesternSpace.Collision
                             //    Debug.Print(">" + coord.ToString());
                             //}
                             // Remove object from the bin
-                            OnRemoveObjectFromBin(gameObj, oldCoords);
+                            OnRemoveObjectFromBin(collideableGameObject, oldCoords);
                             // Add object to the bin
-                            OnAddObjectToBin(gameObj, newCoords);
+                            OnAddObjectToBin(collideableGameObject, newCoords);
                         }
                     }
                 }
                 // if the object is not in the lookup table we add it to 
                 // the lookup table (this is for newly registered objects)
-                // we do this here instead of the registeredfunction because this 
-                // function is run after the camera is created
+                // we do this because this function is gauranteed to 
+                // run after the camera is created
                 else
                 {
                     // first we find out if the object is in the
                     // cameraspace
-                    if (findOutIfObjectIsInCameraSpace(gameObj))
+                    if (findOutIfObjectIsInCameraSpace(collideableGameObject))
                     {
                         //Debug.Print("Camera Pos:\n>" + camera.VisibleArea.ToString() +
                         //    "\n>CameraLRTB: {" + 
@@ -254,10 +261,10 @@ namespace WesternSpace.Collision
                         //    camera.VisibleArea.Top + "," + camera.VisibleArea.Bottom + "}" +
                         //    "Sprite Pos: \n>" + gameObj.Rectangle.ToString()
                         //);
-                        this.OnAddObjectToBin(gameObj, newCoords);
+                        this.OnAddObjectToBin(collideableGameObject, newCoords);
                     }
                 }
-            }            
+            }
             // Make a copy of the bins to check so when a bin is removed the loop doesnt freak out 
             IEnumerable<CollisionObjectBin> objBinsToCheckCopy = objectBinsToCheck.ToList();
             // Scan all bins on the Object List to be Checked
@@ -283,8 +290,7 @@ namespace WesternSpace.Collision
                             collidedObj2.OnSpriteCollision(collidedObj1);
                         }
                     }
-                }
-            
+                }            
             }
             base.Update(gameTime);
         }
@@ -292,27 +298,32 @@ namespace WesternSpace.Collision
         {
             if (debug)
             {
-                // Draw a Rectangle around the characters
-                foreach (ISpriteCollideable collidableSprite in registeredObject)
-                {
-                    PrimitiveDrawer.Instance.DrawRect(refSpriteBatch, collidableSprite.Rectangle, Color.Blue);               
-                }
-
-                //Grids
+                Color multiObjColor = new Color(0.0f, 1.0f, 0.0f, 0.25f);
+                
                 int positionX = 0;
                 int positionY = 0;
+                // Draw The Base Grid
                 for (int y = 0; y < gridHeight; y++)
                 {
-                    for (int x = 0; x < gridWidth; x++)                    
+                    positionX = 0;
+                    for (int x = 0; x < gridWidth; x++)
                     {
-                        if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects == 0)
-                        {
-                            PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
+                        PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
                                 new Rectangle(positionX + (int)this.camera.VisibleArea.X,
                                               positionY + (int)this.camera.VisibleArea.Y,
                                               this.binWidth, this.binHeight), Color.Red);
-                        }
-                        else if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects == 1)
+                        positionX += binWidth;
+                    }                    
+                    positionY += binHeight;
+                }
+                //Grids
+                positionX = 0;
+                positionY = 0;
+                for (int y = 0; y < gridHeight; y++)
+                {
+                    for (int x = 0; x < gridWidth; x++)                    
+                    {                      
+                        if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects == 1)
                         {
                             PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
                                 new Rectangle(positionX + (int)this.camera.VisibleArea.X,
@@ -320,17 +331,21 @@ namespace WesternSpace.Collision
                                               this.binWidth, this.binHeight), Color.Purple);
                         }
                         else if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects > 1)
-                        {
+                        {                            
                             PrimitiveDrawer.Instance.DrawSolidRect(refSpriteBatch,
                                 new Rectangle(positionX + (int)this.camera.VisibleArea.X,
                                               positionY + (int)this.camera.VisibleArea.Y,
-                                              this.binWidth, this.binHeight), Color.Green);
+                                              this.binWidth, this.binHeight), multiObjColor);
                         }
                         positionX += binWidth;
                     }
                     positionX = 0;
                     positionY += binHeight;
-                }               
+                }
+                // Draw a Rectangle around the characters
+                foreach (ISpriteCollideable collidableSprite in registeredObject)                
+                    PrimitiveDrawer.Instance.DrawRect(refSpriteBatch, collidableSprite.Rectangle, Color.Blue);
+                
             }     
             base.Draw(gameTime);
         }

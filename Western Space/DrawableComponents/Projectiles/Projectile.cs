@@ -205,5 +205,21 @@ namespace WesternSpace.DrawableComponents.Projectiles
         }
 
         #endregion
+        #region ISpriteCollideable Members
+
+        Boolean removeFromCollisionRegistration;
+        public bool removeFromRegistrationList
+        {
+            get
+            {
+                return removeFromCollisionRegistration;
+            }
+            set
+            {
+                removeFromCollisionRegistration = value;
+            }
+        }
+
+        #endregion
     }
 }

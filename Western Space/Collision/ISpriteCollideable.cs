@@ -25,7 +25,11 @@ namespace WesternSpace.Collision
             get;
             set;
         }
-
+        Boolean removeFromRegistrationList
+        {
+            get;
+            set;
+        }
         void OnSpriteCollision(ISpriteCollideable characterCollidedWith);
     }
 }
