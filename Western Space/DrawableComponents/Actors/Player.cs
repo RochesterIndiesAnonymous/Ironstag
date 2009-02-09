@@ -570,12 +570,12 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// The player's maximum health.
         /// </summary>
-        private int maxHealth;
+        private float maxHealth;
 
         /// <summary>
         /// The player's maximum health.
         /// </summary>
-        public int MaxHealth
+        public float MaxHealth
         {
             get { return maxHealth; }
             set { maxHealth = value; }
@@ -584,12 +584,12 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// The player's current health.
         /// </summary>
-        private int currentHealth;
+        private float currentHealth;
 
         /// <summary>
         /// The player's current health.
         /// </summary>
-        public int CurrentHealth
+        public float CurrentHealth
         {
             get { return currentHealth; }
             set { currentHealth = value; }

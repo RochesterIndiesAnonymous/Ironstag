@@ -99,7 +99,7 @@ namespace WesternSpace.DrawableComponents.Misc
             get { return DamageCategory.Player; }
         }
 
-        int IDamaging.AmountOfDamage
+        float IDamaging.AmountOfDamage
         {
             get { return 1; }
         }

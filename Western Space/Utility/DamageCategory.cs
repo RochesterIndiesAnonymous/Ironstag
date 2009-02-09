@@ -16,6 +16,11 @@ namespace WesternSpace.Utility
         /// <summary>
         /// The Enemy category.
         /// </summary>
-        Enemy
+        Enemy,
+
+        /// <summary>
+        /// Anything.
+        /// </summary>
+        All
     }
 }

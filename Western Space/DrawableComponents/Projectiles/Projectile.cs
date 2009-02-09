@@ -143,7 +143,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
             get { return doesDamageTo; }
         }
 
-        public int AmountOfDamage
+        public float AmountOfDamage
         {
             get { return amountOfDamage; }
         }

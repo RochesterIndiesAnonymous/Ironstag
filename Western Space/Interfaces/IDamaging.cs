@@ -37,7 +37,7 @@ namespace WesternSpace.Interfaces
         /// <summary>
         /// The amount of damage this character/projectile does to the player
         /// </summary>
-        int AmountOfDamage
+        float AmountOfDamage
         {
             get;
         }

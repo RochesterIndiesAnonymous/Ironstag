@@ -17,12 +17,12 @@ namespace WesternSpace.Interfaces
         /// <summary>
         /// The maximum health that this character has
         /// </summary>
-        int MaxHealth { get; }
+        float MaxHealth { get; }
         
         /// <summary>
         /// The current amount of health this character has left
         /// </summary>
-        int CurrentHealth { get; }
+        float CurrentHealth { get; }
 
         /// <summary>
         /// The percentage of damage this character takes when it is hit.

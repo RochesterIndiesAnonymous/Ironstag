@@ -80,6 +80,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
                         EditorScreen.Components.Remove(worldObject);
                         EditorScreen.Components.Remove(this);
                         EditorScreen.WorldObjectPlacer.Enabled = true;
+                        EditorScreen.WorldObjectPlacer.DrawObjectCursor = true;
                         break;
                 }
             }

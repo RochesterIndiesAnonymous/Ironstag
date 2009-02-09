@@ -342,22 +342,22 @@ namespace WesternSpace.DrawableComponents.Actors
 
         #region IDamageable Members
 
-        private int maxHealth;
+        private float maxHealth;
 
         /// <summary>
         /// The maximum health this bandit has
         /// </summary>
-        public int MaxHealth
+        public float MaxHealth
         {
             get { return maxHealth; }
         }
 
-        private int currentHealth;
+        private float currentHealth;
 
         /// <summary>
         /// The current health this bandit has
         /// </summary>
-        public int CurrentHealth
+        public float CurrentHealth
         {
             get { return currentHealth; }
         }

@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<World InteractiveMapFileName="TileMapXML\\BigTileMap" PlayerPositionX="386" PlayerPositionY="33">
+<World InteractiveMapFileName="TileMapXML\\BigTileMap" PlayerPositionX="395" PlayerPositionY="106">
   <MapLayer LayerName="" LayerIndex="0" ZIndex="-10" />
   <MapLayer LayerName="" LayerIndex="1" ZIndex="10" />
+  <o n="EVulture" x="0" y="0" />
+  <o n="EVulture" x="311" y="61" />
   <o n="SmallCactus" x="320" y="337" />
   <o n="SmallCactus" x="338" y="337" />
   <o n="SmallCactus" x="473" y="337" />
@@ -12,6 +14,78 @@
   <o n="SmallCactus" x="578" y="336" />
   <o n="SmallCactus" x="594" y="336" />
   <o n="SmallCactus" x="610" y="336" />
-  <o n="EBandit" x="668" y="331" />
-  <o n="EBandit" x="320" y="233" />
+  <o n="EBandit" x="677" y="329" />
+  <o n="EVulture" x="525" y="124" />
+  <o n="EVulture" x="595" y="82" />
+  <o n="EVulture" x="626" y="174" />
+  <o n="EVulture" x="488" y="200" />
+  <o n="EVulture" x="403" y="182" />
+  <o n="EVulture" x="308" y="164" />
+  <o n="EVulture" x="136" y="-348" />
+  <o n="EVulture" x="304" y="-354" />
+  <o n="EVulture" x="377" y="-347" />
+  <o n="EVulture" x="500" y="-328" />
+  <o n="EVulture" x="581" y="-277" />
+  <o n="EVulture" x="659" y="-140" />
+  <o n="EVulture" x="586" y="-145" />
+  <o n="EVulture" x="426" y="-141" />
+  <o n="EVulture" x="314" y="-134" />
+  <o n="EVulture" x="239" y="-129" />
+  <o n="EVulture" x="167" y="-77" />
+  <o n="EVulture" x="280" y="-40" />
+  <o n="EVulture" x="374" y="-45" />
+  <o n="EVulture" x="605" y="-57" />
+  <o n="EVulture" x="766" y="-70" />
+  <o n="EVulture" x="911" y="-49" />
+  <o n="EVulture" x="883" y="67" />
+  <o n="EVulture" x="852" y="181" />
+  <o n="EVulture" x="688" y="134" />
+  <o n="EVulture" x="475" y="72" />
+  <o n="EVulture" x="289" y="63" />
+  <o n="EVulture" x="104" y="58" />
+  <o n="EVulture" x="57" y="185" />
+  <o n="EVulture" x="149" y="290" />
+  <o n="EVulture" x="279" y="238" />
+  <o n="EVulture" x="379" y="122" />
+  <o n="EVulture" x="398" y="-6" />
+  <o n="EVulture" x="509" y="-59" />
+  <o n="EVulture" x="661" y="17" />
+  <o n="EVulture" x="801" y="103" />
+  <o n="EVulture" x="942" y="11" />
+  <o n="EVulture" x="757" y="-122" />
+  <o n="EVulture" x="645" y="-121" />
+  <o n="EVulture" x="533" y="-51" />
+  <o n="EVulture" x="421" y="62" />
+  <o n="EVulture" x="295" y="190" />
+  <o n="EVulture" x="152" y="254" />
+  <o n="EVulture" x="6" y="254" />
+  <o n="EVulture" x="42" y="118" />
+  <o n="EVulture" x="155" y="-14" />
+  <o n="EVulture" x="270" y="-103" />
+  <o n="EVulture" x="344" y="-21" />
+  <o n="EVulture" x="370" y="106" />
+  <o n="EVulture" x="436" y="159" />
+  <o n="EVulture" x="562" y="84" />
+  <o n="EVulture" x="702" y="28" />
+  <o n="EVulture" x="710" y="55" />
+  <o n="EVulture" x="766" y="127" />
+  <o n="EVulture" x="680" y="8" />
+  <o n="EVulture" x="560" y="12" />
+  <o n="EVulture" x="566" y="6" />
+  <o n="EVulture" x="438" y="3" />
+  <o n="EVulture" x="435" y="-8" />
+  <o n="EVulture" x="451" y="-91" />
+  <o n="EVulture" x="579" y="-84" />
+  <o n="EVulture" x="671" y="-112" />
+  <o n="EVulture" x="723" y="-14" />
+  <o n="EVulture" x="848" y="57" />
+  <o n="EVulture" x="866" y="53" />
+  <o n="EVulture" x="868" y="-2" />
+  <o n="EVulture" x="781" y="89" />
+  <o n="EVulture" x="799" y="89" />
+  <o n="EVulture" x="846" y="138" />
+  <o n="EVulture" x="884" y="182" />
+  <o n="EVulture" x="873" y="129" />
+  <o n="EVulture" x="808" y="-5" />
+  <o n="EVulture" x="765" y="-1" />
 </World>
