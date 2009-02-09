@@ -269,7 +269,6 @@ namespace WesternSpace.DrawableComponents.Actors
                     facing = SpriteEffects.FlipHorizontally;
                     velocity.X = (-1)*airMovement.X;
                 }
-                //Console.WriteLine("FlewThisFrame?: " + flewThisFrame + " If condition: " + ((this.animationPlayer.CurrentFrame.FrameIndex % 2)==0));
                 if ((this.animationPlayer.CurrentFrame.FrameIndex % 2)==0 && (!flewThisFrame))
                 {
                     if (flyCount >= 1)
@@ -282,8 +281,6 @@ namespace WesternSpace.DrawableComponents.Actors
                         flyCount++;
                     }
                     velocity.Y = (-1)*gravity.Y;
-
-                    Console.WriteLine("1st:: FlyCount: " + flyCount + " Velocity: " + Velocity +"FlewThisFrame: "+flewThisFrame);
                 }
                 else if((this.animationPlayer.CurrentFrame.FrameIndex % 2)!=0 && (flewThisFrame)){
                     
@@ -298,7 +295,6 @@ namespace WesternSpace.DrawableComponents.Actors
                     }
 
                     velocity.Y = gravity.Y;
-                    Console.WriteLine("2nd:: FlyCount: " + flyCount + " Velocity: " + Velocity + "FlewThisFrame: " + flewThisFrame);
                 }
             }
 

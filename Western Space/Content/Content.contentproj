@@ -214,13 +214,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActorXML\ProjectileXML\FlintBullet.xml">
-      <Name>FlintBullet</Name>
-      <Importer>XDocumentImporter</Importer>
-      <Processor>XDocumentProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\FlintIronstag\FlintBullet.png">
       <Name>FlintBullet</Name>
       <Importer>TextureImporter</Importer>
@@ -460,6 +453,13 @@
   <ItemGroup>
     <Compile Include="Textures\stolenExplosion.png">
       <Name>stolenExplosion</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Enemies\BanditBullet.png">
+      <Name>BanditBullet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

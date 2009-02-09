@@ -264,7 +264,7 @@ namespace WesternSpace.DrawableComponents.Actors
            // Console.WriteLine("PLAYER VEL: " + velocity+" REACHED MAX: "+reachedMaxJump+" MAX JUMP VEL: "+maxJumpHeight);
             if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
             {
-                if (!currentState.Contains("Descent") && !currentState.Contains("Falling"))
+                if (currentState.Contains("Jumping") && !currentState.Contains("Descent"))
                 {
                     if (pressedTime > 0 && !reachedMaxJump)
                     {
@@ -422,6 +422,8 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="gameTime">The time the game has been running.</param>
         public override void Update(GameTime gameTime)
         {
+           // Console.WriteLine("CURRENTSTATE: " + currentState + "VEL: " + velocity);
+
             // -- Get User Input -- //
             if ( input.IsPressed(InputMonitor.RIGHT) || input.CheckLeftJoystickOnXAxis(InputMonitor.RIGHT) )
             {
@@ -477,7 +479,7 @@ namespace WesternSpace.DrawableComponents.Actors
             // -- Check For Max Ascent of Jump -- //
             if (currentState.Contains("Jumping"))
             {
-                if (((-0.5 <= Velocity.Y) && (Velocity.Y <= 0.08)) && (!currentState.Contains("Descent")))
+                if ((reachedMaxJump && (!currentState.Contains("Descent")) || didHitCeiling))
                 {
                         ChangeState("JumpingDescent");
                 }
@@ -496,7 +498,7 @@ namespace WesternSpace.DrawableComponents.Actors
                     {
                         ChangeState("Idle");
                     }
-                    else if (!currentState.Contains("Shooting") && (Velocity.X != 0))
+                    else if (!currentState.Contains("Shooting") && !currentState.Contains("Ascent") && (Velocity.X != 0))
                     {
                         ChangeState("Running");
                     }
@@ -574,7 +576,7 @@ namespace WesternSpace.DrawableComponents.Actors
 
             TimeSpan timerCheck = gameTime.TotalRealTime - gameOverTimer;
 
-            if(gameOverTimer != TimeSpan.Zero && !gameOverDisplayed && timerCheck.Seconds >= 2)
+            if(gameOverTimer != TimeSpan.Zero && !gameOverDisplayed && timerCheck.Seconds >= 1)
             {
                 // trigger game over screen
                 ISpriteBatchService batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));

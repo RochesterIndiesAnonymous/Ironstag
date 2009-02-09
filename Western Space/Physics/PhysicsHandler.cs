@@ -63,6 +63,7 @@ namespace WesternSpace.Physics
             physicalObject.NetForce = Vector2.Zero;
 
             physicalObject.Position += physicalObject.Velocity;
+           // Console.WriteLine("Handler Added VEL: " + physicalObject.Velocity);
         }
     }
 }

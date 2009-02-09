@@ -209,6 +209,11 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         public bool isOnGround = true;
 
+        /// <summary>
+        /// Determines if the character collided with the ceiling. 
+        /// </summary>
+        public bool didHitCeiling = false;
+
 
         //static int idNumberCount = 0;
         //protected int idNumber;
@@ -307,7 +312,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// Vector representing the Acceleration due to gravity.
         /// </summary>
-        public readonly Vector2 gravity = new Vector2(0f, 0.2f);
+        public readonly Vector2 gravity = new Vector2(0f, 0.3f);
 
         /// <summary>
         /// Vector representing the Velocity of moving on the ground.
@@ -429,6 +434,15 @@ namespace WesternSpace.DrawableComponents.Actors
             if (hotspots.Count<CollisionHotspot>() > 0)
             {
                 isOnGround = true;
+                didHitCeiling = false;
+            }
+            IEnumerable<CollisionHotspot> topCollidedHotspots = from hotspot in Hotspots
+                                                                where hotspot.HotSpotType == HOTSPOT_TYPE.top && hotspot.DidCollide
+                                                                select hotspot;
+            if (topCollidedHotspots.Count<CollisionHotspot>() > 0)
+            {
+                didHitCeiling = true;
+                //Console.WriteLine("HIT CEILING");
             }
             base.Update(gameTime);
         }

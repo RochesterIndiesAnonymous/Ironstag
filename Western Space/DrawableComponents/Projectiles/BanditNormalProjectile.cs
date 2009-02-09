@@ -20,7 +20,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
         /// <summary>
         /// The animation object to to use for animating this projectile
         /// </summary>
-        private static readonly Texture2D texture = ((ITextureService)ScreenManager.Instance.Services.GetService(typeof(ITextureService))).GetTexture("Textures\\FlintIronstag\\FlintBullet");
+        private static readonly Texture2D texture = ((ITextureService)ScreenManager.Instance.Services.GetService(typeof(ITextureService))).GetTexture("Textures\\Enemies\\BanditBullet");
         
         /// <summary>
         /// The amount of damage a single projectile does to the player
