@@ -19,7 +19,7 @@ using WesternSpace.Interfaces;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    class EVulture : Character, IDamageable, ISpriteCollideable
+    class EVulture : Character, IDamageable, ISpriteCollideable, IDamaging
     {
         /// Constants ///
         public static readonly string XMLFILENAME = Character.XMLPATH + "\\" + typeof(EVulture).Name;
@@ -188,18 +188,13 @@ namespace WesternSpace.DrawableComponents.Actors
                 // -- AI -- //
                 vultureAI(gameTime);
 
-                // --- Check For Max Ascent of Jump -- //
-               /* if (currentState.Contains("Jumping"))
-                {
-                    if ((-0.5 <= Velocity.Y) || (Velocity.Y <= 0.8))
-                    {
-                        ChangeState("JumpingDescent");
-                    }
-                }*/
-
                 NetForce += gravity / Mass;
 
                 // -- Check for Final State Changes -- //
+                if (currentState.Contains("Dead") && this.animationPlayer.isDonePlaying())
+                {
+                    this.World.RemoveWorldObject(this);
+                }
                 /*if ((Velocity.X == 0) && isOnGround && !currentState.Contains("Dead") && !currentState.Equals("Hit"))
                 {
 
@@ -255,12 +250,12 @@ namespace WesternSpace.DrawableComponents.Actors
                 NetForce -= gravity;
 
                 // If the vulture flys too far away from the player it will turn around and fly the other direction
-                if (World.Player.Position.X + 125 < this.position.X)
+                if (World.Player.Position.X + 100 < this.position.X)
                 {
                     facing = SpriteEffects.None;
                     Velocity = new Vector2(-2, 0);
                 }
-                if (World.Player.Position.X - 125 > this.position.X)
+                if (World.Player.Position.X - 100 > this.position.X)
                 {
                     facing = SpriteEffects.FlipHorizontally;
                     Velocity = new Vector2(2, 0);
@@ -332,10 +327,8 @@ namespace WesternSpace.DrawableComponents.Actors
                 currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
                 if (currentHealth <= 0)
                 {
-                    //NetForce += gravity / Mass;
                     ChangeState("Dead");
                 }
-
             }
         }
 
@@ -383,6 +376,25 @@ namespace WesternSpace.DrawableComponents.Actors
                 facing = value;
             }
         }
+        #endregion
+
+        #region IDamaging Members
+
+        object IDamaging.Owner
+        {
+            get { return this; }
+        }
+
+        WesternSpace.Utility.DamageCategory IDamaging.DoesDamageTo
+        {
+            get { return DamageCategory.Player; }
+        }
+
+        float IDamaging.AmountOfDamage
+        {
+            get { return 10; }
+        }
+
         #endregion
     }
 }
