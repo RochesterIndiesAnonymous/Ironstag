@@ -351,7 +351,7 @@ namespace WesternSpace.DrawableComponents.Actors
             velocity.Y -= jumpVelocity.Y;
         }
 
-        public void ApplyGroundFriction()
+        public virtual void ApplyGroundFriction()
         {
             if (!currentState.Contains("Hit"))
             {

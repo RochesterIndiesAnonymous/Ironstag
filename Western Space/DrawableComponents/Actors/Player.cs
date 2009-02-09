@@ -484,7 +484,6 @@ namespace WesternSpace.DrawableComponents.Actors
                         if (isOnGround)
                         {
                             ChangeState("Dead");
-                            //this.Velocity = Vector2.Zero;
                         }
                         else
                         {
@@ -493,11 +492,11 @@ namespace WesternSpace.DrawableComponents.Actors
 
                         if (facing == SpriteEffects.FlipHorizontally)
                         {
-                            velocity= (-1) * deathPushBack;
+                            NetForce += (-1) * deathPushBack;
                         }
                         else
                         {
-                            velocity = deathPushBack;
+                            NetForce += deathPushBack;
                         }
 
                         //Trigger Flint's Hat to Fall
@@ -628,11 +627,11 @@ namespace WesternSpace.DrawableComponents.Actors
                     invincible = true;
                     if (facing == SpriteEffects.FlipHorizontally)
                     {
-                        Velocity = (-1) * hitPushBack;
+                        NetForce += (-1) * hitPushBack;
                     }
                     else
                     {
-                        Velocity = hitPushBack;
+                        NetForce += hitPushBack;
                     }
                     currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
 

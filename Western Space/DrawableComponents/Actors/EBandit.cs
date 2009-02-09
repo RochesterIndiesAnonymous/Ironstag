@@ -35,6 +35,10 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         private ICameraService camera;
 
+        /// The velocity to move the player back with when dead.
+        /// </summary>
+        private Vector2 deathPushBack;
+
         /// <summary>
         /// Constructor for Flint Ironstag.
         /// </summary>
@@ -75,6 +79,9 @@ namespace WesternSpace.DrawableComponents.Actors
 
             //Set the facing
             facing = SpriteEffects.FlipHorizontally;
+
+            //Set the Death push back
+            deathPushBack = new Vector2(-1.0f, 0);
 
             //Initializes the player's hotspots.
           /*  this.Hotspots.Add(new CollisionHotspot(this, new Vector2(16, 0), HOTSPOT_TYPE.top));
@@ -251,6 +258,8 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
             }
 
+            ApplyGroundFriction();
+
             // -- Handle Physics -- //
             PhysicsHandler.ApplyPhysics(this);
 
@@ -335,6 +344,14 @@ namespace WesternSpace.DrawableComponents.Actors
             
         }
 
+        public override void ApplyGroundFriction()
+        {
+            if (isOnGround)
+            {
+                velocity.X = 0.9f * velocity.X;
+            }
+        }
+
 
         /// <summary>
         /// Called on a Sprite Collision?
@@ -387,11 +404,20 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="damageItem">The other world item that this bandit collided with</param>
         public void TakeDamage(IDamaging damageItem)
         {
-            if (this.TakesDamageFrom != damageItem.DoesDamageTo)
+            if ((this.TakesDamageFrom != damageItem.DoesDamageTo) && !currentState.Equals("Dead"))
             {
                 currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
 
-                if (damageItem is Projectile && !currentState.Equals("Dead"))
+                if (facing == SpriteEffects.FlipHorizontally)
+                {
+                    NetForce += (-1) * deathPushBack;
+                }
+                else
+                {
+                    NetForce += deathPushBack;
+                }
+
+                if (damageItem is Projectile)
                 {
                     this.World.RemoveWorldObject(damageItem as Projectile);
                     Dispose();
