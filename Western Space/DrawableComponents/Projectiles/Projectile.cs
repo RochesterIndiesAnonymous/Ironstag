@@ -18,7 +18,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
     /// <summary>
     /// Manages the the creation, updating, drawing, and destruction of a projectile
     /// </summary>
-    public class Projectile : WorldObject, ISpriteCollideable, IDamaging, IDisposable
+    public class Projectile : WorldObject, ISpriteCollideable, IDamaging, IDisposable, ITileCollidable
     {
         /// <summary>
         /// The speed at which this projectile moves across the screen
@@ -82,6 +82,14 @@ namespace WesternSpace.DrawableComponents.Projectiles
                 facing = SpriteEffects.FlipHorizontally;
             }
 
+            //Initializes the hat's hotspots.
+            List<CollisionHotspot> hotspots = new List<CollisionHotspot>();
+            hotspots.Add(new CollisionHotspot(this, new Vector2(6, 0), HOTSPOT_TYPE.top));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(0, 3), HOTSPOT_TYPE.left));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(9, 3), HOTSPOT_TYPE.right));
+            hotspots.Add(new CollisionHotspot(this, new Vector2(6, 6), HOTSPOT_TYPE.bottom));
+            Hotspots = hotspots;
+
             this.World.AddWorldObject(this);
         }
 
@@ -113,6 +121,23 @@ namespace WesternSpace.DrawableComponents.Projectiles
             // update the position of the projectile
             this.Position += (direction * this.velocity);
 
+            // DO ALL COLLISIONS HERE
+            foreach (CollisionHotspot hotspot in Hotspots)
+            {
+                hotspot.Collide();
+                if (hotspot.DidCollide)
+                {
+                    switch (hotspot.HotSpotType)
+                    {
+                        default:
+                            this.World.RemoveWorldObject(this);
+                            this.Dispose();
+                            break;
+                    }
+                }
+            }
+
+
             base.Update(gameTime);
         }
 
@@ -124,6 +149,17 @@ namespace WesternSpace.DrawableComponents.Projectiles
         {
             // draw the projectile
             SpriteBatch.Draw(texture, Position, Color.White);
+
+
+            #region FOR DEBUGGING COLLISION
+         /*   
+            foreach (CollisionHotspot hotspot in Hotspots)
+            {
+                PrimitiveDrawer.Instance.DrawLine(SpriteBatch, hotspot.WorldPosition, hotspot.WorldPosition + new Vector2(1, 1), Color.Black);
+            }
+            PrimitiveDrawer.Instance.DrawRect(SpriteBatch, Rectangle, Color.Black);
+           */ 
+            #endregion
 
             base.Draw(gameTime);
         }
@@ -205,9 +241,6 @@ namespace WesternSpace.DrawableComponents.Projectiles
             set { }
         }
 
-        #endregion
-        #region ISpriteCollideable Members
-
         Boolean removeFromCollisionRegistration;
         public bool removeFromRegistrationList
         {
@@ -219,6 +252,38 @@ namespace WesternSpace.DrawableComponents.Projectiles
             {
                 removeFromCollisionRegistration = value;
             }
+        }
+
+        #endregion
+
+        #region ITileCollideable Members
+        protected List<CollisionHotspot> hotspotsFacingLeft = new List<CollisionHotspot>();
+        protected List<CollisionHotspot> hotspotsFacingRight;
+
+        public List<CollisionHotspot> Hotspots
+        {
+            // If you set one list of hot spots, mirror it for the other.
+            set
+            {
+                hotspotsFacingRight = value;
+                foreach (CollisionHotspot hotspot in hotspotsFacingRight)
+                {
+                    HOTSPOT_TYPE h = hotspot.HotSpotType;
+                    if (hotspot.HotSpotType == HOTSPOT_TYPE.left)
+                    {
+                        h = HOTSPOT_TYPE.right;
+                    }
+                    else if (hotspot.HotSpotType == HOTSPOT_TYPE.right)
+                    {
+                        h = HOTSPOT_TYPE.left;
+                    }
+                    //CollisionHotspot newHotspot = new CollisionHotspot(this,new Vector2(this.CurrentAnimation.FrameWidth - hotspot.Offset.X,hotspot.Offset.Y),h);
+                    CollisionHotspot newHotspot = new CollisionHotspot(this, new Vector2((-1) * hotspot.Offset.X, hotspot.Offset.Y), h);
+                    hotspotsFacingLeft.Add(newHotspot);
+                }
+            }
+            // Get the hotspot list based upon which direction the player is facing.
+            get { return facing.Equals(SpriteEffects.FlipHorizontally) ? hotspotsFacingLeft : hotspotsFacingRight; }
         }
 
         #endregion

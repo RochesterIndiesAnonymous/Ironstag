@@ -208,6 +208,7 @@ namespace WesternSpace
             ParentScreen.Components.Add(spriteCollisionManager);
 
             bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
+            MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(bgm);
 
             LoadCtorInfos();
@@ -232,6 +233,7 @@ namespace WesternSpace
             ParentScreen.Components.Add(spriteCollisionManager);
 
             bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
+            MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(bgm);
 
             // The spritebatch to be used when creating all of our worldObjects:

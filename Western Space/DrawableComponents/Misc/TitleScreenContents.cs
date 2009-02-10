@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace WesternSpace.DrawableComponents.Misc
 {
@@ -21,6 +22,8 @@ namespace WesternSpace.DrawableComponents.Misc
         private Texture2D titleScreenTexture;
 
         private SpriteFont font;
+
+        private Song bgm;
 
         private bool displayStartString;
 
@@ -40,6 +43,10 @@ namespace WesternSpace.DrawableComponents.Misc
 
             font = this.Game.Content.Load<SpriteFont>("System\\Fonts\\WesternSpaceFont");
 
+            bgm = this.Game.Content.Load<Song>("System\\Music\\TitleScreenBGM");
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(bgm);
+
             base.Initialize();
         }
 
@@ -48,6 +55,7 @@ namespace WesternSpace.DrawableComponents.Misc
             if (InputMonitor.Instance.WasJustReleased(InputMonitor.PAUSE) || InputMonitor.Instance.WasJustReleased(InputMonitor.JUMP))
             {
                 displayStartString = false;
+                MediaPlayer.Stop();
             }
 
             base.Update(gameTime);

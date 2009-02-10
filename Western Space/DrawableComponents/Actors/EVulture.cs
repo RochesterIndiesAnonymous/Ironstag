@@ -74,7 +74,7 @@ namespace WesternSpace.DrawableComponents.Actors
             currentState = "Flying";
 
             //Set the Velocity
-            Velocity = new Vector2(-2, 0);
+            Velocity = new Vector2(0, 0);
             NetForce = Vector2.Zero;
 
             //Set the position
@@ -192,9 +192,6 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="gameTime">The time the game has been running.</param>
         public override void Update(GameTime gameTime)
         {
-
-                
-
                 // -- Check for Final State Changes -- //
                 if (currentState.Contains("Dead") && this.animationPlayer.isDonePlaying())
                 {
@@ -257,14 +254,13 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             if (!currentState.Contains("Dead"))
             {
-                
                 // If the vulture flys too far away from the player it will turn around and fly the other direction
-                if (World.Player.Position.X + 100 < this.position.X)
+                if ((World.Player.Position.X + 100 < this.position.X) && (this.position.X - this.world.Player.Position.X <= 300))
                 {
                     facing = SpriteEffects.None;
                     velocity.X = airMovement.X;
                 }
-                if (World.Player.Position.X - 100 > this.position.X)
+               else if ((World.Player.Position.X - 100 > this.position.X) && (this.position.X - World.Player.Position.X >= -300))
                 {
                     facing = SpriteEffects.FlipHorizontally;
                     velocity.X = (-1)*airMovement.X;
