@@ -407,7 +407,10 @@ namespace WesternSpace.TilingEngine
             i = 0;
             foreach (XElement tileElement in allTileElements)
             {
-                this.SetTile(TileFromXElement(tileElement, sheets), i, j);
+                Tile tile = TileFromXElement(tileElement, sheets);
+                //if(tile != null)
+                //    this.SetTile(new DestructableTile(tile, this, i, j), i, j);
+                this.SetTile(tile, i, j);
 
                 if (j < height - 1)
                 {

@@ -283,6 +283,17 @@ namespace WesternSpace
             // Load the interactive TileMap:
             map = new TileMap(fileContents.Root.Attribute("InteractiveMapFileName").Value);
 
+            for (int i = 0; i < map.Width; ++i)
+            {
+                for (int j = 0; j < map.Height; ++j)
+                {
+                    if (map[i, j] != null && map[i, j] is ISpriteCollideable)
+                    {
+                        spriteCollisionManager.addObjectToRegisteredObjectList((ISpriteCollideable)map[i, j]);
+                    }
+                }
+            }
+
             IEnumerable<XElement> allMapLayers = fileContents.Descendants("MapLayer");
 
             foreach (XElement mapLayer in allMapLayers)
