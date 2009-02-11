@@ -13,6 +13,9 @@ using WesternSpace.ServiceInterfaces;
 
 namespace WesternSpace.Collision
 {
+    // Grid Expanded
+    
+
     // SpriteSpriteCollisionManager - is a grid based collision management system
     // You pretty much add a ISpriteCollideable interface to an object and 
     // register it with this manager and this takes care of the collision detection
@@ -26,11 +29,11 @@ namespace WesternSpace.Collision
     public class SpriteSpriteCollisionManager : DrawableGameComponent //GameComponent
     {        
         // Set this to enable debug visualization
-        static Boolean debug = false;
+        static Boolean debug = true;
         // IDNumberCounter gets incremented every time a new object is added
         protected int IDNumberCounter = 0;
         // Object Collision Grid 
-        protected CollisionObjectBin[,] objectCollisionGrid;
+        protected CollisionObjectBin[,] objectCollisionGrid;               
         // Number Of Bins
         protected int gridWidth;
         protected int gridHeight;
@@ -55,23 +58,36 @@ namespace WesternSpace.Collision
         protected SpriteBatch refSpriteBatch;
         // Reference to the camera class
         protected ICameraService camera;
+        protected RectangleF2 collisionSpaceRectangle;
         public SpriteSpriteCollisionManager(Game game, ISpriteBatchService spriteBatch, int binWidth, int binHeight)
             : base(game)
         {
             this.registeredObject = new List<ISpriteCollideable>();
             this.objectBinsToCheck = new List<CollisionObjectBin>();
             this.objBinLookupTable = new Dictionary<int, List<Point>>();
-            this.refSpriteBatch = spriteBatch.GetSpriteBatch("Camera Sensitive");
+            this.refSpriteBatch = spriteBatch.GetSpriteBatch("Camera Sensitive");      
+            
             this.binWidth = binWidth;
             this.binHeight = binHeight;
             this.gridWidth = 0;
-            this.gridHeight = 0;
-        }
+            this.gridHeight = 0;         
+        }        
         public override void Initialize()
-        {
-            camera = (ICameraService)ScreenManager.Instance.Services.GetService(typeof(ICameraService));           
-            gridWidth = (int)camera.VisibleArea.Width / binWidth;
-            gridHeight = (int)camera.VisibleArea.Height / binHeight;
+        {    
+            
+            camera = (ICameraService)ScreenManager.Instance.Services.GetService(typeof(ICameraService));
+            collisionSpaceRectangle = new RectangleF2(camera.VisibleArea.X,
+                camera.VisibleArea.Y, camera.VisibleArea.Width + 120, camera.VisibleArea.Height + 120);//camera.VisibleArea;
+            // Calculate the width and height needed
+            //int numberOfHorizontalBins;
+            //int numberOfVerticalBins;
+
+            //int width = (int)collisionSpaceRectangle.Width / 40;
+            //int height = (int)collisionSpaceRectangle.Height / 40;
+            //
+
+            gridWidth = (int)(collisionSpaceRectangle.Width / binWidth);
+            gridHeight = (int)(collisionSpaceRectangle.Height / binHeight);
             objectCollisionGrid = new CollisionObjectBin[gridWidth, gridHeight];
             for (int y = 0; y < gridHeight; y++)
             {
@@ -103,22 +119,28 @@ namespace WesternSpace.Collision
             collideableObject.removeFromRegistrationList = true;            
             // Debug.Print("Object Removed from Registered List: " + collideableObject.IdNumber);
         }
+        protected Boolean findOutIfObjectIsInGridSpace(ISpriteCollideable collideableObject)
+        {
+            Rectangle gridObjectRectangle;
+            
+            return false;
+        }
         // Finds out if the object is in camera space
         protected Boolean findOutIfObjectIsInCameraSpace(ISpriteCollideable collideableObject)
         {
             Rectangle objectRectangle = collideableObject.Rectangle;
-            if ((objectRectangle.Left >= camera.VisibleArea.Left) &&
-                (objectRectangle.Right < camera.VisibleArea.Right) &&
-                (objectRectangle.Top >= camera.VisibleArea.Top) &&
-                (objectRectangle.Bottom < camera.VisibleArea.Bottom))
+            if ((objectRectangle.Left >= collisionSpaceRectangle.Left) &&
+                (objectRectangle.Right < collisionSpaceRectangle.Right) &&
+                (objectRectangle.Top >= collisionSpaceRectangle.Top) &&
+                (objectRectangle.Bottom < collisionSpaceRectangle.Bottom))
                 return true;
             return false;
         }
         // Finds out if point is in camera space
         protected Boolean findOutIfPointIsInCameraSpace(float x, float y)
         {
-            if (x >= camera.VisibleArea.Left && x < camera.VisibleArea.Right &&
-                y >= camera.VisibleArea.Top && y < camera.VisibleArea.Bottom)
+            if (x >= collisionSpaceRectangle.Left && x < collisionSpaceRectangle.Right &&
+                y >= collisionSpaceRectangle.Top && y < collisionSpaceRectangle.Bottom)
                 return true;
             return false;
         }
@@ -155,8 +177,8 @@ namespace WesternSpace.Collision
         protected Point WorldCoordToBinCoord(Vector2 vector)
         {
             // CameraSpace
-            float x = (vector.X - this.camera.VisibleArea.X);
-            float y = (vector.Y - this.camera.VisibleArea.Y);
+            float x = (vector.X - this.collisionSpaceRectangle.X);
+            float y = (vector.Y - this.collisionSpaceRectangle.Y);
             // GridSpace
             return new Point((int)x / binWidth, (int)y / binHeight);                       
         }     
@@ -165,6 +187,7 @@ namespace WesternSpace.Collision
         // coordinates in between.
         protected List<Point> getObjectCollisionBinCoord(ISpriteCollideable collideableObject)
         {
+            Point p = WorldCoordToBinCoord(new Vector2(200, 200));
             List<Point> listOfBinCoord = new List<Point>();
             Point leftTop = WorldCoordToBinCoord(
                 new Vector2(collideableObject.Rectangle.Left, collideableObject.Rectangle.Top));
@@ -203,6 +226,8 @@ namespace WesternSpace.Collision
         }
         public override void Update(GameTime gameTime)
         {
+            collisionSpaceRectangle.X = camera.VisibleArea.X;
+            collisionSpaceRectangle.Y = camera.VisibleArea.Y;
             // I make a copy of the registeredObjectList so i can remove things from the real one
             IEnumerable<ISpriteCollideable> registeredObjectCopy = registeredObject.ToList();            
             List<Point> newCoords;
@@ -307,8 +332,8 @@ namespace WesternSpace.Collision
                     for (int x = 0; x < gridWidth; x++)
                     {
                         PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
-                                new Rectangle(positionX + (int)this.camera.VisibleArea.X,
-                                              positionY + (int)this.camera.VisibleArea.Y,
+                                new Rectangle(positionX + (int)collisionSpaceRectangle.X,
+                                              positionY + (int)collisionSpaceRectangle.Y,
                                               this.binWidth, this.binHeight), Color.Red);
                         positionX += binWidth;
                     }                    
@@ -324,15 +349,15 @@ namespace WesternSpace.Collision
                         if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects == 1)
                         {
                             PrimitiveDrawer.Instance.DrawRect(refSpriteBatch,
-                                new Rectangle(positionX + (int)this.camera.VisibleArea.X,
-                                              positionY + (int)this.camera.VisibleArea.Y, 
+                                new Rectangle(positionX + (int)collisionSpaceRectangle.X,
+                                              positionY + (int)collisionSpaceRectangle.Y, 
                                               this.binWidth, this.binHeight), Color.Purple);
                         }
                         else if (this.objectCollisionGrid[x, y].NumberOfCollideableObjects > 1)
                         {                            
                             PrimitiveDrawer.Instance.DrawSolidRect(refSpriteBatch,
-                                new Rectangle(positionX + (int)this.camera.VisibleArea.X,
-                                              positionY + (int)this.camera.VisibleArea.Y,
+                                new Rectangle(positionX + (int)collisionSpaceRectangle.X,
+                                              positionY + (int)collisionSpaceRectangle.Y,
                                               this.binWidth, this.binHeight), multiObjColor);
                         }
                         positionX += binWidth;
