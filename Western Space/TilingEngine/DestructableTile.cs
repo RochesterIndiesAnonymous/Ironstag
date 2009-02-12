@@ -112,6 +112,7 @@ namespace WesternSpace.TilingEngine
 
         public void OnSpriteCollision(ISpriteCollideable objectCollidedWith)
         {
+            return;
             IDamaging damagingObject = objectCollidedWith as IDamaging;
             if (damagingObject != null)
             {
@@ -195,19 +196,25 @@ namespace WesternSpace.TilingEngine
             return false;
         }
 
+        private bool destructed = false;
+
         /// <summary>
         /// Called when this DestructableTile is destroyed.
         /// </summary>
         private void Destruct()
         {
-            base.textures[Map.LayerCount - 1, Map.SubLayerCount - 1] = null;
-            base.SetSolid(false);
-            Map.SetTile(this, x, y);
-            this.removeFromCollisionRegistration = true;
-
-            foreach (IDestructionEffect effect in DestructionEffects)
+            if (!destructed)
             {
-                effect.OnDestruct(this);
+                base.textures[Map.LayerCount - 1, Map.SubLayerCount - 1] = null;
+                base.SetSolid(false);
+                Map.SetTile(this, x, y);
+                this.removeFromCollisionRegistration = true;
+
+                foreach (IDestructionEffect effect in DestructionEffects)
+                {
+                    effect.OnDestruct(this);
+                }
+                destructed = true;
             }
         }
     }
