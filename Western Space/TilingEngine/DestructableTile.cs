@@ -112,7 +112,6 @@ namespace WesternSpace.TilingEngine
 
         public void OnSpriteCollision(ISpriteCollideable objectCollidedWith)
         {
-            return;
             IDamaging damagingObject = objectCollidedWith as IDamaging;
             if (damagingObject != null)
             {
