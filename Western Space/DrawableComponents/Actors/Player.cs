@@ -111,6 +111,8 @@ namespace WesternSpace.DrawableComponents.Actors
 
         private bool gameOverDisplayed = false;
 
+        private float maxJumpTime = 300;
+
         /// <summary>
         /// Constructor for Flint Ironstag.
         /// </summary>
@@ -153,6 +155,9 @@ namespace WesternSpace.DrawableComponents.Actors
 
             //Set the facing
             facing = SpriteEffects.None;
+
+            //Max Jump Time
+            
 
             //Initializes the player's hotspots.
             List<CollisionHotspot> hotspots = new List<CollisionHotspot>();
@@ -246,7 +251,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 if (!currentState.Contains("Jumping") && !currentState.Contains("Falling"))
                 {
                    // Console.WriteLine("START JUMP INVOKED");
-                    ApplyJump(1);
+                    ApplyJump();
                     ChangeState("JumpingAscent");
                     isOnGround = false;
                     reachedMaxJump = false;
@@ -258,7 +263,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// Called when the player presses the jump button. If the player is already
         /// in a jumping state then no action is to occurr.
         /// </summary>
-        private void Jump(int pressedTime)
+        private void Jump(float pressedTime)
         {
 
            // Console.WriteLine("PLAYER VEL: " + velocity+" REACHED MAX: "+reachedMaxJump+" MAX JUMP VEL: "+maxJumpHeight);
@@ -266,19 +271,13 @@ namespace WesternSpace.DrawableComponents.Actors
             {
                 if (currentState.Contains("Jumping") && !currentState.Contains("Descent"))
                 {
-                    if (pressedTime > 0 && !reachedMaxJump)
+                    if (pressedTime < maxJumpTime && pressedTime > 0 && !reachedMaxJump)
                     {
-                        ApplyJump(1);
+                        ApplyJump();
                     }
                     else
                     {
-                        ApplyJump(0);
-                        reachedMaxJump = true;
-                    }
-
-                    if (velocity.Y <= maxJumpHeight)
-                    {
-                        //Console.WriteLine("Reached Max: " + velocity.Y + " MAX JUMP: " + maxJumpHeight);
+                        EndJump();
                         reachedMaxJump = true;
                     }
                 }

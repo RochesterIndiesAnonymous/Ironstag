@@ -312,7 +312,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// Vector representing the Acceleration due to gravity.
         /// </summary>
-        public readonly Vector2 gravity = new Vector2(0f, 0.3f);
+        public readonly Vector2 gravity = new Vector2(0f, 0.2f);
 
         /// <summary>
         /// Vector representing the Velocity of moving on the ground.
@@ -324,7 +324,7 @@ namespace WesternSpace.DrawableComponents.Actors
         ///</summary>
         readonly Vector2 airVelocity = new Vector2(2f, 0f);
 
-        readonly Vector2 jumpVelocity = new Vector2(0f, 1f);
+        readonly Vector2 jumpVelocity = new Vector2(0f, 5f);
 
 
         /// <summary>
@@ -351,9 +351,14 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// Applies the set jump velocity to a velocity vector.
         /// </summary>
-        public void ApplyJump(float pressedTime)
+        public void ApplyJump()
         {
-            velocity.Y += pressedTime*(-1)*jumpVelocity.Y;
+            velocity.Y = (-1)*jumpVelocity.Y;
+        }
+
+        public void EndJump()
+        {
+            velocity.Y = 0;
         }
 
         public virtual void ApplyGroundFriction()
