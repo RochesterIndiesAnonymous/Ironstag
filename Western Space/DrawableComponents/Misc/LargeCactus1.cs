@@ -29,7 +29,7 @@ namespace WesternSpace.DrawableComponents.Misc
         public LargeCactus1(World world, SpriteBatch spriteBatch, Vector2 position)
             : base(world, spriteBatch, position)
         {
-            boundingRectangle = new Rectangle((int)Position.X+9, (int)Position.Y+3, 27, 62);
+            boundingRectangle = new Rectangle((int)Position.X+11, (int)Position.Y+3, 25, 62);
             this.texture = ((ITextureService)ScreenManager.Instance.Services.GetService(typeof(ITextureService))).GetTexture("Textures\\Enemies\\LargeCactus1");
         }
 

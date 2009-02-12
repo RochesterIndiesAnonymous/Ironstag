@@ -151,13 +151,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\FlintIronstag\FlintRun.png">
-      <Name>FlintRun</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\FlintIronstag\FlintJump2.png">
       <Name>FlintJump2</Name>
       <Importer>TextureImporter</Importer>
@@ -467,6 +460,11 @@
   <ItemGroup>
     <Compile Include="Textures\FlintIronstag\FlintJump1.png">
       <Name>FlintJump1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\FlintIronstag\FlintRun.png">
+      <Name>FlintRun</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

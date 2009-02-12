@@ -28,7 +28,7 @@ namespace WesternSpace.DrawableComponents.Misc
 
         public SmallCactus(World world, SpriteBatch spriteBatch, Vector2 position) : base(world,spriteBatch,position)
         {
-            boundingRectangle = new Rectangle((int)Position.X, (int)Position.Y, 24, 24);
+            boundingRectangle = new Rectangle((int)Position.X, (int)Position.Y+4, 24, 20);
             this.texture = ((ITextureService)ScreenManager.Instance.Services.GetService(typeof(ITextureService))).GetTexture("Textures\\Enemies\\SmallCactus");
         }
 
