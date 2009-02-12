@@ -13,9 +13,6 @@ using WesternSpace.ServiceInterfaces;
 
 namespace WesternSpace.Collision
 {
-    // Grid Expanded
-    
-
     // SpriteSpriteCollisionManager - is a grid based collision management system
     // You pretty much add a ISpriteCollideable interface to an object and 
     // register it with this manager and this takes care of the collision detection
@@ -27,9 +24,9 @@ namespace WesternSpace.Collision
 
     // Note: I am going to try to do the same with the removal
     public class SpriteSpriteCollisionManager : DrawableGameComponent //GameComponent
-    {        
+    {                         
         // Set this to enable debug visualization
-        static Boolean debug = true;
+        static Boolean debug = false;
         // IDNumberCounter gets incremented every time a new object is added
         protected int IDNumberCounter = 0;
         // Object Collision Grid 
@@ -59,6 +56,8 @@ namespace WesternSpace.Collision
         // Reference to the camera class
         protected ICameraService camera;
         protected RectangleF2 collisionSpaceRectangle;
+        protected Vector2 offsetVector;
+        protected int bufferBins;
         public SpriteSpriteCollisionManager(Game game, ISpriteBatchService spriteBatch, int binWidth, int binHeight)
             : base(game)
         {
@@ -70,21 +69,22 @@ namespace WesternSpace.Collision
             this.binWidth = binWidth;
             this.binHeight = binHeight;
             this.gridWidth = 0;
-            this.gridHeight = 0;         
+            this.gridHeight = 0;
+            offsetVector = new Vector2();
+            // Set this to add more bins out side of camera size
+            bufferBins = 10;
         }        
         public override void Initialize()
-        {    
-            
+        {            
             camera = (ICameraService)ScreenManager.Instance.Services.GetService(typeof(ICameraService));
             collisionSpaceRectangle = new RectangleF2(camera.VisibleArea.X,
-                camera.VisibleArea.Y, camera.VisibleArea.Width + 120, camera.VisibleArea.Height + 120);//camera.VisibleArea;
-            // Calculate the width and height needed
-            //int numberOfHorizontalBins;
-            //int numberOfVerticalBins;
-
-            //int width = (int)collisionSpaceRectangle.Width / 40;
-            //int height = (int)collisionSpaceRectangle.Height / 40;
-            //
+                camera.VisibleArea.Y, camera.VisibleArea.Width + (bufferBins * binWidth), camera.VisibleArea.Height + (bufferBins * binHeight));           
+            if (collisionSpaceRectangle.Width > camera.VisibleArea.Width &&
+               collisionSpaceRectangle.Height > camera.VisibleArea.Height)
+            {
+                offsetVector.X = (collisionSpaceRectangle.Width - camera.VisibleArea.Width)/2;
+                offsetVector.Y = (collisionSpaceRectangle.Height - camera.VisibleArea.Height)/2;
+            }
 
             gridWidth = (int)(collisionSpaceRectangle.Width / binWidth);
             gridHeight = (int)(collisionSpaceRectangle.Height / binHeight);
@@ -224,10 +224,11 @@ namespace WesternSpace.Collision
             }
             return true;
         }
+        //public IEnumerable<ISpriteCollideable> cullObjectGetCopy
         public override void Update(GameTime gameTime)
         {
-            collisionSpaceRectangle.X = camera.VisibleArea.X;
-            collisionSpaceRectangle.Y = camera.VisibleArea.Y;
+            collisionSpaceRectangle.X = camera.VisibleArea.X - offsetVector.X;
+            collisionSpaceRectangle.Y = camera.VisibleArea.Y - offsetVector.Y;
             // I make a copy of the registeredObjectList so i can remove things from the real one
             IEnumerable<ISpriteCollideable> registeredObjectCopy = registeredObject.ToList();            
             List<Point> newCoords;
@@ -289,9 +290,10 @@ namespace WesternSpace.Collision
                 }
             }
             // Make a copy of the bins to check so when a bin is removed the loop doesnt freak out 
-            IEnumerable<CollisionObjectBin> objBinsToCheckCopy = objectBinsToCheck.ToList();
+            //IEnumerable<CollisionObjectBin> objBinsToCheckCopy = objectBinsToCheck.ToList();
             // Scan all bins on the Object List to be Checked
-            foreach (CollisionObjectBin gameObjBin in objBinsToCheckCopy)
+            //foreach (CollisionObjectBin gameObjBin in objBinsToCheckCopy)
+            foreach (CollisionObjectBin gameObjBin in objectBinsToCheck)
             {
                 // We take two indexers Start i at 0 and end at n-1
                 // and the second we start at j at 1 and at n
@@ -307,10 +309,12 @@ namespace WesternSpace.Collision
                         if (BoundingBox(gameObjBin.ListOfCollideableObjects.ElementAt(i), gameObjBin.ListOfCollideableObjects.ElementAt(j)))                        
                         {
                             // Copys the collideable object if one of them gets deleted before the other
-                            ISpriteCollideable collidedObj1 = gameObjBin.ListOfCollideableObjects.ElementAt(i);
-                            ISpriteCollideable collidedObj2 = gameObjBin.ListOfCollideableObjects.ElementAt(j);
-                            collidedObj1.OnSpriteCollision(collidedObj2);
-                            collidedObj2.OnSpriteCollision(collidedObj1);
+                            //ISpriteCollideable collidedObj1 = gameObjBin.ListOfCollideableObjects.ElementAt(i);
+                            //ISpriteCollideable collidedObj2 = gameObjBin.ListOfCollideableObjects.ElementAt(j);
+                            //collidedObj1.OnSpriteCollision(collidedObj2);
+                            //collidedObj2.OnSpriteCollision(collidedObj1);
+                            gameObjBin.ListOfCollideableObjects.ElementAt(i).OnSpriteCollision(gameObjBin.ListOfCollideableObjects.ElementAt(j));
+                            gameObjBin.ListOfCollideableObjects.ElementAt(j).OnSpriteCollision(gameObjBin.ListOfCollideableObjects.ElementAt(i));
                         }
                     }
                 }            

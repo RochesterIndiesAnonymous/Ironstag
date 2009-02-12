@@ -35,6 +35,8 @@ namespace WesternSpace.Collision
         }
         // Boolean flag used to remove a object from the collision manager
         // entirely
+        // To Remove an Object you can either set this or use the
+        // Removefromregistered List function
         Boolean removeFromRegistrationList
         {
             get;
