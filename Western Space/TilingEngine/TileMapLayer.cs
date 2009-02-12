@@ -231,7 +231,14 @@ namespace WesternSpace.TilingEngine
                                               new Rectangle((int)topLeft.X, (int)topLeft.Y, tm.TileWidth, tm.TileHeight),
                                               col);*/
                         PrimitiveDrawer.Instance.DrawLine(SpriteBatch, topLeft, bottomRight, col);
-                        PrimitiveDrawer.Instance.DrawLine(SpriteBatch, topRight, bottomLeft, col);
+                        PrimitiveDrawer.Instance.DrawLine(SpriteBatch, topLeft + (bottomLeft-topLeft)*(2.0f/3.0f), 
+                                                                       bottomRight - (bottomRight - bottomLeft)*(2.0f/3.0f), col);
+                        PrimitiveDrawer.Instance.DrawLine(SpriteBatch, topLeft + (bottomLeft - topLeft) * (1.0f / 3.0f),
+                                                                       bottomRight - (bottomRight - bottomLeft) * (1.0f / 3.0f), col);
+                        PrimitiveDrawer.Instance.DrawLine(SpriteBatch, topLeft + (topRight - topLeft) * (1.0f / 3.0f),
+                                                                       bottomRight - (bottomRight - topRight) * (1.0f / 3.0f), col);
+                        PrimitiveDrawer.Instance.DrawLine(SpriteBatch, topLeft + (topRight - topLeft) * (2.0f / 3.0f),
+                                                                       bottomRight - (bottomRight - topRight) * (2.0f / 3.0f), col);
                     }
                 }
             }

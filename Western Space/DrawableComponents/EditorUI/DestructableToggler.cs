@@ -85,7 +85,20 @@ namespace WesternSpace.DrawableComponents.EditorUI
             {
                 Color = new Microsoft.Xna.Framework.Graphics.Color(1.0f, 1.0f, 1.0f, (mouseInside ? 0.8f : 0.5f));
             }
+            Vector2 topLeft = new Vector2(Bounds.Left, Bounds.Top);
+            Vector2 topRight = new Vector2(Bounds.Right, Bounds.Top);
+            Vector2 bottomLeft = new Vector2(Bounds.Left, Bounds.Bottom);
+            Vector2 bottomRight = new Vector2(Bounds.Right, Bounds.Bottom);
 
+            PrimitiveDrawer.Instance.DrawLine(SpriteBatch, topLeft, bottomRight, Color);
+            PrimitiveDrawer.Instance.DrawLine(SpriteBatch, topLeft + (bottomLeft - topLeft) * (2.0f / 3.0f),
+                                                           bottomRight - (bottomRight - bottomLeft) * (2.0f / 3.0f), Color);
+            PrimitiveDrawer.Instance.DrawLine(SpriteBatch, topLeft + (bottomLeft - topLeft) * (1.0f / 3.0f),
+                                                           bottomRight - (bottomRight - bottomLeft) * (1.0f / 3.0f), Color);
+            PrimitiveDrawer.Instance.DrawLine(SpriteBatch, topLeft + (topRight - topLeft) * (1.0f / 3.0f),
+                                                           bottomRight - (bottomRight - topRight) * (1.0f / 3.0f), Color);
+            PrimitiveDrawer.Instance.DrawLine(SpriteBatch, topLeft + (topRight - topLeft) * (2.0f / 3.0f),
+                                                           bottomRight - (bottomRight - topRight) * (2.0f / 3.0f), Color);
             base.Draw(gameTime);
         }
 
