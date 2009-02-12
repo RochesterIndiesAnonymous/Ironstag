@@ -80,7 +80,10 @@ namespace WesternSpace.DrawableComponents.EditorUI
         /// </summary>
         private TileMapLayer[] selectionMapLayers;
 
-        private TileMap selectionMap;
+        public TileMap SelectionMap
+        {
+            get { return TileMap.SubTileMapFromCoordList(selectedTileCoordinates); }
+        }
 
         // Somewhat slow, I know. But for now it works:
         public List<Tile> SelectedTiles
@@ -129,7 +132,6 @@ namespace WesternSpace.DrawableComponents.EditorUI
             {
                 selectedTileCoordinates.Add(tileMapCoords);
             }
-            selectionMap = TileMap.SubTileMapFromCoordList(selectedTileCoordinates);
             notifyTilePropertyComponents();
         }
 
@@ -150,7 +152,6 @@ namespace WesternSpace.DrawableComponents.EditorUI
                     selectedTileCoordinates.Add(tileMapCoords);
                 }
             }
-            selectionMap = TileMap.SubTileMapFromCoordList(selectedTileCoordinates);
             notifyTilePropertyComponents();
         }
 
@@ -186,7 +187,6 @@ namespace WesternSpace.DrawableComponents.EditorUI
                     selectedTileCoordinates.Remove(tileMapCoords);
                 }
             }
-            selectionMap = TileMap.SubTileMapFromCoordList(selectedTileCoordinates);
             notifyTilePropertyComponents();
         }
 
@@ -257,6 +257,54 @@ namespace WesternSpace.DrawableComponents.EditorUI
         }
 
         /// <summary>
+        /// Set all selected tiles to being either destructable or non-destructable
+        /// based on the bool passed in.
+        /// </summary>
+        /// <param name="destructable">
+        /// Whether or not the tile is destructable; true if so, false if not. Duh.
+        /// </param>
+        public void SetDestructable(bool destructable)
+        {
+            foreach (int[] tileCoord in selectedTileCoordinates)
+            {
+                int x, y;
+
+                x = tileCoord[0];
+                y = tileCoord[1];
+
+                Tile tile = TileMap[x, y];
+
+                if (tile == null)
+                {
+                    if (destructable)
+                    {
+                        tile = new Tile(new SubTexture[TileMap.LayerCount, TileMap.SubLayerCount],
+                                        new bool[] { false, false, false, false });
+
+                        tile = new DestructableTile(tile, EditorScreen.World, tileCoord[0], tileCoord[1], 10.0f);
+                    }
+                }
+                else if (tile is DestructableTile)
+                {
+                    if (!destructable)
+                    {
+                        tile = new Tile(tile); // A plain-vanilla tile, we're only extracting the texture and edge data.
+                    }
+                }
+                else
+                {
+                    if (destructable)
+                    {
+                        tile = new DestructableTile(tile, EditorScreen.World, tileCoord[0], tileCoord[1], 10.0f);
+                    }
+                }
+
+                TileMap.SetTile(tile, x, y);
+            }
+            notifyTilePropertyComponents();
+        }
+
+        /// <summary>
         /// Remove some tiles from the TileMap.
         /// </summary>
         /// <param name="coordinateList">
@@ -267,7 +315,6 @@ namespace WesternSpace.DrawableComponents.EditorUI
         public void RemoveTiles(List<int[]> coordinateList)
         {
             selectedTileCoordinates.Clear();
-            selectionMap = TileMap.SubTileMapFromCoordList(coordinateList);
             foreach (int[] tileMapCoords in coordinateList)
             {
                 this.TileMap.SetTile(null, tileMapCoords[0], tileMapCoords[1]);
@@ -358,8 +405,8 @@ namespace WesternSpace.DrawableComponents.EditorUI
                         }
                         break;
                     case 1: // Middle mouse unclick.
-                        if(selectionMap != null)
-                            TileMap.BlitTileMap(selectionMap, x, y);
+                        if(SelectionMap != null)
+                            TileMap.BlitTileMap(SelectionMap, x, y);
                         break;
                     case 2: // Right mouse unclick. Remove the tiles.
                         RemoveTiles(selectingTileCoordinates);

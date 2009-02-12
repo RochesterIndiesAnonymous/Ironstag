@@ -190,7 +190,16 @@ namespace WesternSpace.TilingEngine
                     }
                     else
                     {
-                        SetTile(new Tile(other[i, j]), i + xOffset, j + yOffset);
+                        DestructableTile destructable = other[i,j] as DestructableTile;
+                        if (destructable != null)
+                        {
+                            SetTile(new DestructableTile(tile, destructable.World, i + xOffset, j + yOffset, destructable.MaxHealth),
+                                i + xOffset, j + yOffset);
+                        }
+                        else
+                        {
+                            SetTile(new Tile(tile), i + xOffset, j + yOffset);
+                        }
                     }
                 }
             }
@@ -239,7 +248,12 @@ namespace WesternSpace.TilingEngine
                 foreach (int[] tileCoord in tileCoordinates)
                 {
                     Tile tile = this[tileCoord[0], tileCoord[1]];
-                    if (tile != null)
+                    DestructableTile destructable = this[tileCoord[0], tileCoord[1]] as DestructableTile;
+                    if (destructable != null)
+                    {
+                        subTileMap.SetTile(destructable, tileCoord[0] - minX, tileCoord[1] - minY);
+                    }
+                    else if (tile != null)
                     {
                         subTileMap.SetTile(tile, tileCoord[0] - minX, tileCoord[1] - minY);
                     }
@@ -365,7 +379,7 @@ namespace WesternSpace.TilingEngine
             SetTile(null, x, y);
         }
 
-        public TileMap(string fileName)
+        public TileMap(World world, string fileName)
         {
             this.fileName = fileName;
             XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(fileName);
@@ -407,9 +421,7 @@ namespace WesternSpace.TilingEngine
             i = 0;
             foreach (XElement tileElement in allTileElements)
             {
-                Tile tile = TileFromXElement(tileElement, sheets);
-                //if(tile != null)
-                //    this.SetTile(new DestructableTile(tile, this, i, j), i, j);
+                Tile tile = TileFromXElement(tileElement, sheets, i, j, world);
                 this.SetTile(tile, i, j);
 
                 if (j < height - 1)
@@ -469,15 +481,23 @@ namespace WesternSpace.TilingEngine
                 }
                 ++z;
             }
+
+            // Check for special types of tiles:
+            if (tile is DestructableTile)
+                returnVal.Add(new XAttribute("d", ((DestructableTile)tile).MaxHealth));
+
             return returnVal;
         }
 
-        private Tile TileFromXElement(XElement xelement, SubTextureSheet[] sheets)
+        private Tile TileFromXElement(XElement xelement, SubTextureSheet[] sheets, int x, int y, World world)
         {
             if (xelement.Attribute("e").Value == "-1")
             {
                 return null;
             }
+
+            Tile returnVal;
+
 
             SubTexture[,] subTexturesArray = new SubTexture[layerCount, subLayerCount];
 
@@ -503,7 +523,19 @@ namespace WesternSpace.TilingEngine
                 edges[k] = (edgeInt & (int)Math.Pow(2, k)) != 0;
             }
 
-            return new Tile(subTexturesArray, edges);
+            returnVal = new Tile(subTexturesArray, edges);
+
+            // Check for special tile types:
+            bool isDestructable = (from att in xelement.Attributes() where att.Name == "d" select att).Count() > 0;
+
+            if (isDestructable)
+            {
+                List<IDestructionEffect> effects = new List<IDestructionEffect>();
+                effects.Add(new ExplosionEffect());
+                returnVal = new DestructableTile(returnVal, world, x, y, float.Parse(xelement.Attribute("d").Value), effects);
+            }
+
+            return returnVal;
         }
 
         #endregion

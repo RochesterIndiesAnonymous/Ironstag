@@ -12,7 +12,7 @@ namespace WesternSpace.TilingEngine
 {
     public class Tile
     {
-        private SubTexture[,] textures;
+        protected SubTexture[,] textures;
 
         private bool[] initialEdges;
         private bool[] edges;
@@ -44,7 +44,7 @@ namespace WesternSpace.TilingEngine
         // If a tile contains no edges or texture data, it can safely
         //  be referred to with a null. This is useful for preventing useless
         //  empty tiles from being saved in our map.
-        public bool IsEmpty()
+        virtual public bool IsEmpty()
         {
             for (int i = 0; i < 4; ++i)
             {

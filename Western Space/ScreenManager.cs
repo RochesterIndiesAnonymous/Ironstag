@@ -161,7 +161,8 @@ namespace WesternSpace
 
             sb = new SpriteBatch(GraphicsDevice);
 
-            /* //For profiling:
+            //For profiling:
+            /*
             this.IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = false;
             graphics.ApplyChanges();

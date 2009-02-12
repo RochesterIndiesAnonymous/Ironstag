@@ -58,7 +58,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
                     {
                         tile = orig[i,j];
                         if (tile != null)
-                            copy[i, j] = new Tile(tile);
+                            copy[i, j] = tile;
                     }
                 }
                 copy.Minimize();

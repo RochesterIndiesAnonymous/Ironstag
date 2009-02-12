@@ -93,6 +93,13 @@ namespace WesternSpace.Screens
             get { return edgeToggler; }
         }
 
+        private DestructableToggler destructableToggler;
+
+        public DestructableToggler DestructableToggler
+        {
+            get { return destructableToggler; }
+        }
+
         private WorldObjectMover playerMover;
 
         public WorldObjectMover PlayerMover
@@ -200,8 +207,6 @@ namespace WesternSpace.Screens
                     if (i == 0)
                     {
                         tml.DrawOrder = World.PLAYER_DRAW_ORDER - DEFAULT_LAYER_SPACING;
-                        tml.DrawBlanksEnabled = true;
-                        tml.DrawEdgesEnabled = true;
                     }
                     else
                     {
@@ -209,6 +214,7 @@ namespace WesternSpace.Screens
                         {
                             tml.DrawBlanksEnabled = true;
                             tml.DrawEdgesEnabled = true;
+                            tml.DrawDestructablesEnabled = true;
                         }
                         tml.DrawOrder = World.PLAYER_DRAW_ORDER + i * DEFAULT_LAYER_SPACING;
                     }
@@ -285,6 +291,13 @@ namespace WesternSpace.Screens
             EdgeToggler.DrawOrder = 25;
             TileSelector.TilePropertyComponents.Add(EdgeToggler);
             this.Components.Add(EdgeToggler);
+
+            tmp.Y += 20 + world.Map.TileHeight;
+            this.destructableToggler = new DestructableToggler(this, sb, tmp, TileSelector);
+            DestructableToggler.DrawOrder = 25;
+            TileSelector.TilePropertyComponents.Add(DestructableToggler);
+            this.Components.Add(DestructableToggler);
+
 
             SaveButton saveButton = new SaveButton(this, sb, new RectangleF(5, 400, 30, 15), World);
             saveButton.DrawOrder = 20;

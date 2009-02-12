@@ -281,7 +281,7 @@ namespace WesternSpace
             #region LOAD INTERACTIVE MAP LAYERS
 
             // Load the interactive TileMap:
-            map = new TileMap(fileContents.Root.Attribute("InteractiveMapFileName").Value);
+            map = new TileMap(this, fileContents.Root.Attribute("InteractiveMapFileName").Value);
 
             for (int i = 0; i < map.Width; ++i)
             {
@@ -355,7 +355,7 @@ namespace WesternSpace
                 float ScrollSpeed;
                 TileMap tileMap;
 
-                tileMap = new TileMap(parallaxMap.Attribute("MapFileName").Value);
+                tileMap = new TileMap(this, parallaxMap.Attribute("MapFileName").Value);
                 otherMaps.Add(tileMap);
 
                 ScrollSpeed = Single.Parse(parallaxMap.Attribute("ScrollSpeed").Value);

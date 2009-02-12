@@ -30,6 +30,13 @@ namespace WesternSpace.TilingEngine
             set { drawBlanksEnabled = value; }
         }
 
+        private bool drawDestructablesEnabled;
+
+        public bool DrawDestructablesEnabled
+        {
+            get { return drawDestructablesEnabled; }
+            set { drawDestructablesEnabled = value; }
+        }
 
         private static string spriteBatchName = "Camera Sensitive";
 
@@ -122,6 +129,7 @@ namespace WesternSpace.TilingEngine
         {
             this.drawEdgesEnabled = false;
             this.drawBlanksEnabled = false;
+            this.drawDestructablesEnabled = false;
             this.layerIndex = layerIndex;
             scrollSpeed = 1.0f;
             this.tm = tm;
@@ -192,10 +200,47 @@ namespace WesternSpace.TilingEngine
                 DrawEdges();
             }
 
+            if (drawDestructablesEnabled)
+            {
+                DrawDestructables();
+            }
+
             base.Draw(gameTime);
         }
 
-        // Possibly the best method name ever?
+        private void DrawDestructables()
+        { 
+            Vector2 topLeft, topRight, bottomLeft, bottomRight;
+            Tile tile;
+            PrimitiveDrawer drawer = PrimitiveDrawer.Instance;
+            Vector2 camPos = camera.Position;
+            Color col = Color.Red;
+            for (int x = startX; x < endX; ++x)
+            {
+                for (int y = startY; y < endY; ++y)
+                {
+                    topLeft = new Vector2(x * tm.TileWidth, y * tm.TileHeight)+(camPos - camPos * scrollSpeed);
+                    topRight = topLeft + (new Vector2((float)tm.TileWidth, .0f));
+                    bottomLeft = topLeft + (new Vector2(.0f, (float)tm.TileHeight));
+                    bottomRight = bottomLeft + (new Vector2((float)tm.TileWidth, .0f));
+
+                    tile = tm[x, y];
+                    if (tile != null && tile is DestructableTile)
+                    {
+                        /*PrimitiveDrawer.Instance.DrawRect(SpriteBatch,
+                                              new Rectangle((int)topLeft.X, (int)topLeft.Y, tm.TileWidth, tm.TileHeight),
+                                              col);*/
+                        PrimitiveDrawer.Instance.DrawLine(SpriteBatch, topLeft, bottomRight, col);
+                        PrimitiveDrawer.Instance.DrawLine(SpriteBatch, topRight, bottomLeft, col);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Possibly the best method name ever?
+        /// </summary>
+        /// <param name="position">TopLeft of the blank tile.</param>
         private void DrawBlank(Vector2 position)
         {
             position.X += 1;
@@ -209,7 +254,7 @@ namespace WesternSpace.TilingEngine
 
         // Useful for debugging and the Editor, draw all solid edges on our tiles.
         //  Presumably, this will be called after all the tiles themselves are drawn.
-        public void DrawEdges()
+        private void DrawEdges()
         {
             Vector2 topLeft, topRight, bottomLeft, bottomRight;
             Tile tile;

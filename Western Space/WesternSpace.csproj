@@ -90,6 +90,7 @@
     <Compile Include="AnimationFramework\AnimationPlayer.cs" />
     <Compile Include="AnimationFramework\Frame.cs" />
     <Compile Include="DrawableComponents\Actors\EVulture.cs" />
+    <Compile Include="DrawableComponents\EditorUI\DestructableToggler.cs" />
     <Compile Include="DrawableComponents\EditorUI\WorldObjectMover.cs" />
     <Compile Include="DrawableComponents\EditorUI\WorldObjectPlacer.cs" />
     <Compile Include="DrawableComponents\Misc\Explosion.cs" />
@@ -107,6 +108,8 @@
     <Compile Include="Screens\ScreenTransition.cs" />
     <Compile Include="Screens\ScreenTransitionProgess.cs" />
     <Compile Include="Screens\TitleScreen.cs" />
+    <Compile Include="TilingEngine\ExplosionEffect.cs" />
+    <Compile Include="TilingEngine\IDestructionEffect.cs" />
     <Compile Include="Utility\Bird.cs" />
     <Compile Include="Utility\RectangleF2.cs" />
     <Compile Include="WorldObject.cs" />

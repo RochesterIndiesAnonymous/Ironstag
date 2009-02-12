@@ -50,7 +50,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         #region MOUSE EVENT HANDLERS
 
-        protected override void OnMouseUnclick(int button)
+        protected override void OnMouseClickAndUnclick(int button)
         {
             switch(button)
             {
@@ -71,7 +71,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 break;
                 
             }
-            base.OnMouseUnclick(button);
+            base.OnMouseClickAndUnclick(button);
         }
 
         #endregion
