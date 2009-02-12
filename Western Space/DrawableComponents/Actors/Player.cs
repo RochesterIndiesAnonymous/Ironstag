@@ -690,7 +690,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 if ((this.TakesDamageFrom != damageItem.DoesDamageTo) && (damageItem.AmountOfDamage != 0) && !invincible)
                 {
                     ChangeState("Hit");
-                    invincible = true;
+
                     if (facing == SpriteEffects.FlipHorizontally)
                     {
                         NetForce += (-1) * hitPushBack;
@@ -700,6 +700,11 @@ namespace WesternSpace.DrawableComponents.Actors
                         NetForce += hitPushBack;
                     }
                     currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
+
+                    if (currentHealth > 0)
+                    {
+                        invincible = true;
+                    }
 
                     Projectile p = damageItem as Projectile;
 

@@ -107,7 +107,6 @@
     <Compile Include="Screens\ScreenTransition.cs" />
     <Compile Include="Screens\ScreenTransitionProgess.cs" />
     <Compile Include="Screens\TitleScreen.cs" />
-    <Compile Include="TilingEngine\DestructableTile.cs" />
     <Compile Include="Utility\Bird.cs" />
     <Compile Include="Utility\RectangleF2.cs" />
     <Compile Include="WorldObject.cs" />
