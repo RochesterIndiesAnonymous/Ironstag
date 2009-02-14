@@ -111,7 +111,12 @@ namespace WesternSpace.DrawableComponents.Actors
 
         private bool gameOverDisplayed = false;
 
-        private float maxJumpTime = 300;
+        private float maxJumpTime = 400;
+
+        private float halfJumpTime;
+        private float declerateJump = 0f;
+
+
 
         /// <summary>
         /// Constructor for Flint Ironstag.
@@ -205,6 +210,8 @@ namespace WesternSpace.DrawableComponents.Actors
             this.boundingBoxOffset.X = boundingBoxWidth/2;
             this.boundingBoxOffset.Y = boundingBoxHeight/2;
 
+            halfJumpTime = maxJumpTime / 2;
+
             //Set Invincibility
             invincible = false;
         }
@@ -273,12 +280,24 @@ namespace WesternSpace.DrawableComponents.Actors
                 {
                     if (pressedTime < maxJumpTime && pressedTime > 0 && !reachedMaxJump)
                     {
-                        ApplyJump();
+                        if (pressedTime >= halfJumpTime)
+                        {
+                            declerateJump += 0.5f;
+                            ApplyJump();
+                            velocity.Y += declerateJump;
+                            Console.WriteLine("Pos: " + position);
+                        }
+                        else
+                        {
+                            ApplyJump();
+                        }
+
                     }
                     else
                     {
                         EndJump();
                         reachedMaxJump = true;
+                        declerateJump = 0;
                     }
                 }
             }

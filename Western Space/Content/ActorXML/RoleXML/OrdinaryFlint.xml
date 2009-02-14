@@ -30,7 +30,7 @@
       <Frame DisplayTime="100" SheetIndex="2" />
     </Animation>
     <Animation AnimationKey="JumpingDescent" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintJump2" FrameWidth="64" FrameHeight="61" CenterOffsetX="30" CenterOffsetY="30" Parent="None">
-      <Frame DisplayTime="500" SheetIndex="0" />
+      <Frame DisplayTime="300" SheetIndex="0" />
       <Frame DisplayTime="83" SheetIndex="1" />
     </Animation>
     <Animation AnimationKey="RunningShooting" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\FlintRunShoot" FrameWidth="64" FrameHeight="61" CenterOffsetX="35" CenterOffsetY="30" Parent="Running">
