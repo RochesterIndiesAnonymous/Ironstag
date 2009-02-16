@@ -204,15 +204,16 @@ namespace WesternSpace.TilingEngine
         {
             if (!destructed)
             {
-                base.textures[Map.LayerCount - 1, Map.SubLayerCount - 1] = null;
-                base.SetSolid(false);
-                Map.SetTile(this, x, y);
-                this.removeFromCollisionRegistration = true;
 
                 foreach (IDestructionEffect effect in DestructionEffects)
                 {
                     effect.OnDestruct(this);
                 }
+
+                base.textures[Map.LayerCount - 1, Map.SubLayerCount - 1] = null;
+                base.SetSolid(false);
+                Map.SetTile(this, x, y);
+                this.removeFromCollisionRegistration = true;
                 destructed = true;
             }
         }

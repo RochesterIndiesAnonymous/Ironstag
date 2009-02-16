@@ -532,6 +532,7 @@ namespace WesternSpace.TilingEngine
             {
                 List<IDestructionEffect> effects = new List<IDestructionEffect>();
                 effects.Add(new ExplosionEffect());
+                effects.Add(new ShatterEffect());
                 returnVal = new DestructableTile(returnVal, world, x, y, float.Parse(xelement.Attribute("d").Value), effects);
             }
 

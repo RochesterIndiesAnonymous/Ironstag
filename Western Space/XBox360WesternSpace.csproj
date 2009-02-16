@@ -62,6 +62,7 @@
     <Compile Include="DrawableComponents\Actors\EVulture.cs" />
     <Compile Include="DrawableComponents\EditorUI\DestructableToggler.cs" />
     <Compile Include="DrawableComponents\Misc\Explosion.cs" />
+    <Compile Include="DrawableComponents\Misc\Fragment.cs" />
     <Compile Include="DrawableComponents\Misc\GameOverContents.cs" />
     <Compile Include="DrawableComponents\Misc\LargeCactus1.cs" />
     <Compile Include="DrawableComponents\Misc\SmallCactus.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="TilingEngine\DestructableTile.cs" />
     <Compile Include="TilingEngine\ExplosionEffect.cs" />
     <Compile Include="TilingEngine\IDestructionEffect.cs" />
+    <Compile Include="TilingEngine\ShatterEffect.cs" />
     <Compile Include="Utility\Bird.cs" />
     <Compile Include="Utility\RectangleF2.cs" />
     <Compile Include="WorldObject.cs" />
