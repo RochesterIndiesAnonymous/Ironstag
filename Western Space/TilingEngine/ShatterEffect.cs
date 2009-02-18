@@ -15,9 +15,14 @@ namespace WesternSpace.TilingEngine
         public void OnDestruct(DestructableTile destructable)
         {
             SubTexture texture = destructable.Textures[destructable.Map.LayerCount-1,destructable.Map.SubLayerCount-1];
-            Vector2 f1Pos = new Vector2(destructable.X*destructable.Map.TileWidth, destructable.Y*destructable.Map.TileHeight);
-            Rectangle f1Rect = new Rectangle(0,0, texture.Rectangle.Width/2, texture.Rectangle.Height/2);
-            Fragment f1 = new Fragment(destructable.World, destructable.World.SpriteBatch, f1Pos, texture, f1Rect);
+            if (texture != null)
+            {
+                Vector2 f1Pos = new Vector2(destructable.X * destructable.Map.TileWidth, destructable.Y * destructable.Map.TileHeight);
+                Rectangle f1Rect = new Rectangle(0, 0, destructable.Map.TileWidth / 2, destructable.Map.TileHeight / 2);
+                Fragment f1 = new Fragment(destructable.World, destructable.World.SpriteBatch, f1Pos, texture, f1Rect);
+
+                destructable.World.AddWorldObject(f1);
+            }
 
             /*
             Vector2 f2Pos = new Vector2(f1Rect.X, destructable.Y * destructable.Map.TileHeight);
@@ -28,7 +33,6 @@ namespace WesternSpace.TilingEngine
             Rectangle f3Rect = new Rectangle(f1Rect.X, f1Rect.Y, texture.Rectangle.Width / 2, texture.Rectangle.Height / 2);
             Fragment f3 = new Fragment(destructable.World, destructable.World.SpriteBatch, f1Pos, texture, f1Rect);
              * */
-            destructable.World.AddWorldObject(f1);
         }
 
         #endregion

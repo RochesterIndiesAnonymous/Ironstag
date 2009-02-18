@@ -312,7 +312,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// Vector representing the Acceleration due to gravity.
         /// </summary>
-        public readonly Vector2 gravity = new Vector2(0f, 0.25f);
+        public readonly Vector2 gravity = new Vector2(0f, 0.45f);
 
         /// <summary>
         /// Vector representing the Velocity of moving on the ground.
@@ -322,9 +322,9 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// Vector representing the Velocity of moving in the air.
         ///</summary>
-        readonly Vector2 airVelocity = new Vector2(2f, 0f);
+        readonly Vector2 airVelocity = new Vector2(2.5f, 0f);
 
-        public Vector2 jumpVelocity = new Vector2(0f, 6f);
+        public Vector2 jumpVelocity = new Vector2(0f, 7f);
 
 
         /// <summary>

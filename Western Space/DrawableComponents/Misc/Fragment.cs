@@ -46,8 +46,7 @@ namespace WesternSpace.DrawableComponents.Misc
 
             // Mass is proportional to the percentage of the texture in area.
             this.mass = (subRectangle.Width * subRectangle.Height) / (texture.Rectangle.Width * texture.Rectangle.Height);
-
-            this.subRectangle = new Rectangle(texture.Rectangle.X + rectangle.X, texture.Rectangle.Y + rectangle.Y, 
+            this.subRectangle = new Rectangle(texture.Rectangle.X + rectangle.X, texture.Rectangle.Y + rectangle.Y,
                                               rectangle.Width, rectangle.Height);
 
             hotspots = new List<CollisionHotspot>();

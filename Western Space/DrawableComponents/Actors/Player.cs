@@ -276,18 +276,11 @@ namespace WesternSpace.DrawableComponents.Actors
            // Console.WriteLine("PLAYER VEL: " + velocity+" REACHED MAX: "+reachedMaxJump+" MAX JUMP VEL: "+maxJumpHeight);
             if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
             {
-                if (currentState.Contains("Jumping") && !currentState.Contains("Descent"))
+                if (currentState.Contains("Jumping") && currentState.Contains("Ascent"))
                 {
-                    if (pressedTime < maxJumpTime && pressedTime > 0 && !reachedMaxJump)
+                    if (pressedTime < maxJumpTime && pressedTime > 0)
                     {
-                        if (pressedTime >= halfJumpTime)
-                        {
-                            declerateJump += 0.5f;
-                            ApplyJump();
-                            velocity.Y += declerateJump;
-                            Console.WriteLine("Pos: " + position);
-                        }
-                        else
+                        if (pressedTime < halfJumpTime)
                         {
                             ApplyJump();
                         }
@@ -295,9 +288,8 @@ namespace WesternSpace.DrawableComponents.Actors
                     }
                     else
                     {
-                        EndJump();
                         reachedMaxJump = true;
-                        declerateJump = 0;
+                        ChangeState("JumpingDescent");
                     }
                 }
             }
@@ -441,7 +433,7 @@ namespace WesternSpace.DrawableComponents.Actors
         public override void Update(GameTime gameTime)
         {
            // Console.WriteLine("CURRENTSTATE: " + currentState + "VEL: " + velocity);
-
+            System.Diagnostics.Debug.WriteLine("STATE: " + currentState);
             // -- Get User Input -- //
             if ( input.IsPressed(InputMonitor.RIGHT) || input.CheckLeftJoystickOnXAxis(InputMonitor.RIGHT) )
             {
@@ -470,7 +462,7 @@ namespace WesternSpace.DrawableComponents.Actors
             }
             else if (input.WasJustReleased(InputMonitor.JUMP))
             {
-                Console.WriteLine("JUMP WASJUSTRELEASED  --Pressed Time: "+input.GetPressedTime(InputMonitor.JUMP));
+                Console.WriteLine("JUMP WASJUSTRELEASED  --Pressed Time: " + input.GetPressedTime(InputMonitor.JUMP));
                 Jump(input.GetPressedTime(InputMonitor.JUMP));
             }
             else if (input.IsPressed(InputMonitor.JUMP))
