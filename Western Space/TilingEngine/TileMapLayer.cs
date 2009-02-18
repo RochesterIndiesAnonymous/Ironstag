@@ -9,6 +9,7 @@ using WesternSpace.ServiceInterfaces;
 using WesternSpace.Interfaces;
 using WesternSpace.Utility;
 using WesternSpace.Screens;
+using System.Diagnostics;
 
 namespace WesternSpace.TilingEngine
 {
@@ -171,8 +172,21 @@ namespace WesternSpace.TilingEngine
             {
                 for (int y = startY; y < endY; ++y)
                 {
-                    Vector2 position = new Vector2(x * tm.TileWidth, y * tm.TileHeight) + 
-                        (camPos - camPos*scrollSpeed);
+                    
+                    Vector2 position = new Vector2(x * tm.TileWidth, y * tm.TileHeight) + (camPos - camPos*scrollSpeed);
+                    // Testing
+                    if (tm.FileName.CompareTo("TileMapXML\\\\parallaxlayer") == 0)
+                    {                        
+                        float xPos = (x * tm.TileWidth) + (camPos.X);                        
+                        if(xPos < camera.VisibleArea.Left)
+                        {
+                            float modoffX = camera.VisibleArea.Left - ( xPos % camera.VisibleArea.Left );
+                            position.X = camera.VisibleArea.Right - (modoffX); // camera.VisibleArea.Right - xPos % camera.VisibleArea.Left;
+                        }
+                        //x = x % tm.Width;
+                        //x = (Width - (x % Width))
+                    }
+                  
                     //position.X = (int)Math.Round(position.X, 0);
                     //position.Y = (int)Math.Round(position.Y, 0);
                     if (tm[x, y] != null)
@@ -194,7 +208,7 @@ namespace WesternSpace.TilingEngine
                     }
                 }
             }
-
+            Debug.Print("\n");
             if (drawEdgesEnabled)
             {
                 DrawEdges();
@@ -204,7 +218,7 @@ namespace WesternSpace.TilingEngine
             {
                 DrawDestructables();
             }
-
+            
             base.Draw(gameTime);
         }
 

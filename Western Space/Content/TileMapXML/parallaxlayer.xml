@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TileMap Width="2" Height="2" TileWidth="24" TileHeight="24" LayerCount="2" SubLayerCount="2">
+  <SheetIndex>
+    <sh fn="Textures\\desertSpriteSheet" i="0" />
+  </SheetIndex>
+  <T e="15">
+    <x z="0" s="0" i="19" />
+  </T>
+  <T e="15">
+    <x z="0" s="0" i="29" />
+  </T>
+  <T e="15">
+    <x z="0" s="0" i="19" />
+  </T>
+  <T e="15">
+    <x z="0" s="0" i="29" />
+  </T>
+</TileMap>
