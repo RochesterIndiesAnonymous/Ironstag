@@ -45,7 +45,7 @@ namespace WesternSpace.DrawableComponents.Misc
             {
                 displayStartString = false;
 
-                ScreenTransition sts = new ScreenTransition("Game", "Game", 0.01f, 0.01f, true);
+                ScreenTransition sts = new ScreenTransition("Game", "Game", 0.01f, 0.01f, true, true);
 
                 ScreenManager.Instance.Transition(sts);
             }

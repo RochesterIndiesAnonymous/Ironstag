@@ -47,6 +47,8 @@ namespace WesternSpace.Screens
             get { return resetGame; }
         }
 
+        private bool resetSpriteBatchService;
+
         public bool IsTransitionComplete
         {
             get
@@ -60,7 +62,7 @@ namespace WesternSpace.Screens
             }
         }
 
-        public ScreenTransition(string fromScreenName, string toScreenName, float fadeAlphaStep, float brightenAlphaStep, bool resetGame)
+        public ScreenTransition(string fromScreenName, string toScreenName, float fadeAlphaStep, float brightenAlphaStep, bool resetGame, bool resetSpriteBatchService)
         {
             this.fromScreenName = fromScreenName;
             this.toScreenName = toScreenName;
@@ -69,6 +71,7 @@ namespace WesternSpace.Screens
             this.currentAlphaValue = 1.0f;
             this.currentProgress = ScreenTransitionProgess.Fading;
             this.resetGame = resetGame;
+            this.resetSpriteBatchService = resetSpriteBatchService;
 
             alphaEffect = ScreenManager.Instance.Content.Load<Effect>("System\\Effects\\SetAlphaValue");
         }
@@ -96,6 +99,11 @@ namespace WesternSpace.Screens
                     ICameraService camera = (ICameraService)ScreenManager.Instance.Services.GetService(typeof(ICameraService));
                     camera.Position = new Vector2(0, 0);
 
+                }
+
+                if (this.resetSpriteBatchService)
+                {
+                    ScreenManager.Instance.UseSpriteBatchService = true;
                 }
 
                 Screen screenToAdd = (from sc in ScreenManager.Instance.ScreenList

@@ -130,6 +130,15 @@ namespace WesternSpace.Screens
         }
 
         /// <summary>
+        /// Tells the screen that the fade effect is done
+        /// We need this to tell StoryboardScreen or any other screen
+        /// that the fade effect has completed
+        /// </summary>
+        public virtual void TransitionComplete()
+        {
+        }
+
+        /// <summary>
         /// Adds the component in the appropriate order
         /// </summary>
         /// <param name="sender">The object that triggered this event</param>

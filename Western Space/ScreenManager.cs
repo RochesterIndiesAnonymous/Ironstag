@@ -86,10 +86,26 @@ namespace WesternSpace
         }
 
         /// <summary>
+        /// Indicates whether to use the sprite batch service.
+        /// We want to disable it when we are using HLSL functions such as 
+        /// Storyboard screens
+        /// </summary>
+        private bool useSpriteBatchService;
+
+        public bool UseSpriteBatchService
+        {
+            get { return useSpriteBatchService; }
+            set { useSpriteBatchService = value; }
+        }
+
+        /// <summary>
         /// The full screen settings to use when using full screen. This is calculated based on the main display of the user
         /// </summary>
         private static ResolutionSettings fullScreenSettings;
 
+        /// <summary>
+        /// The current state of the ongoing fade transition
+        /// </summary>
         private ScreenTransition transitionState;
 
         /// <summary>
@@ -151,7 +167,7 @@ namespace WesternSpace
             Screen gameScreen = new GameScreen(this, GameScreen.ScreenName);
             this.screenList.Add(gameScreen);
 
-            Screen titleScreen = new TitleScreen();
+            Screen titleScreen = new StoryboardScreen("TitleScreen", "Game", @"StoryboardXML\TitleScreenStoryboard");
             this.screenList.Add(titleScreen);
 
             this.AddScreenToDisplay(titleScreen);
@@ -199,6 +215,12 @@ namespace WesternSpace
 
                 if (transitionState.IsTransitionComplete)
                 {
+                    Screen s = (from sc in this.ScreenList
+                                where sc.Name == transitionState.ToScreenName
+                                select sc).FirstOrDefault();
+
+                    s.TransitionComplete();
+
                     transitionState = null;
                 }
             }
@@ -216,11 +238,17 @@ namespace WesternSpace
 
             GraphicsDevice.Clear(Color.Black);
 
-            batchService.Begin();
+            if (this.UseSpriteBatchService)
+            {
+                batchService.Begin();
+            }
 
             base.Draw(gameTime);
 
-            batchService.End();
+            if (this.UseSpriteBatchService)
+            {
+                batchService.End();
+            }
 
             GraphicsDevice.SetRenderTarget(0, null);
 
