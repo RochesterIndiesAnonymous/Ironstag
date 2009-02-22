@@ -100,6 +100,11 @@ namespace WesternSpace.Screens
         {
             if (fadeEffectDone)
             {
+                if (currentScene.Value.IsTransitionAutomatic && !currentScene.Value.IsTimerStarted)
+                {
+                    currentScene.Value.StartTimer();
+                }
+
                 base.Update(gameTime);
 
                 ScreenManager.Instance.UseSpriteBatchService = false;
@@ -115,7 +120,8 @@ namespace WesternSpace.Screens
                     }
                 }
 
-                if (InputMonitor.Instance.WasJustPressed(InputMonitor.JUMP) || InputMonitor.Instance.WasJustPressed(InputMonitor.PAUSE))
+                if (((InputMonitor.Instance.WasJustPressed(InputMonitor.JUMP) || InputMonitor.Instance.WasJustPressed(InputMonitor.PAUSE)) && transition == null) || 
+                    (currentScene.Value.IsTransitionAutomatic && currentScene.Value.IsReadyToTransition && transition == null))
                 {
                     if (currentStoryBoardTextIndex < currentScene.Value.SceneText.Length)
                     {
@@ -124,6 +130,11 @@ namespace WesternSpace.Screens
                         currentStoryBoardTextIndex = currentScene.Value.SceneText.Length;
                         characterTimer.ResetTimer();
                         characterTimer.PauseTimer();
+
+                        if (currentScene.Value.IsTransitionAutomatic && currentScene.Value.IsTimerStarted)
+                        {
+                            currentScene.Value.StopTimer();
+                        }
                     }
                     else if (currentStoryboardText == currentScene.Value.SceneText && currentScene != storyboards.Last)
                     {
@@ -131,14 +142,25 @@ namespace WesternSpace.Screens
                         this.transition = new StoryboardTransition(this, 0.01f, 0.01f);
                         
                         fadeEffectDone = false;
+
                         characterTimer.ResetTimer();
                         characterTimer.PauseTimer();
 
                         currentStoryboardText = String.Empty;
                         currentStoryBoardTextIndex = 0;
+
+                        if (currentScene.Value.IsTransitionAutomatic && currentScene.Value.IsTimerStarted)
+                        {
+                            currentScene.Value.StopTimer();
+                        }
                     }
                     else if (currentStoryboardText == currentScene.Value.SceneText && currentScene == storyboards.Last)
                     {
+                        if (currentScene.Value.IsTransitionAutomatic && currentScene.Value.IsTimerStarted)
+                        {
+                            currentScene.Value.StopTimer();
+                        }
+
                         // we have reached our last story board, transition to the next screen
                         ScreenTransition sts = new ScreenTransition(this.Name, this.nextScreen, 0.01f, 0.01f, false, true);
                         ScreenManager.Instance.Transition(sts);
@@ -193,12 +215,14 @@ namespace WesternSpace.Screens
             {
                 Texture2D sceneTexture = ScreenManager.Instance.Content.Load<Texture2D>(board.Attribute("SceneTexture").Value);
                 string sceneText = board.Attribute("SceneText").Value;
+                bool isTransitionAutomatic = Boolean.Parse(board.Attribute("IsTransitionAutomatic").Value);
+                int automaticTransitionDelay = Int32.Parse(board.Attribute("AutomaticTransitionDelay").Value);
 
                 float textPositionX = Single.Parse(board.Attribute("SceneTextPositionX").Value);
                 float textPositionY = Single.Parse(board.Attribute("SceneTextPositionY").Value);
                 Vector2 textPosition = new Vector2(textPositionX, textPositionY);
 
-                StoryboardInformation si = new StoryboardInformation(sceneTexture, sceneText, textPosition);
+                StoryboardInformation si = new StoryboardInformation(this, sceneTexture, sceneText, textPosition, isTransitionAutomatic, automaticTransitionDelay);
 
                 this.storyboards.AddLast(si);
             }
