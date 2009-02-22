@@ -60,6 +60,10 @@
     <Compile Include="AnimationFramework\AnimationPlayer.cs" />
     <Compile Include="AnimationFramework\Frame.cs" />
     <Compile Include="DrawableComponents\Actors\EBoss.cs" />
+    <Compile Include="DrawableComponents\Actors\EBossStates\EBossJumpState.cs" />
+    <Compile Include="DrawableComponents\Actors\EBossStates\EBossLaughingState.cs" />
+    <Compile Include="DrawableComponents\Actors\EBossStates\EBossShootState.cs" />
+    <Compile Include="DrawableComponents\Actors\EBossStates\EBossState.cs" />
     <Compile Include="DrawableComponents\Actors\EVulture.cs" />
     <Compile Include="DrawableComponents\EditorUI\DestructableToggler.cs" />
     <Compile Include="DrawableComponents\Misc\Explosion.cs" />

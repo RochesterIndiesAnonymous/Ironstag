@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.DrawableComponents.Projectiles;
+using WesternSpace.DrawableComponents.Actors.EBossStates;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
@@ -27,14 +28,20 @@ namespace WesternSpace.DrawableComponents.Actors
         private ICameraService camera;
 
         /// <summary>
-        /// Sound Effect will be moved later on.
-        /// </summary>
-        SoundEffect gunShot;
-
-        /// <summary>
         /// The velocity to move the boss back with when dead.
         /// </summary>
         private Vector2 deathPushBack;
+
+        /// <summary>
+        /// The current state to use for executing the AI.
+        /// </summary>
+        private EBossState currentAIState;
+
+        private EBossState laughingAIState;
+
+        private EBossShootState shootAIState;
+
+        private EBossJumpState jumpAIState;
 
         public EBoss(World world, SpriteBatch spriteBatch, Vector2 position)
             : base(world, spriteBatch, position)
@@ -79,15 +86,16 @@ namespace WesternSpace.DrawableComponents.Actors
 
             Hotspots = hotspots;
 
-            //Temp: Loads the gunshot sound.
-            gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
-
             //Setup the Bounding Box
             boundingBoxHeight = 59;
             boundingBoxWidth = 34;
             this.boundingBoxOffset = new Vector2();
             this.boundingBoxOffset.X = boundingBoxWidth / 2;
             this.boundingBoxOffset.Y = boundingBoxHeight / 2;
+
+            laughingAIState = new EBossLaughingState(this);
+            shootAIState = new EBossShootState(this, this.ParentScreen);
+            jumpAIState = new EBossJumpState(this);
         }
 
         public override void Initialize()
@@ -95,23 +103,6 @@ namespace WesternSpace.DrawableComponents.Actors
             base.Initialize();
 
             camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
-        }
-
-        /// <summary>
-        /// Called from the AI. If the boss is already
-        /// in a jumping state then no action is to occurr.
-        /// </summary>
-        public void Jump()
-        {
-            if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
-            {
-                if (!currentState.Contains("Jumping") && !currentState.Contains("Falling"))
-                {
-                    ApplyJump();
-                    ChangeState("JumpingAscent");
-                    isOnGround = false;
-                }
-            }
         }
 
         /// <summary>
@@ -152,39 +143,6 @@ namespace WesternSpace.DrawableComponents.Actors
                 else
                 {
                     ApplyAirMove(direction);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Causes the boss to generate a projectile and change its state accordingly.
-        /// </summary>
-        public void Shoot()
-        {
-            if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
-            {
-                if (!currentState.Contains("Shooting"))
-                {
-                    if (currentState.Contains("Jumping"))
-                    {
-                        //Change state and animation
-                        //ChangeState("JumpingShooting");
-                    }
-                    else if (currentState.Contains("Running"))
-                    {
-                        //Change state and animation
-                        //ChangeState("RunningShooting");
-                    }
-                    else
-                    {
-                        //Change state and animation
-                        ChangeState("Shooting");
-
-                        gunShot.Play();
-                    }
-
-                    //Generate a Bullet
-                    GenerateBullet();
                 }
             }
         }
@@ -231,8 +189,18 @@ namespace WesternSpace.DrawableComponents.Actors
 
             if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
             {
+                // if this is the first time he has become visible start the shoot timer
+                if (!shootAIState.HasTimerStarted)
+                {
+                    shootAIState.StartTimer();
+                }
+
                 // -- AI -- //
-                BossAI(gameTime);
+                // if the current boss is not dead, update the AI
+                if (!currentState.Contains("Dead"))
+                {
+                    BossAI(gameTime);
+                }
             }
         }
 
@@ -243,58 +211,43 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         /// <summary>
-        /// Logic which determines what a Bandit does.
+        /// Logic which determines what the boss does.
         /// </summary>
         /// <param name="gameTime">The time the game has been running.</param>
         private void BossAI(GameTime gameTime)
         {
+            bool aiStateDecided = false;
+
             if (!currentState.Contains("Dead") && !world.Player.CurrentState.Contains("Dead"))
             {
-                float shootTimer = 0f, shootTimeSpan = 3.0f;
-
-                shootTimer += (float)(gameTime.TotalRealTime.TotalSeconds % 3.1);
-
-                if (World.Player.Position.X < this.position.X)
+                if (shootAIState.IsReadyToShoot)
                 {
-                    facing = SpriteEffects.FlipHorizontally;
-                }
-                else
-                {
-                    facing = SpriteEffects.None;
+                    SetAIState(shootAIState);
+                    aiStateDecided = true;
                 }
 
-                //Shoot Logic
-                if (shootTimer >= shootTimeSpan)
+                if (!aiStateDecided && jumpAIState.ShouldBossJump())
                 {
-                    Shoot();
-                    shootTimer = 0f;
+                    SetAIState(jumpAIState);
+                    aiStateDecided = true;
                 }
-
-                if(!currentState.Contains("Shooting"))
+                
+                if(!this.currentState.Contains("Shooting") && !aiStateDecided)
                 {
-                    ChangeState("Laughing");
+                    SetAIState(laughingAIState);
+                    aiStateDecided = true;
                 }
             }
-
-        }
-
-        /// <summary>
-        /// Creates a bullet object which travels in a straight line.
-        /// </summary>
-        public void GenerateBullet()
-        {
-            short direction = 1;
-            Vector2 position = this.Position + new Vector2(23f, -15f);
-
-            if (this.Facing == SpriteEffects.FlipHorizontally)
+            else if (!currentState.Contains("Dead") && world.Player.CurrentState.Contains("Dead"))
             {
-                direction = -1;
-                position = this.Position + new Vector2(-23f, -15);
+                // laugh indefinately if the player is dead
+                SetAIState(laughingAIState);
             }
-
-            BanditNormalProjectile proj = new BanditNormalProjectile(this.World, this.SpriteBatch, position, this, direction);
-
+                
+            currentAIState.Update();
         }
+
+        
 
         public override void ApplyGroundFriction()
         {
@@ -302,14 +255,6 @@ namespace WesternSpace.DrawableComponents.Actors
             {
                 velocity.X = 0.9f * velocity.X;
             }
-        }
-
-
-        /// <summary>
-        /// Called on a Sprite Collision?
-        /// </summary>
-        public void OnSpriteCollision()
-        {
         }
 
         /// <summary>
@@ -334,6 +279,14 @@ namespace WesternSpace.DrawableComponents.Actors
             this.roleMap.Add(NAME, bossRoles);
 
             this.currentRole = bossRoles;
+        }
+
+        private void SetAIState(EBossState state)
+        {
+            if (currentAIState != state)
+            {
+                currentAIState = state;
+            }
         }
 
         #region IDamageable Members
@@ -404,6 +357,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 if (currentHealth <= 0)
                 {
                     ChangeState("Dead");
+                    shootAIState.StopTimer();
                 }
             }
         }
