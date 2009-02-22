@@ -358,9 +358,9 @@ namespace WesternSpace
                 tileMap = new TileMap(this, parallaxMap.Attribute("MapFileName").Value);
                 otherMaps.Add(tileMap);
 
-                ScrollSpeed = Single.Parse(parallaxMap.Attribute("ScrollSpeed").Value);
+                //ScrollSpeed = Single.Parse(parallaxMap.Attribute("ScrollSpeed").Value);
 
-                foreach (XElement parallaxLayer in allParallaxLayers)
+                /*foreach (XElement parallaxLayer in allParallaxLayers)
                 {
                     string LayerName;
                     int LayerIndex, ZIndex;
@@ -374,6 +374,7 @@ namespace WesternSpace
 
                     ParentScreen.Components.Add(parallaxLayers[ZIndex]);
                 }
+                 * */
             }
 
             #endregion
@@ -407,6 +408,11 @@ namespace WesternSpace
                 ret.Add(parallax);
             }
 
+            foreach (WorldObject wo in worldObjects)
+            {
+                ret.Add(wo.ToXElement());
+            }
+
             foreach (int zIndex in parallaxLayers.Keys)
             { 
                 TileMapLayer pml = parallaxLayers[zIndex];
@@ -421,11 +427,8 @@ namespace WesternSpace
                                               select plax;
                 plaxs.First<XElement>().Attribute("ScrollSpeed").Value = pml.ScrollSpeed.ToString();
             }
+            
 
-            foreach (WorldObject wo in worldObjects)
-            {
-                ret.Add(wo.ToXElement());
-            }
 
             return ret;
         }

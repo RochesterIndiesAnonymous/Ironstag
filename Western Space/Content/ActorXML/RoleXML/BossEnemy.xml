@@ -2,8 +2,12 @@
 <Boss>
   <Attributes></Attributes>
   <Animations>
-    <Animation AnimationKey="Idle" IsLoop="0" SpriteSheet="Textures\Enemies\BanditIdle" FrameWidth="64" FrameHeight="61" CenterOffsetX="18" CenterOffsetY="32" Parent="None">
+    <Animation AnimationKey="Idle" IsLoop="0" SpriteSheet="Textures\Enemies\MachineGunIdle" FrameWidth="62" FrameHeight="64" CenterOffsetX="14" CenterOffsetY="33" Parent="None">
       <Frame DisplayTime="100" SheetIndex="0" />
+    </Animation>
+    <Animation AnimationKey="Laughing" IsLoop="1" SpriteSheet="Textures\Enemies\MachineGunLaugh" FrameWidth="66" FrameHeight="70" CenterOffsetX="19" CenterOffsetY="39" Parent="None">
+      <Frame DisplayTime="100" SheetIndex="0" />
+      <Frame DisplayTime="130" SheetIndex="1" />
     </Animation>
     <Animation AnimationKey="Running" IsLoop="1" SpriteSheet="Textures\FlintIronstag\flintRun" FrameWidth="64" FrameHeight="61" CenterOffsetX="18" CenterOffsetY="32" Parent="None">
       <Frame DisplayTime="100" SheetIndex="0" />

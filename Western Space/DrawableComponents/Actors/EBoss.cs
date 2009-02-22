@@ -15,10 +15,10 @@ using WesternSpace.DrawableComponents.Projectiles;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    public class Boss : Character, IDamageable, ISpriteCollideable
+    public class EBoss : Character, IDamageable, ISpriteCollideable
     {
         /// Constants ///
-        public static readonly string XMLFILENAME = Character.XMLPATH + "\\" + typeof(EBandit).Name;
+        public static readonly string XMLFILENAME = Character.XMLPATH + "\\" + typeof(EBoss).Name;
         private static readonly string NAME = "Boss";
 
         /// <summary>
@@ -36,11 +36,11 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         private Vector2 deathPushBack;
 
-        public Boss(World world, SpriteBatch spriteBatch, Vector2 position)
+        public EBoss(World world, SpriteBatch spriteBatch, Vector2 position)
             : base(world, spriteBatch, position)
         {
             this.Mass = 1;
-            this.Name = Boss.NAME;
+            this.Name = EBoss.NAME;
 
             //Load the boss' information from the XML file
             LoadBossXmlFile();
@@ -214,7 +214,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 {
                     ChangeState("Idle");
                 }
-                else if (!currentState.Contains("Shooting"))
+                else if (!currentState.Contains("Shooting") && !currentState.Contains("Laughing"))
                 {
                     ChangeState("Idle");
                 }
@@ -268,6 +268,11 @@ namespace WesternSpace.DrawableComponents.Actors
                 {
                     Shoot();
                     shootTimer = 0f;
+                }
+
+                if(!currentState.Contains("Shooting"))
+                {
+                    ChangeState("Laughing");
                 }
             }
 
@@ -324,7 +329,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="xmlFile">The xml file containing the role information.</param>
         public override void SetUpRoles()
         {
-            BossUtility bossRoles = new BossUtility(XMLFILENAME, NAME);
+            Boss bossRoles = new Boss(XMLFILENAME, NAME);
 
             this.roleMap.Add(NAME, bossRoles);
 

@@ -2,11 +2,8 @@
 <World InteractiveMapFileName="TileMapXML\\BigTileMap" PlayerPositionX="433" PlayerPositionY="174">
   <MapLayer LayerName="" LayerIndex="0" ZIndex="-10" />
   <MapLayer LayerName="" LayerIndex="1" ZIndex="10" />
-  <Parallax MapFileName="TileMapXML\\parallaxlayer" ScrollSpeed="0.05">
-    <Layer LayerName="" LayerIndex="0" ZIndex="20"></Layer>
-  </Parallax>
+  <Parallax MapFileName="TileMapXML\\parallaxlayer" />
   <o n="LargeCactus1" x="263" y="414" />
-  <o n="EBandit" x="838" y="350" />
   <o n="SmallCactus" x="1201" y="457" />
   <o n="SmallCactus" x="1274" y="456" />
   <o n="SmallCactus" x="1365" y="446" />
@@ -181,4 +178,7 @@
   <o n="EBandit" x="3392" y="403" />
   <o n="EBandit" x="3321" y="448" />
   <o n="EBandit" x="3146" y="449" />
+  <o n="EBoss" x="695" y="326" />
+  <o n="EBoss" x="698" y="183" />
+  <o n="EBoss" x="738" y="425" />
 </World>

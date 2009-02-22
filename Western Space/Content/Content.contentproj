@@ -498,15 +498,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActorXML\Boss.xml">
-      <Name>Boss</Name>
+    <Compile Include="ActorXML\EBoss.xml">
+      <Name>EBoss</Name>
       <Importer>XDocumentImporter</Importer>
       <Processor>XDocumentProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActorXML\RoleXML\Boss.xml">
-      <Name>Boss</Name>
+    <Compile Include="ActorXML\RoleXML\BossEnemy.xml">
+      <Name>BossEnemy</Name>
       <Importer>XDocumentImporter</Importer>
       <Processor>XDocumentProcessor</Processor>
     </Compile>
@@ -514,6 +514,20 @@
   <ItemGroup>
     <Compile Include="Textures\Cutscenes\BlankStoryboard.png">
       <Name>BlankStoryboard</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Enemies\MachineGunIdle.png">
+      <Name>MachineGunIdle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Enemies\MachineGunLaugh.png">
+      <Name>MachineGunLaugh</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

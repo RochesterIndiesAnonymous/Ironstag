@@ -6,10 +6,11 @@ using WesternSpace.AnimationFramework;
 
 namespace WesternSpace.Utility
 {
-    class BossUtility : Role
+    class Boss : Role
     {
         /// Constants ///
         public static readonly string IDLE = "Idle";
+        public static readonly string LAUGHING = "Laughing";
         public static readonly string DEAD = "Dead";
         public static readonly string HIT = "Hit";
         public static readonly string SHOOTING = "Shooting";
@@ -19,7 +20,7 @@ namespace WesternSpace.Utility
         /// Bandit Constructor
         /// </summary>
         /// <param name="xmlFile">XML filename which houses the animation data for a Bandit.</param>
-        public BossUtility(string xmlFile, string name)
+        public Boss(string xmlFile, string name)
             :base(xmlFile, name)
         {
         }
@@ -27,6 +28,7 @@ namespace WesternSpace.Utility
         public override void SetUpAnimation(String xmlFile)
         {   
             Animation idle = new Animation(xmlFile, IDLE);
+            Animation laughing = new Animation(xmlFile, LAUGHING);
             Animation running = new Animation(xmlFile, RUNNING);
             Animation shooting = new Animation(xmlFile, SHOOTING);
             Animation dead = new Animation(xmlFile, DEAD);
@@ -34,6 +36,7 @@ namespace WesternSpace.Utility
 
 
             this.animationMap.Add(IDLE, idle);
+            this.animationMap.Add(LAUGHING, laughing);
             this.animationMap.Add(RUNNING, running);
             this.animationMap.Add(SHOOTING, shooting);
             this.animationMap.Add(DEAD, dead);

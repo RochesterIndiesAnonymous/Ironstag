@@ -2,6 +2,6 @@
 <Boss>
   <Health MaxHealth="500"></Health>
   <Roles>
-    <Role RoleKey="Bandit" RoleXML="ActorXML\RoleXML\Boss"></Role>
+    <Role RoleKey="Boss" RoleXML="ActorXML\RoleXML\BossEnemy"></Role>
   </Roles>
 </Boss>
