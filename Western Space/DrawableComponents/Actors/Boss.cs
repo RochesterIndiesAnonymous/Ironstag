@@ -1,29 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Graphics;
-using WesternSpace.AnimationFramework;
+using System.Linq;
+using System.Text;
 using WesternSpace.Collision;
-using WesternSpace.DrawableComponents.Projectiles;
 using WesternSpace.Interfaces;
-using WesternSpace.Physics;
-using WesternSpace.ServiceInterfaces;
+using System.Xml.Linq;
 using WesternSpace.Utility;
+using WesternSpace.AnimationFramework;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
+using WesternSpace.ServiceInterfaces;
+using WesternSpace.DrawableComponents.Projectiles;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
-    class EBandit : Character, IDamageable, ISpriteCollideable
-     {
+    public class Boss : Character, IDamageable, ISpriteCollideable
+    {
         /// Constants ///
         public static readonly string XMLFILENAME = Character.XMLPATH + "\\" + typeof(EBandit).Name;
-        private static readonly string BANDIT = "Bandit";
-
-        /// <summary>
-        /// Sound Effect will be moved later on.
-        /// </summary>
-        SoundEffect gunShot;
+        private static readonly string NAME = "Boss";
 
         /// <summary>
         /// Camera used to see if the enemy is visible.
@@ -31,32 +27,26 @@ namespace WesternSpace.DrawableComponents.Actors
         private ICameraService camera;
 
         /// <summary>
-        /// The velocity to move the bandit back with when dead.
+        /// Sound Effect will be moved later on.
+        /// </summary>
+        SoundEffect gunShot;
+
+        /// <summary>
+        /// The velocity to move the boss back with when dead.
         /// </summary>
         private Vector2 deathPushBack;
 
-        /// <summary>
-        /// Constructor for a bandit.
-        /// </summary>
-        /// <param name="world">The world this EBandit belongs to</param>
-        /// <param name="spriteBatch">The sprite batch which handles drawing this object.</param>
-        /// <param name="position">The initial position of this character.</param>
-        /// <param name="xmlFile">The XML file which houses the information for this character.</param>
-        public EBandit(World world, SpriteBatch spriteBatch, Vector2 position)
+        public Boss(World world, SpriteBatch spriteBatch, Vector2 position)
             : base(world, spriteBatch, position)
         {
-            Mass = 1;
-            //Set the character's Name
-            name = "Bandit";
+            this.Mass = 1;
+            this.Name = Boss.NAME;
 
-            //Load the bandits information from the XML file
-            LoadBanditXmlFile();
+            //Load the boss' information from the XML file
+            LoadBossXmlFile();
 
-            //Load the bandit's Roles
+            //Load the boss' Roles
             SetUpRoles();
-
-            //Set current health
-            currentHealth = maxHealth;
 
             //Create the Animation Player and give it the Idle Animation
             this.animationPlayer = new AnimationPlayer(spriteBatch, currentRole.AnimationMap["Idle"]);
@@ -79,13 +69,6 @@ namespace WesternSpace.DrawableComponents.Actors
             //Set the Death push back
             deathPushBack = new Vector2(-1.0f, 0);
 
-            //Initializes the player's hotspots.
-          /*  this.Hotspots.Add(new CollisionHotspot(this, new Vector2(16, 0), HOTSPOT_TYPE.top));
-            this.Hotspots.Add(new CollisionHotspot(this, new Vector2(0, 30), HOTSPOT_TYPE.left));
-            this.Hotspots.Add(new CollisionHotspot(this, new Vector2(36, 30), HOTSPOT_TYPE.right));
-            this.Hotspots.Add(new CollisionHotspot(this, new Vector2(7, 60), HOTSPOT_TYPE.bottom));
-            //this.collisionHotSpots.Add(new CollisionHotspot(this, new Vector2(27, 60), HOTSPOT_TYPE.bottom));
-*/
             List<CollisionHotspot> hotspots = new List<CollisionHotspot>();
             hotspots.Add(new CollisionHotspot(this, new Vector2(13, -27), HOTSPOT_TYPE.top));
             hotspots.Add(new CollisionHotspot(this, new Vector2(1, -6), HOTSPOT_TYPE.left));
@@ -95,7 +78,6 @@ namespace WesternSpace.DrawableComponents.Actors
             hotspots.Add(new CollisionHotspot(this, new Vector2(11, 30), HOTSPOT_TYPE.bottom));
 
             Hotspots = hotspots;
-
 
             //Temp: Loads the gunshot sound.
             gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
@@ -108,30 +90,15 @@ namespace WesternSpace.DrawableComponents.Actors
             this.boundingBoxOffset.Y = boundingBoxHeight / 2;
         }
 
-        /// <summary>
-        /// Initializes the objects assets at startup.
-        /// </summary>
         public override void Initialize()
         {
-            camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
-
             base.Initialize();
+
+            camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
         }
 
         /// <summary>
-        /// Sets up the Character's individual Roles.
-        /// </summary>
-        public override void SetUpRoles()
-        {
-            Bandit bandit = new Bandit(XMLFILENAME, BANDIT);
-
-            this.roleMap.Add(BANDIT, bandit);
-
-            this.currentRole = bandit;
-        }
-
-        /// <summary>
-        /// Called when the player presses the jump button. If the player is already
+        /// Called from the AI. If the boss is already
         /// in a jumping state then no action is to occurr.
         /// </summary>
         public void Jump()
@@ -148,7 +115,7 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         /// <summary>
-        /// Called when the player presses a movement button.
+        /// Called from the AI to move the boss
         /// </summary>
         public void Move()
         {
@@ -157,7 +124,7 @@ namespace WesternSpace.DrawableComponents.Actors
             if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
             {
                 //Calculate Facing
-                if(facing.Equals(SpriteEffects.None))
+                if (facing.Equals(SpriteEffects.None))
                 {
                     direction = 1;
                 }
@@ -190,7 +157,7 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         /// <summary>
-        /// Causes the enemy to generate a projectile and change its state accordingly.
+        /// Causes the boss to generate a projectile and change its state accordingly.
         /// </summary>
         public void Shoot()
         {
@@ -265,35 +232,21 @@ namespace WesternSpace.DrawableComponents.Actors
             if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
             {
                 // -- AI -- //
-                banditAI(gameTime);
+                BossAI(gameTime);
             }
         }
 
         public override void Draw(GameTime gameTime)
         {
-            //if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
-            //{
-                //Let the Animation Player Draw
-                animationPlayer.Draw(gameTime, this.SpriteBatch, UpperLeft, facing);
-            //}
-        }
-
-        /// <summary>
-        /// Loads a Character's information from a specified XML file.
-        /// </summary>
-        private void LoadBanditXmlFile()
-        {
-            //Create a new XDocument from the given file name.
-            XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(XMLFILENAME);
-
-            this.maxHealth = Int32.Parse(fileContents.Root.Element("Health").Attribute("MaxHealth").Value);
+            //Let the Animation Player Draw
+            animationPlayer.Draw(gameTime, this.SpriteBatch, UpperLeft, facing);
         }
 
         /// <summary>
         /// Logic which determines what a Bandit does.
         /// </summary>
         /// <param name="gameTime">The time the game has been running.</param>
-        private void banditAI(GameTime gameTime)
+        private void BossAI(GameTime gameTime)
         {
             if (!currentState.Contains("Dead") && !world.Player.CurrentState.Contains("Dead"))
             {
@@ -335,7 +288,7 @@ namespace WesternSpace.DrawableComponents.Actors
             }
 
             BanditNormalProjectile proj = new BanditNormalProjectile(this.World, this.SpriteBatch, position, this, direction);
-            
+
         }
 
         public override void ApplyGroundFriction()
@@ -346,12 +299,44 @@ namespace WesternSpace.DrawableComponents.Actors
             }
         }
 
+
+        /// <summary>
+        /// Called on a Sprite Collision?
+        /// </summary>
+        public void OnSpriteCollision()
+        {
+        }
+
+        /// <summary>
+        /// Loads a Character's information from a specified XML file.
+        /// </summary>
+        private void LoadBossXmlFile()
+        {
+            //Create a new XDocument from the given file name.
+            XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(XMLFILENAME);
+
+            this.maxHealth = Int32.Parse(fileContents.Root.Element("Health").Attribute("MaxHealth").Value);
+        }
+
+        /// <summary>
+        /// Sets up the Character's individual Roles.
+        /// </summary>
+        /// <param name="xmlFile">The xml file containing the role information.</param>
+        public override void SetUpRoles()
+        {
+            BossUtility bossRoles = new BossUtility(XMLFILENAME, NAME);
+
+            this.roleMap.Add(NAME, bossRoles);
+
+            this.currentRole = bossRoles;
+        }
+
         #region IDamageable Members
 
         private float maxHealth;
 
         /// <summary>
-        /// The maximum health this bandit has
+        /// The maximum health the boss has
         /// </summary>
         public float MaxHealth
         {
@@ -361,7 +346,7 @@ namespace WesternSpace.DrawableComponents.Actors
         private float currentHealth;
 
         /// <summary>
-        /// The current health this bandit has
+        /// The current health the boss has
         /// </summary>
         public float CurrentHealth
         {
@@ -369,17 +354,17 @@ namespace WesternSpace.DrawableComponents.Actors
         }
 
         /// <summary>
-        /// The bandit takes full damage from the player
+        /// The boss takes full damage from the player
         /// </summary>
         public float MitigationFactor
         {
-            get { return 1; }
+            get { return 1.0f; }
         }
 
         /// <summary>
-        /// The bandit takes damage from the player
+        /// The boss takes damage from the player
         /// </summary>
-        public DamageCategory TakesDamageFrom
+        public WesternSpace.Utility.DamageCategory TakesDamageFrom
         {
             get { return DamageCategory.Player; }
         }
@@ -387,7 +372,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// Take damage if the damage is from the player
         /// </summary>
-        /// <param name="damageItem">The other world item that this bandit collided with</param>
+        /// <param name="damageItem">The other world item that this boss collided with</param>
         public void TakeDamage(IDamaging damageItem)
         {
             if ((this.TakesDamageFrom != damageItem.DoesDamageTo) && !currentState.Equals("Dead"))
@@ -436,22 +421,7 @@ namespace WesternSpace.DrawableComponents.Actors
             }
         }
 
-        public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
-        {
-            IDamaging damage = characterCollidedWith as IDamaging;
-
-            if (damage != null)
-            {
-                this.TakeDamage(damage);
-            }
-        }
-
-        #endregion
-
-        #region ISpriteCollideable Members
-
-
-        public SpriteEffects collideableFacing
+        public Microsoft.Xna.Framework.Graphics.SpriteEffects collideableFacing
         {
             get
             {
@@ -462,11 +432,9 @@ namespace WesternSpace.DrawableComponents.Actors
                 facing = value;
             }
         }
-        #endregion
 
-        #region ISpriteCollideable Members
+        private bool removeFromCollisionRegistration;
 
-        Boolean removeFromCollisionRegistration;
         public bool removeFromRegistrationList
         {
             get
@@ -479,11 +447,16 @@ namespace WesternSpace.DrawableComponents.Actors
             }
         }
 
+        public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
+        {
+            IDamaging damage = characterCollidedWith as IDamaging;
+
+            if (damage != null)
+            {
+                this.TakeDamage(damage);
+            }
+        }
+
         #endregion
-     }
+    }
 }
-
-
-
-
-

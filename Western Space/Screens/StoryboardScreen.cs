@@ -94,7 +94,7 @@ namespace WesternSpace.Screens
 
         public override void Update(GameTime gameTime)
         {
-            // start the timer on the scene if its an automatic transition
+            // start the timer on the scene if its an automatic transition and its the first storyboard
             if (currentScene.Value.IsTransitionAutomatic && !currentScene.Value.IsTimerStarted)
             {
                 currentScene.Value.StartTimer();
@@ -116,6 +116,13 @@ namespace WesternSpace.Screens
                     // reset the transition and start the text timer
                     transition = null;
                     characterTimer.ResumeTimer();
+
+                    // reset timer on the scene if its an automatic transition...coming from a previous transition
+                    if (currentScene.Value.IsTransitionAutomatic && currentScene.Value.IsTimerStarted)
+                    {
+                        currentScene.Value.StopTimer();
+                        currentScene.Value.StartTimer();
+                    }
                 }
             }
 

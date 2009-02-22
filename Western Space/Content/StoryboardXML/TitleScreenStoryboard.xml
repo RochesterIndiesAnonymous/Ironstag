@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Cutscene Song="System\Music\TitleScreenBGM" DelayBetweenEachCharacter="100" Font="System\Fonts\WesternSpaceFont">
+  <Storyboard SceneTexture="Textures\Cutscenes\BlankStoryboard" SceneText="" SceneTextPositionX="45" SceneTextPositionY="160" IsTransitionAutomatic="True" AutomaticTransitionDelay="500" />
   <Storyboard SceneTexture="Textures\Cutscenes\RockSteelLogo" SceneText="" SceneTextPositionX="45" SceneTextPositionY="160" IsTransitionAutomatic="True" AutomaticTransitionDelay="2000" />
   <Storyboard SceneTexture="System\Window Skin\TitleImage" SceneText="Press Space or the A Button" SceneTextPositionX="45" SceneTextPositionY="160" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
 </Cutscene> 

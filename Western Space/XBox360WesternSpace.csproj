@@ -59,6 +59,7 @@
     <Compile Include="AnimationFramework\Animation.cs" />
     <Compile Include="AnimationFramework\AnimationPlayer.cs" />
     <Compile Include="AnimationFramework\Frame.cs" />
+    <Compile Include="DrawableComponents\Actors\Boss.cs" />
     <Compile Include="DrawableComponents\Actors\EVulture.cs" />
     <Compile Include="DrawableComponents\EditorUI\DestructableToggler.cs" />
     <Compile Include="DrawableComponents\Misc\Explosion.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="TilingEngine\IDestructionEffect.cs" />
     <Compile Include="TilingEngine\ShatterEffect.cs" />
     <Compile Include="Utility\Bird.cs" />
+    <Compile Include="Utility\BossUtility.cs" />
     <Compile Include="Utility\RectangleF2.cs" />
     <Compile Include="Utility\Timer.cs" />
     <Compile Include="WorldObject.cs" />
