@@ -5,7 +5,7 @@ float4 ApplyAlphaValue(float2 Tex : TEXCOORD0) : COLOR0
 {
 	float4 Color;
 	Color = tex2D(clrSampler, Tex.xy);
-	Color.a = AlphaValue;
+	Color.a *= AlphaValue;
     return Color;
 }
 
