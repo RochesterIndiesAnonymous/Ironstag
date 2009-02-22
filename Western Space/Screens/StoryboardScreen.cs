@@ -64,8 +64,6 @@ namespace WesternSpace.Screens
 
         private string nextScreen;
 
-        private bool fadeEffectDone;
-
         public StoryboardScreen(string screenName, string nextScreen, string storyboardXmlAssetPath)
             : base(ScreenManager.Instance, screenName)
         {
@@ -80,8 +78,6 @@ namespace WesternSpace.Screens
             currentStoryBoardTextIndex = 0;
 
             batch = new SpriteBatch(ScreenManager.Instance.GraphicsDevice);
-
-            fadeEffectDone = true;
         }
 
         public override void Initialize()
@@ -98,83 +94,79 @@ namespace WesternSpace.Screens
 
         public override void Update(GameTime gameTime)
         {
-            // check to see if the screen manager fade effect is done
-            if (fadeEffectDone)
+            // start the timer on the scene if its an automatic transition
+            if (currentScene.Value.IsTransitionAutomatic && !currentScene.Value.IsTimerStarted)
             {
-                // start the timer on the scene if its an automatic transition
-                if (currentScene.Value.IsTransitionAutomatic && !currentScene.Value.IsTimerStarted)
+                currentScene.Value.StartTimer();
+            }
+
+            base.Update(gameTime);
+
+            // tell the screen manager not to use the sprite batch service
+            // we need to use SpriteBatchMode.Immediate to use HLSL
+            ScreenManager.Instance.UseSpriteBatchService = false;
+
+
+            if (transition != null) // if we currently have a transition happening
+            {
+                transition.Update(); // update the transition
+
+                if (transition.IsTransitionComplete)
                 {
-                    currentScene.Value.StartTimer();
+                    // reset the transition and start the text timer
+                    transition = null;
+                    characterTimer.ResumeTimer();
                 }
+            }
 
-                base.Update(gameTime);
-
-                // tell the screen manager not to use the sprite batch service
-                // we need to use SpriteBatchMode.Immediate to use HLSL
-                ScreenManager.Instance.UseSpriteBatchService = false;
-
-
-                if (transition != null) // if we currently have a transition happening
+            // if there is input or it is an automatic transition and there is no transition happening
+            if (((InputMonitor.Instance.WasJustPressed(InputMonitor.JUMP) || InputMonitor.Instance.WasJustPressed(InputMonitor.PAUSE)) && transition == null) ||
+                (currentScene.Value.IsTransitionAutomatic && currentScene.Value.IsReadyToTransition && transition == null))
+            {
+                // user inputs in the middle of the text
+                if (currentStoryBoardTextIndex < currentScene.Value.SceneText.Length)
                 {
-                    transition.Update(); // update the transition
+                    // display the rest of the text
+                    currentStoryboardText = currentScene.Value.SceneText;
+                    currentStoryBoardTextIndex = currentScene.Value.SceneText.Length;
+                    characterTimer.ResetTimer();
+                    characterTimer.PauseTimer();
+                }
+                // if we have another storyboard and the text is done on the current storyboard
+                else if (currentStoryboardText == currentScene.Value.SceneText && currentScene != storyboards.Last)
+                {
+                    // transition to next story board
+                    this.transition = new StoryboardTransition(this, 0.01f, 0.01f);
 
-                    if (transition.IsTransitionComplete)
+                    //fadeEffectDone = false;
+
+                    // reset the timer
+                    characterTimer.ResetTimer();
+                    characterTimer.PauseTimer();
+
+                    // reset the text being displayed
+                    currentStoryboardText = String.Empty;
+                    currentStoryBoardTextIndex = 0;
+
+                    // if we have an automatic transition stop the timer
+                    if (currentScene.Value.IsTransitionAutomatic && currentScene.Value.IsTimerStarted)
                     {
-                        // reset the transition and start the text timer
-                        transition = null;
-                        characterTimer.ResumeTimer();
+                        currentScene.Value.StopTimer();
                     }
                 }
-
-                // if there is input or it is an automatic transition and there is no transition happening
-                if (((InputMonitor.Instance.WasJustPressed(InputMonitor.JUMP) || InputMonitor.Instance.WasJustPressed(InputMonitor.PAUSE)) && transition == null) || 
-                    (currentScene.Value.IsTransitionAutomatic && currentScene.Value.IsReadyToTransition && transition == null))
+                // we are at the last storyboard
+                else if (currentStoryboardText == currentScene.Value.SceneText && currentScene == storyboards.Last)
                 {
-                    // user inputs in the middle of the text
-                    if (currentStoryBoardTextIndex < currentScene.Value.SceneText.Length)
+                    // if we have an automatic transition
+                    if (currentScene.Value.IsTransitionAutomatic && currentScene.Value.IsTimerStarted)
                     {
-                        // display the rest of the text
-                        currentStoryboardText = currentScene.Value.SceneText;
-                        currentStoryBoardTextIndex = currentScene.Value.SceneText.Length;
-                        characterTimer.ResetTimer();
-                        characterTimer.PauseTimer();
+                        // stop the timer
+                        currentScene.Value.StopTimer();
                     }
-                    // if we have another storyboard and the text is done on the current storyboard
-                    else if (currentStoryboardText == currentScene.Value.SceneText && currentScene != storyboards.Last)
-                    {
-                        // transition to next story board
-                        this.transition = new StoryboardTransition(this, 0.01f, 0.01f);
-                        
-                        fadeEffectDone = false;
 
-                        // reset the timer
-                        characterTimer.ResetTimer();
-                        characterTimer.PauseTimer();
-
-                        // reset the text being displayed
-                        currentStoryboardText = String.Empty;
-                        currentStoryBoardTextIndex = 0;
-
-                        // if we have an automatic transition stop the timer
-                        if (currentScene.Value.IsTransitionAutomatic && currentScene.Value.IsTimerStarted)
-                        {
-                            currentScene.Value.StopTimer();
-                        }
-                    }
-                    // we are at the last storyboard
-                    else if (currentStoryboardText == currentScene.Value.SceneText && currentScene == storyboards.Last)
-                    {
-                        // if we have an automatic transition
-                        if (currentScene.Value.IsTransitionAutomatic && currentScene.Value.IsTimerStarted)
-                        {
-                            // stop the timer
-                            currentScene.Value.StopTimer();
-                        }
-
-                        // we have reached our last story board, transition to the next screen
-                        ScreenTransition sts = new ScreenTransition(this.Name, this.nextScreen, 0.01f, 0.01f, false, true);
-                        ScreenManager.Instance.Transition(sts);
-                    }
+                    // we have reached our last story board, transition to the next screen
+                    ScreenTransition sts = new ScreenTransition(this.Name, this.nextScreen, 0.01f, 0.01f, false, true);
+                    ScreenManager.Instance.Transition(sts);
                 }
             }
         }
@@ -195,18 +187,10 @@ namespace WesternSpace.Screens
 
             if (transition != null)
             {
-                this.TransitionComplete();
                 transition.EndTransition();
             }
 
             batch.End();
-        }
-
-        public override void TransitionComplete()
-        {
-            base.TransitionComplete();
-            
-            this.fadeEffectDone = true;
         }
 
         private void CreateStoryboardFromXML(string assetPath)
@@ -243,7 +227,7 @@ namespace WesternSpace.Screens
             if (currentStoryBoardTextIndex < currentScene.Value.SceneText.Length)
             {
                 currentStoryBoardTextIndex++;
-                currentStoryboardText =  currentScene.Value.SceneText.Substring(0, currentStoryBoardTextIndex);
+                currentStoryboardText = currentScene.Value.SceneText.Substring(0, currentStoryBoardTextIndex);
             }
 
             characterTimer.ResetTimer();
