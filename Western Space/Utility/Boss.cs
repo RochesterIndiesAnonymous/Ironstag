@@ -14,6 +14,8 @@ namespace WesternSpace.Utility
         public static readonly string DEAD = "Dead";
         public static readonly string HIT = "Hit";
         public static readonly string SHOOTING = "Shooting";
+        public static readonly string SHOOTINGUP = "ShootingUp";
+        public static readonly string SHOOTINGDOWN = "ShootingDown";
         public static readonly string RUNNING = "Running";
 
           /// <summary>
@@ -31,6 +33,8 @@ namespace WesternSpace.Utility
             Animation laughing = new Animation(xmlFile, LAUGHING);
             Animation running = new Animation(xmlFile, RUNNING);
             Animation shooting = new Animation(xmlFile, SHOOTING);
+            Animation shootingUp = new Animation(xmlFile, SHOOTINGUP);
+            Animation shootingDown = new Animation(xmlFile, SHOOTINGDOWN);
             Animation dead = new Animation(xmlFile, DEAD);
             //Animation hit = new Animation(xmlFile, HIT);
 
@@ -39,6 +43,8 @@ namespace WesternSpace.Utility
             this.animationMap.Add(LAUGHING, laughing);
             this.animationMap.Add(RUNNING, running);
             this.animationMap.Add(SHOOTING, shooting);
+            this.animationMap.Add(SHOOTINGUP, shootingUp);
+            this.animationMap.Add(SHOOTINGDOWN, shootingDown);
             this.animationMap.Add(DEAD, dead);
             //this.animationMap.Add(HIT, hit);
         }
