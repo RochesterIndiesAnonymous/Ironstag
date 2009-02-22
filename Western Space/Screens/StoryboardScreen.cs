@@ -98,8 +98,10 @@ namespace WesternSpace.Screens
 
         public override void Update(GameTime gameTime)
         {
+            // check to see if the screen manager fade effect is done
             if (fadeEffectDone)
             {
+                // start the timer on the scene if its an automatic transition
                 if (currentScene.Value.IsTransitionAutomatic && !currentScene.Value.IsTimerStarted)
                 {
                     currentScene.Value.StartTimer();
@@ -107,22 +109,28 @@ namespace WesternSpace.Screens
 
                 base.Update(gameTime);
 
+                // tell the screen manager not to use the sprite batch service
+                // we need to use SpriteBatchMode.Immediate to use HLSL
                 ScreenManager.Instance.UseSpriteBatchService = false;
 
-                if (transition != null)
+
+                if (transition != null) // if we currently have a transition happening
                 {
-                    transition.Update();
+                    transition.Update(); // update the transition
 
                     if (transition.IsTransitionComplete)
                     {
+                        // reset the transition and start the text timer
                         transition = null;
                         characterTimer.ResumeTimer();
                     }
                 }
 
+                // if there is input or it is an automatic transition and there is no transition happening
                 if (((InputMonitor.Instance.WasJustPressed(InputMonitor.JUMP) || InputMonitor.Instance.WasJustPressed(InputMonitor.PAUSE)) && transition == null) || 
                     (currentScene.Value.IsTransitionAutomatic && currentScene.Value.IsReadyToTransition && transition == null))
                 {
+                    // user inputs in the middle of the text
                     if (currentStoryBoardTextIndex < currentScene.Value.SceneText.Length)
                     {
                         // display the rest of the text
@@ -130,12 +138,8 @@ namespace WesternSpace.Screens
                         currentStoryBoardTextIndex = currentScene.Value.SceneText.Length;
                         characterTimer.ResetTimer();
                         characterTimer.PauseTimer();
-
-                        if (currentScene.Value.IsTransitionAutomatic && currentScene.Value.IsTimerStarted)
-                        {
-                            currentScene.Value.StopTimer();
-                        }
                     }
+                    // if we have another storyboard and the text is done on the current storyboard
                     else if (currentStoryboardText == currentScene.Value.SceneText && currentScene != storyboards.Last)
                     {
                         // transition to next story board
@@ -143,21 +147,27 @@ namespace WesternSpace.Screens
                         
                         fadeEffectDone = false;
 
+                        // reset the timer
                         characterTimer.ResetTimer();
                         characterTimer.PauseTimer();
 
+                        // reset the text being displayed
                         currentStoryboardText = String.Empty;
                         currentStoryBoardTextIndex = 0;
 
+                        // if we have an automatic transition stop the timer
                         if (currentScene.Value.IsTransitionAutomatic && currentScene.Value.IsTimerStarted)
                         {
                             currentScene.Value.StopTimer();
                         }
                     }
+                    // we are at the last storyboard
                     else if (currentStoryboardText == currentScene.Value.SceneText && currentScene == storyboards.Last)
                     {
+                        // if we have an automatic transition
                         if (currentScene.Value.IsTransitionAutomatic && currentScene.Value.IsTimerStarted)
                         {
+                            // stop the timer
                             currentScene.Value.StopTimer();
                         }
 
@@ -230,7 +240,7 @@ namespace WesternSpace.Screens
 
         private void characterTimer_TimeHasElapsed(object sender, EventArgs e)
         {
-            if (currentStoryBoardTextIndex <= (currentScene.Value.SceneText.Length - 1))
+            if (currentStoryBoardTextIndex < currentScene.Value.SceneText.Length)
             {
                 currentStoryBoardTextIndex++;
                 currentStoryboardText =  currentScene.Value.SceneText.Substring(0, currentStoryBoardTextIndex);
