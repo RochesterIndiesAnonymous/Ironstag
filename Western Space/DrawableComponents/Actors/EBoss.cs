@@ -243,8 +243,11 @@ namespace WesternSpace.DrawableComponents.Actors
                 // laugh indefinately if the player is dead
                 SetAIState(laughingAIState);
             }
-                
-            currentAIState.Update();
+
+            if (!currentState.Contains("Dead"))
+            {
+                currentAIState.Update();
+            }
         }
 
         
@@ -266,6 +269,7 @@ namespace WesternSpace.DrawableComponents.Actors
             XDocument fileContents = ScreenManager.Instance.Content.Load<XDocument>(XMLFILENAME);
 
             this.maxHealth = Int32.Parse(fileContents.Root.Element("Health").Attribute("MaxHealth").Value);
+            this.currentHealth = maxHealth;
         }
 
         /// <summary>

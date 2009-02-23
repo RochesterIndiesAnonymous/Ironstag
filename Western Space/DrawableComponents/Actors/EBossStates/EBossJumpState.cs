@@ -27,7 +27,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
 
         internal bool ShouldBossJump()
         {
-            if (this.Boss.isOnGround && this.Boss.World.Player.Position.Y < (this.Boss.Position.Y + PLAYER_Y_THRESHOLD))
+            if (this.Boss.isOnGround && this.Boss.World.Player.Position.Y < (this.Boss.Position.Y - PLAYER_Y_THRESHOLD))
             {
                 return true;
             }

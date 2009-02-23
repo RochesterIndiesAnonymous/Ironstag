@@ -70,6 +70,12 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
 
         internal void StopTimer()
         {
+            shootTimer.TimeHasElapsed -= shootTimer_TimeHasElapsed;
+            shootDurationTimer.TimeHasElapsed -= shootDurationTimer_TimeHasElapsed;
+
+            shootTimer.PauseTimer();
+            shootDurationTimer.PauseTimer();
+
             shootTimer.RemoveTimer();
             shootDurationTimer.RemoveTimer();
             hasTimerStarted = false;
