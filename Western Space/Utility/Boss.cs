@@ -17,6 +17,9 @@ namespace WesternSpace.Utility
         public static readonly string SHOOTINGUP = "ShootingUp";
         public static readonly string SHOOTINGDOWN = "ShootingDown";
         public static readonly string RUNNING = "Running";
+        public static readonly string JUMPINGASCENT = "JumpingAscent";
+        public static readonly string JUMPINGDESCENT = "JumpingDescent";
+        public static readonly string JUMPINGLAND = "JumpingLand";
 
           /// <summary>
         /// Bandit Constructor
@@ -35,8 +38,11 @@ namespace WesternSpace.Utility
             Animation shooting = new Animation(xmlFile, SHOOTING);
             Animation shootingUp = new Animation(xmlFile, SHOOTINGUP);
             Animation shootingDown = new Animation(xmlFile, SHOOTINGDOWN);
+            Animation jumpingAscent = new Animation(xmlFile, JUMPINGASCENT);
+            Animation jumpingDescent = new Animation(xmlFile, JUMPINGDESCENT);
+            Animation jumpingLand = new Animation(xmlFile, JUMPINGLAND);
             Animation dead = new Animation(xmlFile, DEAD);
-            //Animation hit = new Animation(xmlFile, HIT);
+            Animation hit = new Animation(xmlFile, HIT);
 
 
             this.animationMap.Add(IDLE, idle);
@@ -45,8 +51,11 @@ namespace WesternSpace.Utility
             this.animationMap.Add(SHOOTING, shooting);
             this.animationMap.Add(SHOOTINGUP, shootingUp);
             this.animationMap.Add(SHOOTINGDOWN, shootingDown);
+            this.animationMap.Add(JUMPINGASCENT, jumpingAscent);
+            this.animationMap.Add(JUMPINGDESCENT, jumpingDescent);
+            this.animationMap.Add(JUMPINGLAND, jumpingLand);
             this.animationMap.Add(DEAD, dead);
-            //this.animationMap.Add(HIT, hit);
+            this.animationMap.Add(HIT, hit);
         }
     }
 

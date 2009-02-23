@@ -232,7 +232,7 @@ namespace WesternSpace.DrawableComponents.Actors
                     aiStateDecided = true;
                 }
                 
-                if(!this.currentState.Contains("Shooting") && !aiStateDecided)
+                if(!this.currentState.Contains("Shooting") && !aiStateDecided && !this.currentState.Contains("Jumping"))
                 {
                     SetAIState(laughingAIState);
                     aiStateDecided = true;

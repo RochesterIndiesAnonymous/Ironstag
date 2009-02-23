@@ -47,16 +47,18 @@
       <Frame DisplayTime="100" SheetIndex="1" />
       <Frame DisplayTime="100" SheetIndex="2" />
     </Animation>
-    <Animation AnimationKey="JumpingAscent" IsLoop="0" SpriteSheet="Textures\FlintIronstag\FlintJump1" FrameWidth="64" FrameHeight="61" CenterOffsetX="34" CenterOffsetY="36" Parent="None">
-      <Frame DisplayTime="50" SheetIndex="0" />
-      <Frame DisplayTime="100" SheetIndex="1" />
+    <Animation AnimationKey="JumpingAscent" IsLoop="0" SpriteSheet="Textures\Enemies\MachineGunJumpAscent" FrameWidth="68" FrameHeight="73" CenterOffsetX="27" CenterOffsetY="40" Parent="None">
+      <Frame DisplayTime="100" SheetIndex="0" />
+      <Frame DisplayTime="150" SheetIndex="1" />
       <Frame DisplayTime="100" SheetIndex="2" />
     </Animation>
-    <Animation AnimationKey="JumpingDescent" IsLoop="0" SpriteSheet="Textures\FlintIronstag\FlintJump2" FrameWidth="64" FrameHeight="61" CenterOffsetX="34" CenterOffsetY="36" Parent="None">
+    <Animation AnimationKey="JumpingDescent" IsLoop="0" SpriteSheet="Textures\Enemies\MachineGunJumpDescent" FrameWidth="68" FrameHeight="68" CenterOffsetX="26" CenterOffsetY="32" Parent="None">
       <Frame DisplayTime="550" SheetIndex="0" />
-      <Frame DisplayTime="83" SheetIndex="1" />
     </Animation>
-    <Animation AnimationKey="Dead" IsLoop="0" SpriteSheet="Textures\Enemies\BanditDead" FrameWidth="64" FrameHeight="61" CenterOffsetX="17" CenterOffsetY="31" Parent="None">
+    <Animation AnimationKey="JumpingLand" IsLoop="0" SpriteSheet="Textures\Enemies\MachineGunJumpLand" FrameWidth="68" FrameHeight="64" CenterOffsetX="27" CenterOffsetY="32" Parent="Idle">
+      <Frame DisplayTime="550" SheetIndex="0" />
+    </Animation>
+    <Animation AnimationKey="Dead" IsLoop="0" SpriteSheet="Textures\Enemies\BanditDead" FrameWidth="68" FrameHeight="64" CenterOffsetX="17" CenterOffsetY="31" Parent="None">
       <Frame DisplayTime="250" SheetIndex="0" />
       <Frame DisplayTime="70" SheetIndex="1" />
       <Frame DisplayTime="83" SheetIndex="2" />
