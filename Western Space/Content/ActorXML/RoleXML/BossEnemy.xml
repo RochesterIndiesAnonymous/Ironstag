@@ -22,6 +22,16 @@
       <Frame DisplayTime="100" SheetIndex="6" />
       <Frame DisplayTime="100" SheetIndex="7" />
     </Animation>
+    <Animation AnimationKey="RunningShooting" IsLoop="1" SpriteSheet="Textures\Enemies\MachineGunRunShoot" FrameWidth="106" FrameHeight="86" CenterOffsetX="25" CenterOffsetY="55" Parent="None">
+      <Frame DisplayTime="100" SheetIndex="0" />
+      <Frame DisplayTime="100" SheetIndex="1" />
+      <Frame DisplayTime="100" SheetIndex="2" />
+      <Frame DisplayTime="100" SheetIndex="3" />
+      <Frame DisplayTime="100" SheetIndex="4" />
+      <Frame DisplayTime="100" SheetIndex="5" />
+      <Frame DisplayTime="100" SheetIndex="6" />
+      <Frame DisplayTime="100" SheetIndex="7" />
+    </Animation>
     <Animation AnimationKey="Shooting" IsLoop="1" SpriteSheet="Textures\Enemies\MachineGunShoot" FrameWidth="106" FrameHeight="86" CenterOffsetX="26" CenterOffsetY="56" Parent="None">
       <Frame DisplayTime="100" SheetIndex="0" />
       <Frame DisplayTime="100" SheetIndex="1" />
