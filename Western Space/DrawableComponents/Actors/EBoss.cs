@@ -133,7 +133,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 {
                     ChangeState("Idle");
                 }
-                else if (!currentState.Contains("Shooting") && !currentState.Contains("Laughing") && !currentState.Contains("Land"))
+                else if (!currentState.Contains("Shooting") && !currentState.Contains("Laughing") && !currentState.Contains("Land") && !currentState.Contains("Running"))
                 {
                     ChangeState("Idle");
                 }
@@ -143,8 +143,6 @@ namespace WesternSpace.DrawableComponents.Actors
 
             // -- Handle Physics -- //
             PhysicsHandler.ApplyPhysics(this);
-
-            bool isOnGroundBeforeUpdate = isOnGround;
 
             // -- Animation Player Update Frames -- //
             animationPlayer.Update(gameTime);
@@ -196,11 +194,11 @@ namespace WesternSpace.DrawableComponents.Actors
                         aiStateDecided = true;
                     }
 
-                    //if (!shootAIState.IsReadyToShoot && !aiStateDecided && !this.currentState.Contains("Running") && !this.currentState.Contains("Running"))
-                    //{
-                    //    SetAIState(moveAIState);
-                    //    aiStateDecided = true;
-                    //}
+                    if (!shootAIState.IsReadyToShoot && !aiStateDecided && !this.currentState.Contains("Running") && !this.currentState.Contains("Shooting"))
+                    {
+                        SetAIState(moveAIState);
+                        aiStateDecided = true;
+                    }
 
                     //if (!aiStateDecided && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping") && jumpAIState.ShouldBossJumpUp())
                     //{
