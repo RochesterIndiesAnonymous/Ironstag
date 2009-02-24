@@ -95,8 +95,6 @@ namespace WesternSpace.DrawableComponents.Actors
 
         bool reachedMaxJump = false;
 
-        readonly float maxJumpHeight = -6f;
-
         /// Flint's hat object for use in the dying animation.
         /// </summary>
         private FlintHat hat;

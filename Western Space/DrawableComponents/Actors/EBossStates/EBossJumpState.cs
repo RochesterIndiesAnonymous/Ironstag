@@ -15,7 +15,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// AI state
         /// </summary>
         private const float PLAYER_Y_THRESHOLD = 80.0f;
-        public const int FALL_THROUGH_FLOOR_UPDATE_CYCLES = 5;
+        public const int FALL_THROUGH_FLOOR_UPDATE_CYCLES = 20;
 
         private bool fallThroughFloor;
 
@@ -34,6 +34,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         }
 
         private Timer jumpTimer;
+        private Timer fallThroughTimer;
 
         private Vector2 lastJumpPosition;
 
@@ -43,6 +44,9 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             jumpTimer = new Timer(parentScreen, 2000);
             jumpTimer.TimeHasElapsed += new EventHandler<EventArgs>(jumpTimer_TimeHasElapsed);
 
+            fallThroughTimer = new Timer(parentScreen, 100);
+            fallThroughTimer.TimeHasElapsed += new EventHandler<EventArgs>(fallThroughTimer_TimeHasElapsed);
+
             lastJumpPosition = new Vector2();
         }
 
@@ -50,10 +54,12 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         {
             base.Update();
 
-
             jumpTimer.ResetTimer();
             jumpTimer.ResumeTimer();
 
+            fallThroughTimer.ResetTimer();
+            fallThroughTimer.PauseTimer();
+            
             this.IsLogicComplete = false;
         }
 
@@ -61,6 +67,9 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         {
             jumpTimer.PauseTimer();
             jumpTimer.StartTimer();
+
+            fallThroughTimer.PauseTimer();
+            fallThroughTimer.StartTimer();
         }
 
         public void StopTimers()
@@ -68,6 +77,10 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             jumpTimer.TimeHasElapsed -= jumpTimer_TimeHasElapsed;
             jumpTimer.PauseTimer();
             jumpTimer.RemoveTimer();
+
+            fallThroughTimer.TimeHasElapsed -= fallThroughTimer_TimeHasElapsed;
+            fallThroughTimer.PauseTimer();
+            fallThroughTimer.RemoveTimer();
         }
 
         internal bool ShouldBossJump()
@@ -105,6 +118,13 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             {
                 this.FallThroughFloor = true;
                 lastJumpPosition = this.Boss.Position;
+
+                this.Boss.ApplyJump();
+                this.Boss.ChangeState("JumpingAscent");
+                this.Boss.isOnGround = false;
+
+                fallThroughTimer.ResetTimer();
+                fallThroughTimer.ResumeTimer();
             }
         }
 
@@ -123,6 +143,14 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
                 lastJumpPosition = this.Boss.Position;
                 this.IsLogicComplete = true;
             }
+
+            jumpTimer.PauseTimer();
+            jumpTimer.ResetTimer();
+        }
+
+        void fallThroughTimer_TimeHasElapsed(object sender, EventArgs e)
+        {
+            this.Boss.Velocity = new Vector2(0f, 0f);
 
             jumpTimer.PauseTimer();
             jumpTimer.ResetTimer();
