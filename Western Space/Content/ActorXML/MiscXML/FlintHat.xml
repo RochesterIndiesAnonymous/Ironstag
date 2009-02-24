@@ -1,4 +1,4 @@
-﻿<SpaceBoss>
+﻿<FlintHat>
   <Animations>
     <Animation AnimationKey="Fall" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\HatFall" FrameWidth="24" FrameHeight="24" CenterOffsetX="13" CenterOffsetY="7" Parent="None">
       <Frame DisplayTime="150" SheetIndex="0" />
@@ -7,4 +7,4 @@
       <Frame DisplayTime="150" SheetIndex="3" />
     </Animation>
   </Animations>
-</SpaceBoss>
+</FlintHat>
