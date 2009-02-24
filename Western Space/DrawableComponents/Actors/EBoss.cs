@@ -233,11 +233,11 @@ namespace WesternSpace.DrawableComponents.Actors
                     aiStateDecided = true;
                 }
 
-                //if (!aiStateDecided && jumpAIState.ShouldBossJump())
-                //{
-                    //SetAIState(jumpAIState);
-                    //aiStateDecided = true;
-                //}
+                if (!aiStateDecided && jumpAIState.ShouldBossJumpUp())
+                {
+                    SetAIState(jumpAIState);
+                    aiStateDecided = true;
+                }
                 
                 if(!this.currentState.Contains("Shooting") && !aiStateDecided && !this.currentState.Contains("Jumping"))
                 {

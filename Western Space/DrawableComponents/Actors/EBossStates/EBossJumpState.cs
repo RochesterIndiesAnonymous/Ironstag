@@ -11,7 +11,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// How high above the boss the player needs to be to choose this
         /// AI state
         /// </summary>
-        private const float PLAYER_Y_THRESHOLD = 20.0f;
+        private const float PLAYER_Y_THRESHOLD = 60.0f;
 
         internal EBossJumpState(EBoss boss)
             : base(boss)
@@ -25,9 +25,9 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             Jump();
         }
 
-        internal bool ShouldBossJump()
+        internal bool ShouldBossJumpUp()
         {
-            if ((this.Boss.CurrentState.Contains("Laughing") || !this.Boss.CurrentState.Contains("Idle")) 
+            if (!this.Boss.CurrentState.Contains("Shooting") && !this.Boss.CurrentState.Contains("Jumping")
                 && this.Boss.isOnGround && this.Boss.World.Player.Position.Y < (this.Boss.Position.Y - PLAYER_Y_THRESHOLD))
             {
                 return true;
@@ -42,7 +42,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// </summary>
         private void Jump()
         {
-            if (!this.Boss.CurrentState.Contains("Dead") && !this.Boss.CurrentState.Equals("Hit"))
+            if (!this.Boss.CurrentState.Contains("Shooting") && !this.Boss.CurrentState.Contains("Dead") && !this.Boss.CurrentState.Equals("Hit"))
             {
                 if (!this.Boss.CurrentState.Contains("Jumping") && !this.Boss.CurrentState.Contains("Falling"))
                 {
