@@ -56,7 +56,7 @@
       <Frame DisplayTime="550" SheetIndex="0" />
     </Animation>
     <Animation AnimationKey="JumpingLand" IsLoop="0" SpriteSheet="Textures\Enemies\MachineGunJumpLand" FrameWidth="68" FrameHeight="64" CenterOffsetX="27" CenterOffsetY="32" Parent="Idle">
-      <Frame DisplayTime="550" SheetIndex="0" />
+      <Frame DisplayTime="450" SheetIndex="0" />
     </Animation>
     <Animation AnimationKey="Dead" IsLoop="0" SpriteSheet="Textures\Enemies\BanditDead" FrameWidth="68" FrameHeight="64" CenterOffsetX="17" CenterOffsetY="31" Parent="None">
       <Frame DisplayTime="250" SheetIndex="0" />

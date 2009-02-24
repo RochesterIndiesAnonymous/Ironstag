@@ -433,7 +433,6 @@ namespace WesternSpace.DrawableComponents.Actors
         public override void Update(GameTime gameTime)
         {
            // Console.WriteLine("CURRENTSTATE: " + currentState + "VEL: " + velocity);
-            System.Diagnostics.Debug.WriteLine("STATE: " + currentState);
             // -- Get User Input -- //
             if ( input.IsPressed(InputMonitor.RIGHT) || input.CheckLeftJoystickOnXAxis(InputMonitor.RIGHT) )
             {

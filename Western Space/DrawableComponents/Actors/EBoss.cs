@@ -154,7 +154,7 @@ namespace WesternSpace.DrawableComponents.Actors
         public override void Update(GameTime gameTime)
         {
             // --- Check For Max Ascent of Jump -- //
-            if (currentState.Contains("Jumping"))
+            if (currentState.Contains("Jumping") && !currentState.Contains("Land"))
             {
                 if ((-0.5 <= Velocity.Y) || (Velocity.Y <= 0.8))
                 {
@@ -172,7 +172,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 {
                     ChangeState("Idle");
                 }
-                else if (!currentState.Contains("Shooting") && !currentState.Contains("Laughing"))
+                else if (!currentState.Contains("Shooting") && !currentState.Contains("Laughing") && !currentState.Contains("Land"))
                 {
                     ChangeState("Idle");
                 }
@@ -189,9 +189,9 @@ namespace WesternSpace.DrawableComponents.Actors
             animationPlayer.Update(gameTime);
             base.Update(gameTime);
 
-            if (isOnGround && !isOnGroundBeforeUpdate)
+            if (isOnGround && currentState.Contains("Descent"))
             {
-                ChangeState("JumpingLanding");
+                ChangeState("JumpingLand");
             }
 
             if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
