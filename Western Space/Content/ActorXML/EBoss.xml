@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Boss>
-  <Health MaxHealth="200"></Health>
+  <Health MaxHealth="1"></Health>
   <Roles>
     <Role RoleKey="Boss" RoleXML="ActorXML\RoleXML\BossEnemy"></Role>
   </Roles>

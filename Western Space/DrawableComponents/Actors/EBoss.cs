@@ -277,10 +277,6 @@ namespace WesternSpace.DrawableComponents.Actors
                             {
                                 ChangeState("Dead");
                             }
-                            else
-                            {
-                                ChangeState("DeadAir");
-                            }
 
                             if (facing == SpriteEffects.FlipHorizontally)
                             {

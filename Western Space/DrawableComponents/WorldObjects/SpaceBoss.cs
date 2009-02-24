@@ -130,7 +130,14 @@ namespace WesternSpace.DrawableComponents.WorldObjects
             currentState = "None";
 
             //Set the Hat's positon
-            position = owner.Position + new Vector2(60, 0);
+            if (owner.Facing == SpriteEffects.FlipHorizontally)
+            {
+                Position = owner.Position + new Vector2(20, -29);
+            }
+            else
+            {
+                Position = owner.Position + new Vector2(-20, -30);
+            }
 
             //Set the hat's velocity
             velocity = new Vector2(0, 0);
@@ -241,7 +248,7 @@ namespace WesternSpace.DrawableComponents.WorldObjects
 
                 NetForce += gravity / Mass;
 
-                ApplyAirMove(direction);
+                ApplyAirMove((-1)*direction);
 
                 if (isOnGround)
                 {
