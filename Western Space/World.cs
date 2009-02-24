@@ -358,9 +358,9 @@ namespace WesternSpace
                 tileMap = new TileMap(this, parallaxMap.Attribute("MapFileName").Value);
                 otherMaps.Add(tileMap);
 
-                //ScrollSpeed = Single.Parse(parallaxMap.Attribute("ScrollSpeed").Value);
+                ScrollSpeed = Single.Parse(parallaxMap.Attribute("ScrollSpeed").Value);
 
-                /*foreach (XElement parallaxLayer in allParallaxLayers)
+                foreach (XElement parallaxLayer in allParallaxLayers)
                 {
                     string LayerName;
                     int LayerIndex, ZIndex;
@@ -374,7 +374,6 @@ namespace WesternSpace
 
                     ParentScreen.Components.Add(parallaxLayers[ZIndex]);
                 }
-                 * */
             }
 
             #endregion
@@ -404,7 +403,7 @@ namespace WesternSpace
 
             foreach (TileMap otherMap in otherMaps)
             {
-                XElement parallax = new XElement("Parallax", new XAttribute("MapFileName", otherMap.FileName));
+                XElement parallax = new XElement("Parallax", new XAttribute("MapFileName", otherMap.FileName), new XAttribute("ScrollSpeed", ""));
                 ret.Add(parallax);
             }
 
@@ -416,18 +415,20 @@ namespace WesternSpace
             foreach (int zIndex in parallaxLayers.Keys)
             { 
                 TileMapLayer pml = parallaxLayers[zIndex];
-                XElement pmlElement = new XElement("MapLayer",
-                                                   new XAttribute("LayerName",null),
+                XElement pmlElement = new XElement("Layer",
+                                                   new XAttribute("LayerName",""),
                                                    new XAttribute("LayerIndex", pml.LayerIndex),
                                                    new XAttribute("ZIndex", zIndex));
-                ret.Add(pmlElement);
+
 
                 IEnumerable<XElement> plaxs = from plax in ret.Descendants("Parallax") 
                                               where plax.Attribute("MapFileName").Value == pml.TileMap.FileName
                                               select plax;
-                plaxs.First<XElement>().Attribute("ScrollSpeed").Value = pml.ScrollSpeed.ToString();
+
+                XElement plaxX = plaxs.First<XElement>();
+                plaxX.Attribute("ScrollSpeed").Value = pml.ScrollSpeed.ToString();
+                plaxX.Add(pmlElement);
             }
-            
 
 
             return ret;

@@ -159,21 +159,32 @@ namespace WesternSpace.TilingEngine
             float cam_y = camPos.Y*scrollSpeed;
             float cam_w = camera.VisibleArea.Width;
             float cam_h = camera.VisibleArea.Height;
-            
 
-            startX = (int)MathHelper.Clamp((float)Math.Floor((cam_x / tm.TileWidth)), 0.0f, (float)tm.Width);
-            startY = (int)MathHelper.Clamp((float)Math.Floor((cam_y / tm.TileHeight)), 0.0f, (float)tm.Height);
 
-            endX = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_x + cam_w) / tm.TileWidth)), 0.0f, (float)tm.Width);
-            endY = (int)MathHelper.Clamp((float)Math.Ceiling(((cam_y + cam_h) / tm.TileWidth)), 0.0f, (float)tm.Height);
+            startX = (int)Math.Floor((cam_x / tm.TileWidth));//(int)MathHelper.Clamp((float)Math.Floor((cam_x / tm.TileWidth)), 0.0f, (float)tm.Width);
+            startY = (int)Math.Floor((cam_y / tm.TileHeight));//(int)MathHelper.Clamp((float)Math.Floor((cam_y / tm.TileHeight)), 0.0f, (float)tm.Height);
 
+            endX = (int)Math.Ceiling(((cam_x + cam_w) / tm.TileWidth));// (int)MathHelper.Clamp((float)Math.Ceiling(((cam_x + cam_w) / tm.TileWidth)), 0.0f, (float)tm.Width);
+            endY = (int)Math.Ceiling(((cam_y + cam_h) / tm.TileHeight));// (int)MathHelper.Clamp((float)Math.Ceiling(((cam_y + cam_h) / tm.TileHeight)), 0.0f, (float)tm.Height);
 
             for (int x = startX; x < endX; ++x)
             {
                 for (int y = startY; y < endY; ++y)
                 {
+                    Vector2 position = new Vector2(x * tm.TileWidth, y * tm.TileHeight) + (camPos - camPos * scrollSpeed);
+                    int modX, modY;
+
+                    if (x >= 0)
+                        modX = x%TileMap.Width;
+                    else
+                        modX = TileMap.Width - (-x) % TileMap.Width;
+
+                    if (y >= 0)
+                        modY = y % TileMap.Height;
+                    else
+                        modY = TileMap.Height - (-y) % TileMap.Height;
                     
-                    Vector2 position = new Vector2(x * tm.TileWidth, y * tm.TileHeight) + (camPos - camPos*scrollSpeed);
+                    /*
                     // Testing
                     if (tm.FileName.CompareTo("TileMapXML\\\\parallaxlayer") == 0)
                     {                        
@@ -186,14 +197,15 @@ namespace WesternSpace.TilingEngine
                         //x = x % tm.Width;
                         //x = (Width - (x % Width))
                     }
+                     */
                   
-                    //position.X = (int)Math.Round(position.X, 0);
-                    //position.Y = (int)Math.Round(position.Y, 0);
-                    if (tm[x, y] != null)
+                    position.X = (int)Math.Round(position.X, 0);
+                    position.Y = (int)Math.Round(position.Y, 0);
+                    if (tm[modX, modY] != null)
                     {
                         for (int subLayerIndex = 0; subLayerIndex < tm.SubLayerCount; ++subLayerIndex)
                         {
-                            SubTexture subTexture = tm[x, y].Textures[layerIndex, subLayerIndex];
+                            SubTexture subTexture = tm[modX, modY].Textures[layerIndex, subLayerIndex];
                             if (subTexture != null)
                             {
                                 this.SpriteBatch.Draw(subTexture.Texture, position, subTexture.Rectangle, Color.White);

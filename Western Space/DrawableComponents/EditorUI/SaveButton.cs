@@ -65,10 +65,9 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 world.ShiftWorldObjects(-EditorScreen.Offset);
                 
                 XDocument tileDoc = new XDocument(copy.ToXElement());
-                tileDoc.Save("..\\..\\..\\Content\\TileMapXML\\BigTileMap.xml");
+                tileDoc.Save("..\\..\\..\\Content\\"+orig.FileName+".xml");
                 XDocument worldDoc = new XDocument(world.ToXElement());
                 worldDoc.Save("..\\..\\..\\Content\\WorldXML\\TestWorld.xml");
-
                 world.ShiftWorldObjects(EditorScreen.Offset);
             }
             base.OnMouseUnclick(button);
