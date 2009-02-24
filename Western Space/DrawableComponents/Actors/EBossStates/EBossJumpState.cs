@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WesternSpace.Utility;
+using WesternSpace.Screens;
 
 namespace WesternSpace.DrawableComponents.Actors.EBossStates
 {
@@ -13,21 +15,42 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// </summary>
         private const float PLAYER_Y_THRESHOLD = 60.0f;
 
-        internal EBossJumpState(EBoss boss)
+        private Timer jumpTimer;
+
+        internal EBossJumpState(Screen parentScreen, EBoss boss)
             : base(boss)
         {
+            jumpTimer = new Timer(parentScreen, 2000);
+            jumpTimer.TimeHasElapsed += new EventHandler<EventArgs>(jumpTimer_TimeHasElapsed);
         }
 
         internal override void Update()
         {
             base.Update();
 
-            JumpUp();
+
+            jumpTimer.ResetTimer();
+            jumpTimer.ResumeTimer();
+
+            this.IsLogicComplete = false;
+        }
+
+        public void StartTimers()
+        {
+            jumpTimer.PauseTimer();
+            jumpTimer.StartTimer();
+        }
+
+        public void StopTimers()
+        {
+            jumpTimer.TimeHasElapsed -= jumpTimer_TimeHasElapsed;
+            jumpTimer.PauseTimer();
+            jumpTimer.RemoveTimer();
         }
 
         internal bool ShouldBossJumpUp()
         {
-            if (!this.Boss.CurrentState.Contains("Shooting") && !this.Boss.CurrentState.Contains("Jumping")
+            if (!this.Boss.CurrentState.Contains("Shooting") && !this.Boss.CurrentState.Contains("Jumping") && !this.Boss.CurrentState.Contains("Running")
                 && this.Boss.isOnGround && this.Boss.World.Player.Position.Y < (this.Boss.Position.Y - PLAYER_Y_THRESHOLD))
             {
                 return true;
@@ -49,8 +72,14 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
                     this.Boss.ApplyJump();
                     this.Boss.ChangeState("JumpingAscent");
                     this.Boss.isOnGround = false;
+                    this.IsLogicComplete = true;
                 }
             }
+        }
+
+        private void jumpTimer_TimeHasElapsed(object sender, EventArgs e)
+        {
+            JumpUp();
         }
     }
 }

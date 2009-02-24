@@ -107,7 +107,7 @@ namespace WesternSpace.DrawableComponents.Projectiles
 
             if (o != null && !o.Boss.CurrentState.Contains("Dead"))
             {
-                o.Boss.didBulletCollide = true;
+                o.Boss.DidBulletCollide = true;
             }
         }
 

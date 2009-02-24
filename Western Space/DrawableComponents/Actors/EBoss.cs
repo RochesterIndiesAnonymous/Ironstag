@@ -22,6 +22,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// Constants ///
         public static readonly string XMLFILENAME = Character.XMLPATH + "\\" + typeof(EBoss).Name;
         private static readonly string NAME = "Boss";
+        private const int INVINCIBILITY_TIME_SPAN = 1000;
 
         /// <summary>
         /// Camera used to see if the enemy is visible.
@@ -33,7 +34,13 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         private Vector2 deathPushBack;
 
-        public bool didBulletCollide;
+        private bool didBulletCollide;
+
+        public bool DidBulletCollide
+        {
+            get { return didBulletCollide; }
+            set { didBulletCollide = value; }
+        }
 
         /// <summary>
         /// The current state to use for executing the AI.
@@ -55,8 +62,6 @@ namespace WesternSpace.DrawableComponents.Actors
         private bool invincible = false;
 
         private int invincibilityTimer = 0;
-
-        private const int INVINCIBILITY_TIME_SPAN = 1000;
 
         public EBoss(World world, SpriteBatch spriteBatch, Vector2 position)
             : base(world, spriteBatch, position)
@@ -115,7 +120,7 @@ namespace WesternSpace.DrawableComponents.Actors
 
             laughingAIState = new EBossLaughingState(this);
             shootAIState = new EBossShootState(this, this.ParentScreen);
-            jumpAIState = new EBossJumpState(this);
+            jumpAIState = new EBossJumpState(this.ParentScreen, this);
             moveAIState = new EbossMoveState(this);
             hitAIState = new EBossHitState(this);
         }
@@ -195,6 +200,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 if (!shootAIState.HasTimerStarted)
                 {
                     shootAIState.StartTimer();
+                    jumpAIState.StartTimers();
                 }
 
                 // -- AI -- //
@@ -226,23 +232,23 @@ namespace WesternSpace.DrawableComponents.Actors
                 {
                     if (!world.Player.CurrentState.Contains("Dead"))
                     {
-                        if (shootAIState.IsReadyToShoot && !this.currentState.Contains("Shooting") && isOnGround)
+                        if (shootAIState.IsReadyToShoot && !this.currentState.Contains("Shooting") && isOnGround && !this.currentState.Contains("Jumping"))
                         {
                             SetAIState(shootAIState);
                             aiStateDecided = true;
                         }
 
-                        if (!shootAIState.IsReadyToShoot && !aiStateDecided && !this.currentState.Contains("Running") && !this.currentState.Contains("Shooting"))
+                        if (!aiStateDecided && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping") && !this.currentState.Contains("Running") && jumpAIState.ShouldBossJumpUp())
+                        {
+                            SetAIState(jumpAIState);
+                            aiStateDecided = true;
+                        }
+
+                        if (!shootAIState.IsReadyToShoot && !aiStateDecided && !this.currentState.Contains("Running") && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping"))
                         {
                             SetAIState(moveAIState);
                             aiStateDecided = true;
                         }
-
-                        //if (!aiStateDecided && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping") && jumpAIState.ShouldBossJumpUp())
-                        //{
-                        //    SetAIState(jumpAIState);
-                        //    aiStateDecided = true;
-                        //}
 
                         //if (!aiStateDecided && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping") && !this.currentState.Contains("Running"))
                         //{
@@ -426,6 +432,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 if (currentHealth <= 0)
                 {
                     shootAIState.StopTimer();
+                    jumpAIState.StopTimers();
                 }
 
             }
