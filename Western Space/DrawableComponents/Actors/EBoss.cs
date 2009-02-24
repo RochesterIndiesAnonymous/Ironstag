@@ -183,7 +183,22 @@ namespace WesternSpace.DrawableComponents.Actors
 
             // -- Animation Player Update Frames -- //
             animationPlayer.Update(gameTime);
-            base.Update(gameTime);
+
+            if (!jumpAIState.FallThroughFloor)
+            {
+                base.Update(gameTime);
+            }
+            else if (jumpAIState.CurrentUpdateCyclesSkipped == EBossJumpState.FALL_THROUGH_FLOOR_UPDATE_CYCLES)
+            {
+                jumpAIState.FallThroughFloor = false;
+                jumpAIState.CurrentUpdateCyclesSkipped = 0;
+                ChangeState("Idle");
+                jumpAIState.IsLogicComplete = true;
+            }
+            else
+            {
+                jumpAIState.CurrentUpdateCyclesSkipped++;
+            }
 
             if (isOnGround && currentState.Contains("Descent"))
             {
@@ -235,13 +250,13 @@ namespace WesternSpace.DrawableComponents.Actors
                             aiStateDecided = true;
                         }
 
-                        if (!shootAIState.IsReadyToShoot && !jumpAIState.ShouldBossJumpUp() && !aiStateDecided && this.currentState.Contains("Idle"))
+                        if (!shootAIState.IsReadyToShoot && !jumpAIState.ShouldBossJump() && !aiStateDecided && this.currentState.Contains("Idle"))
                         {
                             SetAIState(moveAIState);
                             aiStateDecided = true;
                         }
 
-                        if (!aiStateDecided && this.currentState.Contains("Idle") && jumpAIState.ShouldBossJumpUp())
+                        if (!aiStateDecided && this.currentState.Contains("Idle") && jumpAIState.ShouldBossJump())
                         {
                             SetAIState(jumpAIState);
                             aiStateDecided = true;

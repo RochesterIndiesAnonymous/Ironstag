@@ -15,6 +15,23 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// AI state
         /// </summary>
         private const float PLAYER_Y_THRESHOLD = 80.0f;
+        public const int FALL_THROUGH_FLOOR_UPDATE_CYCLES = 5;
+
+        private bool fallThroughFloor;
+
+        public bool FallThroughFloor
+        {
+            get { return fallThroughFloor; }
+            set { fallThroughFloor = value; }
+        }
+
+        private int currentUpdateCyclesSkipped;
+
+        public int CurrentUpdateCyclesSkipped
+        {
+            get { return currentUpdateCyclesSkipped; }
+            set { currentUpdateCyclesSkipped = value; }
+        }
 
         private Timer jumpTimer;
 
@@ -53,10 +70,12 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             jumpTimer.RemoveTimer();
         }
 
-        internal bool ShouldBossJumpUp()
+        internal bool ShouldBossJump()
         {
             if (this.Boss.CurrentState.Contains("Idle") && this.Boss.isOnGround && this.Boss.World.Player.isOnGround 
-                && lastJumpPosition != this.Boss.Position && this.Boss.World.Player.Position.Y < (this.Boss.Position.Y - PLAYER_Y_THRESHOLD))
+                && lastJumpPosition != this.Boss.Position && 
+                ((this.Boss.World.Player.Position.Y < (this.Boss.Position.Y - PLAYER_Y_THRESHOLD)) ||
+                (this.Boss.World.Player.Position.Y > (this.Boss.Position.Y + PLAYER_Y_THRESHOLD))))
             {
                 return true;
             }
@@ -80,9 +99,30 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             }
         }
 
+        private void JumpDown()
+        {
+            if (this.Boss.CurrentState.Contains("Idle"))
+            {
+                this.FallThroughFloor = true;
+                lastJumpPosition = this.Boss.Position;
+            }
+        }
+
         private void jumpTimer_TimeHasElapsed(object sender, EventArgs e)
         {
-            JumpUp();
+            if (this.Boss.World.Player.Position.Y < (this.Boss.Position.Y - PLAYER_Y_THRESHOLD))
+            {
+                JumpUp();
+            }
+            else if (this.Boss.World.Player.Position.Y > (this.Boss.Position.Y + PLAYER_Y_THRESHOLD))
+            {
+                JumpDown();
+            }
+            else
+            {
+                lastJumpPosition = this.Boss.Position;
+                this.IsLogicComplete = true;
+            }
 
             jumpTimer.PauseTimer();
             jumpTimer.ResetTimer();
