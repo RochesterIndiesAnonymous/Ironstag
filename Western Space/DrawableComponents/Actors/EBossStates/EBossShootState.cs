@@ -53,10 +53,10 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         {
             gunShot = ScreenManager.Instance.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
 
-            shootTimer = new Timer(parentScreen, 6000);
+            shootTimer = new Timer(parentScreen, 3000);
             shootTimer.TimeHasElapsed += new EventHandler<EventArgs>(shootTimer_TimeHasElapsed);
 
-            delayBetweenBullet = new Timer(parentScreen, 100);
+            delayBetweenBullet = new Timer(parentScreen, 50);
             delayBetweenBullet.TimeHasElapsed += new EventHandler<EventArgs>(delayBetweenBullet_TimeHasElapsed);
 
             isReadyToShoot = true;
@@ -104,40 +104,37 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         {
             if (!this.Boss.CurrentState.Contains("Dead") && !this.Boss.CurrentState.Equals("Hit"))
             {
-                if (!this.Boss.CurrentState.Contains("Shooting"))
+                Vector2 projectileVelocityVector;
+
+                if (this.Boss.World.Player.Position.Y < (this.Boss.Position.Y - PLAYER_Y_THRESHOLD))
                 {
-                    Vector2 projectileVelocityVector;
-
-                    if (this.Boss.World.Player.Position.Y < (this.Boss.Position.Y - PLAYER_Y_THRESHOLD))
-                    {
-                        // player is above the boss
-                        this.Boss.ChangeState("ShootingUp");
-                        projectileVelocityVector = new Vector2(1.0f, - 2.0f);
-                    }
-                    else if (this.Boss.World.Player.Position.Y > (this.Boss.Position.Y + PLAYER_Y_THRESHOLD))
-                    {
-                        // player is below the boss
-                        this.Boss.ChangeState("ShootingDown");
-                        projectileVelocityVector = new Vector2(1.0f, 2.0f);
-                    }
-                    else if (this.Boss.CurrentState.Contains("Running"))
-                    {
-                        //Change state and animation
-                        this.Boss.ChangeState("RunningShooting");
-                        projectileVelocityVector = new Vector2(1.0f, 0.0f);
-                    }
-                    else
-                    {
-                        // player is on the same level as the boss
-                        this.Boss.ChangeState("Shooting");
-                        projectileVelocityVector = new Vector2(1.0f, 0.0f);
-                    }
-
-                    gunShot.Play();
-
-                    //Generate a Bullet
-                    GenerateBullet(projectileVelocityVector);
+                    // player is above the boss
+                    this.Boss.ChangeState("ShootingUp");
+                    projectileVelocityVector = new Vector2(1.0f, -2.0f);
                 }
+                else if (this.Boss.World.Player.Position.Y > (this.Boss.Position.Y + PLAYER_Y_THRESHOLD))
+                {
+                    // player is below the boss
+                    this.Boss.ChangeState("ShootingDown");
+                    projectileVelocityVector = new Vector2(1.0f, 2.0f);
+                }
+                else if (this.Boss.CurrentState.Contains("Running"))
+                {
+                    //Change state and animation
+                    this.Boss.ChangeState("RunningShooting");
+                    projectileVelocityVector = new Vector2(1.0f, 0.0f);
+                }
+                else
+                {
+                    // player is on the same level as the boss
+                    this.Boss.ChangeState("Shooting");
+                    projectileVelocityVector = new Vector2(1.0f, 0.0f);
+                }
+
+                gunShot.Play();
+
+                //Generate a Bullet
+                GenerateBullet(projectileVelocityVector);
             }
         }
 
@@ -185,7 +182,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
 
             BossProjectile proj = new BossProjectile(this.Boss.World, this.Boss.SpriteBatch, position, BossProjectile.Texture, direction, finalVector, this, DamageCategory.Player, BossProjectile.Damage);
         }
-        
+
         /// <summary>
         /// Raised when enough time has elapsed to allow the enemy to shoot.
         /// </summary>

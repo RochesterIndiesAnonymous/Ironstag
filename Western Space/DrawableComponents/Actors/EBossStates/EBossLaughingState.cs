@@ -15,7 +15,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
 
         internal override void Update()
         {
-            if (!this.Boss.CurrentState.Contains("Dead"))
+            if (!this.Boss.CurrentState.Contains("Dead") && !this.Boss.CurrentState.Contains("Shooting"))
             {
                 base.Update();
 
