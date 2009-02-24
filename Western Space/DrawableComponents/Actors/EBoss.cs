@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Audio;
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.DrawableComponents.Projectiles;
 using WesternSpace.DrawableComponents.Actors.EBossStates;
+using WesternSpace.DrawableComponents.WorldObjects;
 
 namespace WesternSpace.DrawableComponents.Actors
 {
@@ -46,6 +47,16 @@ namespace WesternSpace.DrawableComponents.Actors
         private EBossJumpState jumpAIState;
 
         private EbossMoveState moveAIState;
+
+        private EBossHitState hitAIState;
+
+        private SpaceBoss spaceBoss;
+
+        private bool invincible = false;
+
+        private int invincibilityTimer = 0;
+
+        private const int INVINCIBILITY_TIME_SPAN = 1000;
 
         public EBoss(World world, SpriteBatch spriteBatch, Vector2 position)
             : base(world, spriteBatch, position)
@@ -106,6 +117,7 @@ namespace WesternSpace.DrawableComponents.Actors
             shootAIState = new EBossShootState(this, this.ParentScreen);
             jumpAIState = new EBossJumpState(this);
             moveAIState = new EbossMoveState(this);
+            hitAIState = new EBossHitState(this);
         }
 
         public override void Initialize()
@@ -151,6 +163,22 @@ namespace WesternSpace.DrawableComponents.Actors
             // -- Handle Physics -- //
             PhysicsHandler.ApplyPhysics(this);
 
+
+            // -- Check Invincibility Timer -- //
+            if (invincible)
+            {
+                invincibilityTimer += (gameTime.ElapsedGameTime.Milliseconds);
+                this.Visible = !this.Visible;
+
+                if (invincibilityTimer >= INVINCIBILITY_TIME_SPAN)
+                {
+                    invincible = false;
+                    invincibilityTimer = 0;
+                    this.Visible = true;
+                }
+            }
+
+
             // -- Animation Player Update Frames -- //
             animationPlayer.Update(gameTime);
             base.Update(gameTime);
@@ -194,41 +222,90 @@ namespace WesternSpace.DrawableComponents.Actors
             {
                 bool aiStateDecided = false;
 
-                if (!currentState.Contains("Dead") && !world.Player.CurrentState.Contains("Dead"))
+                if (!currentState.Contains("Dead") && !currentState.Contains("Hit"))
                 {
-                    if (shootAIState.IsReadyToShoot && !this.currentState.Contains("Shooting") && isOnGround)
+                    if (!world.Player.CurrentState.Contains("Dead"))
                     {
-                        SetAIState(shootAIState);
-                        aiStateDecided = true;
+                        if (shootAIState.IsReadyToShoot && !this.currentState.Contains("Shooting") && isOnGround)
+                        {
+                            SetAIState(shootAIState);
+                            aiStateDecided = true;
+                        }
+
+                        if (!shootAIState.IsReadyToShoot && !aiStateDecided && !this.currentState.Contains("Running") && !this.currentState.Contains("Shooting"))
+                        {
+                            SetAIState(moveAIState);
+                            aiStateDecided = true;
+                        }
+
+                        //if (!aiStateDecided && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping") && jumpAIState.ShouldBossJumpUp())
+                        //{
+                        //    SetAIState(jumpAIState);
+                        //    aiStateDecided = true;
+                        //}
+
+                        //if (!aiStateDecided && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping") && !this.currentState.Contains("Running"))
+                        //{
+                        //    SetAIState(laughingAIState);
+                        //    aiStateDecided = true;
+                        //}
+                    }
+                    else if (world.Player.CurrentState.Contains("Dead"))
+                    {
+                        // laugh indefinately if the player is dead
+                        SetAIState(laughingAIState);
                     }
 
-                    if (!shootAIState.IsReadyToShoot && !aiStateDecided && !this.currentState.Contains("Running") && !this.currentState.Contains("Shooting"))
+                        currentAIState.Update();
+                }
+                else
+                {
+                    //Perform Dead and Hit operations here
+                    if (currentState.Contains("Dead"))
                     {
-                        SetAIState(moveAIState);
-                        aiStateDecided = true;
+                        if (isOnGround && currentState.Equals("DeadAir"))
+                        {
+                            ChangeState("DeadAirGround");
+                            this.Velocity = Vector2.Zero;
+                        }
                     }
+                    else if (currentState.Equals("Hit"))
+                    {
+                        if (currentHealth <= 0)
+                        {
+                            if (isOnGround)
+                            {
+                                ChangeState("Dead");
+                            }
+                            else
+                            {
+                                ChangeState("DeadAir");
+                            }
 
-                    //if (!aiStateDecided && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping") && jumpAIState.ShouldBossJumpUp())
-                    //{
-                    //    SetAIState(jumpAIState);
-                    //    aiStateDecided = true;
-                    //}
+                            if (facing == SpriteEffects.FlipHorizontally)
+                            {
+                                NetForce += (-1) * deathPushBack;
+                            }
+                            else
+                            {
+                                NetForce += deathPushBack;
+                            }
 
-                    //if (!aiStateDecided && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping") && !this.currentState.Contains("Running"))
-                    //{
-                    //    SetAIState(laughingAIState);
-                    //    aiStateDecided = true;
-                    //}
-                }
-                else if (!currentState.Contains("Dead") && world.Player.CurrentState.Contains("Dead"))
-                {
-                    // laugh indefinately if the player is dead
-                    SetAIState(laughingAIState);
-                }
+                            //Trigger Top Hat to Fall
+                            if (spaceBoss == null)
+                            {
+                                spaceBoss = new SpaceBoss(this.ParentScreen, this.World, this.SpriteBatch, position, this);
+                            }
+                            spaceBoss.ChangeState("Fall");
+                        }
+                        else if (!animationPlayer.Animation.animationName.Equals(currentState) && currentHealth > 0)
+                        {
+                            ChangeState(animationPlayer.Animation.animationName);
+                            SetAIState(laughingAIState);
+                        }
 
-                if (!currentState.Contains("Dead"))
-                {
-                    currentAIState.Update();
+                        currentAIState.Update();
+                    }
                 }
             }
         }
@@ -320,9 +397,18 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="damageItem">The other world item that this boss collided with</param>
         public void TakeDamage(IDamaging damageItem)
         {
-            if ((this.TakesDamageFrom != damageItem.DoesDamageTo) && !currentState.Equals("Dead"))
+            if ((this.TakesDamageFrom != damageItem.DoesDamageTo) && !currentState.Equals("Dead") && !invincible)
             {
+
+                SetAIState(hitAIState);
+                ChangeState("Hit");
+                currentAIState.Update();
                 currentHealth -= (int)Math.Ceiling((MitigationFactor * damageItem.AmountOfDamage));
+
+                if (currentHealth > 0)
+                {
+                    invincible = true;
+                }
 
                 if (facing == SpriteEffects.FlipHorizontally)
                 {
@@ -343,9 +429,9 @@ namespace WesternSpace.DrawableComponents.Actors
 
                 if (currentHealth <= 0)
                 {
-                    ChangeState("Dead");
                     shootAIState.StopTimer();
                 }
+
             }
         }
 
