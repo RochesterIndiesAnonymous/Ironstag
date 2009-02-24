@@ -183,9 +183,16 @@ namespace WesternSpace.DrawableComponents.Actors
             // -- Handle Physics -- //
             PhysicsHandler.ApplyPhysics(this);
 
+            bool isOnGroundBeforeUpdate = isOnGround;
+
             // -- Animation Player Update Frames -- //
             animationPlayer.Update(gameTime);
             base.Update(gameTime);
+
+            if (isOnGround && !isOnGroundBeforeUpdate)
+            {
+                ChangeState("JumpingLanding");
+            }
 
             if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
             {
@@ -226,11 +233,11 @@ namespace WesternSpace.DrawableComponents.Actors
                     aiStateDecided = true;
                 }
 
-                if (!aiStateDecided && jumpAIState.ShouldBossJump())
-                {
-                    SetAIState(jumpAIState);
-                    aiStateDecided = true;
-                }
+                //if (!aiStateDecided && jumpAIState.ShouldBossJump())
+                //{
+                    //SetAIState(jumpAIState);
+                    //aiStateDecided = true;
+                //}
                 
                 if(!this.currentState.Contains("Shooting") && !aiStateDecided && !this.currentState.Contains("Jumping"))
                 {

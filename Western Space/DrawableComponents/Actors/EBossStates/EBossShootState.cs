@@ -1,18 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.DrawableComponents.Projectiles;
-using WesternSpace.Utility;
 using WesternSpace.Screens;
+using WesternSpace.Utility;
 
 namespace WesternSpace.DrawableComponents.Actors.EBossStates
 {
     internal class EBossShootState : EBossState
     {
+        private const int NUMBER_OF_BULLETS_TO_GENERATE = 6;
+
+        /// <summary>
+        /// How high above or below the boss the player needs to be to choose this
+        /// a shoot up or shoot down state
+        /// </summary>
+        private const float PLAYER_Y_THRESHOLD = 40.0f;
+
         /// <summary>
         /// The sound to play when the gun fires
         /// </summary>
@@ -23,9 +28,13 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// </summary>
         private Timer shootTimer;
 
-        private Timer shootDurationTimer;
+        private Timer delayBetweenBullet;
+
+        private Random random = new Random();
 
         private bool isReadyToShoot;
+
+        private short currentBulletCount;
 
         public bool IsReadyToShoot
         {
@@ -47,37 +56,44 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             shootTimer = new Timer(parentScreen, 6000);
             shootTimer.TimeHasElapsed += new EventHandler<EventArgs>(shootTimer_TimeHasElapsed);
 
-            shootDurationTimer = new Timer(parentScreen, 3000);
-            shootDurationTimer.TimeHasElapsed += new EventHandler<EventArgs>(shootDurationTimer_TimeHasElapsed);
+            delayBetweenBullet = new Timer(parentScreen, 100);
+            delayBetweenBullet.TimeHasElapsed += new EventHandler<EventArgs>(delayBetweenBullet_TimeHasElapsed);
 
             isReadyToShoot = true;
             hasTimerStarted = false;
+            currentBulletCount = 0;
         }
 
         internal override void Update()
         {
             base.Update();
+            this.isReadyToShoot = false;
 
-            Shoot();
+            delayBetweenBullet.ResetTimer();
+            delayBetweenBullet.ResumeTimer();
         }
 
         internal void StartTimer()
         {
             shootTimer.StartTimer();
-            shootDurationTimer.StartTimer();
+
+            delayBetweenBullet.StartTimer();
+            delayBetweenBullet.PauseTimer();
+
             hasTimerStarted = true;
         }
 
         internal void StopTimer()
         {
             shootTimer.TimeHasElapsed -= shootTimer_TimeHasElapsed;
-            shootDurationTimer.TimeHasElapsed -= shootDurationTimer_TimeHasElapsed;
+            delayBetweenBullet.TimeHasElapsed -= delayBetweenBullet_TimeHasElapsed;
 
             shootTimer.PauseTimer();
-            shootDurationTimer.PauseTimer();
+            delayBetweenBullet.PauseTimer();
 
             shootTimer.RemoveTimer();
-            shootDurationTimer.RemoveTimer();
+            delayBetweenBullet.RemoveTimer();
+
             hasTimerStarted = false;
         }
 
@@ -90,24 +106,37 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             {
                 if (!this.Boss.CurrentState.Contains("Shooting"))
                 {
-                    if (this.Boss.CurrentState.Contains("Running"))
+                    Vector2 projectileVelocityVector;
+
+                    if (this.Boss.World.Player.Position.Y < (this.Boss.Position.Y - PLAYER_Y_THRESHOLD))
+                    {
+                        // player is above the boss
+                        this.Boss.ChangeState("ShootingUp");
+                        projectileVelocityVector = new Vector2(1.0f, - 2.0f);
+                    }
+                    else if (this.Boss.World.Player.Position.Y > (this.Boss.Position.Y + PLAYER_Y_THRESHOLD))
+                    {
+                        // player is below the boss
+                        this.Boss.ChangeState("ShootingDown");
+                        projectileVelocityVector = new Vector2(1.0f, 2.0f);
+                    }
+                    else if (this.Boss.CurrentState.Contains("Running"))
                     {
                         //Change state and animation
                         this.Boss.ChangeState("RunningShooting");
+                        projectileVelocityVector = new Vector2(1.0f, 0.0f);
                     }
                     else
                     {
-                        //Change state and animation
+                        // player is on the same level as the boss
                         this.Boss.ChangeState("Shooting");
+                        projectileVelocityVector = new Vector2(1.0f, 0.0f);
                     }
 
                     gunShot.Play();
 
-                    shootDurationTimer.ResetTimer();
-                    shootDurationTimer.ResumeTimer();
-
                     //Generate a Bullet
-                    GenerateBullet();
+                    GenerateBullet(projectileVelocityVector);
                 }
             }
         }
@@ -115,21 +144,46 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// <summary>
         /// Creates a bullet object which travels in a straight line.
         /// </summary>
-        private void GenerateBullet()
+        private void GenerateBullet(Vector2 projectileVelocityVector)
         {
             short direction = 1;
-            Vector2 position = this.Boss.Position + new Vector2(23f, -15f);
+
+            int moveBulletDelta = random.Next(5) - random.Next(10);
+
+            Vector2 position = this.Boss.Position + new Vector2(60f + moveBulletDelta, 0f + moveBulletDelta);
 
             if (this.Boss.Facing == SpriteEffects.FlipHorizontally)
             {
                 direction = -1;
-                position = this.Boss.Position + new Vector2(-23f, -15);
+                position = this.Boss.Position + new Vector2(-60f + moveBulletDelta, 0f + moveBulletDelta);
             }
 
-            BanditNormalProjectile proj = new BanditNormalProjectile(this.Boss.World, this.Boss.SpriteBatch, position, this, direction);
+            if (this.Boss.CurrentState.Contains("ShootingDown"))
+            {
+                if (direction == -1)
+                {
+                    position = this.Boss.Position + new Vector2(-50f + moveBulletDelta, 20f + moveBulletDelta);
+                }
+                else
+                {
+                    position = this.Boss.Position + new Vector2(50f + moveBulletDelta, 20f + moveBulletDelta);
+                }
+            }
+            else if (this.Boss.CurrentState.Contains("ShootingUp"))
+            {
+                if (direction == -1)
+                {
+                    position = this.Boss.Position + new Vector2(-50f + moveBulletDelta, -50f + moveBulletDelta);
+                }
+                else
+                {
+                    position = this.Boss.Position + new Vector2(50f + moveBulletDelta, -50f + moveBulletDelta);
+                }
+            }
 
-            this.isReadyToShoot = false;
-            this.shootTimer.ResumeTimer();
+            Vector2 finalVector = new Vector2(BossProjectile.Velocity.X * projectileVelocityVector.X, BossProjectile.Velocity.Y + projectileVelocityVector.Y);
+
+            BossProjectile proj = new BossProjectile(this.Boss.World, this.Boss.SpriteBatch, position, BossProjectile.Texture, direction, finalVector, this, DamageCategory.Player, BossProjectile.Damage);
         }
         
         /// <summary>
@@ -145,15 +199,26 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         }
 
         /// <summary>
-        /// Raised when the shoot animation has occured for the specified time
+        /// Raised when the shoot animation is ready to generate another bullet
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void shootDurationTimer_TimeHasElapsed(object sender, EventArgs e)
+        void delayBetweenBullet_TimeHasElapsed(object sender, EventArgs e)
         {
-            this.Boss.ChangeState("Idle");
-            shootDurationTimer.PauseTimer();
-            shootDurationTimer.ResetTimer();
+            Shoot();
+
+            delayBetweenBullet.ResetTimer();
+            currentBulletCount++;
+
+            if (currentBulletCount == NUMBER_OF_BULLETS_TO_GENERATE)
+            {
+                delayBetweenBullet.PauseTimer();
+                delayBetweenBullet.ResetTimer();
+                currentBulletCount = 0;
+
+                this.shootTimer.ResumeTimer();
+                this.Boss.ChangeState("Idle");
+            }
         }
     }
 }
