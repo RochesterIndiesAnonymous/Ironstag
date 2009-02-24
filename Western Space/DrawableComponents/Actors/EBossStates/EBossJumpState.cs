@@ -14,7 +14,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// How high above the boss the player needs to be to choose this
         /// AI state
         /// </summary>
-        private const float PLAYER_Y_THRESHOLD = 60.0f;
+        private const float PLAYER_Y_THRESHOLD = 80.0f;
 
         private Timer jumpTimer;
 
@@ -55,8 +55,8 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
 
         internal bool ShouldBossJumpUp()
         {
-            if (this.Boss.CurrentState.Contains("Idle") && this.Boss.isOnGround && lastJumpPosition != this.Boss.Position
-                && this.Boss.World.Player.Position.Y < (this.Boss.Position.Y - PLAYER_Y_THRESHOLD))
+            if (this.Boss.CurrentState.Contains("Idle") && this.Boss.isOnGround && this.Boss.World.Player.isOnGround 
+                && lastJumpPosition != this.Boss.Position && this.Boss.World.Player.Position.Y < (this.Boss.Position.Y - PLAYER_Y_THRESHOLD))
             {
                 return true;
             }
