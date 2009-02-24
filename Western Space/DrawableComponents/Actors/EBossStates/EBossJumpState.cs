@@ -48,10 +48,18 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             jumpTimer.RemoveTimer();
         }
 
+        public void ResetTimers()
+        {
+            jumpTimer.PauseTimer();
+            jumpTimer.ResetTimer();
+
+            this.IsLogicComplete = true;
+        }
+
         internal bool ShouldBossJumpUp()
         {
-            if (!this.Boss.CurrentState.Contains("Shooting") && !this.Boss.CurrentState.Contains("Jumping") && !this.Boss.CurrentState.Contains("Running")
-                && this.Boss.isOnGround && this.Boss.World.Player.Position.Y < (this.Boss.Position.Y - PLAYER_Y_THRESHOLD))
+            if (this.Boss.CurrentState.Contains("Idle") && this.Boss.isOnGround 
+                && this.Boss.World.Player.Position.Y < (this.Boss.Position.Y - PLAYER_Y_THRESHOLD))
             {
                 return true;
             }
@@ -65,15 +73,11 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// </summary>
         private void JumpUp()
         {
-            if (!this.Boss.CurrentState.Contains("Shooting") && !this.Boss.CurrentState.Contains("Dead") && !this.Boss.CurrentState.Equals("Hit"))
+            if (this.Boss.CurrentState.Contains("Idle"))
             {
-                if (!this.Boss.CurrentState.Contains("Jumping") && !this.Boss.CurrentState.Contains("Falling"))
-                {
-                    this.Boss.ApplyJump();
-                    this.Boss.ChangeState("JumpingAscent");
-                    this.Boss.isOnGround = false;
-                    this.IsLogicComplete = true;
-                }
+                this.Boss.ApplyJump();
+                this.Boss.ChangeState("JumpingAscent");
+                this.Boss.isOnGround = false;
             }
         }
 

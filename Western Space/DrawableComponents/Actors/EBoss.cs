@@ -156,10 +156,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 if (animationPlayer.Animation.animationName.Equals("Idle") && !currentState.Equals("Idle"))
                 {
                     ChangeState("Idle");
-                }
-                else if (!currentState.Contains("Shooting") && !currentState.Contains("Laughing") && !currentState.Contains("Land") && !currentState.Contains("Running"))
-                {
-                    ChangeState("Idle");
+                    jumpAIState.ResetTimers();
                 }
             }
 
@@ -232,19 +229,19 @@ namespace WesternSpace.DrawableComponents.Actors
                 {
                     if (!world.Player.CurrentState.Contains("Dead"))
                     {
-                        if (shootAIState.IsReadyToShoot && !this.currentState.Contains("Shooting") && isOnGround && !this.currentState.Contains("Jumping"))
+                        if (shootAIState.IsReadyToShoot && this.currentState.Contains("Idle"))
                         {
                             SetAIState(shootAIState);
                             aiStateDecided = true;
                         }
 
-                        if (!aiStateDecided && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping") && !this.currentState.Contains("Running") && jumpAIState.ShouldBossJumpUp())
+                        if (!aiStateDecided && this.currentState.Contains("Idle") && jumpAIState.ShouldBossJumpUp())
                         {
                             SetAIState(jumpAIState);
                             aiStateDecided = true;
                         }
 
-                        if (!shootAIState.IsReadyToShoot && !aiStateDecided && !this.currentState.Contains("Running") && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping"))
+                        if (!shootAIState.IsReadyToShoot && !aiStateDecided && this.currentState.Contains("Idle"))
                         {
                             SetAIState(moveAIState);
                             aiStateDecided = true;

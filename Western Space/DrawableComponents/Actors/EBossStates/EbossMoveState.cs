@@ -12,7 +12,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// How far away the player needs to be to choose
         /// to move or not
         /// </summary>
-        private const float PLAYER_X_THRESHOLD = 50.0f;
+        private const float PLAYER_X_THRESHOLD = 180.0f;
 
         internal EbossMoveState(EBoss boss)
             : base(boss)
