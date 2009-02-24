@@ -153,7 +153,8 @@ namespace WesternSpace.DrawableComponents.Actors
                 ChangeState("JumpingLand");
             }
 
-            if (!(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
+            if (shootAIState.HasTimerStarted || 
+                !(this.Position.X > camera.VisibleArea.X + camera.VisibleArea.Width || this.Position.X + this.AnimationPlayer.Animation.FrameWidth < camera.VisibleArea.X))
             {
                 // if this is the first time he has become visible start the shoot timer
                 if (!shootAIState.HasTimerStarted)
