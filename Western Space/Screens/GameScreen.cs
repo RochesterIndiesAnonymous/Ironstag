@@ -113,6 +113,12 @@ namespace WesternSpace.Screens
 
         }
 
+        public override void TransitionComplete()
+        {
+            World.Paused = false;
+            base.TransitionComplete();
+        }
+
         private void CreateLayerComponents()
         {
             // Create our World

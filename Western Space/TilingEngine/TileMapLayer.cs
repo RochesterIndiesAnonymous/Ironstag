@@ -198,7 +198,6 @@ namespace WesternSpace.TilingEngine
                             {
                                 this.SpriteBatch.Draw(subTexture.Texture, position, subTexture.Rectangle, Color.White);
                             }
-
                         }
 
                     }

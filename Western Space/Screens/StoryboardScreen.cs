@@ -180,24 +180,27 @@ namespace WesternSpace.Screens
 
         public override void Draw(GameTime gameTime)
         {
-            base.Draw(gameTime);
-
-            batch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
-
-            if (transition != null)
+            if (ScreenManager.Instance.UseSpriteBatchService == false)
             {
-                transition.BeginTransition();
+                base.Draw(gameTime);
+
+                batch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
+
+                if (transition != null)
+                {
+                    transition.BeginTransition();
+                }
+
+                batch.Draw(currentScene.Value.SceneTexture, new Vector2(0, 0), Color.White);
+                batch.DrawString(font, currentStoryboardText, currentScene.Value.SceneTextPosition, Color.Red);
+
+                if (transition != null)
+                {
+                    transition.EndTransition();
+                }
+
+                batch.End();
             }
-
-            batch.Draw(currentScene.Value.SceneTexture, new Vector2(0, 0), Color.White);
-            batch.DrawString(font, currentStoryboardText, currentScene.Value.SceneTextPosition, Color.Red);
-
-            if (transition != null)
-            {
-                transition.EndTransition();
-            }
-
-            batch.End();
         }
 
         private void CreateStoryboardFromXML(string assetPath)

@@ -6,8 +6,8 @@
   <o n="LargeCactus1" x="263" y="414" />
   <o n="SmallCactus" x="1201" y="457" />
   <o n="SmallCactus" x="1274" y="456" />
-  <o n="SmallCactus" x="1365" y="446" />
-  <o n="SmallCactus" x="1450" y="444" />
+  <o n="SmallCactus" x="1365" y="455" />
+  <o n="SmallCactus" x="1450" y="456" />
   <o n="EBandit" x="1624" y="444" />
   <o n="SmallCactus" x="1152" y="461" />
   <o n="SmallCactus" x="1129" y="457" />
@@ -181,4 +181,5 @@
   <o n="EBoss" x="695" y="326" />
   <o n="EBoss" x="698" y="183" />
   <o n="EBoss" x="738" y="425" />
+  <o n="StoryboardTrigger" x="320" y="196" />
 </World>

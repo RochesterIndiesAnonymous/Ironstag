@@ -300,6 +300,7 @@ namespace WesternSpace
 
             if (screenToAdd != null && !this.Components.Contains(screenToAdd))
             {
+                screenToAdd.Enabled = true;
                 this.Components.Add(screenToAdd);
             }
         }
