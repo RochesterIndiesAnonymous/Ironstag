@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using WesternSpace.Utility;
 using WesternSpace.Screens;
+using Microsoft.Xna.Framework;
 
 namespace WesternSpace.DrawableComponents.Actors.EBossStates
 {
@@ -17,11 +18,15 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
 
         private Timer jumpTimer;
 
+        private Vector2 lastJumpPosition;
+
         internal EBossJumpState(Screen parentScreen, EBoss boss)
             : base(boss)
         {
             jumpTimer = new Timer(parentScreen, 2000);
             jumpTimer.TimeHasElapsed += new EventHandler<EventArgs>(jumpTimer_TimeHasElapsed);
+
+            lastJumpPosition = new Vector2();
         }
 
         internal override void Update()
@@ -48,17 +53,9 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             jumpTimer.RemoveTimer();
         }
 
-        public void ResetTimers()
-        {
-            jumpTimer.PauseTimer();
-            jumpTimer.ResetTimer();
-
-            this.IsLogicComplete = true;
-        }
-
         internal bool ShouldBossJumpUp()
         {
-            if (this.Boss.CurrentState.Contains("Idle") && this.Boss.isOnGround 
+            if (this.Boss.CurrentState.Contains("Idle") && this.Boss.isOnGround && lastJumpPosition != this.Boss.Position
                 && this.Boss.World.Player.Position.Y < (this.Boss.Position.Y - PLAYER_Y_THRESHOLD))
             {
                 return true;
@@ -78,12 +75,17 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
                 this.Boss.ApplyJump();
                 this.Boss.ChangeState("JumpingAscent");
                 this.Boss.isOnGround = false;
+
+                lastJumpPosition = this.Boss.Position;
             }
         }
 
         private void jumpTimer_TimeHasElapsed(object sender, EventArgs e)
         {
             JumpUp();
+
+            jumpTimer.PauseTimer();
+            jumpTimer.ResetTimer();
         }
     }
 }

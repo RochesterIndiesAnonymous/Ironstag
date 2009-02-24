@@ -150,13 +150,13 @@ namespace WesternSpace.DrawableComponents.Actors
             NetForce += gravity / Mass;
 
             // -- Check for Final State Changes -- //
-            if ((Velocity.X == 0) && isOnGround && !currentState.Contains("Dead") && !currentState.Equals("Hit"))
+            if ((Velocity.X <= 0) && isOnGround && !currentState.Contains("Dead") && !currentState.Equals("Hit"))
             {
 
                 if (animationPlayer.Animation.animationName.Equals("Idle") && !currentState.Equals("Idle"))
                 {
                     ChangeState("Idle");
-                    jumpAIState.ResetTimers();
+                    jumpAIState.IsLogicComplete = true;
                 }
             }
 
@@ -235,15 +235,15 @@ namespace WesternSpace.DrawableComponents.Actors
                             aiStateDecided = true;
                         }
 
-                        if (!aiStateDecided && this.currentState.Contains("Idle") && jumpAIState.ShouldBossJumpUp())
+                        if (!shootAIState.IsReadyToShoot && !jumpAIState.ShouldBossJumpUp() && !aiStateDecided && this.currentState.Contains("Idle"))
                         {
-                            SetAIState(jumpAIState);
+                            SetAIState(moveAIState);
                             aiStateDecided = true;
                         }
 
-                        if (!shootAIState.IsReadyToShoot && !aiStateDecided && this.currentState.Contains("Idle"))
+                        if (!aiStateDecided && this.currentState.Contains("Idle") && jumpAIState.ShouldBossJumpUp())
                         {
-                            SetAIState(moveAIState);
+                            SetAIState(jumpAIState);
                             aiStateDecided = true;
                         }
 
