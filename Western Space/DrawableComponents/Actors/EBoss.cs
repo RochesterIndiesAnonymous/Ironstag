@@ -206,11 +206,11 @@ namespace WesternSpace.DrawableComponents.Actors
                     //    aiStateDecided = true;
                     //}
 
-                    if (!aiStateDecided && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping") && !this.currentState.Contains("Running"))
-                    {
-                        SetAIState(laughingAIState);
-                        aiStateDecided = true;
-                    }
+                    //if (!aiStateDecided && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping") && !this.currentState.Contains("Running"))
+                    //{
+                    //    SetAIState(laughingAIState);
+                    //    aiStateDecided = true;
+                    //}
                 }
                 else if (!currentState.Contains("Dead") && world.Player.CurrentState.Contains("Dead"))
                 {

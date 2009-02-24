@@ -12,7 +12,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// How far away the player needs to be to choose
         /// to move or not
         /// </summary>
-        private const float PLAYER_X_THRESHOLD = 140.0f;
+        private const float PLAYER_X_THRESHOLD = 150.0f;
 
         internal EbossMoveState(EBoss boss)
             : base(boss)
@@ -24,15 +24,27 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         {
             base.Update();
 
-            if (this.Boss.World.Player.Position.X > (this.Boss.Position.X - PLAYER_X_THRESHOLD) ||
-               this.Boss.World.Player.Position.X < (this.Boss.Position.X + PLAYER_X_THRESHOLD))
+            if (this.Boss.World.Player.Position.X > (this.Boss.Position.X + PLAYER_X_THRESHOLD) ||
+               this.Boss.World.Player.Position.X < (this.Boss.Position.X - PLAYER_X_THRESHOLD))
             {
                 Move();
             }
             else
             {
+                this.Boss.ChangeState("Idle");
                 IsLogicComplete = true;
             }
+        }
+
+        internal bool ShouldBossMove()
+        {
+            if (this.Boss.World.Player.Position.X > (this.Boss.Position.X + PLAYER_X_THRESHOLD) ||
+               this.Boss.World.Player.Position.X < (this.Boss.Position.X - PLAYER_X_THRESHOLD))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>

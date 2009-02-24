@@ -30,6 +30,8 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
 
         private Timer delayBetweenBullet;
 
+        private Timer laughTimer;
+
         private Random random = new Random();
 
         private bool isReadyToShoot;
@@ -59,6 +61,9 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             delayBetweenBullet = new Timer(parentScreen, 50);
             delayBetweenBullet.TimeHasElapsed += new EventHandler<EventArgs>(delayBetweenBullet_TimeHasElapsed);
 
+            laughTimer = new Timer(parentScreen, 3000);
+            laughTimer.TimeHasElapsed += new EventHandler<EventArgs>(laughTimer_TimeHasElapsed);
+
             isReadyToShoot = true;
             hasTimerStarted = false;
             currentBulletCount = 0;
@@ -70,16 +75,22 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             this.isReadyToShoot = false;
             this.IsLogicComplete = false;
 
+            shootTimer.PauseTimer();
+            shootTimer.ResetTimer();
+
             delayBetweenBullet.ResetTimer();
             delayBetweenBullet.ResumeTimer();
         }
 
         internal void StartTimer()
         {
-            shootTimer.StartTimer();
-
-            delayBetweenBullet.StartTimer();
             delayBetweenBullet.PauseTimer();
+            delayBetweenBullet.StartTimer();
+            
+            laughTimer.PauseTimer();
+            laughTimer.StartTimer();
+
+            shootTimer.StartTimer();
 
             hasTimerStarted = true;
         }
@@ -88,12 +99,15 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         {
             shootTimer.TimeHasElapsed -= shootTimer_TimeHasElapsed;
             delayBetweenBullet.TimeHasElapsed -= delayBetweenBullet_TimeHasElapsed;
+            laughTimer.TimeHasElapsed -= laughTimer_TimeHasElapsed;
 
             shootTimer.PauseTimer();
             delayBetweenBullet.PauseTimer();
+            laughTimer.PauseTimer();
 
             shootTimer.RemoveTimer();
             delayBetweenBullet.RemoveTimer();
+            laughTimer.RemoveTimer();
 
             hasTimerStarted = false;
         }
@@ -212,12 +226,26 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             {
                 delayBetweenBullet.PauseTimer();
                 delayBetweenBullet.ResetTimer();
-                currentBulletCount = 0;
-                this.IsLogicComplete = true;
 
-                this.shootTimer.ResumeTimer();
-                this.Boss.ChangeState("Idle");
+                currentBulletCount = 0;
+
+                this.Boss.ChangeState("Laughing");
+
+                laughTimer.ResetTimer();
+                laughTimer.ResumeTimer();
             }
+        }
+
+        void laughTimer_TimeHasElapsed(object sender, EventArgs e)
+        {
+            laughTimer.PauseTimer();
+            laughTimer.ResetTimer();
+
+            this.shootTimer.ResetTimer();
+            this.shootTimer.ResumeTimer();
+            this.Boss.ChangeState("Idle");
+
+            this.IsLogicComplete = true;
         }
     }
 }
