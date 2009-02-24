@@ -15,11 +15,13 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
 
         internal override void Update()
         {
-            if (!this.Boss.CurrentState.Contains("Dead") && !this.Boss.CurrentState.Contains("Shooting"))
+            if (!this.Boss.CurrentState.Contains("Dead") && !this.Boss.CurrentState.Contains("Shooting") 
+                && !this.Boss.CurrentState.Contains("Jumping"))
             {
                 base.Update();
 
                 this.Boss.ChangeState("Laughing");
+                IsLogicComplete = true;
             }
         }
     }

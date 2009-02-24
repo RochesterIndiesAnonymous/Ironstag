@@ -8,6 +8,14 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
 {
     internal class EBossState
     {
+        private bool isLogicComplete;
+
+        internal bool IsLogicComplete
+        {
+            get { return isLogicComplete; }
+            set { isLogicComplete = value; }
+        }
+
         private EBoss boss;
 
         protected EBoss Boss

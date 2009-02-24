@@ -68,6 +68,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         {
             base.Update();
             this.isReadyToShoot = false;
+            this.IsLogicComplete = false;
 
             delayBetweenBullet.ResetTimer();
             delayBetweenBullet.ResumeTimer();
@@ -102,7 +103,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// </summary>
         private void Shoot()
         {
-            if (!this.Boss.CurrentState.Contains("Dead") && !this.Boss.CurrentState.Equals("Hit"))
+            if (!this.Boss.CurrentState.Contains("Dead") && !this.Boss.CurrentState.Equals("Hit") && this.Boss.isOnGround)
             {
                 Vector2 projectileVelocityVector;
 
@@ -212,6 +213,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
                 delayBetweenBullet.PauseTimer();
                 delayBetweenBullet.ResetTimer();
                 currentBulletCount = 0;
+                this.IsLogicComplete = true;
 
                 this.shootTimer.ResumeTimer();
                 this.Boss.ChangeState("Idle");

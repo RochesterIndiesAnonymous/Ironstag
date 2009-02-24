@@ -43,6 +43,8 @@ namespace WesternSpace.DrawableComponents.Actors
 
         private EBossJumpState jumpAIState;
 
+        private EbossMoveState moveAIState;
+
         public EBoss(World world, SpriteBatch spriteBatch, Vector2 position)
             : base(world, spriteBatch, position)
         {
@@ -96,6 +98,7 @@ namespace WesternSpace.DrawableComponents.Actors
             laughingAIState = new EBossLaughingState(this);
             shootAIState = new EBossShootState(this, this.ParentScreen);
             jumpAIState = new EBossJumpState(this);
+            moveAIState = new EbossMoveState(this);
         }
 
         public override void Initialize()
@@ -103,48 +106,6 @@ namespace WesternSpace.DrawableComponents.Actors
             base.Initialize();
 
             camera = (ICameraService)this.Game.Services.GetService(typeof(ICameraService));
-        }
-
-        /// <summary>
-        /// Called from the AI to move the boss
-        /// </summary>
-        public void Move()
-        {
-            int direction = 1;
-
-            if (!currentState.Contains("Dead") && !currentState.Equals("Hit"))
-            {
-                //Calculate Facing
-                if (facing.Equals(SpriteEffects.None))
-                {
-                    direction = 1;
-                }
-                else
-                {
-                    direction = -1;
-                }
-
-                if (isOnGround)
-                {
-                    ApplyGroundMove(direction);
-                    if (!currentState.Contains("Shooting"))
-                    {
-                        ChangeState("Running");
-                    }
-                    else if (!currentState.Contains("Up"))
-                    {
-                        ChangeState("RunningShooting");
-                    }
-                    else
-                    {
-                        ChangeState("RunningShootingUp");
-                    }
-                }
-                else
-                {
-                    ApplyAirMove(direction);
-                }
-            }
         }
 
         /// <summary>
@@ -223,37 +184,46 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <param name="gameTime">The time the game has been running.</param>
         private void BossAI(GameTime gameTime)
         {
-            bool aiStateDecided = false;
-
-            if (!currentState.Contains("Dead") && !world.Player.CurrentState.Contains("Dead"))
+            if (currentAIState == null || currentAIState.IsLogicComplete)
             {
-                if (shootAIState.IsReadyToShoot)
-                {
-                    SetAIState(shootAIState);
-                    aiStateDecided = true;
-                }
+                bool aiStateDecided = false;
 
-                if (!aiStateDecided && jumpAIState.ShouldBossJumpUp())
+                if (!currentState.Contains("Dead") && !world.Player.CurrentState.Contains("Dead"))
                 {
-                    SetAIState(jumpAIState);
-                    aiStateDecided = true;
+                    if (shootAIState.IsReadyToShoot && !this.currentState.Contains("Shooting") && isOnGround)
+                    {
+                        SetAIState(shootAIState);
+                        aiStateDecided = true;
+                    }
+
+                    //if (!shootAIState.IsReadyToShoot && !aiStateDecided && !this.currentState.Contains("Running") && !this.currentState.Contains("Running"))
+                    //{
+                    //    SetAIState(moveAIState);
+                    //    aiStateDecided = true;
+                    //}
+
+                    //if (!aiStateDecided && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping") && jumpAIState.ShouldBossJumpUp())
+                    //{
+                    //    SetAIState(jumpAIState);
+                    //    aiStateDecided = true;
+                    //}
+
+                    if (!aiStateDecided && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping") && !this.currentState.Contains("Running"))
+                    {
+                        SetAIState(laughingAIState);
+                        aiStateDecided = true;
+                    }
                 }
-                
-                if(!this.currentState.Contains("Shooting") && !aiStateDecided && !this.currentState.Contains("Jumping"))
+                else if (!currentState.Contains("Dead") && world.Player.CurrentState.Contains("Dead"))
                 {
+                    // laugh indefinately if the player is dead
                     SetAIState(laughingAIState);
-                    aiStateDecided = true;
                 }
-            }
-            else if (!currentState.Contains("Dead") && world.Player.CurrentState.Contains("Dead"))
-            {
-                // laugh indefinately if the player is dead
-                SetAIState(laughingAIState);
-            }
 
-            if (!currentState.Contains("Dead"))
-            {
-                currentAIState.Update();
+                if (!currentState.Contains("Dead"))
+                {
+                    currentAIState.Update();
+                }
             }
         }
 

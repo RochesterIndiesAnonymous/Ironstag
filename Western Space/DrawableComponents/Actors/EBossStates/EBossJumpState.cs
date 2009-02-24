@@ -22,7 +22,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         {
             base.Update();
 
-            Jump();
+            JumpUp();
         }
 
         internal bool ShouldBossJumpUp()
@@ -40,7 +40,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// Called from the AI. If the boss is already
         /// in a jumping state then no action is to occurr.
         /// </summary>
-        private void Jump()
+        private void JumpUp()
         {
             if (!this.Boss.CurrentState.Contains("Shooting") && !this.Boss.CurrentState.Contains("Dead") && !this.Boss.CurrentState.Equals("Hit"))
             {

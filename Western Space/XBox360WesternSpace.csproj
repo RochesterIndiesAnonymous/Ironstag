@@ -62,6 +62,7 @@
     <Compile Include="DrawableComponents\Actors\EBoss.cs" />
     <Compile Include="DrawableComponents\Actors\EBossStates\EBossJumpState.cs" />
     <Compile Include="DrawableComponents\Actors\EBossStates\EBossLaughingState.cs" />
+    <Compile Include="DrawableComponents\Actors\EBossStates\EbossMoveState.cs" />
     <Compile Include="DrawableComponents\Actors\EBossStates\EBossShootState.cs" />
     <Compile Include="DrawableComponents\Actors\EBossStates\EBossState.cs" />
     <Compile Include="DrawableComponents\Actors\EVulture.cs" />
