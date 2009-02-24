@@ -716,6 +716,15 @@ namespace WesternSpace.DrawableComponents.Actors
                         invincible = true;
                     }
 
+                    BossProjectile bp = damageItem as BossProjectile;
+
+                    if (bp != null && !currentState.Contains("Dead"))
+                    {
+                        bp.InformOwnerOfCollision();
+                        this.World.RemoveWorldObject(bp);
+                        Dispose();
+                    }
+
                     Projectile p = damageItem as Projectile;
 
                     if (p != null && !currentState.Contains("Dead"))

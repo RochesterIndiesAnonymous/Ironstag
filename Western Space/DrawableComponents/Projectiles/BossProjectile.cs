@@ -11,6 +11,8 @@ using WesternSpace.Physics;
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.Collision;
 using WesternSpace.Interfaces;
+using WesternSpace.DrawableComponents.Actors;
+using WesternSpace.DrawableComponents.Actors.EBossStates;
 
 namespace WesternSpace.DrawableComponents.Projectiles
 {
@@ -97,6 +99,16 @@ namespace WesternSpace.DrawableComponents.Projectiles
             }
 
             this.World.AddWorldObject(this);
+        }
+
+        public void InformOwnerOfCollision()
+        {
+            EBossShootState o = owner as EBossShootState;
+
+            if (o != null && !o.Boss.CurrentState.Contains("Dead"))
+            {
+                o.Boss.didBulletCollide = true;
+            }
         }
 
         /// <summary>

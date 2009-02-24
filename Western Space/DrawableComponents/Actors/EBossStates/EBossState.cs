@@ -18,7 +18,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
 
         private EBoss boss;
 
-        protected EBoss Boss
+        public EBoss Boss
         {
             get { return boss; }
         }

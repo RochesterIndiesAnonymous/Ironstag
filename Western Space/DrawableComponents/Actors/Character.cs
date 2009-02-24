@@ -317,7 +317,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// Vector representing the Velocity of moving on the ground.
         /// </summary>
-        readonly Vector2 groundVelocity = new Vector2(3f, 0f);
+        protected Vector2 groundVelocity = new Vector2(3f, 0f);
 
         /// <summary>
         /// Vector representing the Velocity of moving in the air.

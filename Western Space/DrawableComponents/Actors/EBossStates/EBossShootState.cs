@@ -229,10 +229,21 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
 
                 currentBulletCount = 0;
 
-                this.Boss.ChangeState("Laughing");
+                if (this.Boss.didBulletCollide)
+                {
+                    this.Boss.ChangeState("Laughing");
 
-                laughTimer.ResetTimer();
-                laughTimer.ResumeTimer();
+                    laughTimer.ResetTimer();
+                    laughTimer.ResumeTimer();
+                }
+                else
+                {
+                    this.shootTimer.ResetTimer();
+                    this.shootTimer.ResumeTimer();
+                    this.Boss.ChangeState("Idle");
+
+                    this.IsLogicComplete = true;
+                }
             }
         }
 
@@ -244,6 +255,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             this.shootTimer.ResetTimer();
             this.shootTimer.ResumeTimer();
             this.Boss.ChangeState("Idle");
+            this.Boss.didBulletCollide = false;
 
             this.IsLogicComplete = true;
         }

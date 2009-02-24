@@ -32,6 +32,8 @@ namespace WesternSpace.DrawableComponents.Actors
         /// </summary>
         private Vector2 deathPushBack;
 
+        public bool didBulletCollide;
+
         /// <summary>
         /// The current state to use for executing the AI.
         /// </summary>
@@ -72,11 +74,16 @@ namespace WesternSpace.DrawableComponents.Actors
             //Set the position
             this.Position = position;
 
+            didBulletCollide = false;
+
             //Set the facing
             facing = SpriteEffects.FlipHorizontally;
 
             //Set the Death push back
             deathPushBack = new Vector2(-1.0f, 0);
+
+            //Set Movement Speed
+            this.groundVelocity = new Vector2(0.5f, 0);
 
             List<CollisionHotspot> hotspots = new List<CollisionHotspot>();
             hotspots.Add(new CollisionHotspot(this, new Vector2(13, -27), HOTSPOT_TYPE.top));
