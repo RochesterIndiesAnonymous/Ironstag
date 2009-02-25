@@ -19,6 +19,10 @@ namespace WesternSpace.DrawableComponents.Misc
     /// </summary>
     class Fragment : WorldObject, ITileCollidable, ISpriteCollideable, IPhysical
     {
+        public static readonly int LIFETIME = 3000;
+
+        private int timeToLive = LIFETIME;
+
         private SubTexture texture;
 
         public SubTexture Texture
@@ -58,7 +62,8 @@ namespace WesternSpace.DrawableComponents.Misc
 
         public override void Draw(GameTime gameTime)
         {
-            SpriteBatch.Draw(texture.Texture, Position, SubRectangle, Color.White);
+            Color col = new Color(255.0f, 255.0f, 255.0f, ((float)timeToLive / (float)LIFETIME));
+            SpriteBatch.Draw(texture.Texture, Position, SubRectangle, col);
             base.Draw(gameTime);
         }
 
@@ -68,6 +73,15 @@ namespace WesternSpace.DrawableComponents.Misc
 
         public override void Update(GameTime gameTime)
         {
+            timeToLive -= gameTime.ElapsedGameTime.Milliseconds;
+
+            if (timeToLive <= 0)
+            {
+                World.RemoveWorldObject(this);
+                this.Dispose();
+                return;
+            }
+
             NetForce += (new Vector2(0, 0.2f));
             World.PhysicsHandler.ApplyPhysics(this);
 

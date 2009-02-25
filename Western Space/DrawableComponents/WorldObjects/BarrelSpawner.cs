@@ -19,16 +19,43 @@ namespace WesternSpace.DrawableComponents.WorldObjects
     /// <summary>
     /// When you collide with this, a storyboard plays.
     /// </summary>
-    public class StoryboardTrigger : WorldObject, ISpriteCollideable
+    public class BarrelSpawner : WorldObject, ISpriteCollideable
     {
-        private Texture2D texture;
-
-        public StoryboardTrigger(World world, SpriteBatch spriteBatch, Vector2 position)
+        public BarrelSpawner(World world, SpriteBatch spriteBatch, Vector2 position)
             : base(world, spriteBatch, position)
         {
-            halfWidth = World.Map.TileWidth / 2;
-            halfHeight = World.Map.TileHeight / 2;
-            playerColliding = false;
+            halfWidth = 400;
+            halfHeight = 12;
+        }
+        private static readonly int TIME_BETWEEN_SPAWNS = 1000;
+        private int timeUntilSpawn = TIME_UNTIL_SPAWNING_STARTS;
+        public override void Update(GameTime gameTime)
+        {
+            if (timeUntilSpawn < 0)
+            {
+                Random rand = new Random();
+                // Spawn a new barrel, reset timer.
+                timeUntilSpawn = TIME_BETWEEN_SPAWNS;
+                ExplosiveBarrel barrel = new ExplosiveBarrel(World, World.SpriteBatch, Position);
+                barrel.Velocity = new Vector2(rand.Next(-6, 6), rand.Next(0,3));
+                World.AddWorldObject(barrel);
+            }
+            else if (playerCollided)
+            {
+                timeUntilSpawn -= gameTime.ElapsedGameTime.Milliseconds;
+            }
+
+            base.Update(gameTime);
+        }
+
+        // Only drawn if the world is paused?
+        public override void Draw(GameTime gameTime)
+        {
+            if (World.Paused)
+            {
+                PrimitiveDrawer.Instance.DrawRect(World.SpriteBatch, Rectangle, Color.Black);
+            }
+            base.Draw(gameTime);
         }
 
         #region ISpriteCollideable Members
@@ -63,22 +90,16 @@ namespace WesternSpace.DrawableComponents.WorldObjects
             }
         }
 
-        private bool playerColliding;
+        public static readonly int TIME_UNTIL_SPAWNING_STARTS = 1300;
 
+        private bool playerCollided = false;
+
+        // Activated on sprite collision.
         public void OnSpriteCollision(ISpriteCollideable objectCollidedWith)
         {
             if (objectCollidedWith == World.Player)
             {
-                if (!playerColliding)
-                {
-                    playerColliding = true;
-                    StoryboardScreen sbs = new StoryboardScreen("Test", "Game", @"StoryboardXML\TitleScreenStoryboard");
-                    ScreenManager.Instance.ScreenList.Add(sbs);
-                    ScreenTransition st = new ScreenTransition("Game", "Test", 0.2f, 0.2f, false, false);
-                    ScreenManager.Instance.Transition(st);
-                    World.Paused = true;
-                    World.RemoveWorldObject(this);
-                }
+                playerCollided = true;
             }
         }
 

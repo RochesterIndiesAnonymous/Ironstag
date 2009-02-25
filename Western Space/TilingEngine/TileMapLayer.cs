@@ -173,17 +173,24 @@ namespace WesternSpace.TilingEngine
                 {
                     Vector2 position = new Vector2(x * tm.TileWidth, y * tm.TileHeight) + (camPos - camPos * scrollSpeed);
                     int modX, modY;
+                    if (ScrollSpeed != 1.0f)
+                    {
+                        if (x >= 0)
+                            modX = x % TileMap.Width;
+                        else
+                            modX = TileMap.Width - (-x) % TileMap.Width;
 
-                    if (x >= 0)
-                        modX = x%TileMap.Width;
-                    else
-                        modX = TileMap.Width - (-x) % TileMap.Width;
+                        if (y >= 0)
+                            modY = y % TileMap.Height;
+                        else
+                            modY = TileMap.Height - (-y) % TileMap.Height;
+                    }
+                    else 
+                    {
+                        modX = x;
+                        modY = y;
+                    }
 
-                    if (y >= 0)
-                        modY = y % TileMap.Height;
-                    else
-                        modY = TileMap.Height - (-y) % TileMap.Height;
-                    
                     /*
                     // Testing
                     if (tm.FileName.CompareTo("TileMapXML\\\\parallaxlayer") == 0)

@@ -19,6 +19,10 @@ namespace WesternSpace.DrawableComponents.WorldObjects
     /// </summary>
     public class ExplosiveBarrel : WorldObject, ISpriteCollideable, ITileCollidable, IDamageable, IPhysical
     {
+        public static readonly int LIFETIME = 3000; // Time to live in milliseconds.
+        
+        private int timeToLive = LIFETIME;
+
         private Texture2D texture;
 
         public ExplosiveBarrel(World world, SpriteBatch spriteBatch, Vector2 position)
@@ -41,7 +45,8 @@ namespace WesternSpace.DrawableComponents.WorldObjects
 
         public override void Draw(GameTime gameTime)
         {
-            SpriteBatch.Draw(texture, Position-new Vector2(halfWidth, halfHeight), Color.White);
+            Color col = (timeToLive < 1000 && timeToLive >= 500 && ((timeToLive / 60) % 2 == 0)) || (timeToLive < 500 && ((timeToLive / 30) % 2 == 0)) ? Color.Red : Color.White;
+            SpriteBatch.Draw(texture, Position-new Vector2(halfWidth, halfHeight), col);
             base.Draw(gameTime);
         }
 
@@ -50,45 +55,45 @@ namespace WesternSpace.DrawableComponents.WorldObjects
 
         public override void Update(GameTime gameTime)
         {
+            timeToLive -= gameTime.ElapsedGameTime.Milliseconds;
+
             // Destroy self and spawn explosion if health is <0.
-            if (currentHealth < 0)
+            if (currentHealth < 0 || timeToLive <= 0)
             {
                 World.RemoveWorldObject(this);
                 World.AddWorldObject(new Explosion(World, SpriteBatch, Position));
                 this.Dispose();
                 return;
             }
-            if (currentHealth != MaxHealth)
+
+            NetForce += (new Vector2(0, 0.2f)) * Mass;
+            World.PhysicsHandler.ApplyPhysics(this);
+
+            // DO ALL COLLISIONS HERE
+            foreach (CollisionHotspot hotspot in Hotspots)
             {
-                NetForce += (new Vector2(0, 0.2f)) * Mass;
-                World.PhysicsHandler.ApplyPhysics(this);
-
-                // DO ALL COLLISIONS HERE
-                foreach (CollisionHotspot hotspot in Hotspots)
+                hotspot.Collide();
+                if (hotspot.DidCollide)
                 {
-                    hotspot.Collide();
-                    if (hotspot.DidCollide)
+                    switch (hotspot.HotSpotType)
                     {
-                        switch (hotspot.HotSpotType)
-                        {
-                            case HOTSPOT_TYPE.bottom:
-                                velocity.Y *= -BOUNCE_FRICTION;
-                                velocity.X *= SLIDE_FRICTION;
-                                break;
-                            case HOTSPOT_TYPE.top:
-                                velocity.Y *= -BOUNCE_FRICTION;
-                                velocity.X *= SLIDE_FRICTION;
-                                break;
+                        case HOTSPOT_TYPE.bottom:
+                            velocity.Y *= -BOUNCE_FRICTION;
+                            velocity.X *= SLIDE_FRICTION;
+                            break;
+                        case HOTSPOT_TYPE.top:
+                            velocity.Y *= -BOUNCE_FRICTION;
+                            velocity.X *= SLIDE_FRICTION;
+                            break;
 
-                            case HOTSPOT_TYPE.left:
-                                velocity.X *= -BOUNCE_FRICTION;
-                                velocity.Y *= SLIDE_FRICTION;
-                                break;
-                            case HOTSPOT_TYPE.right:
-                                velocity.X *= -BOUNCE_FRICTION;
-                                velocity.Y *= SLIDE_FRICTION;
-                                break;
-                        }
+                        case HOTSPOT_TYPE.left:
+                            velocity.X *= -BOUNCE_FRICTION;
+                            velocity.Y *= SLIDE_FRICTION;
+                            break;
+                        case HOTSPOT_TYPE.right:
+                            velocity.X *= -BOUNCE_FRICTION;
+                            velocity.Y *= SLIDE_FRICTION;
+                            break;
                     }
                 }
             }
