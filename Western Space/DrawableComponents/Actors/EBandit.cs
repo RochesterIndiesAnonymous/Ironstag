@@ -238,7 +238,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 }
             }
 
-            NetForce += gravity / Mass;
+            NetForce += gravity * Mass;
 
             // -- Check for Final State Changes -- //
             if ((Velocity.X == 0) && isOnGround && !currentState.Contains("Dead") && !currentState.Equals("Hit"))

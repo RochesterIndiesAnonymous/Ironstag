@@ -470,7 +470,7 @@ namespace WesternSpace.DrawableComponents.Actors
             }
 
             // -- Apply the Effects of Various Forces -- //
-            NetForce += gravity / Mass;
+            NetForce += gravity * Mass;
 
             if ((input.WasJustReleased(InputMonitor.RIGHT) || input.WasJustReleased(InputMonitor.LEFT)) && !isOnGround)
             {
