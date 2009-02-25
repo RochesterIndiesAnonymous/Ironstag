@@ -12,6 +12,7 @@ using WesternSpace.AnimationFramework;
 using WesternSpace.ServiceInterfaces;
 using WesternSpace.DrawableComponents.Actors;
 using System.Diagnostics;
+using WesternSpace.TilingEngine;
 
 namespace WesternSpace.DrawableComponents.Projectiles
 {
@@ -124,6 +125,11 @@ namespace WesternSpace.DrawableComponents.Projectiles
             // DO ALL COLLISIONS HERE
             foreach (CollisionHotspot hotspot in Hotspots)
             {
+                IDamageable tile = hotspot.Tile as IDamageable;
+                if (tile != null)
+                {
+                    tile.TakeDamage(this);
+                }
                 hotspot.Collide();
                 if (hotspot.DidCollide)
                 {
