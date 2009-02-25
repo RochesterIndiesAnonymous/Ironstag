@@ -179,13 +179,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="System\Sounds\flintShot.wav">
-      <Name>flintShot</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="System\Window Skin\TitleImage.png">
       <Name>TitleImage</Name>
       <Importer>TextureImporter</Importer>
@@ -638,13 +631,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="System\Sounds\mgkidShot.wav">
-      <Name>mgkidShot</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\Cutscenes\Intro1.png">
       <Name>Intro1</Name>
       <Importer>TextureImporter</Importer>
@@ -684,6 +670,13 @@
       <Name>Intro6</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="System\Sounds\SoundFX.xap">
+      <Name>SoundFX</Name>
+      <Importer>XactImporter</Importer>
+      <Processor>XactProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v3.0\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

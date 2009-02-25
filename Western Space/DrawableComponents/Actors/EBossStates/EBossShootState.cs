@@ -21,7 +21,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// <summary>
         /// The sound to play when the gun fires
         /// </summary>
-        SoundEffect gunShot;
+        //SoundEffect gunShot;
 
         /// <summary>
         /// The timer used to time the shooting of the boss
@@ -53,7 +53,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         internal EBossShootState(EBoss boss, Screen parentScreen)
             : base(boss)
         {
-            gunShot = ScreenManager.Instance.Content.Load<SoundEffect>("System\\Sounds\\mgkidShot");
+            //gunShot = ScreenManager.Instance.Content.Load<SoundEffect>("System\\Sounds\\mgkidShot");
 
             shootTimer = new Timer(parentScreen, 3000);
             shootTimer.TimeHasElapsed += new EventHandler<EventArgs>(shootTimer_TimeHasElapsed);
@@ -146,8 +146,8 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
                     projectileVelocityVector = new Vector2(1.0f, 0.0f);
                 }
 
-                gunShot.Play();
-
+                //gunShot.Play();
+                this.Boss.World.playSound("mgkidShot");
                 //Generate a Bullet
                 GenerateBullet(projectileVelocityVector);
             }
@@ -232,7 +232,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
                 if (this.Boss.DidBulletCollide)
                 {
                     this.Boss.ChangeState("Laughing");
-
+                    this.Boss.World.playSound("mgkidLaugh1");
                     laughTimer.ResetTimer();
                     laughTimer.ResumeTimer();
                 }

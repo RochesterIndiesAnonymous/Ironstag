@@ -23,7 +23,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// Sound Effect will be moved later on.
         /// </summary>
-        SoundEffect gunShot;
+        //SoundEffect gunShot;
 
         /// <summary>
         /// Camera used to see if the enemy is visible.
@@ -98,7 +98,7 @@ namespace WesternSpace.DrawableComponents.Actors
 
 
             //Temp: Loads the gunshot sound.
-            gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
+            //gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
 
             //Setup the Bounding Box
             boundingBoxHeight = 59;
@@ -213,7 +213,8 @@ namespace WesternSpace.DrawableComponents.Actors
                         //Change state and animation
                         ChangeState("Shooting");
 
-                        gunShot.Play();
+                        //gunShot.Play();
+                        world.playSound("banditShot");
                     }
 
                     //Generate a Bullet

@@ -37,7 +37,7 @@ namespace WesternSpace.DrawableComponents.Actors
         /// <summary>
         /// Sound Effect will be moved later on.
         /// </summary>
-        SoundEffect gunShot;
+        //SoundEffect gunShot;
 
         /// <summary>
         /// The maximum value of the transformation guage for
@@ -195,7 +195,7 @@ namespace WesternSpace.DrawableComponents.Actors
             deathPushBack = new Vector2(-2f, 0f);
 
             //Temp: Loads the gunshot sound.
-            gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
+            //gunShot = this.Game.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
 
             //Temp: Sets the input monitor up.
             input = InputMonitor.Instance;
@@ -378,7 +378,8 @@ namespace WesternSpace.DrawableComponents.Actors
                     }
 
                     //Generate a Bullet
-                    gunShot.Play();
+                    //gunShot.Play();
+                    world.playSound("flintShot");
                     GenerateBullet();
                     shotDelay = (int)gameTime.TotalGameTime.TotalMilliseconds;
                 }

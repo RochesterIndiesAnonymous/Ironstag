@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using System.Reflection;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 using WesternSpace.Services;
 using WesternSpace.ServiceInterfaces;
@@ -103,6 +104,16 @@ namespace WesternSpace
             get { return worldObjects; }
         }
 
+        private AudioEngine audioEngine;
+        private SoundBank soundBank;
+        private WaveBank waveBank;
+
+        public void playSound(string cue)
+        {
+            Cue newCue = soundBank.GetCue(cue);
+            newCue.Play();
+        }
+        
         public void AddWorldObject(WorldObject worldObject)
         {
             worldObject.Enabled = !Paused;
@@ -203,6 +214,11 @@ namespace WesternSpace
             batchService = (ISpriteBatchService)this.Game.Services.GetService(typeof(ISpriteBatchService));
             otherMaps = new List<TileMap>();
 
+            //Set up Sound systems
+            audioEngine = new AudioEngine("Content\\System\\Sounds\\Win\\SoundFX.xgs");
+            soundBank = new SoundBank(audioEngine, "Content\\System\\Sounds\\Win\\GameSoundBank.xsb");
+            waveBank = new WaveBank(audioEngine, "Content\\System\\Sounds\\Win\\GameWavs.xwb");
+
             // Set up our collision systems:
             spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, batchService, 40, 40);
             ParentScreen.Components.Add(spriteCollisionManager);
@@ -231,6 +247,11 @@ namespace WesternSpace
             // Set up our collision systems:
             spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, batchService, 40, 40);
             ParentScreen.Components.Add(spriteCollisionManager);
+
+            //Set up Sound systems
+            audioEngine = new AudioEngine("Content\\System\\Sounds\\SoundFX.xgs");
+            soundBank = new SoundBank(audioEngine, "Content\\System\\Sounds\\GameSoundBank.xsb");
+            waveBank = new WaveBank(audioEngine, "Content\\System\\Sounds\\GameWavs.xwb");
 
             bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
             MediaPlayer.IsRepeating = true;

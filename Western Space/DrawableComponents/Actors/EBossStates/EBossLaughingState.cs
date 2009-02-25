@@ -19,7 +19,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
                 && !this.Boss.CurrentState.Contains("Jumping"))
             {
                 base.Update();
-
+                
                 this.Boss.ChangeState("Laughing");
                 IsLogicComplete = true;
             }
