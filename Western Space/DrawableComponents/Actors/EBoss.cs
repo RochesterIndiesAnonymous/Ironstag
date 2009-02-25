@@ -246,12 +246,6 @@ namespace WesternSpace.DrawableComponents.Actors
                             SetAIState(jumpAIState);
                             aiStateDecided = true;
                         }
-
-                        //if (!aiStateDecided && !this.currentState.Contains("Shooting") && !this.currentState.Contains("Jumping") && !this.currentState.Contains("Running"))
-                        //{
-                        //    SetAIState(laughingAIState);
-                        //    aiStateDecided = true;
-                        //}
                     }
                     else if (world.Player.CurrentState.Contains("Dead"))
                     {

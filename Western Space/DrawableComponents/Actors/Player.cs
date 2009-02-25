@@ -454,17 +454,17 @@ namespace WesternSpace.DrawableComponents.Actors
             }
             if (input.WasJustPressed(InputMonitor.JUMP))
             {
-                Console.WriteLine("JUMP WASJUSTPRESSED  --Pressed Time: "+input.GetPressedTime(InputMonitor.JUMP));
+                //Console.WriteLine("JUMP WASJUSTPRESSED  --Pressed Time: "+input.GetPressedTime(InputMonitor.JUMP));
                 StartJump();
             }
             else if (input.WasJustReleased(InputMonitor.JUMP))
             {
-                Console.WriteLine("JUMP WASJUSTRELEASED  --Pressed Time: " + input.GetPressedTime(InputMonitor.JUMP));
+                //Console.WriteLine("JUMP WASJUSTRELEASED  --Pressed Time: " + input.GetPressedTime(InputMonitor.JUMP));
                 Jump(input.GetPressedTime(InputMonitor.JUMP));
             }
             else if (input.IsPressed(InputMonitor.JUMP))
             {
-                Console.WriteLine("JUMP ISPRESSED  --Pressed Time: "+input.GetPressedTime(InputMonitor.JUMP));
+                //Console.WriteLine("JUMP ISPRESSED  --Pressed Time: "+input.GetPressedTime(InputMonitor.JUMP));
                 Jump(input.GetPressedTime(InputMonitor.JUMP));
             }
 

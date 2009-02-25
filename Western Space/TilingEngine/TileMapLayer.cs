@@ -219,7 +219,7 @@ namespace WesternSpace.TilingEngine
                     }
                 }
             }
-            Debug.Print("\n");
+            //Debug.Print("\n");
             if (drawEdgesEnabled)
             {
                 DrawEdges();

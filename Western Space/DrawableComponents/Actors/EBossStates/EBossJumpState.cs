@@ -25,10 +25,16 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// <summary>
         /// The amount of time we turn off tile collision when the boss jumps down
         /// </summary>
-        private const int AMOUNT_OF_TIME_TO_TURN_OFF_TILE_COLLISION = 500;
+        private const int AMOUNT_OF_TIME_TO_TURN_OFF_TILE_COLLISION_DOWN = 500;
+
+        /// <summary>
+        /// The amount of time we turn off tile collision when the boss jumps up
+        /// </summary>
+        private const int AMOUNT_OF_TIME_TO_TURN_OFF_TILE_COLLISION_UP = 500;
 
         private Timer jumpTimer;
         private Timer fallThroughTimer;
+        private Timer jumpThroughTimer;
 
         private Vector2 lastJumpPosition;
 
@@ -38,8 +44,11 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             jumpTimer = new Timer(parentScreen, DELAY_BETWEEN_JUMP_DECISION);
             jumpTimer.TimeHasElapsed += new EventHandler<EventArgs>(jumpTimer_TimeHasElapsed);
 
-            fallThroughTimer = new Timer(parentScreen, AMOUNT_OF_TIME_TO_TURN_OFF_TILE_COLLISION);
+            fallThroughTimer = new Timer(parentScreen, AMOUNT_OF_TIME_TO_TURN_OFF_TILE_COLLISION_DOWN);
             fallThroughTimer.TimeHasElapsed += new EventHandler<EventArgs>(fallThroughTimer_TimeHasElapsed);
+
+            jumpThroughTimer = new Timer(parentScreen, AMOUNT_OF_TIME_TO_TURN_OFF_TILE_COLLISION_UP);
+            jumpThroughTimer.TimeHasElapsed += new EventHandler<EventArgs>(jumpThroughTimer_TimeHasElapsed);
 
             lastJumpPosition = new Vector2();
         }
@@ -53,6 +62,9 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
 
             fallThroughTimer.ResetTimer();
             fallThroughTimer.PauseTimer();
+
+            jumpThroughTimer.ResetTimer();
+            jumpThroughTimer.PauseTimer();
             
             this.IsLogicComplete = false;
         }
@@ -64,6 +76,9 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
 
             fallThroughTimer.PauseTimer();
             fallThroughTimer.StartTimer();
+
+            jumpThroughTimer.PauseTimer();
+            jumpThroughTimer.StartTimer();
         }
 
         public void StopTimers()
@@ -75,6 +90,10 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
             fallThroughTimer.TimeHasElapsed -= fallThroughTimer_TimeHasElapsed;
             fallThroughTimer.PauseTimer();
             fallThroughTimer.RemoveTimer();
+
+            jumpThroughTimer.TimeHasElapsed -= jumpThroughTimer_TimeHasElapsed;
+            jumpThroughTimer.PauseTimer();
+            jumpThroughTimer.RemoveTimer();
         }
 
         internal bool ShouldBossJump()
@@ -98,11 +117,16 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         {
             if (this.Boss.CurrentState.Contains("Idle"))
             {
+                lastJumpPosition = this.Boss.Position;
+
                 this.Boss.ApplyJump();
                 this.Boss.ChangeState("JumpingAscent");
                 this.Boss.isOnGround = false;
 
-                lastJumpPosition = this.Boss.Position;
+                this.Boss.TileCollisionDetectionEnabled = false;
+
+                jumpThroughTimer.ResetTimer();
+                jumpThroughTimer.ResumeTimer();
             }
         }
 
@@ -147,8 +171,16 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         {
             this.Boss.TileCollisionDetectionEnabled = true;
 
-            jumpTimer.PauseTimer();
-            jumpTimer.ResetTimer();
+            fallThroughTimer.PauseTimer();
+            fallThroughTimer.ResetTimer();
+        }
+
+        void jumpThroughTimer_TimeHasElapsed(object sender, EventArgs e)
+        {
+            this.Boss.TileCollisionDetectionEnabled = true;
+
+            jumpThroughTimer.PauseTimer();
+            jumpThroughTimer.ResetTimer();
         }
     }
 }

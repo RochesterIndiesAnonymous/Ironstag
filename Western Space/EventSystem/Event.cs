@@ -35,7 +35,7 @@ namespace WesternSpace.EventSystem
         public void execute()
         {
             Object returnVal = method.Invoke(host, parameters);
-            Console.WriteLine(returnVal);
+            //Console.WriteLine(returnVal);
         }
     }
 }
