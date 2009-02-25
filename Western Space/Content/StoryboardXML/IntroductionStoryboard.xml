@@ -1,4 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Cutscene Song="System\Music\IntroductionBGM" DelayBetweenEachCharacter="100" Font="System\Fonts\WesternSpaceFont">
+  <Storyboard SceneTexture="Textures\Cutscenes\Intro1" SceneText="In the year 1842, A legend named" SceneTextPositionX="3" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
+  <Storyboard SceneTexture="Textures\Cutscenes\Intro2" SceneText="Flint Ironstag was born. Flint and" SceneTextPositionX="5" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
+  <Storyboard SceneTexture="Textures\Cutscenes\Intro3" SceneText="his horse, Old Charlie, were" SceneTextPositionX="30" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
+  <Storyboard SceneTexture="Textures\Cutscenes\Intro4" SceneText="destined to become heroes." SceneTextPositionX="35" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
+  <Storyboard SceneTexture="Textures\Cutscenes\BlankStoryBoard" SceneText="Until one day..." SceneTextPositionX="85" SceneTextPositionY="110" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" /> 
+  <Storyboard SceneTexture="Textures\Cutscenes\Intro5" SceneText="" SceneTextPositionX="40" SceneTextPositionY="200" IsTransitionAutomatic="True" AutomaticTransitionDelay="0" />
+  <Storyboard SceneTexture="Textures\Cutscenes\Intro6" SceneText="" SceneTextPositionX="40" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
   <Storyboard SceneTexture="Textures\Cutscenes\Intro7" SceneText="'' I'm comin' Old Charlie! ''" SceneTextPositionX="40" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
 </Cutscene> 
