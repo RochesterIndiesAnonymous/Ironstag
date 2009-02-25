@@ -52,6 +52,14 @@ namespace WesternSpace.DrawableComponents.Actors
         }
         #endregion
 
+        private bool tileCollisionDetectionEnabled;
+
+        internal bool TileCollisionDetectionEnabled
+        {
+            get { return tileCollisionDetectionEnabled; }
+            set { tileCollisionDetectionEnabled = value; }
+        }
+
         protected int boundingBoxWidth;
 
         protected int boundingBoxHeight;
@@ -242,6 +250,8 @@ namespace WesternSpace.DrawableComponents.Actors
 
             this.world = world;
             //Set up the Roles for this Character
+
+            this.TileCollisionDetectionEnabled = true;
         }
 
         /// <summary>
@@ -407,47 +417,50 @@ namespace WesternSpace.DrawableComponents.Actors
 
         public override void Update(GameTime gameTime)
         {
-            // DO ALL COLLISIONS HERE
-            foreach (CollisionHotspot hotspot in Hotspots)
+            if (this.TileCollisionDetectionEnabled)
             {
-                hotspot.Collide();
-                if (hotspot.DidCollide)
+                // DO ALL COLLISIONS HERE
+                foreach (CollisionHotspot hotspot in Hotspots)
                 {
-                    switch (hotspot.HotSpotType)
+                    hotspot.Collide();
+                    if (hotspot.DidCollide)
                     {
-                        case HOTSPOT_TYPE.bottom:
-                            velocity.Y = 0;
-                            break;
-                        case HOTSPOT_TYPE.top:
-                            velocity.Y = 0;
-                            break;
+                        switch (hotspot.HotSpotType)
+                        {
+                            case HOTSPOT_TYPE.bottom:
+                                velocity.Y = 0;
+                                break;
+                            case HOTSPOT_TYPE.top:
+                                velocity.Y = 0;
+                                break;
 
-                        case HOTSPOT_TYPE.left:
-                            velocity.X = 0;
-                            break;
-                        case HOTSPOT_TYPE.right:
-                            velocity.X = 0;
-                            break; 
+                            case HOTSPOT_TYPE.left:
+                                velocity.X = 0;
+                                break;
+                            case HOTSPOT_TYPE.right:
+                                velocity.X = 0;
+                                break;
+                        }
                     }
                 }
-            }
 
-            isOnGround = false;
-            IEnumerable<CollisionHotspot> hotspots = from hotspot in Hotspots
-                                                     where hotspot.HotSpotType == HOTSPOT_TYPE.bottom && hotspot.DidCollide
-                                                     select hotspot;
-            if (hotspots.Count<CollisionHotspot>() > 0)
-            {
-                isOnGround = true;
-                didHitCeiling = false;
-            }
-            IEnumerable<CollisionHotspot> topCollidedHotspots = from hotspot in Hotspots
-                                                                where hotspot.HotSpotType == HOTSPOT_TYPE.top && hotspot.DidCollide
-                                                                select hotspot;
-            if (topCollidedHotspots.Count<CollisionHotspot>() > 0)
-            {
-                didHitCeiling = true;
-                //Console.WriteLine("HIT CEILING");
+                isOnGround = false;
+                IEnumerable<CollisionHotspot> hotspots = from hotspot in Hotspots
+                                                         where hotspot.HotSpotType == HOTSPOT_TYPE.bottom && hotspot.DidCollide
+                                                         select hotspot;
+                if (hotspots.Count<CollisionHotspot>() > 0)
+                {
+                    isOnGround = true;
+                    didHitCeiling = false;
+                }
+                IEnumerable<CollisionHotspot> topCollidedHotspots = from hotspot in Hotspots
+                                                                    where hotspot.HotSpotType == HOTSPOT_TYPE.top && hotspot.DidCollide
+                                                                    select hotspot;
+                if (topCollidedHotspots.Count<CollisionHotspot>() > 0)
+                {
+                    didHitCeiling = true;
+                    //Console.WriteLine("HIT CEILING");
+                }
             }
             base.Update(gameTime);
         }

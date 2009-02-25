@@ -183,22 +183,7 @@ namespace WesternSpace.DrawableComponents.Actors
 
             // -- Animation Player Update Frames -- //
             animationPlayer.Update(gameTime);
-
-            if (!jumpAIState.FallThroughFloor)
-            {
-                base.Update(gameTime);
-            }
-            else if (jumpAIState.CurrentUpdateCyclesSkipped == EBossJumpState.FALL_THROUGH_FLOOR_UPDATE_CYCLES)
-            {
-                jumpAIState.FallThroughFloor = false;
-                jumpAIState.CurrentUpdateCyclesSkipped = 0;
-                ChangeState("Idle");
-                jumpAIState.IsLogicComplete = true;
-            }
-            else
-            {
-                jumpAIState.CurrentUpdateCyclesSkipped++;
-            }
+            base.Update(gameTime);
 
             if (isOnGround && currentState.Contains("Descent"))
             {

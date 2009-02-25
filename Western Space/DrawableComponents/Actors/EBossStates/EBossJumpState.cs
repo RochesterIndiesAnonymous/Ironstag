@@ -15,23 +15,17 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// AI state
         /// </summary>
         private const float PLAYER_Y_THRESHOLD = 80.0f;
-        public const int FALL_THROUGH_FLOOR_UPDATE_CYCLES = 20;
 
-        private bool fallThroughFloor;
+        /// <summary>
+        /// The amount of time to wait before executing the jump decision
+        /// in milliseconds
+        /// </summary>
+        private const int DELAY_BETWEEN_JUMP_DECISION = 2000;
 
-        public bool FallThroughFloor
-        {
-            get { return fallThroughFloor; }
-            set { fallThroughFloor = value; }
-        }
-
-        private int currentUpdateCyclesSkipped;
-
-        public int CurrentUpdateCyclesSkipped
-        {
-            get { return currentUpdateCyclesSkipped; }
-            set { currentUpdateCyclesSkipped = value; }
-        }
+        /// <summary>
+        /// The amount of time we turn off tile collision when the boss jumps down
+        /// </summary>
+        private const int AMOUNT_OF_TIME_TO_TURN_OFF_TILE_COLLISION = 500;
 
         private Timer jumpTimer;
         private Timer fallThroughTimer;
@@ -41,10 +35,10 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         internal EBossJumpState(Screen parentScreen, EBoss boss)
             : base(boss)
         {
-            jumpTimer = new Timer(parentScreen, 2000);
+            jumpTimer = new Timer(parentScreen, DELAY_BETWEEN_JUMP_DECISION);
             jumpTimer.TimeHasElapsed += new EventHandler<EventArgs>(jumpTimer_TimeHasElapsed);
 
-            fallThroughTimer = new Timer(parentScreen, 100);
+            fallThroughTimer = new Timer(parentScreen, AMOUNT_OF_TIME_TO_TURN_OFF_TILE_COLLISION);
             fallThroughTimer.TimeHasElapsed += new EventHandler<EventArgs>(fallThroughTimer_TimeHasElapsed);
 
             lastJumpPosition = new Vector2();
@@ -116,12 +110,13 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         {
             if (this.Boss.CurrentState.Contains("Idle"))
             {
-                this.FallThroughFloor = true;
                 lastJumpPosition = this.Boss.Position;
 
                 this.Boss.ApplyJump();
                 this.Boss.ChangeState("JumpingAscent");
                 this.Boss.isOnGround = false;
+
+                this.Boss.TileCollisionDetectionEnabled = false;
 
                 fallThroughTimer.ResetTimer();
                 fallThroughTimer.ResumeTimer();
@@ -150,7 +145,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
 
         void fallThroughTimer_TimeHasElapsed(object sender, EventArgs e)
         {
-            this.Boss.Velocity = new Vector2(0f, 0f);
+            this.Boss.TileCollisionDetectionEnabled = true;
 
             jumpTimer.PauseTimer();
             jumpTimer.ResetTimer();
