@@ -35,20 +35,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="System\Sounds\hBump.wav">
-      <Name>hBump</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="System\Sounds\wBump.wav">
-      <Name>wBump</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Layers\TestLayer.png">
       <Name>TestLayer</Name>
       <Importer>TextureImporter</Importer>

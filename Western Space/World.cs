@@ -104,10 +104,14 @@ namespace WesternSpace
             get { return worldObjects; }
         }
 
+        // Variables for Audio Engine
         private AudioEngine audioEngine;
         private SoundBank soundBank;
         private WaveBank waveBank;
 
+        /// <summary>
+        /// Function that can be called from anywhere to play any sound.
+        /// </summary>
         public void playSound(string cue)
         {
             Cue newCue = soundBank.GetCue(cue);

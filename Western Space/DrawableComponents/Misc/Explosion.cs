@@ -32,6 +32,7 @@ namespace WesternSpace.DrawableComponents.Misc
         public Explosion(World world, SpriteBatch spriteBatch, Vector2 position)
             :base(world, spriteBatch, position)
         {
+            World.playSound("explosion");
             this.explosionAnimation = new Animation(EXPLOSION_ANIM_FILENAME, "Explosion");
             this.animationPlayer = new AnimationPlayer(SpriteBatch, explosionAnimation);
             this.radius = INITIAL_EXPLOSION_RADIUS;

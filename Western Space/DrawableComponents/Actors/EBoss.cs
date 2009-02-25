@@ -404,6 +404,8 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             if ((this.TakesDamageFrom != damageItem.DoesDamageTo) && !currentState.Equals("Dead") && !invincible)
             {
+                //Can be used for when bullets hit the body of the boss
+                this.World.playSound("nogoodHit");
 
                 SetAIState(hitAIState);
                 ChangeState("Hit");
