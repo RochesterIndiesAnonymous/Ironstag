@@ -170,8 +170,14 @@ namespace WesternSpace
             Screen titleScreen = new StoryboardScreen("TitleScreen", "Introduction", @"StoryboardXML\TitleScreenStoryboard");
             this.screenList.Add(titleScreen);
 
-            Screen introScreen = new StoryboardScreen("Introduction", "Game", @"StoryboardXML\IntroductionStoryboard");
+            Screen introScreen = new StoryboardScreen("Introduction", "Gamet", @"StoryboardXML\IntroductionStoryboard");
             this.screenList.Add(introScreen);
+
+            Screen endScreen = new StoryboardScreen("MidPoint", "Game", @"StoryboardXML\MidPointStoryboard");
+            this.screenList.Add(endScreen);
+
+            Screen endScreen = new StoryboardScreen("Ending", "Game", @"StoryboardXML\EndingStoryboard");
+            this.screenList.Add(endScreen);
 
             this.AddScreenToDisplay(titleScreen);
 
