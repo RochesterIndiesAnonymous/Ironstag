@@ -5,7 +5,7 @@
   <Parallax MapFileName="TileMapXML\\parallaxlayer" ScrollSpeed="0.25">
     <Layer LayerName="" LayerIndex="1" ZIndex="-20" />
   </Parallax>
-  <Parallax MapFileName="TileMapXML\\parallaxlayer" ScrollSpeed="0.08">
+  <Parallax MapFileName="TileMapXML\\back_parallaxlayer" ScrollSpeed="0.08">
     <Layer LayerName="" LayerIndex="0" ZIndex="-30" />
   </Parallax>
   <o n="LargeCactus1" x="263" y="414" />
@@ -187,4 +187,5 @@
   <o n="EBoss" x="698" y="183" />
   <o n="EBoss" x="738" y="425" />
   <o n="StoryboardTrigger" x="4540" y="457" />
+  <o n="ExplosiveBarrel" x="348" y="-81" />
 </World>

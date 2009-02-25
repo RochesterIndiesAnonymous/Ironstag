@@ -58,7 +58,7 @@ namespace WesternSpace.DrawableComponents.WorldObjects
                 this.Dispose();
                 return;
             }
-            if (currentHealth != MaxHealth && false)
+            if (currentHealth != MaxHealth)
             {
                 NetForce += (new Vector2(0, 0.2f)) * Mass;
                 World.PhysicsHandler.ApplyPhysics(this);
@@ -210,9 +210,6 @@ namespace WesternSpace.DrawableComponents.WorldObjects
                 //this.NetForce -= force;
             }
         }
-
-        #endregion
-        #region ISpriteCollideable Members
 
         Boolean removeFromCollisionRegistration;
         public bool removeFromRegistrationList
