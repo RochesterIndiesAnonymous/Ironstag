@@ -254,6 +254,12 @@ namespace WesternSpace.DrawableComponents.Actors
         {
             if (!currentState.Contains("Dead"))
             {
+                // When vulture is directly over the player, play sound
+                if ((World.Player.Position.X + 10 >= this.position.X) && (World.Player.Position.X - 10 <= this.position.X - 10))
+                {
+                    this.World.playSound("birdCaw");
+                }
+
                 // If the vulture flys too far away from the player it will turn around and fly the other direction
                 if ((World.Player.Position.X + 100 < this.position.X) && (this.position.X - this.world.Player.Position.X <= 300))
                 {

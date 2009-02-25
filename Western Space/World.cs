@@ -293,6 +293,8 @@ namespace WesternSpace
 
             camera.Position += new Vector2(cam_vx, cam_vy);
 
+            audioEngine.Update();
+
             base.Update(gameTime);
         }
 
