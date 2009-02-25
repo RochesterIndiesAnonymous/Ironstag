@@ -24,6 +24,8 @@ namespace WesternSpace.DrawableComponents.WorldObjects
         // -- Constants -- //
         public static readonly string FALL = "Fall";
         public static readonly string ENTER = "Enter";
+        public static readonly string EXTEND = "Extend";
+        public static readonly string TAKEOFF = "TakeOff";
         public static readonly string XMLFILENAME = "ActorXML\\MiscXML\\" + typeof(SpaceBoss).Name;
 
         /// <summary>
@@ -165,10 +167,13 @@ namespace WesternSpace.DrawableComponents.WorldObjects
         {
             Animation fall = new Animation(XMLFILENAME, FALL);
             Animation enter = new Animation(XMLFILENAME, ENTER);
+            Animation extend = new Animation(XMLFILENAME, EXTEND);
             fall.parentAnimation = enter;
+            enter.parentAnimation = extend;
 
             this.animationMap.Add(FALL, fall);
             this.animationMap.Add(ENTER, enter);
+            this.animationMap.Add(EXTEND, extend);
         }
 
         /// <summary>

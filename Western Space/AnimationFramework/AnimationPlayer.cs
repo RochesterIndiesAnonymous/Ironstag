@@ -226,7 +226,7 @@ namespace WesternSpace.AnimationFramework
             //If the Animation is finished and was a oneshot, play the default animation
             if ((Animation.parentName != "None") && isDonePlaying())
             {
-                if (this.Animation.animationName.Contains("Fall"))
+                if (this.Animation.animationName.Contains("Fall") || this.Animation.animationName.Contains("Enter"))
                 {
                     PlayAnimation(animation.parentAnimation, 0, animation.parentAnimation.FrameCount - 1);
                 }
