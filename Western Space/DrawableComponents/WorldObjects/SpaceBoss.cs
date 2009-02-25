@@ -280,6 +280,7 @@ namespace WesternSpace.DrawableComponents.WorldObjects
             if (!animationPlayer.Animation.animationName.Equals(currentState))
             {
                 ChangeState(animationPlayer.Animation.animationName);
+                animationPlayer.CurrentFrame = animationPlayer.Animation.Frames[0];
                // Position = new Vector2(Position.X, Position.Y - animationPlayer.Animation.FrameHeight);
             }
 

@@ -188,4 +188,7 @@
   <o n="EBoss" x="738" y="425" />
   <o n="StoryboardTrigger" x="4540" y="457" />
   <o n="ExplosiveBarrel" x="348" y="-81" />
+  <o n="MidPointTrigger" x="584" y="200" />
+  <o n="MidPointTrigger" x="620" y="198" />
+  <o n="MidPointTrigger" x="594" y="338" />
 </World>
