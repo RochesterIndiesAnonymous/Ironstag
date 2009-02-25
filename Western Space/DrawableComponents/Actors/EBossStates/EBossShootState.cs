@@ -53,7 +53,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         internal EBossShootState(EBoss boss, Screen parentScreen)
             : base(boss)
         {
-            gunShot = ScreenManager.Instance.Content.Load<SoundEffect>("System\\Sounds\\flintShot");
+            gunShot = ScreenManager.Instance.Content.Load<SoundEffect>("System\\Sounds\\mgkidShot");
 
             shootTimer = new Timer(parentScreen, 3000);
             shootTimer.TimeHasElapsed += new EventHandler<EventArgs>(shootTimer_TimeHasElapsed);
