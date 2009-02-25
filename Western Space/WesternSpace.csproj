@@ -107,6 +107,7 @@
     <Compile Include="DrawableComponents\Misc\SmallCactus.cs" />
     <Compile Include="DrawableComponents\Projectiles\BossProjectile.cs" />
     <Compile Include="DrawableComponents\WorldObjects\BarrelSpawner.cs" />
+    <Compile Include="DrawableComponents\WorldObjects\HealthFlask.cs" />
     <Compile Include="DrawableComponents\WorldObjects\EndingTrigger.cs" />
     <Compile Include="DrawableComponents\WorldObjects\MidpointTrigger.cs" />
     <Compile Include="DrawableComponents\WorldObjects\SpaceBoss.cs" />
