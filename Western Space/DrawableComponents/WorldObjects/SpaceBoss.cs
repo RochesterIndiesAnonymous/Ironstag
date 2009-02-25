@@ -189,9 +189,16 @@ namespace WesternSpace.DrawableComponents.WorldObjects
         /// <param name="newState">The new state to change to.</param>
         public void ChangeState(String newState)
         {
-
             if (!currentState.Equals(newState))
             {
+                if (newState.Equals(ENTER))
+                {
+                    World.playSound("transform");
+                }
+                else if (newState.Equals(TAKEOFF))
+                {
+                    World.playSound("takeOff");
+                }
                 try
                 {
                     currentState = newState;
