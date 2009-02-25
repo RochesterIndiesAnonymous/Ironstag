@@ -5,7 +5,7 @@
       <Frame DisplayTime="150" SheetIndex="1" />
       <Frame DisplayTime="150" SheetIndex="2" />
       <Frame DisplayTime="150" SheetIndex="3" />
-      <Frame DisplayTime="1000" SheetIndex="4" />
+      <Frame DisplayTime="3000" SheetIndex="4" />
     </Animation>
     <Animation AnimationKey="Enter" IsLoop="0" SpriteSheet="Textures\\Enemies\SpaceBossEnter" FrameWidth="26" FrameHeight="151" CenterOffsetX="14" CenterOffsetY="139" Parent="Extend">
       <Frame DisplayTime="80" SheetIndex="0" />
@@ -24,7 +24,7 @@
       <Frame DisplayTime="80" SheetIndex="13" />
       <Frame DisplayTime="80" SheetIndex="14" />
     </Animation>
-    <Animation AnimationKey="Extend" IsLoop="0" SpriteSheet="Textures\\Enemies\SpaceBossExtend" FrameWidth="202" FrameHeight="180" CenterOffsetX="95" CenterOffsetY="168" Parent="None">
+    <Animation AnimationKey="Extend" IsLoop="0" SpriteSheet="Textures\\Enemies\SpaceBossExtend" FrameWidth="202" FrameHeight="180" CenterOffsetX="95" CenterOffsetY="168" Parent="TakeOff">
       <Frame DisplayTime="80" SheetIndex="0" />
       <Frame DisplayTime="80" SheetIndex="1" />
       <Frame DisplayTime="80" SheetIndex="2" />
@@ -36,7 +36,11 @@
       <Frame DisplayTime="80" SheetIndex="8" />
       <Frame DisplayTime="80" SheetIndex="9" />
       <Frame DisplayTime="80" SheetIndex="10" />
-      <Frame DisplayTime="80" SheetIndex="11" />
+      <Frame DisplayTime="500" SheetIndex="11" />
+    </Animation>
+    <Animation AnimationKey="TakeOff" IsLoop="1" SpriteSheet="Textures\\Enemies\SpaceBossTakeOff" FrameWidth="202" FrameHeight="164" CenterOffsetX="95" CenterOffsetY="152" Parent="None">
+      <Frame DisplayTime="80" SheetIndex="0" />
+      <Frame DisplayTime="80" SheetIndex="1" />
     </Animation>
   </Animations>
 </SpaceBoss>

@@ -138,7 +138,10 @@ namespace WesternSpace.DrawableComponents.WorldObjects
             }
 
             //Set the hat's velocity
-            velocity = new Vector2(0, 0);
+            if (currentState.Contains("Fall"))
+            {
+                velocity = new Vector2(0, 0);
+            }
 
             //Initializes the hat's hotspots.
             List<CollisionHotspot> hotspots = new List<CollisionHotspot>();
@@ -168,12 +171,15 @@ namespace WesternSpace.DrawableComponents.WorldObjects
             Animation fall = new Animation(XMLFILENAME, FALL);
             Animation enter = new Animation(XMLFILENAME, ENTER);
             Animation extend = new Animation(XMLFILENAME, EXTEND);
+            Animation takeOff = new Animation(XMLFILENAME, TAKEOFF);
             fall.parentAnimation = enter;
             enter.parentAnimation = extend;
+            extend.parentAnimation = takeOff;
 
             this.animationMap.Add(FALL, fall);
             this.animationMap.Add(ENTER, enter);
             this.animationMap.Add(EXTEND, extend);
+            this.animationMap.Add(TAKEOFF, takeOff);
         }
 
         /// <summary>
@@ -254,7 +260,7 @@ namespace WesternSpace.DrawableComponents.WorldObjects
 
                 ApplyAirMove((-1)*direction);
 
-                if (isOnGround)
+                if (isOnGround && !currentState.Contains("TakeOff"))
                 {
                     velocity = Vector2.Zero;
                 }
@@ -264,6 +270,11 @@ namespace WesternSpace.DrawableComponents.WorldObjects
             }
             else
             {
+            }
+
+            if (currentState.Contains("TakeOff"))
+            {
+                this.velocity = new Vector2(0f, -4f);
             }
 
 
