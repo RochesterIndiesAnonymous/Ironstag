@@ -75,8 +75,6 @@ namespace WesternSpace.DrawableComponents.WorldObjects
 
         Vector2 velocity;
 
-        Animation currentAnimation;
-
         World world;
 
         public Vector2 UpperLeft
@@ -85,11 +83,11 @@ namespace WesternSpace.DrawableComponents.WorldObjects
             {
                 if (facing.Equals(SpriteEffects.None))
                 {
-                    return new Vector2((position.X - currentAnimation.CenterOffsetX), (position.Y - currentAnimation.CenterOffsetY));
+                    return new Vector2((position.X - AnimationPlayer.Animation.CenterOffsetX), (position.Y - AnimationPlayer.Animation.CenterOffsetY));
                 }
                 else if (facing.Equals(SpriteEffects.FlipHorizontally))
                 {
-                    return new Vector2((position.X - (currentAnimation.FrameWidth - currentAnimation.CenterOffsetX)), (position.Y - currentAnimation.CenterOffsetY));
+                    return new Vector2((position.X - (AnimationPlayer.Animation.FrameWidth - AnimationPlayer.Animation.CenterOffsetX)), (position.Y - AnimationPlayer.Animation.CenterOffsetY));
                 }
                 else if (facing.Equals(SpriteEffects.FlipVertically))
                 {
@@ -122,9 +120,6 @@ namespace WesternSpace.DrawableComponents.WorldObjects
 
             //Set up the Hat's Animations
             SetUpAnimation();
-
-            //Set the current Animation
-            currentAnimation = animationMap["Fall"];
 
             animationPlayer = new AnimationPlayer(spriteBatch, animationMap["Fall"]);
 
@@ -301,10 +296,12 @@ namespace WesternSpace.DrawableComponents.WorldObjects
             }
 
             #region FOR DEBUGGING COLLISION
-            /*  foreach (CollisionHotspot hotspot in Hotspots)
+            foreach (CollisionHotspot hotspot in Hotspots)
             {
                 PrimitiveDrawer.Instance.DrawLine(SpriteBatch, hotspot.WorldPosition, hotspot.WorldPosition + new Vector2(1, 1), Color.Black);
-            }*/
+            }
+
+            PrimitiveDrawer.Instance.DrawLine(SpriteBatch, Position, Position + new Vector2(1, 1), Color.Red);
             #endregion
         }
 
