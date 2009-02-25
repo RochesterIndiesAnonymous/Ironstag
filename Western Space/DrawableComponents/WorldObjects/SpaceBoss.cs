@@ -23,6 +23,7 @@ namespace WesternSpace.DrawableComponents.WorldObjects
 
         // -- Constants -- //
         public static readonly string FALL = "Fall";
+        public static readonly string ENTER = "Enter";
         public static readonly string XMLFILENAME = "ActorXML\\MiscXML\\" + typeof(SpaceBoss).Name;
 
         /// <summary>
@@ -168,8 +169,11 @@ namespace WesternSpace.DrawableComponents.WorldObjects
         public void SetUpAnimation()
         {
             Animation fall = new Animation(XMLFILENAME, FALL);
+            Animation enter = new Animation(XMLFILENAME, ENTER);
+            fall.parentAnimation = enter;
 
             this.animationMap.Add(FALL, fall);
+            this.animationMap.Add(ENTER, enter);
         }
 
         /// <summary>
@@ -276,6 +280,12 @@ namespace WesternSpace.DrawableComponents.WorldObjects
             if (hotspots.Count<CollisionHotspot>() > 0)
             {
                 isOnGround = true;
+            }
+
+            if (!animationPlayer.Animation.animationName.Equals(currentState))
+            {
+                ChangeState(animationPlayer.Animation.animationName);
+               // Position = new Vector2(Position.X, Position.Y - animationPlayer.Animation.FrameHeight);
             }
 
             animationPlayer.Update(gameTime);
