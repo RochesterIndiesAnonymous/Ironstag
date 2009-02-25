@@ -24,7 +24,7 @@ namespace WesternSpace.DrawableComponents.WorldObjects
         public BarrelSpawner(World world, SpriteBatch spriteBatch, Vector2 position)
             : base(world, spriteBatch, position)
         {
-            halfWidth = 400;
+            halfWidth = 200;
             halfHeight = 12;
         }
         private static readonly int TIME_BETWEEN_SPAWNS = 1000;
