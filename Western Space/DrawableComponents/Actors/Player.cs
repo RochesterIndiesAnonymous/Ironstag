@@ -699,7 +699,7 @@ namespace WesternSpace.DrawableComponents.Actors
                 if ((this.TakesDamageFrom != damageItem.DoesDamageTo) && (damageItem.AmountOfDamage != 0) && !invincible)
                 {
                     ChangeState("Hit");
-
+                    this.World.playSound("hitTemp");
                     if (facing == SpriteEffects.FlipHorizontally)
                     {
                         NetForce += (-1) * hitPushBack;

@@ -414,6 +414,7 @@ namespace WesternSpace.DrawableComponents.Actors
 
                 if (currentHealth <= 0)
                 {
+                    this.World.playSound("banditDeath");
                     ChangeState("Dead");
                 }
             }
