@@ -790,13 +790,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Enemies\HealthFlask.png">
-      <Name>HealthFlask</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\RocksteelLogo.png">
       <Name>RocksteelLogo</Name>
       <Importer>TextureImporter</Importer>

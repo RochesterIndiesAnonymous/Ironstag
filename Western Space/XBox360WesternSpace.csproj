@@ -78,7 +78,6 @@
     <Compile Include="DrawableComponents\WorldObjects\EndingTrigger.cs" />
     <Compile Include="DrawableComponents\WorldObjects\ExplosiveBarrel.cs" />
     <Compile Include="DrawableComponents\WorldObjects\FlintHat.cs" />
-    <Compile Include="DrawableComponents\WorldObjects\HealthFlask.cs" />
     <Compile Include="DrawableComponents\WorldObjects\MidpointTrigger.cs" />
     <Compile Include="DrawableComponents\WorldObjects\SpaceBoss.cs" />
     <Compile Include="DrawableComponents\WorldObjects\StoryboardTrigger.cs" />

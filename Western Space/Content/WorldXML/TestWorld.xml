@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<World InteractiveMapFileName="TileMapXML\\BigTileMap" PlayerPositionX="4584" PlayerPositionY="366">
+<World InteractiveMapFileName="TileMapXML\\BigTileMap" PlayerPositionX="435" PlayerPositionY="374">
   <MapLayer LayerName="" LayerIndex="0" ZIndex="-10" />
   <MapLayer LayerName="" LayerIndex="1" ZIndex="10" />
   <Parallax MapFileName="TileMapXML\\parallaxlayer" ScrollSpeed="0.25">
@@ -82,7 +82,7 @@
   <o n="SmallCactus" x="3809" y="385" />
   <o n="SmallCactus" x="3828" y="385" />
   <o n="SmallCactus" x="3894" y="383" />
-  <o n="BarrelSpawner" x="4790" y="539" />
-  <o n="BarrelSpawner" x="4785" y="935" />
-  <o n="EBoss" x="4795" y="1624" />
+  <o n="BarrelSpawner" x="4784" y="768" />
+  <o n="EBoss" x="4797" y="1430" />
+  <o n="MidPointTrigger" x="4276" y="383" />
 </World>

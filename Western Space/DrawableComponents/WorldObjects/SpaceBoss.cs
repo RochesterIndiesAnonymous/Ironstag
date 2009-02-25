@@ -284,31 +284,43 @@ namespace WesternSpace.DrawableComponents.WorldObjects
                 this.velocity = new Vector2(0f, -4f);
             }
 
-
-            // DO ALL COLLISIONS HERE
-            foreach (CollisionHotspot hotspot in Hotspots)
+            if (!currentState.Contains("TakeOff"))
             {
-                hotspot.Collide();
+                // DO ALL COLLISIONS HERE
+                foreach (CollisionHotspot hotspot in Hotspots)
+                {
+                    hotspot.Collide();
+                }
+
+                isOnGround = false;
+                IEnumerable<CollisionHotspot> hotspots = from hotspot in Hotspots
+                                                         where hotspot.HotSpotType == HOTSPOT_TYPE.bottom && hotspot.DidCollide
+                                                         select hotspot;
+                if (hotspots.Count<CollisionHotspot>() > 0)
+                {
+                    isOnGround = true;
+                }
             }
-
-            isOnGround = false;
-            IEnumerable<CollisionHotspot> hotspots = from hotspot in Hotspots
-                                                     where hotspot.HotSpotType == HOTSPOT_TYPE.bottom && hotspot.DidCollide
-                                                     select hotspot;
-            if (hotspots.Count<CollisionHotspot>() > 0)
+            else
             {
-                isOnGround = true;
+                Velocity = new Vector2(0, Velocity.Y);
             }
 
             if (!animationPlayer.Animation.animationName.Equals(currentState))
             {
                 ChangeState(animationPlayer.Animation.animationName);
                 animationPlayer.CurrentFrame = animationPlayer.Animation.Frames[0];
+                if (currentState.Contains("TakeOff"))
+                {
+                    World.AddWorldObject(new EndingTrigger(World, World.SpriteBatch, Position));
+                }
                // Position = new Vector2(Position.X, Position.Y - animationPlayer.Animation.FrameHeight);
             }
 
             animationPlayer.Update(gameTime);
-            base.Update(gameTime);
+
+            
+                base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
