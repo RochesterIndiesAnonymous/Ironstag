@@ -25,7 +25,7 @@ namespace WesternSpace.DrawableComponents.Actors.EBossStates
         /// <summary>
         /// The amount of time we turn off tile collision when the boss jumps down
         /// </summary>
-        private const int AMOUNT_OF_TIME_TO_TURN_OFF_TILE_COLLISION_DOWN = 500;
+        private const int AMOUNT_OF_TIME_TO_TURN_OFF_TILE_COLLISION_DOWN = 1000;
 
         /// <summary>
         /// The amount of time we turn off tile collision when the boss jumps up

@@ -101,6 +101,9 @@ namespace WesternSpace.DrawableComponents.Actors
             //Set Movement Speed
             this.groundVelocity = new Vector2(0.5f, 0);
 
+            // set up our FAKE jump velocity
+            this.jumpVelocity = new Vector2(0f, 13f);
+
             List<CollisionHotspot> hotspots = new List<CollisionHotspot>();
             hotspots.Add(new CollisionHotspot(this, new Vector2(13, -27), HOTSPOT_TYPE.top));
             hotspots.Add(new CollisionHotspot(this, new Vector2(1, -6), HOTSPOT_TYPE.left));
@@ -163,8 +166,17 @@ namespace WesternSpace.DrawableComponents.Actors
             ApplyGroundFriction();
 
             // -- Handle Physics -- //
-            PhysicsHandler.ApplyPhysics(this);
+            if (!this.TileCollisionDetectionEnabled)
+            {
+                this.Velocity += (NetForce / Mass);
+                NetForce = Vector2.Zero;
 
+                Position += this.Velocity;
+            }
+            else
+            {
+                PhysicsHandler.ApplyPhysics(this);
+            }
 
             // -- Check Invincibility Timer -- //
             if (invincible)
