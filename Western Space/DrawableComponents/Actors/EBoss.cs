@@ -306,7 +306,7 @@ namespace WesternSpace.DrawableComponents.Actors
                         else if (!animationPlayer.Animation.animationName.Equals(currentState) && currentHealth > 0)
                         {
                             ChangeState(animationPlayer.Animation.animationName);
-                            SetAIState(laughingAIState);
+                            SetAIState(moveAIState);
                         }
 
                         currentAIState.Update();

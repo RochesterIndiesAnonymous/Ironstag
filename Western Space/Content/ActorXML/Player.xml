@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <FlintIronstag>
-  <Health MaxHealth="10000"></Health>
+  <Health MaxHealth="200"></Health>
   <Transformation MaxGauge="100"></Transformation>
   <Roles>
     <Role RoleKey="Cowboy" RoleXML="ActorXML\\RoleXML\\OrdinaryFlint"></Role>
