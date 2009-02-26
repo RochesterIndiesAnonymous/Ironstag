@@ -174,6 +174,7 @@ namespace WesternSpace.Screens
                     // we have reached our last story board, transition to the next screen
                     ScreenTransition sts = new ScreenTransition(this.Name, this.nextScreen, 0.01f, 0.01f, false, true);
                     ScreenManager.Instance.Transition(sts);
+                    characterTimer.RemoveTimer();
                 }
             }
         }
