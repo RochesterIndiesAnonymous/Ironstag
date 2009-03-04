@@ -19,7 +19,7 @@ namespace WesternSpace.DrawableComponents.Misc
     /// </summary>
     class Fragment : WorldObject, ITileCollidable, ISpriteCollideable, IPhysical
     {
-        public static readonly int LIFETIME = 3000;
+        public static readonly int LIFETIME = 800;
 
         private int timeToLive = LIFETIME;
 
@@ -49,7 +49,7 @@ namespace WesternSpace.DrawableComponents.Misc
             this.texture = texture;
 
             // Mass is proportional to the percentage of the texture in area.
-            this.mass = (subRectangle.Width * subRectangle.Height) / (texture.Rectangle.Width * texture.Rectangle.Height);
+            this.mass = ((subRectangle.Width * subRectangle.Height) / (texture.Rectangle.Width * texture.Rectangle.Height)) * 0.025f;
             this.subRectangle = new Rectangle(texture.Rectangle.X + rectangle.X, texture.Rectangle.Y + rectangle.Y,
                                               rectangle.Width, rectangle.Height);
 
@@ -60,10 +60,37 @@ namespace WesternSpace.DrawableComponents.Misc
             hotspots.Add(new CollisionHotspot(this, new Vector2(subRectangle.Width / 2, subRectangle.Height), HOTSPOT_TYPE.bottom));
         }
 
+        private float rotation = 0.0f;
+
         public override void Draw(GameTime gameTime)
         {
-            Color col = new Color(255.0f, 255.0f, 255.0f, ((float)timeToLive / (float)LIFETIME));
+            Color col = new Color(255.0f, 255.0f, 255.0f, (float)Math.Pow((double)timeToLive/(double)LIFETIME, 0.5));
+            rotation += Velocity.X/10.0f;
             SpriteBatch.Draw(texture.Texture, Position, SubRectangle, col);
+            SpriteBatch.Draw(texture.Texture,
+
+                //this is the destination point we want to render at
+                Position,
+
+                //this is the texture surface area we want to use when rendering
+                SubRectangle,
+
+                //By using White we are basically saying just use the texture color
+                col,
+
+                //Here is the rotation in radians
+                rotation,
+
+                //This is the center point of the rotation
+                new Vector2(SubRectangle.Width / 2, SubRectangle.Height / 2),
+
+                //This is the scaling of the sprite. I want it a bit larger so you dont
+                //see the edges as it spins around
+                1.5f,
+
+                //We are not doing any fancy effects
+                SpriteEffects.None, 0);
+
             base.Draw(gameTime);
         }
 
@@ -211,6 +238,8 @@ namespace WesternSpace.DrawableComponents.Misc
         public void OnSpriteCollision(ISpriteCollideable characterCollidedWith)
         {
             // Do nothing :)
+            if(characterCollidedWith is Explosion)
+                this.removeFromCollisionRegistration = true;
         }
 
         #endregion

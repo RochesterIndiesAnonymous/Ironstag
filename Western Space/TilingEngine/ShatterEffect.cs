@@ -11,32 +11,35 @@ namespace WesternSpace.TilingEngine
     // TODO:
     class ShatterEffect : IDestructionEffect
     {
+        static Random rand;
         #region IDestructionEffect Members
 
         public void OnDestruct(DestructableTile destructable)
         {
+            if (rand == null)
+                rand = new Random();
             SubTexture texture = destructable.Textures[destructable.Map.LayerCount-1,destructable.Map.SubLayerCount-1];
             if (texture != null)
             {
                 int xslice, yslice, xinc, yinc;
                 xslice = yslice = 0;
-                Random rand = new Random();
 
                 List<Fragment> fragments = new List<Fragment>();
 
                 while (xslice < destructable.Map.TileWidth) 
                 {
                     yslice = 0;
-                    xinc = rand.Next(2, 5);
+                    xinc = Math.Min(rand.Next(4, 8), destructable.Map.TileWidth - xslice);
                     while (yslice < destructable.Map.TileHeight)
                     {
-                        yinc = rand.Next(2, 5);
+                        yinc = Math.Min(rand.Next(4, 8), destructable.Map.TileHeight - yslice);
                         Vector2 pos = new Vector2(destructable.X * destructable.Map.TileWidth + xslice, destructable.Y * destructable.Map.TileHeight + yslice);
-                        Rectangle rect = new Rectangle(xslice, yslice, destructable.Map.TileWidth / 2, destructable.Map.TileHeight / 2);
+                        Rectangle rect = new Rectangle(xslice, yslice, xinc, yinc);
+                        destructable.World.AddWorldObject(new Fragment(destructable.World, destructable.World.SpriteBatch, pos, texture, rect));
+                        yslice += yinc;
                     }
-                    
+                    xslice += xinc;
                 }
-
                 //destructable.World.AddWorldObject(f1);
             }
 
