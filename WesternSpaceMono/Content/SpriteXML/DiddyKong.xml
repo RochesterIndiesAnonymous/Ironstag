@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Sequences SpriteSheet="Textures\\DiddyKongWalk" FrameWidth="44" FrameHeight="50">
+  <Sequence AnimationKey="Walk">
+    <Frame DisplayTime="100" SheetIndex="0" />
+    <Frame DisplayTime="100" SheetIndex="1" />
+    <Frame DisplayTime="100" SheetIndex="2" />
+    <Frame DisplayTime="100" SheetIndex="3" />
+    <Frame DisplayTime="100" SheetIndex="4" />
+    <Frame DisplayTime="100" SheetIndex="5" />
+    <Frame DisplayTime="100" SheetIndex="6" />
+    <Frame DisplayTime="100" SheetIndex="7" />
+    <Frame DisplayTime="100" SheetIndex="8" />
+    <Frame DisplayTime="100" SheetIndex="9" />
+  </Sequence>
+</Sequences>

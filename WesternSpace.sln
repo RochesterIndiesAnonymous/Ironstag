@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternSpace", "Western Space\WesternSpace.csproj", "{CCFD85DF-E138-4AE5-B44E-BF13AE4F09C0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XnaXmlContentPipeline", "XnaXmlContentPipeline\XnaXmlContentPipeline.csproj", "{73FD57B1-BEED-4B82-803C-7D16DB4EBF6A}"
@@ -11,11 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XnaXmlContentReader", "XnaX
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XnaXmlContentReaderXBox", "XnaXmlContentReaderXBox\XnaXmlContentReaderXBox.csproj", "{8A911801-A7E5-4586-B4BD-D379A3F1AFE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternSpaceMono", "WesternSpaceMono\WesternSpaceMono.csproj", "{BD2F8CB9-684B-4209-A007-7126E5E67669}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGameContentPipeline", "MonoGameContentPipeline\MonoGameContentPipeline.csproj", "{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}"
+EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -111,18 +113,55 @@ Global
 		{8A911801-A7E5-4586-B4BD-D379A3F1AFE4}.Release|Xbox 360.Build.0 = Release|Xbox 360
 		{8A911801-A7E5-4586-B4BD-D379A3F1AFE4}.Release|Zune.ActiveCfg = Release|Zune
 		{8A911801-A7E5-4586-B4BD-D379A3F1AFE4}.Release|Zune.Build.0 = Release|Zune
-		{8FF2AD5E-E0B9-4F61-A2A8-DD282461EE82}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{8FF2AD5E-E0B9-4F61-A2A8-DD282461EE82}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{8FF2AD5E-E0B9-4F61-A2A8-DD282461EE82}.Debug|x86.ActiveCfg = Debug|x86
-		{8FF2AD5E-E0B9-4F61-A2A8-DD282461EE82}.Debug|Xbox 360.ActiveCfg = Debug|x86
-		{8FF2AD5E-E0B9-4F61-A2A8-DD282461EE82}.Debug|Zune.ActiveCfg = Debug|x86
-		{8FF2AD5E-E0B9-4F61-A2A8-DD282461EE82}.Release|Any CPU.ActiveCfg = Release|x86
-		{8FF2AD5E-E0B9-4F61-A2A8-DD282461EE82}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{8FF2AD5E-E0B9-4F61-A2A8-DD282461EE82}.Release|x86.ActiveCfg = Release|x86
-		{8FF2AD5E-E0B9-4F61-A2A8-DD282461EE82}.Release|Xbox 360.ActiveCfg = Release|x86
-		{8FF2AD5E-E0B9-4F61-A2A8-DD282461EE82}.Release|Zune.ActiveCfg = Release|x86
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Debug|x86.Build.0 = Debug|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Debug|Xbox 360.ActiveCfg = Debug|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Debug|Xbox 360.Build.0 = Debug|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Debug|Zune.ActiveCfg = Debug|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Debug|Zune.Build.0 = Debug|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Release|x86.ActiveCfg = Release|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Release|x86.Build.0 = Release|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Release|Xbox 360.ActiveCfg = Release|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Release|Xbox 360.Build.0 = Release|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Release|Zune.ActiveCfg = Release|Any CPU
+		{BD2F8CB9-684B-4209-A007-7126E5E67669}.Release|Zune.Build.0 = Release|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Debug|x86.Build.0 = Debug|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Debug|Xbox 360.ActiveCfg = Debug|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Debug|Xbox 360.Build.0 = Debug|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Debug|Zune.ActiveCfg = Debug|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Debug|Zune.Build.0 = Debug|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Release|x86.ActiveCfg = Release|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Release|x86.Build.0 = Release|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Release|Xbox 360.ActiveCfg = Release|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Release|Xbox 360.Build.0 = Release|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Release|Zune.ActiveCfg = Release|Any CPU
+		{7B8F4EB7-C110-424B-A3F0-F5CDAF1FD9B4}.Release|Zune.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5C4CEA98-337F-436A-8262-ECEDE9EE4C67}
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal

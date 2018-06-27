@@ -1,0 +1,425 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BD2F8CB9-684B-4209-A007-7126E5E67669}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WesternSpaceMono</RootNamespace>
+    <AssemblyName>WesternSpaceMono</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MonoGamePlatform>DesktopGL</MonoGamePlatform>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE;LINUX</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AnimationFramework\Animation.cs" />
+    <Compile Include="AnimationFramework\AnimationPlayer.cs" />
+    <Compile Include="AnimationFramework\Frame.cs" />
+    <Compile Include="Collision\CollisionHotspot.cs" />
+    <Compile Include="Collision\CollisionObjectBin.cs" />
+    <Compile Include="Collision\ISpriteCollideable.cs" />
+    <Compile Include="Collision\ITileCollidable.cs" />
+    <Compile Include="Collision\SpriteSpriteCollisionManager.cs" />
+    <Compile Include="DrawableComponents\Actors\Character.cs" />
+    <Compile Include="DrawableComponents\Actors\EBandit.cs" />
+    <Compile Include="DrawableComponents\Actors\EBoss.cs" />
+    <Compile Include="DrawableComponents\Actors\EBossStates\EBossHitState.cs" />
+    <Compile Include="DrawableComponents\Actors\EBossStates\EBossJumpState.cs" />
+    <Compile Include="DrawableComponents\Actors\EBossStates\EBossLaughingState.cs" />
+    <Compile Include="DrawableComponents\Actors\EBossStates\EbossMoveState.cs" />
+    <Compile Include="DrawableComponents\Actors\EBossStates\EBossShootState.cs" />
+    <Compile Include="DrawableComponents\Actors\EBossStates\EBossState.cs" />
+    <Compile Include="DrawableComponents\Actors\EVulture.cs" />
+    <Compile Include="DrawableComponents\Actors\Player.cs" />
+    <Compile Include="DrawableComponents\Actors\ToadMan.cs" />
+    <Compile Include="DrawableComponents\EditorUI\DestructableToggler.cs" />
+    <Compile Include="DrawableComponents\EditorUI\EdgeToggler.cs" />
+    <Compile Include="DrawableComponents\EditorUI\EditorUIComponent.cs" />
+    <Compile Include="DrawableComponents\EditorUI\ITilePropertyComponent.cs" />
+    <Compile Include="DrawableComponents\EditorUI\SaveButton.cs" />
+    <Compile Include="DrawableComponents\EditorUI\SubTextureSelector.cs" />
+    <Compile Include="DrawableComponents\EditorUI\TileSelector.cs" />
+    <Compile Include="DrawableComponents\EditorUI\WorldObjectMover.cs" />
+    <Compile Include="DrawableComponents\EditorUI\WorldObjectPlacer.cs" />
+    <Compile Include="DrawableComponents\GameUI\GameUI.cs" />
+    <Compile Include="DrawableComponents\Misc\DebuggingOutputComponent.cs" />
+    <Compile Include="DrawableComponents\Misc\Explosion.cs" />
+    <Compile Include="DrawableComponents\Misc\FPSComponent.cs" />
+    <Compile Include="DrawableComponents\Misc\Fragment.cs" />
+    <Compile Include="DrawableComponents\Misc\GameOverContents.cs" />
+    <Compile Include="DrawableComponents\Misc\LargeCactus1.cs" />
+    <Compile Include="DrawableComponents\Misc\MapCoordinateComponent.cs" />
+    <Compile Include="DrawableComponents\Misc\MouseScreenCoordinatesComponent.cs" />
+    <Compile Include="DrawableComponents\Misc\MouseWorldCoordinatesComponent.cs" />
+    <Compile Include="DrawableComponents\Misc\SmallCactus.cs" />
+    <Compile Include="DrawableComponents\Projectiles\BanditNormalProjectile.cs" />
+    <Compile Include="DrawableComponents\Projectiles\BossProjectile.cs" />
+    <Compile Include="DrawableComponents\Projectiles\FlintNormalProjectile.cs" />
+    <Compile Include="DrawableComponents\Projectiles\Projectile.cs" />
+    <Compile Include="DrawableComponents\WorldObjects\BarrelSpawner.cs" />
+    <Compile Include="DrawableComponents\WorldObjects\EndingTrigger.cs" />
+    <Compile Include="DrawableComponents\WorldObjects\ExplosiveBarrel.cs" />
+    <Compile Include="DrawableComponents\WorldObjects\FlintHat.cs" />
+    <Compile Include="DrawableComponents\WorldObjects\MidpointTrigger.cs" />
+    <Compile Include="DrawableComponents\WorldObjects\SpaceBoss.cs" />
+    <Compile Include="DrawableComponents\WorldObjects\StoryboardTrigger.cs" />
+    <Compile Include="DrawableGameObject.cs" />
+    <Compile Include="EventSystem\Event.cs" />
+    <Compile Include="EventSystem\Trigger.cs" />
+    <Compile Include="EventSystem\Triggerable.cs" />
+    <Compile Include="GameObject.cs" />
+    <Compile Include="Input\BetterMouse.cs" />
+    <Compile Include="Input\InputMonitor.cs" />
+    <Compile Include="Input\IPressable.cs" />
+    <Compile Include="Input\PressableButton.cs" />
+    <Compile Include="Input\PressableKey.cs" />
+    <Compile Include="Interfaces\IDamageable.cs" />
+    <Compile Include="Interfaces\IDamaging.cs" />
+    <Compile Include="Interfaces\IDebugOutput.cs" />
+    <Compile Include="Interfaces\IMapCoordinates.cs" />
+    <Compile Include="Interfaces\IScreenComponent.cs" />
+    <Compile Include="Interfaces\IXElementOutput.cs" />
+    <Compile Include="LegacyCode\Cursor.cs" />
+    <Compile Include="LegacyCode\FlyingObject.cs" />
+    <Compile Include="LegacyCode\Game1.cs" />
+    <Compile Include="LegacyCode\Layer.cs" />
+    <Compile Include="LegacyCode\PlayerObject.cs" />
+    <Compile Include="LegacyCode\TilingEngineTest.cs" />
+    <Compile Include="Physics\IPhysical.cs" />
+    <Compile Include="Physics\PhysicsHandler.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScreenManager.cs" />
+    <Compile Include="Screens\EditorScreen.cs" />
+    <Compile Include="Screens\Framework\Screen.cs" />
+    <Compile Include="Screens\Framework\ScreenTransition.cs" />
+    <Compile Include="Screens\Framework\ScreenTransitionProgess.cs" />
+    <Compile Include="Screens\Framework\StoryboardInformation.cs" />
+    <Compile Include="Screens\Framework\StoryboardTransition.cs" />
+    <Compile Include="Screens\GameScreen.cs" />
+    <Compile Include="Screens\StoryboardScreen.cs" />
+    <Compile Include="ServiceInterfaces\ICameraService.cs" />
+    <Compile Include="ServiceInterfaces\IGraphicsDeviceManagerService.cs" />
+    <Compile Include="ServiceInterfaces\IInputManagerService.cs" />
+    <Compile Include="ServiceInterfaces\ILayerService.cs" />
+    <Compile Include="ServiceInterfaces\IScreenResolutionService.cs" />
+    <Compile Include="ServiceInterfaces\ISpriteBatchService.cs" />
+    <Compile Include="ServiceInterfaces\ITextureService.cs" />
+    <Compile Include="Services\CameraService.cs" />
+    <Compile Include="Services\GraphicsDeviceMangerService.cs" />
+    <Compile Include="Services\InputManagerService.cs" />
+    <Compile Include="Services\LayerService.cs" />
+    <Compile Include="Services\ScreenResolutionService.cs" />
+    <Compile Include="Services\SpriteBatchService.cs" />
+    <Compile Include="Services\TextureService.cs" />
+    <Compile Include="SubTexture.cs" />
+    <Compile Include="SubTextureSheet.cs" />
+    <Compile Include="TilingEngine\DestructableTile.cs" />
+    <Compile Include="TilingEngine\ExplosionEffect.cs" />
+    <Compile Include="TilingEngine\IDestructionEffect.cs" />
+    <Compile Include="TilingEngine\LayerInformation.cs" />
+    <Compile Include="TilingEngine\ShatterEffect.cs" />
+    <Compile Include="TilingEngine\Tile.cs" />
+    <Compile Include="TilingEngine\TileEngine.cs" />
+    <Compile Include="TilingEngine\TileMap.cs" />
+    <Compile Include="TilingEngine\TileMapLayer.cs" />
+    <Compile Include="Utility\Bandit.cs" />
+    <Compile Include="Utility\Bird.cs" />
+    <Compile Include="Utility\Boss.cs" />
+    <Compile Include="Utility\Cowboy.cs" />
+    <Compile Include="Utility\DamageCategory.cs" />
+    <Compile Include="Utility\DrawOrderComparer.cs" />
+    <Compile Include="Utility\PrimitiveDrawer.cs" />
+    <Compile Include="Utility\RectangleF2.cs" />
+    <Compile Include="Utility\ResolutionSettings.cs" />
+    <Compile Include="Utility\Role.cs" />
+    <Compile Include="Utility\SpriteBatchDescription.cs" />
+    <Compile Include="Utility\Timer.cs" />
+    <Compile Include="Utility\UpdateOrderComparer.cs" />
+    <Compile Include="World.cs" />
+    <Compile Include="WorldObject.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\MSBuild\MonoGame\v3.0\Tools\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework.Net, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XnaXmlContentPipeline\bin\Debug\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.D3DCompiler, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XnaXmlContentPipeline\bin\Debug\SharpDX.D3DCompiler.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.MediaFoundation, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XnaXmlContentReader\bin\x86\Debug\SharpDX.MediaFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpFont, Version=2.5.3.0, Culture=neutral, PublicKeyToken=48add4c483071cdf, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XnaXmlContentPipeline\bin\Debug\SharpFont.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="XnaXmlContentPipeline">
+      <HintPath>..\XnaXmlContentPipeline\bin\Debug\XnaXmlContentPipeline.dll</HintPath>
+    </Reference>
+    <Reference Include="XnaXmlContentReader">
+      <HintPath>..\XnaXmlContentPipeline\bin\Debug\XnaXmlContentReader.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icon.ico" />
+    <EmbeddedResource Include="Icon.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="Content\Content.mgcb" />
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\SDL2.dll">
+      <Link>x86\SDL2.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\SDL2.dll">
+      <Link>x64\SDL2.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\soft_oal.dll">
+      <Link>x86\soft_oal.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\soft_oal.dll">
+      <Link>x64\soft_oal.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\libSDL2-2.0.so.0">
+      <Link>x86\libSDL2-2.0.so.0</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\libSDL2-2.0.so.0">
+      <Link>x64\libSDL2-2.0.so.0</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\libopenal.so.1">
+      <Link>x86\libopenal.so.1</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\libopenal.so.1">
+      <Link>x64\libopenal.so.1</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\libSDL2-2.0.0.dylib">
+      <Link>libSDL2-2.0.0.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\libopenal.1.dylib">
+      <Link>libopenal.1.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll.config">
+      <Link>MonoGame.Framework.dll.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Content\Content.contentproj" />
+    <None Include="Content\Fonts\Pala.spritefont" />
+    <None Include="Content\Sprites\Thumbs.db" />
+    <None Include="Content\System\Fonts\Pala.spritefont" />
+    <None Include="Content\System\Fonts\WesternSpaceFont.spritefont" />
+    <None Include="Content\System\Sounds\SoundFX.xap" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\ActorXML\EBandit.xml" />
+    <Content Include="Content\ActorXML\EBoss.xml" />
+    <Content Include="Content\ActorXML\EVulture.xml" />
+    <Content Include="Content\ActorXML\MiscXML\Explosion.xml" />
+    <Content Include="Content\ActorXML\MiscXML\FlintHat.xml" />
+    <Content Include="Content\ActorXML\MiscXML\SpaceBoss.xml" />
+    <Content Include="Content\ActorXML\Player.xml" />
+    <Content Include="Content\ActorXML\RoleXML\BanditEnemy.xml" />
+    <Content Include="Content\ActorXML\RoleXML\BossEnemy.xml" />
+    <Content Include="Content\ActorXML\RoleXML\OrdinaryFlint.xml" />
+    <Content Include="Content\ActorXML\RoleXML\SpaceFlint.xml" />
+    <Content Include="Content\ActorXML\RoleXML\VultureEnemy.xml" />
+    <Content Include="Content\ActorXML\SmallCactus.xml" />
+    <Content Include="Content\ActorXML\ToadMan.xml" />
+    <Content Include="Content\ActorXML\Vulture.xml" />
+    <Content Include="Content\Layers\BigTestLayer.png" />
+    <Content Include="Content\Layers\TestLayer.png" />
+    <Content Include="Content\LayerXML\TestLayer.xml" />
+    <Content Include="Content\Sounds\flintShot.wav" />
+    <Content Include="Content\Sounds\hBump.wav" />
+    <Content Include="Content\Sounds\wBump.wav" />
+    <Content Include="Content\Sprites\1down.png" />
+    <Content Include="Content\Sprites\1up.png" />
+    <Content Include="Content\Sprites\CopterJoe.png" />
+    <Content Include="Content\Sprites\flyingMeta.png" />
+    <Content Include="Content\Sprites\flyingMeta2.png" />
+    <Content Include="Content\Sprites\rushFrown.png" />
+    <Content Include="Content\Sprites\rushSmile.png" />
+    <Content Include="Content\SpriteXML\AnimationXML\OrdinaryFlint.xml" />
+    <Content Include="Content\SpriteXML\AnimationXML\SpaceFlint.xml" />
+    <Content Include="Content\SpriteXML\DiddyKong.xml" />
+    <Content Include="Content\SpriteXML\FlintIronstag.xml" />
+    <Content Include="Content\SpriteXML\Ghast.xml" />
+    <Content Include="Content\SpriteXML\SunSet.xml" />
+    <Content Include="Content\SpriteXML\ToadMan.xml" />
+    <Content Include="Content\StoryboardXML\EndingStoryboard.xml" />
+    <Content Include="Content\StoryboardXML\IntroductionStoryboard.xml" />
+    <Content Include="Content\StoryboardXML\MidPointStoryboard.xml" />
+    <Content Include="Content\StoryboardXML\TitleScreenStoryboard.xml" />
+    <Content Include="Content\System\Effects\SetAlphaValue.fx" />
+    <Content Include="Content\System\Music\DesertBGM.mp3" />
+    <Content Include="Content\System\Music\EndingBGM.mp3" />
+    <Content Include="Content\System\Music\IntroductionBGM.MP3" />
+    <Content Include="Content\System\Music\MidBGM.mp3" />
+    <Content Include="Content\System\Music\TitleScreenBGM.mp3" />
+    <Content Include="Content\System\Sounds\banditDeath.wav" />
+    <Content Include="Content\System\Sounds\banditShot.wav" />
+    <Content Include="Content\System\Sounds\bird.wav" />
+    <Content Include="Content\System\Sounds\explosion.wav" />
+    <Content Include="Content\System\Sounds\flintShot.wav" />
+    <Content Include="Content\System\Sounds\hBump.wav" />
+    <Content Include="Content\System\Sounds\hitTemp.wav" />
+    <Content Include="Content\System\Sounds\mgkidLaugh1.wav" />
+    <Content Include="Content\System\Sounds\mgkidLaugh2.wav" />
+    <Content Include="Content\System\Sounds\mgkidShot.wav" />
+    <Content Include="Content\System\Sounds\nogoodHit.wav" />
+    <Content Include="Content\System\Sounds\takeOff.wav" />
+    <Content Include="Content\System\Sounds\transform.wav" />
+    <Content Include="Content\System\Sounds\wBump.wav" />
+    <Content Include="Content\System\Window Skin\GameOverImage.png" />
+    <Content Include="Content\System\Window Skin\TitleImage.png" />
+    <Content Include="Content\System\Window Skin\windowSkin.png" />
+    <Content Include="Content\Textures\cavesheet.png" />
+    <Content Include="Content\Textures\Cutscenes\BlankStoryboard.png" />
+    <Content Include="Content\Textures\Cutscenes\End01.png" />
+    <Content Include="Content\Textures\Cutscenes\End02.png" />
+    <Content Include="Content\Textures\Cutscenes\End03.png" />
+    <Content Include="Content\Textures\Cutscenes\Intro1.png" />
+    <Content Include="Content\Textures\Cutscenes\Intro2.png" />
+    <Content Include="Content\Textures\Cutscenes\Intro3.png" />
+    <Content Include="Content\Textures\Cutscenes\Intro4.png" />
+    <Content Include="Content\Textures\Cutscenes\Intro5.png" />
+    <Content Include="Content\Textures\Cutscenes\Intro6.png" />
+    <Content Include="Content\Textures\Cutscenes\Intro7.png" />
+    <Content Include="Content\Textures\Cutscenes\IntroTest.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid01.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid02.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid03.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid04.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid05.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid06.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid07.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid08.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid09.png" />
+    <Content Include="Content\Textures\Cutscenes\RockSteelLogo.png" />
+    <Content Include="Content\Textures\desertSpriteSheet.png" />
+    <Content Include="Content\Textures\Enemies\BanditBullet.png" />
+    <Content Include="Content\Textures\Enemies\BanditDead.png" />
+    <Content Include="Content\Textures\Enemies\BanditIdle.png" />
+    <Content Include="Content\Textures\Enemies\BanditShoot.png" />
+    <Content Include="Content\Textures\Enemies\LargeCactus1.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunDead.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunHit.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunIdle.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunJumpAscent.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunJumpDescent.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunJumpLand.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunLaugh.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunRun.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunRunShoot.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunShoot.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunShootDown.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunShootUp.png" />
+    <Content Include="Content\Textures\Enemies\SmallCactus.png" />
+    <Content Include="Content\Textures\Enemies\SpaceBossEnter.png" />
+    <Content Include="Content\Textures\Enemies\SpaceBossExtend.png" />
+    <Content Include="Content\Textures\Enemies\SpaceBossTakeOff.png" />
+    <Content Include="Content\Textures\Enemies\TopHatFall.png" />
+    <Content Include="Content\Textures\Enemies\VultureDead.png" />
+    <Content Include="Content\Textures\Enemies\VultureFlying.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintBullet.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintDead.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintDeadAir.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintDeadAirGround.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintFall.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintFallShoot.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintHit.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintIdle.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintJump1.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintJump2.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintJumpShoot1.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintJumpShoot2.png" />
+    <Content Include="Content\Textures\FlintIronstag\flintRun.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintRunShoot.png" />
+    <Content Include="Content\Textures\FlintIronstag\flintShoot.png" />
+    <Content Include="Content\Textures\FlintIronstag\HatFall.png" />
+    <Content Include="Content\Textures\floppy.png" />
+    <Content Include="Content\Textures\RocksteelLogo.png" />
+    <Content Include="Content\Textures\sandzonesheet.png" />
+    <Content Include="Content\Textures\Sheets.xml" />
+    <Content Include="Content\Textures\stolenExplosion.png" />
+    <Content Include="Content\Textures\TestSheet.png" />
+    <Content Include="Content\Textures\TNTBarrel.png" />
+    <Content Include="Content\Textures\VultureFlying.png" />
+    <Content Include="Content\Textures\wallspikeleft.png" />
+    <Content Include="Content\Textures\wallspikeright.png" />
+    <Content Include="Content\TileMapXML\back_parallaxlayer.xml" />
+    <Content Include="Content\TileMapXML\BigTileMap.xml" />
+    <Content Include="Content\TileMapXML\parallaxlayer.xml" />
+    <Content Include="Content\TileMapXML\TestTileMap.xml" />
+    <Content Include="Content\UIGraphics\HealthBar.png" />
+    <Content Include="Content\UIGraphics\LifeStrip.png" />
+    <Content Include="Content\WorldXML\TestWorld.xml" />
+    <Content Include="Game.ico" />
+    <Content Include="GameThumbnail.png" />
+    <Content Include="WesternSpace.csproj" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

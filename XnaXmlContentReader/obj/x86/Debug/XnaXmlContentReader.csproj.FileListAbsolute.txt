@@ -1,0 +1,15 @@
+C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\bin\x86\Debug\XnaXmlContentReader.dll
+C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\bin\x86\Debug\XnaXmlContentReader.pdb
+C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\bin\x86\Debug\MonoGame.Framework.dll
+C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\bin\x86\Debug\SharpDX.MediaFoundation.dll
+C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\bin\x86\Debug\SharpDX.dll
+C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\bin\x86\Debug\SharpDX.XAudio2.dll
+C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\bin\x86\Debug\SharpDX.DXGI.dll
+C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\bin\x86\Debug\SharpDX.Direct3D11.dll
+C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\bin\x86\Debug\SharpDX.Direct2D1.dll
+C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\bin\x86\Debug\SharpDX.XInput.dll
+C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\bin\x86\Debug\SharpDX.Direct3D9.dll
+C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\obj\x86\Debug\XnaXmlContentReader.csproj.CoreCompileInputs.cache
+C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\obj\x86\Debug\XnaXmlContentReader.csproj.CopyComplete
+C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\obj\x86\Debug\XnaXmlContentReader.dll
+C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\obj\x86\Debug\XnaXmlContentReader.pdb

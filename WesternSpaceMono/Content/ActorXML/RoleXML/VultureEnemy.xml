@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Vulture>
+  <Attributes></Attributes>
+  <Animations>
+    <Animation AnimationKey="Flying" IsLoop="1" SpriteSheet="Textures\\Enemies\\VultureFlying" FrameWidth="35" FrameHeight="42" CenterOffsetX="18" CenterOffsetY="24" Parent="None">
+      <Frame DisplayTime="150" SheetIndex="0" />
+      <Frame DisplayTime="150" SheetIndex="1" />
+    </Animation>
+    <Animation AnimationKey="Dead" IsLoop="0" SpriteSheet="Textures\\Enemies\\VultureDead" FrameWidth="35" FrameHeight="42" CenterOffsetX="18" CenterOffsetY="24" Parent="None">
+      <Frame DisplayTime="50" SheetIndex="0" />
+      <Frame DisplayTime="50" SheetIndex="1" />
+      <Frame DisplayTime="45" SheetIndex="2" />
+      <Frame DisplayTime="40" SheetIndex="3" />
+      <Frame DisplayTime="35" SheetIndex="4" />
+      <Frame DisplayTime="30" SheetIndex="5" />
+    </Animation>
+  </Animations>
+</Vulture>

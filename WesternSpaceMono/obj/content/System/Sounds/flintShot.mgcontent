@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/System/Sounds/flintShot.wav</SourceFile>
+  <SourceTime>2018-06-23T20:30:40.6203777-05:00</SourceTime>
+  <DestFile>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/bin/DesktopGL/AnyCPU/Debug/content/System/Sounds/flintShot.xnb</DestFile>
+  <DestTime>2018-06-26T22:11:47.3024924-05:00</DestTime>
+  <Importer>WavImporter</Importer>
+  <ImporterTime>2017-03-01T09:05:36-06:00</ImporterTime>
+  <Processor>SoundEffectProcessor</Processor>
+  <ProcessorTime>2017-03-01T09:05:36-06:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>
