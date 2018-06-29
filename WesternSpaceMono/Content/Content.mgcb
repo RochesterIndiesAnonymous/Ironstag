@@ -5,7 +5,7 @@
 /intermediateDir:../obj/content
 /platform:DesktopGL
 /config:
-/profile:Reach
+/profile:HiDef
 /compress:False
 
 #-------------------------------- References --------------------------------#
@@ -13,6 +13,7 @@
 /reference:..\..\XnaXmlContentPipeline\bin\Debug\SharpFont.dll
 /reference:..\..\XnaXmlContentPipeline\bin\Debug\XnaXmlContentPipeline.dll
 /reference:..\..\XnaXmlContentPipeline\bin\Debug\XnaXmlContentReader.dll
+/reference:..\..\packages\MonoGame.Extended.1.1.0\lib\portable-net45+win8+wpa81\MonoGame.Extended.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -269,6 +270,7 @@
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
+/processorParam:Defines=
 /build:System/Effects/SetAlphaValue.fx
 
 #begin System/Music/DesertBGM.mp3
@@ -1338,4 +1340,39 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/sandzonesheet.png
+
+#begin Textures/RocksteelLogo.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/RocksteelLogo.png
+
+#begin System/Sounds/SoundFX.xap
+/copy:System/Sounds/SoundFX.xap
+
+#begin System/Fonts/Pala.bmp
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:System/Fonts/Pala.bmp
+
+#begin System/Fonts/WesternSpaceFont.bmp
+/importer:TextureImporter
+/processor:FontTextureProcessor
+/processorParam:FirstCharacter= 
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Color
+/build:System/Fonts/WesternSpaceFont.bmp
 

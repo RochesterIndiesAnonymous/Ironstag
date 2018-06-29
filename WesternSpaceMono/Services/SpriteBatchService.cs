@@ -109,7 +109,8 @@ namespace WesternSpace.Services
             {
                 SpriteBatchDescription desc = batches[batch];
                 //batch.Begin(desc.DesiredBlendMode, desc.DesiredSortMode, desc.DesiredStateMode, desc.CurrentMatrix);
-                //batch.Begin(desc.DesiredBlendMode, desc.DesiredSortMode);
+                batch.Begin( desc.DesiredSortMode, desc.DesiredBlendMode);
+
             }
         }
 

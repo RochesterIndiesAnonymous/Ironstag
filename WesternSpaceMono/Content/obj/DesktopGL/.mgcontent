@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SourceFileCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Profile>Reach</Profile>
+  <Profile>HiDef</Profile>
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
@@ -145,5 +145,8 @@
     <File>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/UIGraphics/LifeStrip.png</File>
     <File>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/WorldXML/TestWorld.xml</File>
     <File>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/Textures/sandzonesheet.png</File>
+    <File>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/Textures/RocksteelLogo.png</File>
+    <File>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/System/Fonts/Pala.bmp</File>
+    <File>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/System/Fonts/WesternSpaceFont.bmp</File>
   </SourceFiles>
 </SourceFileCollection>

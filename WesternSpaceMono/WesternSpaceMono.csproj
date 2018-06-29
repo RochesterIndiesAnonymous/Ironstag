@@ -261,8 +261,6 @@
     <None Include="Content\Content.contentproj" />
     <None Include="Content\Fonts\Pala.spritefont" />
     <None Include="Content\Sprites\Thumbs.db" />
-    <None Include="Content\System\Fonts\Pala.spritefont" />
-    <None Include="Content\System\Fonts\WesternSpaceFont.spritefont" />
     <None Include="Content\System\Sounds\SoundFX.xap" />
   </ItemGroup>
   <ItemGroup>
@@ -304,8 +302,12 @@
     <Content Include="Content\StoryboardXML\EndingStoryboard.xml" />
     <Content Include="Content\StoryboardXML\IntroductionStoryboard.xml" />
     <Content Include="Content\StoryboardXML\MidPointStoryboard.xml" />
-    <Content Include="Content\StoryboardXML\TitleScreenStoryboard.xml" />
+    <Content Include="Content\StoryboardXML\TitleScreenStoryboard.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\System\Effects\SetAlphaValue.fx" />
+    <Content Include="Content\System\Fonts\Pala.bmp" />
+    <Content Include="Content\System\Fonts\WesternSpaceFont.bmp" />
     <Content Include="Content\System\Music\DesertBGM.mp3" />
     <Content Include="Content\System\Music\EndingBGM.mp3" />
     <Content Include="Content\System\Music\IntroductionBGM.MP3" />
@@ -409,6 +411,7 @@
     <Content Include="Content\UIGraphics\HealthBar.png" />
     <Content Include="Content\UIGraphics\LifeStrip.png" />
     <Content Include="Content\WorldXML\TestWorld.xml" />
+    <Content Include="freetype6.dll" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
     <Content Include="WesternSpace.csproj" />

@@ -3,7 +3,7 @@
   <SourceFile>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/System/Sounds/wBump.wav</SourceFile>
   <SourceTime>2018-06-23T20:30:40.6752141-05:00</SourceTime>
   <DestFile>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/bin/DesktopGL/AnyCPU/Debug/content/System/Sounds/wBump.xnb</DestFile>
-  <DestTime>2018-06-26T22:11:48.735435-05:00</DestTime>
+  <DestTime>2018-06-29T00:12:22.0584687-05:00</DestTime>
   <Importer>WavImporter</Importer>
   <ImporterTime>2017-03-01T09:05:36-06:00</ImporterTime>
   <Processor>SoundEffectProcessor</Processor>

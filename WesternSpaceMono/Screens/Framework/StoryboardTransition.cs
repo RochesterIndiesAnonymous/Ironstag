@@ -47,7 +47,7 @@ namespace WesternSpace.Screens
             this.currentProgress = ScreenTransitionProgess.Fading;
             this.screen = screen;
 
-            alphaEffect = ScreenManager.Instance.Content.Load<Effect>("System\\Effects\\SetAlphaValue");
+           // alphaEffect = ScreenManager.Instance.Content.Load<Effect>("System\\Effects\\SetAlphaValue");
         }
 
         public void Update()
@@ -63,7 +63,7 @@ namespace WesternSpace.Screens
 
         public void BeginTransition()
         {
-            alphaEffect.Parameters["AlphaValue"].SetValue(this.currentAlphaValue);
+           // alphaEffect.Parameters["AlphaValue"].SetValue(this.currentAlphaValue);
 
           //  alphaEffect.Begin();
            // alphaEffect.CurrentTechnique.Passes[0].Begin();

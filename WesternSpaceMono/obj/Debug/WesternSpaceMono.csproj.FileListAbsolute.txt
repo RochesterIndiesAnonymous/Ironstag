@@ -189,3 +189,7 @@ C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\obj\Debug\WesternSpaceMono
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\obj\Debug\WesternSpaceMono.csprojAssemblyReference.cache
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\TitleScreenBGM.mp3
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\TitleScreenBGM.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\RocksteelLogo.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\SoundFX.xap
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Fonts\Pala.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Fonts\WesternSpaceFont.xnb
