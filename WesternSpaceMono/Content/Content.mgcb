@@ -273,36 +273,6 @@
 /processorParam:Defines=
 /build:System/Effects/SetAlphaValue.fx
 
-#begin System/Music/DesertBGM.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:System/Music/DesertBGM.mp3
-
-#begin System/Music/EndingBGM.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:System/Music/EndingBGM.mp3
-
-#begin System/Music/IntroductionBGM.MP3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:System/Music/IntroductionBGM.MP3
-
-#begin System/Music/MidBGM.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:System/Music/MidBGM.mp3
-
-#begin System/Music/TitleScreenBGM.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:System/Music/TitleScreenBGM.mp3
-
 #begin System/Sounds/banditDeath.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -1375,4 +1345,19 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Color
 /build:System/Fonts/WesternSpaceFont.bmp
+
+#begin System/Music/DesertBGM.mp3
+/copy:System/Music/DesertBGM.mp3
+
+#begin System/Music/EndingBGM.mp3
+/copy:System/Music/EndingBGM.mp3
+
+#begin System/Music/IntroductionBGM.MP3
+/copy:System/Music/IntroductionBGM.MP3
+
+#begin System/Music/MidBGM.mp3
+/copy:System/Music/MidBGM.mp3
+
+#begin System/Music/TitleScreenBGM.mp3
+/copy:System/Music/TitleScreenBGM.mp3
 

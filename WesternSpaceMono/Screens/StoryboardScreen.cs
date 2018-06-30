@@ -209,7 +209,11 @@ namespace WesternSpace.Screens
          
             XDocument xdoc = ScreenManager.Instance.Content.Load<XDocument>(assetPath);
             System.Console.Write("{0}\n", xdoc.Root.Attribute("Song").Value);
-            storyboardSong = ScreenManager.Instance.Content.Load<Song>(xdoc.Root.Attribute("Song").Value);
+
+            //storyboardSong = ScreenManager.Instance.Content.Load<Song>(xdoc.Root.Attribute("Song").Value);
+            String songFilename = @"Content\\" + xdoc.Root.Attribute("Song").Value + ".mp3";
+            storyboardSong = Song.FromUri(songFilename, new Uri(songFilename, UriKind.Relative));
+
             font = ScreenManager.Instance.Content.Load<SpriteFont>(xdoc.Root.Attribute("Font").Value);
 
             int delayBetweenEachCharacter = Int32.Parse(xdoc.Root.Attribute("DelayBetweenEachCharacter").Value);

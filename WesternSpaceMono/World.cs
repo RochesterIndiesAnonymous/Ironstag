@@ -227,7 +227,9 @@ namespace WesternSpace
             spriteCollisionManager = new SpriteSpriteCollisionManager(this.Game, batchService, 40, 40);
             ParentScreen.Components.Add(spriteCollisionManager);
 
-            bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
+           // bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
+            String songFilename = @"Content\System\\Music\DesertBGM.mp3";
+            bgm = Song.FromUri(songFilename, new Uri(songFilename, UriKind.Relative));
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(bgm);
 
@@ -253,11 +255,13 @@ namespace WesternSpace
             ParentScreen.Components.Add(spriteCollisionManager);
 
             //Set up Sound systems
-            audioEngine = new AudioEngine("Content\\System\\Sounds\\SoundFX.xgs");
-            soundBank = new SoundBank(audioEngine, "Content\\System\\Sounds\\GameSoundBank.xsb");
-            waveBank = new WaveBank(audioEngine, "Content\\System\\Sounds\\GameWavs.xwb");
+            // audioEngine = new AudioEngine("Content\\System\\Sounds\\SoundFX.xgs");
+            //soundBank = new SoundBank(audioEngine, "Content\\System\\Sounds\\GameSoundBank.xsb");
+            //waveBank = new WaveBank(audioEngine, "Content\\System\\Sounds\\GameWavs.xwb");
 
-            bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
+            // bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
+            String songFilename = @"Content\System\\Music\DesertBGM.mp3";
+            bgm = Song.FromUri(songFilename, new Uri(songFilename, UriKind.Relative));
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(bgm);
 
@@ -293,7 +297,7 @@ namespace WesternSpace
 
             camera.Position += new Vector2(cam_vx, cam_vy);
 
-            audioEngine.Update();
+           // audioEngine.Update();
 
             base.Update(gameTime);
         }

@@ -15,8 +15,6 @@ C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\FlintIronstag\flintShoot.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\FlintIronstag\HatFall.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\WorldXML\TestWorld.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\UIGraphics\HealthBar.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\UIGraphics\LifeStrip.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Enemies\BanditBullet.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Enemies\BanditDead.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Enemies\BanditIdle.xnb
@@ -41,12 +39,8 @@ C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Enemies\TopHatFall.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Enemies\VultureDead.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Enemies\VultureFlying.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\TileMapXML\back_parallaxlayer.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\TileMapXML\BigTileMap.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\TileMapXML\parallaxlayer.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\TileMapXML\TestTileMap.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\SpriteXML\AnimationXML\OrdinaryFlint.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\SpriteXML\AnimationXML\SpaceFlint.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\UIGraphics\HealthBar.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\UIGraphics\LifeStrip.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Cutscenes\BlankStoryboard.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Cutscenes\End01.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Cutscenes\End02.xnb
@@ -69,14 +63,14 @@ C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Cutscenes\Mid08.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Cutscenes\Mid09.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Cutscenes\RockSteelLogo.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\SpriteXML\DiddyKong.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\SpriteXML\FlintIronstag.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\SpriteXML\Ghast.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\SpriteXML\SunSet.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\SpriteXML\ToadMan.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\TileMapXML\back_parallaxlayer.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\TileMapXML\BigTileMap.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\TileMapXML\parallaxlayer.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\TileMapXML\TestTileMap.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\cavesheet.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\desertSpriteSheet.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\floppy.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\RocksteelLogo.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\sandzonesheet.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Sheets.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\stolenExplosion.xnb
@@ -85,18 +79,22 @@ C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\VultureFlying.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\wallspikeleft.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\wallspikeright.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\SpriteXML\AnimationXML\OrdinaryFlint.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\SpriteXML\AnimationXML\SpaceFlint.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Window Skin\GameOverImage.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Window Skin\TitleImage.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Window Skin\windowSkin.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\SpriteXML\DiddyKong.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\SpriteXML\FlintIronstag.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\SpriteXML\Ghast.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\SpriteXML\SunSet.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\SpriteXML\ToadMan.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Sprites\1down.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Sprites\1up.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Sprites\CopterJoe.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Sprites\flyingMeta.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Sprites\flyingMeta2.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Sprites\rushFrown.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Window Skin\GameOverImage.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Window Skin\TitleImage.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Window Skin\windowSkin.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Sounds\flintShot.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Sounds\hBump.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Sounds\wBump.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\banditDeath.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\banditShot.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\bird.xnb
@@ -108,19 +106,17 @@ C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\mgkidLaugh2.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\mgkidShot.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\nogoodHit.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\SoundFX.xap
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\takeOff.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\transform.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\wBump.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Sounds\flintShot.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Sounds\hBump.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Sounds\wBump.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\TitleScreenBGM.mp3
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\LayerXML\TestLayer.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\DesertBGM.ogg
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\DesertBGM.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\EndingBGM.ogg
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\EndingBGM.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\IntroductionBGM.ogg
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\IntroductionBGM.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\MidBGM.ogg
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\MidBGM.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\TitleScreenBGM.ogg
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Fonts\Pala.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Fonts\WesternSpaceFont.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Layers\BigTestLayer.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Layers\TestLayer.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Effects\SetAlphaValue.xnb
@@ -158,12 +154,10 @@ C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\WesternSpaceMono.pdb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.Net.dll
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.D3DCompiler.dll
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.dll
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpFont.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\XnaXmlContentPipeline.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\XnaXmlContentReader.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.MediaFoundation.dll
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.XAudio2.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.DXGI.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.Direct3D11.dll
@@ -174,6 +168,8 @@ C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.Direct3D9.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\CppNet.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Nvidia.TextureTools.dll
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpFont.dll
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.D3DCompiler.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\AssimpNet.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\FreeImageNET.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\ATI.TextureConverter.dll
@@ -187,9 +183,8 @@ C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\obj\Debug\WesternSpaceMono
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\obj\Debug\WesternSpaceMono.exe
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\obj\Debug\WesternSpaceMono.pdb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\obj\Debug\WesternSpaceMono.csprojAssemblyReference.cache
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\TitleScreenBGM.mp3
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\TitleScreenBGM.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Textures\RocksteelLogo.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\SoundFX.xap
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Fonts\Pala.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Fonts\WesternSpaceFont.xnb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\TitleScreenBGM.wav
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\DesertBGM.mp3
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\EndingBGM.mp3
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\IntroductionBGM.MP3
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\MidBGM.mp3
