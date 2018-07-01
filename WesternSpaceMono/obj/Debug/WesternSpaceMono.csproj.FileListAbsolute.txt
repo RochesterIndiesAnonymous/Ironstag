@@ -119,7 +119,6 @@ C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Fonts\WesternSpaceFont.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Layers\BigTestLayer.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\Layers\TestLayer.xnb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Effects\SetAlphaValue.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\ActorXML\RoleXML\BanditEnemy.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\ActorXML\RoleXML\BossEnemy.xnb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\ActorXML\RoleXML\OrdinaryFlint.xnb
@@ -188,3 +187,11 @@ C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\EndingBGM.mp3
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\IntroductionBGM.MP3
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\MidBGM.mp3
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\GameSoundBank.xsb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\GameWavs.xwb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\SoundFX.xgs
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\Win\GameSoundBank.xsb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\Win\GameWavs.xwb
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\Win\SoundFX.xgs
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Effects\SetAlphaValue.mgfxo
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Effects\SetAlphaValue.mgfxd
