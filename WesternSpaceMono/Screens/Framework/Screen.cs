@@ -156,8 +156,8 @@ namespace WesternSpace.Screens
             if (drawableComponent != null)
             {
                 // subscribe to the order changing events
-                //drawableComponent.DrawOrderChanged += new EventHandler(this.ComponentDrawOrderChanged);
-
+                // drawableComponent.DrawOrderChanged += new EventHandler(this.ComponentDrawOrderChanged);
+              
                 // find where this drawing component belongs
                 int index = this.drawingComponents.BinarySearch(drawableComponent, Utility.DrawOrderComparer.Default);
                 if (index < 0)
