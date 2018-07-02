@@ -266,13 +266,6 @@
 /processor:XDocumentProcessor
 /build:StoryboardXML/TitleScreenStoryboard.xml
 
-#begin System/Effects/SetAlphaValue.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/processorParam:Defines=
-/build:System/Effects/SetAlphaValue.fx
-
 #begin System/Sounds/banditDeath.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -1360,4 +1353,19 @@
 
 #begin System/Music/TitleScreenBGM.mp3
 /copy:System/Music/TitleScreenBGM.mp3
+
+#begin System/Sounds/Win/GameSoundBank.xsb
+/copy:System/Sounds/Win/GameSoundBank.xsb
+
+#begin System/Sounds/Win/GameWavs.xwb
+/copy:System/Sounds/Win/GameWavs.xwb
+
+#begin System/Sounds/Win/SoundFX.xgs
+/copy:System/Sounds/Win/SoundFX.xgs
+
+#begin System/Effects/SetAlphaValue.mgfxo
+/copy:System/Effects/SetAlphaValue.mgfxo
+
+#begin System/Effects/SetAlphaValue.mgfxd
+/copy:System/Effects/SetAlphaValue.mgfxd
 

@@ -255,9 +255,9 @@ namespace WesternSpace
             ParentScreen.Components.Add(spriteCollisionManager);
 
             //Set up Sound systems
-            // audioEngine = new AudioEngine("Content\\System\\Sounds\\SoundFX.xgs");
-            //soundBank = new SoundBank(audioEngine, "Content\\System\\Sounds\\GameSoundBank.xsb");
-            //waveBank = new WaveBank(audioEngine, "Content\\System\\Sounds\\GameWavs.xwb");
+            audioEngine = new AudioEngine("Content\\System\\Sounds\\Win\\SoundFX.xgs");
+            soundBank = new SoundBank(audioEngine, "Content\\System\\Sounds\\Win\\GameSoundBank.xsb");
+            waveBank = new WaveBank(audioEngine, "Content\\System\\Sounds\\Win\\GameWavs.xwb");
 
             // bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
             String songFilename = @"Content\System\\Music\DesertBGM.mp3";
@@ -296,7 +296,7 @@ namespace WesternSpace
             }
 
             camera.Position += new Vector2(cam_vx, cam_vy);
-
+           
            // audioEngine.Update();
 
             base.Update(gameTime);

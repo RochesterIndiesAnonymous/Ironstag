@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
@@ -46,8 +47,10 @@ namespace WesternSpace.Screens
             this.currentAlphaValue = 1.0f;
             this.currentProgress = ScreenTransitionProgess.Fading;
             this.screen = screen;
-
-           // alphaEffect = ScreenManager.Instance.Content.Load<Effect>("System\\Effects\\SetAlphaValue");
+          
+            // alphaEffect = ScreenManager.Instance.Content.Load<Effect>("System\\Effects\\SetAlphaValue");
+            byte[] bytecode = File.ReadAllBytes( "Content\\System\\Effects\\SetAlphaValue.mgfxd");
+            alphaEffect = new Effect(screen.GraphicsDevice, bytecode);
         }
 
         public void Update()
@@ -63,17 +66,18 @@ namespace WesternSpace.Screens
 
         public void BeginTransition()
         {
-           // alphaEffect.Parameters["AlphaValue"].SetValue(this.currentAlphaValue);
+            alphaEffect.Parameters["AlphaValue"].SetValue(this.currentAlphaValue);
 
-          //  alphaEffect.Begin();
-           // alphaEffect.CurrentTechnique.Passes[0].Begin();
+            //alphaEffect.CurrentTechnique.Passes[0]..Apply();
+            //  alphaEffect.Begin();
+            //  alphaEffect.CurrentTechnique.Passes[0].Begin();
         }
 
         public void EndTransition()
         {
-           // alphaEffect.CurrentTechnique.Passes[0].End();
-           // alphaEffect.End();
-
+            // alphaEffect.CurrentTechnique.Passes[0].End();
+            // alphaEffect.End();
+           
             if (this.CurrentProgress == ScreenTransitionProgess.Fading)
             {
                 this.currentAlphaValue -= this.fadeAlphaStep;
@@ -82,6 +86,7 @@ namespace WesternSpace.Screens
             {
                 this.currentAlphaValue += this.brightenAlphaStep;
             }
+           
         }
     }
 }

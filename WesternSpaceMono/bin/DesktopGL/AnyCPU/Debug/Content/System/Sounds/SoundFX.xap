@@ -1,11 +1,11 @@
-Signature = XACT2;
-Version = 16;
-Content Version = 43;
-Release = August 2007;
+Signature = XACT3;
+Version = 17;
+Content Version = 45;
+Release = March 2009;
 
 Options
 {
-    Verbose Report = 0;
+    Verbose Report = 1;
     Generate C/C++ Headers = 1;
 }
 
@@ -16,8 +16,8 @@ Global Settings
     Header File = C:\Users\Kanonen80\Desktop\western-space2\Western Space\Content\System\Sounds\SoundFX.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 29988640;
-    Last Modified High = 2304397913;
+    Last Modified Low = 3217203605;
+    Last Modified High = 30675219;
 
     Category
     {
@@ -161,7 +161,7 @@ Global Settings
         Value = 0.000000;
         Initial Value = 0.000000;
         Min = 0.000000;
-        Max = 15.000001;
+        Max = 15000.000000;
     }
 
     Variable
@@ -178,7 +178,7 @@ Global Settings
         Value = 0.000000;
         Initial Value = 0.000000;
         Min = 0.000000;
-        Max = 15.000001;
+        Max = 15000.000000;
     }
 
     Variable
@@ -225,8 +225,12 @@ Wave Bank
     Windows Bank Path Edited = 0;
     Seek Tables = 1;
     Compression Preset Name = <none>;
-    Bank Last Revised Low = 1861627936;
-    Bank Last Revised High = 29988753;
+    Xbox Bank Last Modified Low = 0;
+    Xbox Bank Last Modified High = 0;
+    PC Bank Last Modified Low = 3217303332;
+    PC Bank Last Modified High = 30675219;
+    Bank Last Revised Low = 3217303332;
+    Bank Last Revised High = 30675219;
 
     Wave
     {
@@ -240,14 +244,14 @@ Wave Bank
             Format Tag = 0;
             Channels = 1;
             Sampling Rate = 16000;
-            Bits Per Sample = 0;
-            Play Region Offset = 56;
-            Play Region Length = 28000;
+            Bits Per Sample = 1;
+            Play Region Offset = 44;
+            Play Region Length = 47404;
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 4245566281;
-            Last Modified High = 29988632;
+            Last Modified Low = 4130654593;
+            Last Modified High = 30673754;
         }
     }
 
@@ -269,8 +273,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 4245566281;
-            Last Modified High = 29988632;
+            Last Modified Low = 4130926870;
+            Last Modified High = 30673754;
         }
     }
 
@@ -292,8 +296,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2453319177;
-            Last Modified High = 29988656;
+            Last Modified Low = 4130535164;
+            Last Modified High = 30673754;
         }
     }
 
@@ -315,8 +319,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1937094585;
-            Last Modified High = 29988658;
+            Last Modified Low = 4130837104;
+            Last Modified High = 30673754;
         }
     }
 
@@ -338,8 +342,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 49954115;
-            Last Modified High = 29988589;
+            Last Modified Low = 4130876999;
+            Last Modified High = 30673754;
         }
     }
 
@@ -361,8 +365,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 589770809;
-            Last Modified High = 29988664;
+            Last Modified Low = 4130495008;
+            Last Modified High = 30673754;
         }
     }
 
@@ -376,16 +380,16 @@ Wave Bank
         Cache
         {
             Format Tag = 0;
-            Channels = 2;
-            Sampling Rate = 44100;
+            Channels = 1;
+            Sampling Rate = 22050;
             Bits Per Sample = 1;
             Play Region Offset = 44;
-            Play Region Length = 81112;
+            Play Region Length = 23224;
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1643698921;
-            Last Modified High = 29988667;
+            Last Modified Low = 4130797209;
+            Last Modified High = 30673754;
         }
     }
 
@@ -407,8 +411,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1539332864;
-            Last Modified High = 29988666;
+            Last Modified Low = 4130614833;
+            Last Modified High = 30673754;
         }
     }
 
@@ -426,12 +430,12 @@ Wave Bank
             Sampling Rate = 22050;
             Bits Per Sample = 1;
             Play Region Offset = 44;
-            Play Region Length = 20150;
+            Play Region Length = 10920;
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1380771840;
-            Last Modified High = 29988710;
+            Last Modified Low = 4130957329;
+            Last Modified High = 30673754;
         }
     }
 
@@ -453,8 +457,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 3856393216;
-            Last Modified High = 29988729;
+            Last Modified Low = 4130574795;
+            Last Modified High = 30673754;
         }
     }
 
@@ -476,8 +480,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 4101818368;
-            Last Modified High = 29988742;
+            Last Modified Low = 4131153098;
+            Last Modified High = 30673754;
         }
     }
 
@@ -499,8 +503,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1244989606;
-            Last Modified High = 29988753;
+            Last Modified Low = 4131106040;
+            Last Modified High = 30673754;
         }
     }
 }
@@ -512,6 +516,10 @@ Sound Bank
     Windows File = Win\GameSoundBank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
+    Bank Last Modified Low = 3217442961;
+    Bank Last Modified High = 30675219;
+    Header Last Modified High = 0;
+    Header Last Modified Low = 0;
 
     Sound
     {
@@ -528,6 +536,7 @@ Sound Bank
         Track
         {
             Volume = 0;
+            Use Filter = 0;
 
             Play Wave Event
             {
@@ -574,6 +583,7 @@ Sound Bank
         Track
         {
             Volume = 0;
+            Use Filter = 0;
 
             Play Wave Event
             {
@@ -620,6 +630,7 @@ Sound Bank
         Track
         {
             Volume = 0;
+            Use Filter = 0;
 
             Play Wave Event
             {
@@ -666,6 +677,7 @@ Sound Bank
         Track
         {
             Volume = 0;
+            Use Filter = 0;
 
             Play Wave Event
             {
@@ -712,6 +724,7 @@ Sound Bank
         Track
         {
             Volume = 0;
+            Use Filter = 0;
 
             Play Wave Event
             {
@@ -758,6 +771,7 @@ Sound Bank
         Track
         {
             Volume = 0;
+            Use Filter = 0;
 
             Play Wave Event
             {
@@ -804,6 +818,7 @@ Sound Bank
         Track
         {
             Volume = 0;
+            Use Filter = 0;
 
             Play Wave Event
             {
@@ -850,6 +865,7 @@ Sound Bank
         Track
         {
             Volume = 0;
+            Use Filter = 0;
 
             Play Wave Event
             {
@@ -896,6 +912,7 @@ Sound Bank
         Track
         {
             Volume = 0;
+            Use Filter = 0;
 
             Play Wave Event
             {
@@ -942,6 +959,7 @@ Sound Bank
         Track
         {
             Volume = 0;
+            Use Filter = 0;
 
             Play Wave Event
             {
@@ -988,6 +1006,7 @@ Sound Bank
         Track
         {
             Volume = 0;
+            Use Filter = 0;
 
             Play Wave Event
             {
@@ -1034,6 +1053,7 @@ Sound Bank
         Track
         {
             Volume = 0;
+            Use Filter = 0;
 
             Play Wave Event
             {
