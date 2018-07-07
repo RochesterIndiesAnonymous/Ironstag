@@ -185,11 +185,18 @@ namespace WesternSpace.Screens
             {
                 base.Draw(gameTime);
 
-                batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                //batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
                 if (transition != null)
                 {
                     transition.BeginTransition();
+                    Effect tEffect = transition.GetEffect();
+                    batch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, tEffect);
+
+                }
+                else
+                {
+                    batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                 }
 
                 batch.Draw(currentScene.Value.SceneTexture, new Vector2(0, 0), Color.White);

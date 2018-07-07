@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.ServiceInterfaces;
 using Microsoft.Xna.Framework;
+using System.IO;
 
 namespace WesternSpace.Screens
 {
@@ -73,7 +74,9 @@ namespace WesternSpace.Screens
             this.resetGame = resetGame;
             this.resetSpriteBatchService = resetSpriteBatchService;
 
-           // alphaEffect = ScreenManager.Instance.Content.Load<Effect>("System\\Effects\\SetAlphaValue");
+            //alphaEffect = ScreenManager.Instance.Content.Load<Effect>("System\\Effects\\SetAlphaValue");
+            byte[] bytecode = File.ReadAllBytes("Content\\System\\Effects\\SetAlphaValue.mgfxd");
+            alphaEffect = new Effect(ScreenManager.Instance.GraphicsDevice, bytecode);
         }
 
         public void Update()
@@ -119,19 +122,31 @@ namespace WesternSpace.Screens
                 this.EnableNewScreen();
             }
         }
-
+        public Effect GetEffect()
+        {
+            return alphaEffect;
+        }
         public void BeginTransition()
         {
-           // alphaEffect.Parameters["AlphaValue"].SetValue(this.currentAlphaValue);
-
+            if (alphaEffect != null)
+            {
+                alphaEffect.Parameters["AlphaValue"].SetValue(this.currentAlphaValue);
+            }
+           
+           
            // alphaEffect.Begin();
            // alphaEffect.CurrentTechnique.Passes[0].Begin();
         }
 
         public void EndTransition()
         {
-           // alphaEffect.CurrentTechnique.Passes[0].End();
-           // alphaEffect.End();
+            if (alphaEffect != null)
+            {
+              //  alphaEffect.CurrentTechnique.Passes[0].Apply();
+            }
+               
+            // alphaEffect.CurrentTechnique.Passes[0].End();
+            // alphaEffect.End();
 
             if (this.CurrentProgress == ScreenTransitionProgess.Fading)
             {

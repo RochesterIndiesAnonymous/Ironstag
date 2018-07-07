@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using WesternSpace.DrawableComponents.Misc;
 using WesternSpace.Utility;
 using WesternSpace.Input;
+using System.IO;
 
 namespace WesternSpace
 {
@@ -186,6 +187,9 @@ namespace WesternSpace
 
             sb = new SpriteBatch(GraphicsDevice);
 
+            byte[] bytecode = File.ReadAllBytes("Content\\System\\Effects\\SetAlphaValue.mgfxd");
+            this.alphaEffect = new Effect(this.graphics.GraphicsDevice, bytecode);
+      
             //For profiling:
             /*
             this.IsFixedTimeStep = false;
@@ -196,7 +200,7 @@ namespace WesternSpace
             // Initialize all components
             base.Initialize();
         }
-
+        public Effect alphaEffect;
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -265,24 +269,48 @@ namespace WesternSpace
 
             graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 0.0f, 0);
 
-            sb.Begin( SpriteSortMode.Immediate, BlendState.AlphaBlend);
-
             if (transitionState != null)
             {
                 transitionState.BeginTransition();
+                Effect tEffect = transitionState.GetEffect();
+                sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, tEffect);
+
+
+            }
+            else
+            {
+                sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null);
+
             }
 
-           // GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.Point;
-            //GraphicsDevice.SamplerStates[0].MinFilter = TextureFilter.Point;
-            //GraphicsDevice.SamplerStates[0].MipFilter = TextureFilter.Point;
             sb.Draw(screen, resolutionService.ScaleRectangle, Color.White);
-
+            sb.End();
             if (transitionState != null)
             {
                 transitionState.EndTransition();
             }
+            /*
+                        alphaEffect.Parameters["AlphaValue"].SetValue(0.25f);
 
-            sb.End();
+                        sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, this.alphaEffect);
+                       // sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, null);
+                        if (transitionState != null)
+                        {
+                            transitionState.BeginTransition();
+                        }
+
+                        // GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.Point;
+                        //GraphicsDevice.SamplerStates[0].MinFilter = TextureFilter.Point;
+                        //GraphicsDevice.SamplerStates[0].MipFilter = TextureFilter.Point;
+                        sb.Draw(screen, resolutionService.ScaleRectangle, Color.White);
+
+                        if (transitionState != null)
+                        {
+                            transitionState.EndTransition();
+                        }
+
+                        sb.End();
+                        */
         }
 
         /// <summary>
