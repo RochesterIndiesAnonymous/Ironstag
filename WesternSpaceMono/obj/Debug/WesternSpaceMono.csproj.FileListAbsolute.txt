@@ -155,16 +155,9 @@ C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.Net.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\XnaXmlContentPipeline.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\XnaXmlContentReader.dll
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.MediaFoundation.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.dll
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.XAudio2.dll
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.DXGI.dll
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.Direct3D11.dll
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.Direct2D1.dll
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.XInput.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Lidgren.Network.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.Content.Pipeline.dll
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpDX.Direct3D9.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\CppNet.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Nvidia.TextureTools.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\SharpFont.dll
@@ -173,10 +166,8 @@ C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\FreeImageNET.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\ATI.TextureConverter.dll
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\PVRTexLibNET.dll
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.Net.xml
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\XnaXmlContentPipeline.pdb
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\XnaXmlContentReader.pdb
-C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Lidgren.Network.xml
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\obj\Debug\WesternSpaceMono.csproj.CoreCompileInputs.cache
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\obj\Debug\WesternSpaceMono.csproj.CopyComplete
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\obj\Debug\WesternSpaceMono.exe

@@ -87,7 +87,7 @@ namespace WesternSpace.Screens
             currentScene = storyboards.First;
 
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Play(storyboardSong);
+           // MediaPlayer.Play(storyboardSong);
 
             characterTimer.StartTimer();
         }
@@ -219,7 +219,7 @@ namespace WesternSpace.Screens
 
             //storyboardSong = ScreenManager.Instance.Content.Load<Song>(xdoc.Root.Attribute("Song").Value);
             String songFilename = @"Content\\" + xdoc.Root.Attribute("Song").Value + ".mp3";
-            storyboardSong = Song.FromUri(songFilename, new Uri(songFilename, UriKind.Relative));
+           // storyboardSong = Song.FromUri(songFilename, new Uri(songFilename, UriKind.Relative));
 
             font = ScreenManager.Instance.Content.Load<SpriteFont>(xdoc.Root.Attribute("Font").Value);
 
