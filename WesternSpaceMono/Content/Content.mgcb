@@ -1369,3 +1369,18 @@
 #begin System/Effects/SetAlphaValue.mgfxd
 /copy:System/Effects/SetAlphaValue.mgfxd
 
+#begin System/Music/DesertBGM.ogg
+/copy:System/Music/DesertBGM.ogg
+
+#begin System/Music/EndingBGM.ogg
+/copy:System/Music/EndingBGM.ogg
+
+#begin System/Music/IntroductionBGM.ogg
+/copy:System/Music/IntroductionBGM.ogg
+
+#begin System/Music/MidBGM.ogg
+/copy:System/Music/MidBGM.ogg
+
+#begin System/Music/TitleScreenBGM.ogg
+/copy:System/Music/TitleScreenBGM.ogg
+

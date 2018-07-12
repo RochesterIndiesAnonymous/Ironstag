@@ -3,7 +3,7 @@
   <SourceFile>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/System/Sounds/bird.wav</SourceFile>
   <SourceTime>2018-06-23T20:30:40.6123979-05:00</SourceTime>
   <DestFile>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/bin/DesktopGL/AnyCPU/Debug/content/System/Sounds/bird.xnb</DestFile>
-  <DestTime>2018-07-01T12:40:26.8351238-05:00</DestTime>
+  <DestTime>2018-07-11T21:42:13.3005862-05:00</DestTime>
   <Importer>WavImporter</Importer>
   <ImporterTime>2017-03-01T09:05:36-06:00</ImporterTime>
   <Processor>SoundEffectProcessor</Processor>

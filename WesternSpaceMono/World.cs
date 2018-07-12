@@ -260,10 +260,10 @@ namespace WesternSpace
             waveBank = new WaveBank(audioEngine, "Content\\System\\Sounds\\Win\\GameWavs.xwb");
 
             // bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
-            String songFilename = @"Content\System\\Music\DesertBGM.mp3";
-           // bgm = Song.FromUri(songFilename, new Uri(songFilename, UriKind.Relative));
-           // MediaPlayer.IsRepeating = true;
-           // MediaPlayer.Play(bgm);
+            String songFilename = @"Content\System\\Music\DesertBGM.ogg";
+            bgm = Song.FromUri(songFilename, new Uri(songFilename, UriKind.Relative));
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(bgm);
 
             // The spritebatch to be used when creating all of our worldObjects:
             spriteBatch = batchService.GetSpriteBatch(Character.SpriteBatchName);

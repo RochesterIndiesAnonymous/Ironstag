@@ -186,3 +186,8 @@ C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Sounds\Win\SoundFX.xgs
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Effects\SetAlphaValue.mgfxo
 C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Effects\SetAlphaValue.mgfxd
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\DesertBGM.ogg
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\EndingBGM.ogg
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\IntroductionBGM.ogg
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\MidBGM.ogg
+C:\Users\Brett\source\repos\Ironstag\WesternSpaceMono\bin\DesktopGL\AnyCPU\Debug\Content\System\Music\TitleScreenBGM.ogg

@@ -3,7 +3,7 @@
   <SourceFile>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/System/Sounds/transform.wav</SourceFile>
   <SourceTime>2018-06-23T20:30:40.6702282-05:00</SourceTime>
   <DestFile>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/bin/DesktopGL/AnyCPU/Debug/content/System/Sounds/transform.xnb</DestFile>
-  <DestTime>2018-07-01T12:40:28.5160585-05:00</DestTime>
+  <DestTime>2018-07-11T21:42:14.862719-05:00</DestTime>
   <Importer>WavImporter</Importer>
   <ImporterTime>2017-03-01T09:05:36-06:00</ImporterTime>
   <Processor>SoundEffectProcessor</Processor>
