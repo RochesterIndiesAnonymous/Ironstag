@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Cutscene Song="System\Music\EndingBGM" DelayBetweenEachCharacter="100" Font="System\Fonts\WesternSpaceFont">
-  <Storyboard SceneTexture="Textures\Cutscenes\End01" SceneText="There's no time! Take my hand!" SceneTextPositionX="15" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
-  <Storyboard SceneTexture="Textures\Cutscenes\End02" SceneText="You must... continue on... Flint!" SceneTextPositionX="10" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
-  <Storyboard SceneTexture="Textures\Cutscenes\End03" SceneText="'' I'm comin' Old Charlie! ''" SceneTextPositionX="40" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
-</Cutscene> 

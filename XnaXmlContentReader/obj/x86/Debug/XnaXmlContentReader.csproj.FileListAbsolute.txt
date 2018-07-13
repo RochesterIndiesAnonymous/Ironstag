@@ -1,9 +1,0 @@
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\bin\x86\Debug\XnaXmlContentReader.dll
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\bin\x86\Debug\XnaXmlContentReader.pdb
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\bin\x86\Debug\MonoGame.Framework.dll
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\obj\x86\Debug\XnaXmlContentReader.csproj.CoreCompileInputs.cache
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\obj\x86\Debug\XnaXmlContentReader.csproj.CopyComplete
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\obj\x86\Debug\XnaXmlContentReader.dll
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\obj\x86\Debug\XnaXmlContentReader.pdb
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\bin\x86\Debug\MonoGame.Framework.dll.config
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReader\obj\x86\Debug\XnaXmlContentReader.csprojAssemblyReference.cache
