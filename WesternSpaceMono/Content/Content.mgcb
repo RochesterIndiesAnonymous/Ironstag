@@ -13,7 +13,6 @@
 /reference:..\..\XnaXmlContentPipeline\bin\Debug\SharpFont.dll
 /reference:..\..\XnaXmlContentPipeline\bin\Debug\XnaXmlContentPipeline.dll
 /reference:..\..\XnaXmlContentPipeline\bin\Debug\XnaXmlContentReader.dll
-/reference:..\..\packages\MonoGame.Extended.1.1.0\lib\portable-net45+win8+wpa81\MonoGame.Extended.dll
 
 #---------------------------------- Content ---------------------------------#
 
