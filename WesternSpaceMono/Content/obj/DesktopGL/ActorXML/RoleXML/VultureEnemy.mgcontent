@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/ActorXML/RoleXML/VultureEnemy.xml</SourceFile>
-  <SourceTime>2018-06-23T20:30:40.3326048-05:00</SourceTime>
-  <DestFile>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/bin/DesktopGL/ActorXML/RoleXML/VultureEnemy.xnb</DestFile>
-  <DestTime>2018-07-12T21:42:49.5879465-05:00</DestTime>
+  <SourceFile>/Users/brett/Projects/Ironstag/WesternSpaceMono/Content/ActorXML/RoleXML/VultureEnemy.xml</SourceFile>
+  <SourceTime>2018-06-29T01:36:31-04:00</SourceTime>
+  <DestFile>/Users/brett/Projects/Ironstag/WesternSpaceMono/Content/bin/DesktopGL/ActorXML/RoleXML/VultureEnemy.xnb</DestFile>
+  <DestTime>2018-07-14T22:56:25-04:00</DestTime>
   <Importer>XDocumentImporter</Importer>
-  <ImporterTime>2018-07-12T21:42:49.052299-05:00</ImporterTime>
+  <ImporterTime>2018-07-14T22:56:21-04:00</ImporterTime>
   <Processor>XDocumentProcessor</Processor>
-  <ProcessorTime>2018-07-12T21:42:49.052299-05:00</ProcessorTime>
+  <ProcessorTime>2018-07-14T22:56:21-04:00</ProcessorTime>
   <Dependencies />
   <BuildAsset />
   <BuildOutput />
