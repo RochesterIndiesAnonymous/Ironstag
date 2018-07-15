@@ -1,22 +1,13 @@
 ﻿<Properties StartupConfiguration="{BD2F8CB9-684B-4209-A007-7126E5E67669}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="WesternSpaceMono/Content/ActorXML/MiscXML/Explosion.xml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WesternSpaceMono/WesternSpaceMono.csproj">
     <Files>
-      <File FileName="WesternSpaceMono/Screens/Framework/ScreenTransition.cs" Line="78" Column="15" />
-      <File FileName="WesternSpaceMono/Screens/StoryboardScreen.cs" Line="89" Column="15" />
-      <File FileName="WesternSpaceMono/Screens/GameScreen.cs" Line="1" Column="1" />
       <File FileName="WesternSpaceMono/WesternSpaceMono.csproj" Line="231" Column="113" />
-      <File FileName="XnaXmlContentPipeline/XDocumentImporter.cs" Line="11" Column="39" />
-      <File FileName="XnaXmlContentReader/XnaXmlContentReader.csproj" Line="68" Column="18" />
-      <File FileName="XnaXmlContentPipeline/XnaXmlContentPipeline.csproj" Line="57" Column="5" />
-      <File FileName="WesternSpaceMono/Content/ActorXML/MiscXML/Explosion.xml" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="WesternSpace" expanded="True" selected="True">
-            <Node name="XnaXmlContentPipeline" expanded="True">
-              <Node name="References" expanded="True" />
-            </Node>
+          <Node name="WesternSpace" expanded="True">
+            <Node name="WesternSpaceMono" expanded="True" selected="True" />
             <Node name="XnaXmlContentReader" expanded="True">
               <Node name="References" expanded="True" />
             </Node>
