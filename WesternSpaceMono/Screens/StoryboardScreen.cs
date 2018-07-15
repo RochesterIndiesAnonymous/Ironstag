@@ -86,7 +86,7 @@ namespace WesternSpace.Screens
 
             currentScene = storyboards.First;
 
-           // MediaPlayer.IsRepeating = true;
+            //MediaPlayer.IsRepeating = true;
             //MediaPlayer.Play(storyboardSong);
 
             characterTimer.StartTimer();

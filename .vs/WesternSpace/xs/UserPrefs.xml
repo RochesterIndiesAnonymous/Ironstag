@@ -1,14 +1,20 @@
 ﻿<Properties StartupConfiguration="{BD2F8CB9-684B-4209-A007-7126E5E67669}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="WesternSpaceMono/WesternSpaceMono.csproj">
     <Files>
-      <File FileName="XnaXmlContentPipeline/XnaXmlContentPipeline.csproj" Line="106" Column="30" />
-      <File FileName="WesternSpaceMono/WesternSpaceMono.csproj" Line="208" Column="20" />
+      <File FileName="WesternSpaceMono/Screens/Framework/ScreenTransition.cs" Line="78" Column="15" />
+      <File FileName="WesternSpaceMono/Screens/StoryboardScreen.cs" Line="89" Column="15" />
+      <File FileName="WesternSpaceMono/Screens/GameScreen.cs" Line="1" Column="1" />
+      <File FileName="WesternSpaceMono/WesternSpaceMono.csproj" Line="231" Column="113" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="WesternSpace" expanded="True">
-            <Node name="WesternSpaceMono" expanded="True" selected="True" />
+            <Node name="WesternSpaceMono" expanded="True" selected="True">
+              <Node name="Screens" expanded="True">
+                <Node name="Framework" expanded="True" />
+              </Node>
+            </Node>
             <Node name="XnaXmlContentPipeline" expanded="True" />
             <Node name="XnaXmlContentReader" expanded="True" />
           </Node>

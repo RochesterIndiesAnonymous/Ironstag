@@ -128,10 +128,10 @@ namespace WesternSpace.Screens
         }
         public void BeginTransition()
         {
-            //if (alphaEffect != null)
-            //{
-            //    alphaEffect.Parameters["AlphaValue"].SetValue(this.currentAlphaValue);
-            //}
+            if (alphaEffect != null)
+            {
+                alphaEffect.Parameters["AlphaValue"].SetValue(this.currentAlphaValue);
+            }
            
            
            // alphaEffect.Begin();
