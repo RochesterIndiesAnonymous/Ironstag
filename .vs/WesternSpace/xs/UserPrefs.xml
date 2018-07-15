@@ -1,17 +1,18 @@
 ﻿<Properties StartupConfiguration="{BD2F8CB9-684B-4209-A007-7126E5E67669}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="WesternSpaceMono/WesternSpaceMono.csproj">
+  <MonoDevelop.Ide.Workbench ActiveDocument="XnaXmlContentPipeline/XnaXmlContentPipeline.csproj">
     <Files>
-      <File FileName="XnaXmlContentPipeline/XnaXmlContentPipeline.csproj" Line="31" Column="19" />
-      <File FileName="XnaXmlContentReader/XDocumentReader.cs" Line="12" Column="1" />
-      <File FileName="XnaXmlContentPipeline/XDocumentImporter.cs" Line="11" Column="17" />
+      <File FileName="XnaXmlContentPipeline/XnaXmlContentPipeline.csproj" Line="53" Column="8" />
       <File FileName="XnaXmlContentReader/XnaXmlContentReader.csproj" Line="68" Column="18" NotebookId="1" />
-      <File FileName="WesternSpaceMono/WesternSpaceMono.csproj" Line="184" Column="58" NotebookId="1" />
+      <File FileName="WesternSpaceMono/WesternSpaceMono.csproj" Line="367" Column="21" NotebookId="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="WesternSpace" expanded="True">
-            <Node name="XnaXmlContentPipeline" expanded="True" selected="True" />
+            <Node name="WesternSpaceMono" expanded="True" />
+            <Node name="XnaXmlContentPipeline" expanded="True">
+              <Node name="XDocumentImporter.cs" selected="True" />
+            </Node>
             <Node name="XnaXmlContentReader" expanded="True" />
           </Node>
         </State>
