@@ -49,8 +49,8 @@ namespace WesternSpace.Screens
             this.screen = screen;
         
             // alphaEffect = ScreenManager.Instance.Content.Load<Effect>("System\\Effects\\SetAlphaValue");
-            //byte[] bytecode = File.ReadAllBytes( "Content\\System\\Effects\\SetAlphaValue.mgfxd");
-            //alphaEffect = new Effect(screen.GraphicsDevice, bytecode);
+            byte[] bytecode = File.ReadAllBytes( "Content/System/Effects/SetAlphaValue.mgfxd");
+            alphaEffect = new Effect(screen.GraphicsDevice, bytecode);
         }
 
         public void Update()
@@ -72,7 +72,7 @@ namespace WesternSpace.Screens
         public void BeginTransition()
         {
             
-           //alphaEffect.Parameters["AlphaValue"].SetValue(this.currentAlphaValue);
+           alphaEffect.Parameters["AlphaValue"].SetValue(this.currentAlphaValue);
            // alphaEffect.CurrentTechnique.Passes[0].Apply();
             //  alphaEffect.Begin();
             //alphaEffect.CurrentTechnique.Passes[0].Begin();

@@ -1,13 +1,26 @@
 ﻿<Properties StartupConfiguration="{BD2F8CB9-684B-4209-A007-7126E5E67669}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="WesternSpaceMono/WesternSpaceMono.csproj">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WesternSpaceMono/Screens/Framework/StoryboardTransition.cs">
     <Files>
-      <File FileName="WesternSpaceMono/WesternSpaceMono.csproj" Line="231" Column="113" />
+      <File FileName="WesternSpaceMono/Screens/GameScreen.cs" Line="1" Column="1" />
+      <File FileName="WesternSpaceMono/Screens/StoryboardScreen.cs" Line="89" Column="15" />
+      <File FileName="WesternSpaceMono/Screens/Framework/ScreenTransition.cs" Line="78" Column="15" />
+      <File FileName="WesternSpaceMono/Screens/Framework/Screen.cs" Line="1" Column="1" />
+      <File FileName="WesternSpaceMono/Screens/Framework/ScreenTransitionProgess.cs" Line="1" Column="1" />
+      <File FileName="WesternSpaceMono/Screens/Framework/StoryboardInformation.cs" Line="1" Column="1" />
+      <File FileName="WesternSpaceMono/Screens/Framework/StoryboardTransition.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="WesternSpace" expanded="True">
-            <Node name="WesternSpaceMono" expanded="True" selected="True" />
+            <Node name="WesternSpaceMono" expanded="True">
+              <Node name="References" expanded="True" />
+              <Node name="Screens" expanded="True">
+                <Node name="Framework" expanded="True">
+                  <Node name="StoryboardTransition.cs" selected="True" />
+                </Node>
+              </Node>
+            </Node>
             <Node name="XnaXmlContentReader" expanded="True">
               <Node name="References" expanded="True" />
             </Node>
