@@ -187,8 +187,8 @@ namespace WesternSpace
 
             sb = new SpriteBatch(GraphicsDevice);
 
-            //byte[] bytecode = File.ReadAllBytes("Content\\System\\Effects\\SetAlphaValue.mgfxd");
-            //this.alphaEffect = new Effect(this.graphics.GraphicsDevice, bytecode);
+            byte[] bytecode = File.ReadAllBytes("Content/System/Effects/SetAlphaValue.mgfxd");
+            this.alphaEffect = new Effect(this.graphics.GraphicsDevice, bytecode);
       
             //For profiling:
             /*
@@ -273,7 +273,7 @@ namespace WesternSpace
             {
                 transitionState.BeginTransition();
                 Effect tEffect = transitionState.GetEffect();
-                sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, tEffect);
 
 
             }
