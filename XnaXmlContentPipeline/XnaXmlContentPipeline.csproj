@@ -51,7 +51,7 @@
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.Net.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework.Content.Pipeline" 
-               Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\Tools\MonoGame.Framework.Content.Pipeline.dll')">
+               Condition="Exists('/library/Frameworks/MonoGame.framework/v3.0/Tools/MonoGame.Framework.Content.Pipeline.dll')">
        <HintPath>$(MSBuildExtensionsPath)\MonoGame\v3.0\Tools\MonoGame.Framework.Content.Pipeline.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework.Content.Pipeline" 
@@ -59,7 +59,7 @@
        <HintPath>..\..\..\..\..\..\Program Files (x86)\MSBuild\MonoGame\v3.0\Tools\MonoGame.Framework.Content.Pipeline.dll</HintPath>
     </Reference>
 <!--    <Reference Include="MonoGame.Framework.Content.Pipeline"/>-->
-    <!--<Reference Include="MonoGame.Framework.Content.Pipeline">
+   <!-- <Reference Include="MonoGame.Framework.Content.Pipeline">
       <HintPath>$(MSBuildExtensionsPath)\MonoGame\v3.0\Tools\MonoGame.Framework.Content.Pipeline.dll</HintPath>
     </Reference>-->
   </ItemGroup>

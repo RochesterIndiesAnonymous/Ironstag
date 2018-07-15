@@ -3,11 +3,11 @@
   <SourceFile>/Users/brett/Projects/Ironstag/WesternSpaceMono/Content/TileMapXML/parallaxlayer.xml</SourceFile>
   <SourceTime>2018-06-29T01:36:32-04:00</SourceTime>
   <DestFile>/Users/brett/Projects/Ironstag/WesternSpaceMono/Content/bin/DesktopGL/TileMapXML/parallaxlayer.xnb</DestFile>
-  <DestTime>2018-07-15T01:54:45-04:00</DestTime>
+  <DestTime>2018-07-15T03:02:53-04:00</DestTime>
   <Importer>XDocumentImporter</Importer>
-  <ImporterTime>2018-07-15T01:52:10-04:00</ImporterTime>
+  <ImporterTime>2018-07-15T03:02:49-04:00</ImporterTime>
   <Processor>XDocumentProcessor</Processor>
-  <ProcessorTime>2018-07-15T01:52:10-04:00</ProcessorTime>
+  <ProcessorTime>2018-07-15T03:02:49-04:00</ProcessorTime>
   <Dependencies />
   <BuildAsset />
   <BuildOutput />
