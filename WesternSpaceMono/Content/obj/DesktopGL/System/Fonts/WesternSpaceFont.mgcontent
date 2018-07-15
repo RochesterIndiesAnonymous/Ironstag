@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/System/Fonts/WesternSpaceFont.bmp</SourceFile>
-  <SourceTime>2018-06-28T23:58:14.8765694-05:00</SourceTime>
-  <DestFile>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/bin/DesktopGL/System/Fonts/WesternSpaceFont.xnb</DestFile>
-  <DestTime>2018-07-12T21:42:49.9089727-05:00</DestTime>
+  <SourceFile>/Users/brett/Projects/Ironstag/WesternSpaceMono/Content/System/Fonts/WesternSpaceFont.bmp</SourceFile>
+  <SourceTime>2018-06-29T01:36:31-04:00</SourceTime>
+  <DestFile>/Users/brett/Projects/Ironstag/WesternSpaceMono/Content/bin/DesktopGL/System/Fonts/WesternSpaceFont.xnb</DestFile>
+  <DestTime>2018-07-15T04:34:40-04:00</DestTime>
   <Importer>TextureImporter</Importer>
-  <ImporterTime>2017-03-01T09:05:36-06:00</ImporterTime>
+  <ImporterTime>2017-03-01T10:06:24-05:00</ImporterTime>
   <Processor>FontTextureProcessor</Processor>
-  <ProcessorTime>2017-03-01T09:05:36-06:00</ProcessorTime>
+  <ProcessorTime>2017-03-01T10:06:24-05:00</ProcessorTime>
   <Parameters>
     <Key>FirstCharacter</Key>
     <Value> </Value>

@@ -75,7 +75,7 @@ namespace WesternSpace.Screens
             this.resetSpriteBatchService = resetSpriteBatchService;
 
             //alphaEffect = ScreenManager.Instance.Content.Load<Effect>("System\\Effects\\SetAlphaValue");
-            byte[] bytecode = File.ReadAllBytes("Content\\System\\Effects\\SetAlphaValue.mgfxd");
+            byte[] bytecode = File.ReadAllBytes("Content/System/Effects/SetAlphaValue.mgfxd");
             alphaEffect = new Effect(ScreenManager.Instance.GraphicsDevice, bytecode);
         }
 
@@ -140,10 +140,10 @@ namespace WesternSpace.Screens
 
         public void EndTransition()
         {
-            if (alphaEffect != null)
-            {
-              //  alphaEffect.CurrentTechnique.Passes[0].Apply();
-            }
+            //if (alphaEffect != null)
+            //{
+            //  //  alphaEffect.CurrentTechnique.Passes[0].Apply();
+            //}
                
             // alphaEffect.CurrentTechnique.Passes[0].End();
             // alphaEffect.End();
