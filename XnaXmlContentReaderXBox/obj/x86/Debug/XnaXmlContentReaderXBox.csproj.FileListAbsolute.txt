@@ -1,9 +1,0 @@
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReaderXBox\bin\x86\Debug\XnaXmlContentReaderXBox.dll
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReaderXBox\bin\x86\Debug\XnaXmlContentReaderXBox.pdb
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReaderXBox\bin\x86\Debug\Microsoft.Xna.Framework.dll
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReaderXBox\bin\x86\Debug\Microsoft.Xna.Framework.xml
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReaderXBox\obj\x86\Debug\XnaXmlContentReaderXBox.csprojAssemblyReference.cache
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReaderXBox\obj\x86\Debug\XnaXmlContentReaderXBox.csproj.CoreCompileInputs.cache
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReaderXBox\obj\x86\Debug\XnaXmlContentReaderXBox.csproj.CopyComplete
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReaderXBox\obj\x86\Debug\XnaXmlContentReaderXBox.dll
-C:\Users\Brett\source\repos\Ironstag\XnaXmlContentReaderXBox\obj\x86\Debug\XnaXmlContentReaderXBox.pdb

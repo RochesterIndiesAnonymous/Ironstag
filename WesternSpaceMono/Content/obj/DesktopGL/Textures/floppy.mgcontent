@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/Textures/floppy.png</SourceFile>
-  <SourceTime>2018-06-23T20:30:41.0649637-05:00</SourceTime>
-  <DestFile>C:/Users/Brett/source/repos/Ironstag/WesternSpaceMono/Content/bin/DesktopGL/Textures/floppy.xnb</DestFile>
-  <DestTime>2018-06-28T00:00:38.3335949-05:00</DestTime>
+  <SourceFile>/Users/brett/Projects/Ironstag/WesternSpaceMono/Content/Textures/floppy.png</SourceFile>
+  <SourceTime>2018-06-29T01:36:32-04:00</SourceTime>
+  <DestFile>/Users/brett/Projects/Ironstag/WesternSpaceMono/Content/bin/DesktopGL/Textures/floppy.xnb</DestFile>
+  <DestTime>2018-07-13T23:15:43-04:00</DestTime>
   <Importer>TextureImporter</Importer>
-  <ImporterTime>2017-03-01T09:05:36-06:00</ImporterTime>
+  <ImporterTime>2017-03-01T10:06:24-05:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
-  <ProcessorTime>2017-03-01T09:05:36-06:00</ProcessorTime>
+  <ProcessorTime>2017-03-01T10:06:24-05:00</ProcessorTime>
   <Parameters>
     <Key>ColorKeyColor</Key>
     <Value>255,0,255,255</Value>

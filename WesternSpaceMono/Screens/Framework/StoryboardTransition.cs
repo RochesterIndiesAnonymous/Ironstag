@@ -49,7 +49,7 @@ namespace WesternSpace.Screens
             this.screen = screen;
         
             // alphaEffect = ScreenManager.Instance.Content.Load<Effect>("System\\Effects\\SetAlphaValue");
-            byte[] bytecode = File.ReadAllBytes( "Content\\System\\Effects\\SetAlphaValue.mgfxd");
+            byte[] bytecode = File.ReadAllBytes( "Content/System/Effects/SetAlphaValue.mgfxd");
             alphaEffect = new Effect(screen.GraphicsDevice, bytecode);
         }
 

@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{73FD57B1-BEED-4B82-803C-7D16DB4EBF6A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -41,23 +40,42 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework">
+    <Reference Include="System" />
+    <Reference Include="System.Xml.Linq">
+    </Reference>
+    <Reference Include="System.Xml" />
+
+  </ItemGroup>
+  <ItemGroup>
+     <!-- OSX/Linux Include Items" -->
+    <Reference Include="MonoGame.Framework" Condition="'$(OS)' == 'Unix'">
+      <HintPath>..\..\..\..\..\Library\Frameworks\MonoGame.framework\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework.Content.Pipeline" Condition="'$(OS)' == 'Unix'">
+      <HintPath>..\..\..\..\..\Library\Frameworks\MonoGame.framework\v3.0\Tools\MonoGame.Framework.Content.Pipeline.dll</HintPath>
+    </Reference>
+    <!-- Windows Include Items -->
+    <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL" Condition="'$(OS)' != 'Unix'">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="MonoGame.Framework.Content.Pipeline, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MonoGame.Framework.Content.Pipeline, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL" Condition="'$(OS)' != 'Unix'">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\MSBuild\MonoGame\v3.0\Tools\MonoGame.Framework.Content.Pipeline.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml" />
   </ItemGroup>
+        
+ 
+
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataContainer.cs" />
     <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="XDocumentImporter.cs" />
     <Compile Include="XDocumentProcessor.cs" />
     <Compile Include="XDocumentWriter.cs" />
@@ -74,7 +92,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

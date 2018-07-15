@@ -13,7 +13,6 @@
 /reference:..\..\XnaXmlContentPipeline\bin\Debug\SharpFont.dll
 /reference:..\..\XnaXmlContentPipeline\bin\Debug\XnaXmlContentPipeline.dll
 /reference:..\..\XnaXmlContentPipeline\bin\Debug\XnaXmlContentReader.dll
-/reference:..\..\packages\MonoGame.Extended.1.1.0\lib\portable-net45+win8+wpa81\MonoGame.Extended.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -1368,4 +1367,19 @@
 
 #begin System/Effects/SetAlphaValue.mgfxd
 /copy:System/Effects/SetAlphaValue.mgfxd
+
+#begin System/Music/DesertBGM.ogg
+/copy:System/Music/DesertBGM.ogg
+
+#begin System/Music/EndingBGM.ogg
+/copy:System/Music/EndingBGM.ogg
+
+#begin System/Music/IntroductionBGM.ogg
+/copy:System/Music/IntroductionBGM.ogg
+
+#begin System/Music/MidBGM.ogg
+/copy:System/Music/MidBGM.ogg
+
+#begin System/Music/TitleScreenBGM.ogg
+/copy:System/Music/TitleScreenBGM.ogg
 

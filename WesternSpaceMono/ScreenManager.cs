@@ -187,7 +187,7 @@ namespace WesternSpace
 
             sb = new SpriteBatch(GraphicsDevice);
 
-            byte[] bytecode = File.ReadAllBytes("Content\\System\\Effects\\SetAlphaValue.mgfxd");
+            byte[] bytecode = File.ReadAllBytes("Content/System/Effects/SetAlphaValue.mgfxd");
             this.alphaEffect = new Effect(this.graphics.GraphicsDevice, bytecode);
       
             //For profiling:
