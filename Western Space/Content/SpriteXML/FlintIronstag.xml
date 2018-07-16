@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<FlintIronstag>
-  <Health MaxHealth="100"></Health>
-  <Transformation MaxGauge="100"></Transformation>
-  <Roles>
-    <Role RoleKey="Cowboy" AnimationXML="ActorXML\\AnimationXML\\OrdinaryFlint"></Role>
-    <Role RoleKey="Space Cowboy" AnimationXML="ActorXML\\AnimationXML\\SpaceFlint"></Role>
-  </Roles>
-</FlintIronstag>

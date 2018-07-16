@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>/Users/brett/Projects/Ironstag/WesternSpaceMono/Content/System/Fonts/WesternSpaceFont.bmp</SourceFile>
+  <SourceTime>2018-06-29T01:36:31-04:00</SourceTime>
+  <DestFile>/Users/brett/Projects/Ironstag/WesternSpaceMono/Content/bin/DesktopGL/System/Fonts/WesternSpaceFont.xnb</DestFile>
+  <DestTime>2018-07-15T04:34:40-04:00</DestTime>
+  <Importer>TextureImporter</Importer>
+  <ImporterTime>2017-03-01T10:06:24-05:00</ImporterTime>
+  <Processor>FontTextureProcessor</Processor>
+  <ProcessorTime>2017-03-01T10:06:24-05:00</ProcessorTime>
+  <Parameters>
+    <Key>FirstCharacter</Key>
+    <Value> </Value>
+  </Parameters>
+  <Parameters>
+    <Key>PremultiplyAlpha</Key>
+    <Value>True</Value>
+  </Parameters>
+  <Parameters>
+    <Key>TextureFormat</Key>
+    <Value>Color</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>

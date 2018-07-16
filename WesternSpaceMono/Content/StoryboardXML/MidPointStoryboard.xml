@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Cutscene Song="System\Music\MidBGM" DelayBetweenEachCharacter="100" Font="System\Fonts\WesternSpaceFont">
+  <Storyboard SceneTexture="Textures\Cutscenes\Mid01" SceneText="Who's this feller?" SceneTextPositionX="80" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
+  <Storyboard SceneTexture="Textures\Cutscenes\Mid02" SceneText="HALT 6-SHOOTER!" SceneTextPositionX="70" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
+  <Storyboard SceneTexture="Textures\Cutscenes\Mid03" SceneText="TODAY IS THE DAY..." SceneTextPositionX="55" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
+  <Storyboard SceneTexture="Textures\Cutscenes\Mid04" SceneText="LADY LUCK SMILES UPON ME..." SceneTextPositionX="10" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
+  <Storyboard SceneTexture="Textures\Cutscenes\Mid05" SceneText="AND FOR BREAKING THE CODE" SceneTextPositionX="3" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
+  <Storyboard SceneTexture="Textures\Cutscenes\Mid06" SceneText="OF THE WEST YOU ARE" SceneTextPositionX="30" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
+  <Storyboard SceneTexture="Textures\Cutscenes\Mid07" SceneText="BROUGHT TO JUSTICE!" SceneTextPositionX="35" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
+  <Storyboard SceneTexture="Textures\Cutscenes\Mid08" SceneText="HUH? WHERE'D HE GO!?" SceneTextPositionX="35" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
+  <Storyboard SceneTexture="Textures\Cutscenes\Mid09" SceneText="..." SceneTextPositionX="150" SceneTextPositionY="200" IsTransitionAutomatic="False" AutomaticTransitionDelay="0" />
+</Cutscene> 
