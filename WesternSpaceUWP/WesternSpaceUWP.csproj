@@ -93,7 +93,138 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\WesternSpaceMono\AnimationFramework\Animation.cs" Link="AnimationFramework\Animation.cs" />
+    <Compile Include="..\WesternSpaceMono\AnimationFramework\AnimationPlayer.cs" Link="AnimationFramework\AnimationPlayer.cs"/>
+    <Compile Include="..\WesternSpaceMono\AnimationFramework\Frame.cs" Link="AnimationFramework\Frame.cs"/>
+    <Compile Include="..\WesternSpaceMono\Collision\CollisionHotspot.cs" Link="Collision\CollisionHotspot.cs" />
+    <Compile Include="..\WesternSpaceMono\Collision\CollisionObjectBin.cs" Link="Collision\CollisionObjectBin.cs"/>
+    <Compile Include="..\WesternSpaceMono\Collision\ISpriteCollideable.cs" Link="Collision\ISpriteCollideable.cs" />
+    <Compile Include="..\WesternSpaceMono\Collision\ITileCollidable.cs" Link="Collision\ITileCollidable.cs" />
+    <Compile Include="..\WesternSpaceMono\Collision\SpriteSpriteCollisionManager.cs" Link="Collision\SpriteSpriteCollisionManager.cs"/>
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Actors\Character.cs" Link="DrawableComponents\Actors\Character.cs"  />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Actors\EBandit.cs" Link="DrawableComponents\Actors\EBandit.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Actors\EBoss.cs" Link="DrawableComponents\Actors\EBoss.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Actors\EBossStates\EBossHitState.cs" Link="DrawableComponents\Actors\EBossStates\EBossHitState.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Actors\EBossStates\EBossJumpState.cs" Link="DrawableComponents\Actors\EBossStates\EBossJumpState.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Actors\EBossStates\EBossLaughingState.cs" Link="DrawableComponents\Actors\EBossStates\EBossLaughingState.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Actors\EBossStates\EbossMoveState.cs" Link="DrawableComponents\Actors\EBossStates\EbossMoveState.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Actors\EBossStates\EBossShootState.cs" Link="DrawableComponents\Actors\EBossStates\EBossShootState.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Actors\EBossStates\EBossState.cs" Link="DrawableComponents\Actors\EBossStates\EBossState.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Actors\EVulture.cs" Link="DrawableComponents\Actors\EVulture.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Actors\Player.cs" Link="DrawableComponents\Actors\Player.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Actors\ToadMan.cs" Link="DrawableComponents\Actors\ToadMan.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\EditorUI\DestructableToggler.cs" Link="DrawableComponents\EditorUI\DestructableToggler.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\EditorUI\EdgeToggler.cs" Link="DrawableComponents\EditorUI\EdgeToggler.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\EditorUI\EditorUIComponent.cs" Link="DrawableComponents\EditorUI\EditorUIComponent.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\EditorUI\ITilePropertyComponent.cs" Link="DrawableComponents\EditorUI\ITilePropertyComponent.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\EditorUI\SaveButton.cs" Link="DrawableComponents\EditorUI\SaveButton.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\EditorUI\SubTextureSelector.cs" Link="DrawableComponents\EditorUI\SubTextureSelector.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\EditorUI\TileSelector.cs" Link="DrawableComponents\EditorUI\TileSelector.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\EditorUI\WorldObjectMover.cs" Link="DrawableComponents\EditorUI\WorldObjectMover.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\EditorUI\WorldObjectPlacer.cs" Link="DrawableComponents\EditorUI\WorldObjectPlacer.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\GameUI\GameUI.cs" Link="DrawableComponents\GameUI\GameUI.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Misc\DebuggingOutputComponent.cs" Link="DrawableComponents\Misc\DebuggingOutputComponent.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Misc\Explosion.cs" Link="DrawableComponents\Misc\Explosion.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Misc\FPSComponent.cs" Link="DrawableComponents\Misc\FPSComponent.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Misc\Fragment.cs" Link="DrawableComponents\Misc\Fragment.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Misc\GameOverContents.cs" Link="DrawableComponents\Misc\GameOverContents.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Misc\LargeCactus1.cs" Link="DrawableComponents\Misc\LargeCactus1.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Misc\MapCoordinateComponent.cs" Link="DrawableComponents\Misc\MapCoordinateComponent.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Misc\MouseScreenCoordinatesComponent.cs" Link="DrawableComponents\Misc\MouseScreenCoordinatesComponent.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Misc\MouseWorldCoordinatesComponent.cs" Link="DrawableComponents\Misc\MouseWorldCoordinatesComponent.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Misc\SmallCactus.cs" Link="DrawableComponents\Misc\SmallCactus.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Projectiles\BanditNormalProjectile.cs" Link="DrawableComponents\Projectiles\BanditNormalProjectile.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Projectiles\BossProjectile.cs" Link="DrawableComponents\Projectiles\BossProjectile.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Projectiles\FlintNormalProjectile.cs" Link="DrawableComponents\Projectiles\FlintNormalProjectile.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\Projectiles\Projectile.cs" Link="DrawableComponents\Projectiles\Projectile.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\WorldObjects\BarrelSpawner.cs" Link="DrawableComponents\WorldObjects\BarrelSpawner.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\WorldObjects\EndingTrigger.cs" Link="DrawableComponents\WorldObjects\EndingTrigger.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\WorldObjects\ExplosiveBarrel.cs" Link="DrawableComponents\WorldObjects\ExplosiveBarrel.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\WorldObjects\FlintHat.cs" Link="DrawableComponents\WorldObjects\FlintHat.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\WorldObjects\MidpointTrigger.cs" Link="DrawableComponents\WorldObjects\MidpointTrigger.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\WorldObjects\SpaceBoss.cs" Link="DrawableComponents\WorldObjects\SpaceBoss.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableComponents\WorldObjects\StoryboardTrigger.cs" Link="DrawableComponents\WorldObjects\StoryboardTrigger.cs" />
+    <Compile Include="..\WesternSpaceMono\DrawableGameObject.cs" Link="DrawableGameObject.cs" />
+    <Compile Include="..\WesternSpaceMono\EventSystem\Event.cs" Link="EventSystem\Event.cs" />
+    <Compile Include="..\WesternSpaceMono\EventSystem\Trigger.cs" Link="EventSystem\Trigger.cs" />
+    <Compile Include="..\WesternSpaceMono\EventSystem\Triggerable.cs" Link="EventSystem\Triggerable.cs" />
+    <Compile Include="..\WesternSpaceMono\GameObject.cs" Link="GameObject.cs" />
+    <Compile Include="..\WesternSpaceMono\Input\BetterMouse.cs" Link="Input\BetterMouse.cs" />
+    <Compile Include="..\WesternSpaceMono\Input\InputMonitor.cs" Link="Input\InputMonitor.cs" />
+    <Compile Include="..\WesternSpaceMono\Input\IPressable.cs" Link="Input\IPressable.cs" />
+    <Compile Include="..\WesternSpaceMono\Input\PressableButton.cs" Link="Input\PressableButton.cs" />
+    <Compile Include="..\WesternSpaceMono\Input\PressableKey.cs" Link="Input\PressableKey.cs" />
+    <Compile Include="..\WesternSpaceMono\Interfaces\IDamageable.cs" Link="Interfaces\IDamageable.cs" />
+    <Compile Include="..\WesternSpaceMono\Interfaces\IDamaging.cs" Link="Interfaces\IDamaging.cs" />
+    <Compile Include="..\WesternSpaceMono\Interfaces\IDebugOutput.cs" Link="Interfaces\IDebugOutput.cs" />
+    <Compile Include="..\WesternSpaceMono\Interfaces\IMapCoordinates.cs" Link="Interfaces\IMapCoordinates.cs" />
+    <Compile Include="..\WesternSpaceMono\Interfaces\IScreenComponent.cs" />
+    <Compile Include="..\WesternSpaceMono\Interfaces\IXElementOutput.cs" Link="Interfaces\IXElementOutput.cs" />
+    <Compile Include="..\WesternSpaceMono\LegacyCode\Cursor.cs" Link="LegacyCode\Cursor.cs" />
+    <Compile Include="..\WesternSpaceMono\LegacyCode\FlyingObject.cs" Link="LegacyCode\FlyingObject.cs" />
+    <Compile Include="..\WesternSpaceMono\LegacyCode\Game1.cs" Link="LegacyCode\Game1.cs" />
+    <Compile Include="..\WesternSpaceMono\LegacyCode\Layer.cs" Link="LegacyCode\Layer.cs" />
+    <Compile Include="..\WesternSpaceMono\LegacyCode\PlayerObject.cs" Link="LegacyCode\PlayerObject.cs" />
+    <Compile Include="..\WesternSpaceMono\LegacyCode\TilingEngineTest.cs" Link="LegacyCode\TilingEngineTest.cs" />
+    <Compile Include="..\WesternSpaceMono\Physics\IPhysical.cs" Link="Physics\IPhysical.cs" />
+    <Compile Include="..\WesternSpaceMono\Physics\PhysicsHandler.cs" Link="Physics\PhysicsHandler.cs" />
+    <Compile Include="..\WesternSpaceMono\Program.cs" Link="Program.cs" />
+    <Compile Include="..\WesternSpaceMono\ScreenManager.cs" Link="ScreenManager.cs" />
+    <Compile Include="..\WesternSpaceMono\Screens\EditorScreen.cs" Link="Screens\EditorScreen.cs" />
+    <Compile Include="..\WesternSpaceMono\Screens\Framework\Screen.cs" Link="Screens\Framework\Screen.cs" />
+    <Compile Include="..\WesternSpaceMono\Screens\Framework\ScreenTransition.cs" Link="Screens\Framework\ScreenTransition.cs" />
+    <Compile Include="..\WesternSpaceMono\Screens\Framework\ScreenTransitionProgess.cs" Link="Screens\Framework\ScreenTransitionProgess.cs" />
+    <Compile Include="..\WesternSpaceMono\Screens\Framework\StoryboardInformation.cs" Link="Screens\Framework\StoryboardInformation.cs" />
+    <Compile Include="..\WesternSpaceMono\Screens\Framework\StoryboardTransition.cs" Link="Screens\Framework\StoryboardTransition.cs" />
+    <Compile Include="..\WesternSpaceMono\Screens\GameScreen.cs" Link="Screens\GameScreen.cs" />
+    <Compile Include="..\WesternSpaceMono\Screens\StoryboardScreen.cs" Link="Screens\StoryboardScreen.cs" />
+    <Compile Include="..\WesternSpaceMono\ServiceInterfaces\ICameraService.cs" Link="ServiceInterfaces\ICameraService.cs" />
+    <Compile Include="..\WesternSpaceMono\ServiceInterfaces\IGraphicsDeviceManagerService.cs" Link="ServiceInterfaces\IGraphicsDeviceManagerService.cs" />
+    <Compile Include="..\WesternSpaceMono\ServiceInterfaces\IInputManagerService.cs" Link="ServiceInterfaces\IInputManagerService.cs" />
+    <Compile Include="..\WesternSpaceMono\ServiceInterfaces\ILayerService.cs" Link="ServiceInterfaces\ILayerService.cs" />
+    <Compile Include="..\WesternSpaceMono\ServiceInterfaces\IScreenResolutionService.cs" Link="ServiceInterfaces\IScreenResolutionService.cs" />
+    <Compile Include="..\WesternSpaceMono\ServiceInterfaces\ISpriteBatchService.cs" Link="ServiceInterfaces\ISpriteBatchService.cs" />
+    <Compile Include="..\WesternSpaceMono\ServiceInterfaces\ITextureService.cs" Link="ServiceInterfaces\ITextureService.cs" />
+    <Compile Include="..\WesternSpaceMono\Services\CameraService.cs" Link="Services\CameraService.cs" />
+    <Compile Include="..\WesternSpaceMono\Services\GraphicsDeviceMangerService.cs" Link="Services\GraphicsDeviceMangerService.cs" />
+    <Compile Include="..\WesternSpaceMono\Services\InputManagerService.cs" Link="Services\InputManagerService.cs" />
+    <Compile Include="..\WesternSpaceMono\Services\LayerService.cs" Link="Services\LayerService.cs" />
+    <Compile Include="..\WesternSpaceMono\Services\ScreenResolutionService.cs" Link="Services\ScreenResolutionService.cs" />
+    <Compile Include="..\WesternSpaceMono\Services\SpriteBatchService.cs" Link="Services\SpriteBatchService.cs" />
+    <Compile Include="..\WesternSpaceMono\Services\TextureService.cs" Link="Services\TextureService.cs" />
+    <Compile Include="..\WesternSpaceMono\SubTexture.cs" Link="SubTexture.cs" />
+    <Compile Include="..\WesternSpaceMono\SubTextureSheet.cs" Link="SubTextureSheet.cs" />
+    <Compile Include="..\WesternSpaceMono\TilingEngine\DestructableTile.cs" Link="TilingEngine\DestructableTile.cs" />
+    <Compile Include="..\WesternSpaceMono\TilingEngine\ExplosionEffect.cs" Link="TilingEngine\ExplosionEffect.cs" />
+    <Compile Include="..\WesternSpaceMono\TilingEngine\IDestructionEffect.cs" Link="TilingEngine\IDestructionEffect.cs" />
+    <Compile Include="..\WesternSpaceMono\TilingEngine\LayerInformation.cs" Link="TilingEngine\LayerInformation.cs" />
+    <Compile Include="..\WesternSpaceMono\TilingEngine\ShatterEffect.cs" Link="TilingEngine\ShatterEffect.cs" />
+    <Compile Include="..\WesternSpaceMono\TilingEngine\Tile.cs" Link="TilingEngine\Tile.cs" />
+    <Compile Include="..\WesternSpaceMono\TilingEngine\TileEngine.cs" Link="TilingEngine\TileEngine.cs" />
+    <Compile Include="..\WesternSpaceMono\TilingEngine\TileMap.cs" Link="TilingEngine\TileMap.cs" />
+    <Compile Include="..\WesternSpaceMono\TilingEngine\TileMapLayer.cs" Link="TilingEngine\TileMapLayer.cs" />
+    <Compile Include="..\WesternSpaceMono\Utility\Bandit.cs" Link="Utility\Bandit.cs" />
+    <Compile Include="..\WesternSpaceMono\Utility\Bird.cs" Link="Utility\Bird.cs" />
+    <Compile Include="..\WesternSpaceMono\Utility\Boss.cs" Link="Utility\Boss.cs" />
+    <Compile Include="..\WesternSpaceMono\Utility\Cowboy.cs" Link="Utility\Cowboy.cs" />
+    <Compile Include="..\WesternSpaceMono\Utility\DamageCategory.cs" Link="Utility\DamageCategory.cs" />
+    <Compile Include="..\WesternSpaceMono\Utility\DrawOrderComparer.cs" Link="Utility\DrawOrderComparer.cs" />
+    <Compile Include="..\WesternSpaceMono\Utility\PrimitiveDrawer.cs" Link="Utility\PrimitiveDrawer.cs" />
+    <Compile Include="..\WesternSpaceMono\Utility\RectangleF2.cs" Link="Utility\RectangleF2.cs" />
+    <Compile Include="..\WesternSpaceMono\Utility\ResolutionSettings.cs" Link="Utility\ResolutionSettings.cs" />
+    <Compile Include="..\WesternSpaceMono\Utility\Role.cs" Link="Utility\Role.cs" />
+    <Compile Include="..\WesternSpaceMono\Utility\SpriteBatchDescription.cs" Link="Utility\SpriteBatchDescription.cs" />
+    <Compile Include="..\WesternSpaceMono\Utility\Timer.cs" Link="Utility\Timer.cs" />
+    <Compile Include="..\WesternSpaceMono\Utility\UpdateOrderComparer.cs" Link="Utility\UpdateOrderComparer.cs" />
+    <Compile Include="..\WesternSpaceMono\World.cs" Link="World.cs" />
+    <Compile Include="..\WesternSpaceMono\WorldObject.cs" Link="WorldObject.cs"/>
+  </ItemGroup>
+  <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+      <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="MonoGame.Framework">
        <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\WindowsUniversal\MonoGame.Framework.dll</HintPath>
     </Reference>
