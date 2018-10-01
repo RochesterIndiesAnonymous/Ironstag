@@ -168,7 +168,7 @@
     <Compile Include="..\WesternSpaceMono\LegacyCode\TilingEngineTest.cs" Link="LegacyCode\TilingEngineTest.cs" />
     <Compile Include="..\WesternSpaceMono\Physics\IPhysical.cs" Link="Physics\IPhysical.cs" />
     <Compile Include="..\WesternSpaceMono\Physics\PhysicsHandler.cs" Link="Physics\PhysicsHandler.cs" />
-    <Compile Include="..\WesternSpaceMono\Program.cs" Link="Program.cs" />
+  
     <Compile Include="..\WesternSpaceMono\ScreenManager.cs" Link="ScreenManager.cs" />
     <Compile Include="..\WesternSpaceMono\Screens\EditorScreen.cs" Link="Screens\EditorScreen.cs" />
     <Compile Include="..\WesternSpaceMono\Screens\Framework\Screen.cs" Link="Screens\Framework\Screen.cs" />
@@ -221,14 +221,171 @@
   </ItemGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-      <Reference Include="System" />
-    <Reference Include="System.Drawing" />
+    <Reference Include="System" />
+       <Reference Include="System.Reflection" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+     <!-- <Reference Include="XnaXmlContentPipeline">
+      <HintPath>..\XnaXmlContentPipeline\bin\Debug\XnaXmlContentPipeline.dll</HintPath>
+    </Reference>
+    <Reference Include="XnaXmlContentReader">
+      <HintPath>..\XnaXmlContentReader\bin\Debug\XnaXmlContentReader.dll</HintPath>
+    </Reference> -->
     <Reference Include="MonoGame.Framework">
        <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\WindowsUniversal\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+  <Content Include="Content\ActorXML\EBandit.xml" />
+    <Content Include="Content\ActorXML\EBoss.xml" />
+    <Content Include="Content\ActorXML\EVulture.xml" />
+    <Content Include="Content\ActorXML\MiscXML\Explosion.xml" />
+    <Content Include="Content\ActorXML\MiscXML\FlintHat.xml" />
+    <Content Include="Content\ActorXML\MiscXML\SpaceBoss.xml" />
+    <Content Include="Content\ActorXML\Player.xml" />
+    <Content Include="Content\ActorXML\RoleXML\BanditEnemy.xml" />
+    <Content Include="Content\ActorXML\RoleXML\BossEnemy.xml" />
+    <Content Include="Content\ActorXML\RoleXML\OrdinaryFlint.xml" />
+    <Content Include="Content\ActorXML\RoleXML\SpaceFlint.xml" />
+    <Content Include="Content\ActorXML\RoleXML\VultureEnemy.xml" />
+    <Content Include="Content\ActorXML\SmallCactus.xml" />
+    <Content Include="Content\ActorXML\ToadMan.xml" />
+    <Content Include="Content\ActorXML\Vulture.xml" />
+    <Content Include="Content\Layers\BigTestLayer.png" />
+    <Content Include="Content\Layers\TestLayer.png" />
+    <Content Include="Content\LayerXML\TestLayer.xml" />
+    <Content Include="Content\Sounds\flintShot.wav" />
+    <Content Include="Content\Sounds\hBump.wav" />
+    <Content Include="Content\Sounds\wBump.wav" />
+    <Content Include="Content\Sprites\1down.png" />
+    <Content Include="Content\Sprites\1up.png" />
+    <Content Include="Content\Sprites\CopterJoe.png" />
+    <Content Include="Content\Sprites\flyingMeta.png" />
+    <Content Include="Content\Sprites\flyingMeta2.png" />
+    <Content Include="Content\Sprites\rushFrown.png" />
+    <Content Include="Content\Sprites\rushSmile.png" />
+    <Content Include="Content\SpriteXML\AnimationXML\OrdinaryFlint.xml" />
+    <Content Include="Content\SpriteXML\AnimationXML\SpaceFlint.xml" />
+    <Content Include="Content\SpriteXML\DiddyKong.xml" />
+    <Content Include="Content\SpriteXML\FlintIronstag.xml" />
+    <Content Include="Content\SpriteXML\Ghast.xml" />
+    <Content Include="Content\SpriteXML\SunSet.xml" />
+    <Content Include="Content\SpriteXML\ToadMan.xml" />
+    <Content Include="Content\StoryboardXML\EndingStoryboard.xml" />
+    <Content Include="Content\StoryboardXML\IntroductionStoryboard.xml" />
+    <Content Include="Content\StoryboardXML\MidPointStoryboard.xml" />
+    <Content Include="Content\StoryboardXML\TitleScreenStoryboard.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\System\Effects\SetAlphaValue.fx" />
+    <Content Include="Content\System\Effects\SetSepiaFilter.fx" />
+    <Content Include="Content\System\Fonts\Pala.bmp" />
+    <Content Include="Content\System\Fonts\WesternSpaceFont.bmp" />
+    <Content Include="Content\System\Music\DesertBGM.mp3" />
+    <Content Include="Content\System\Music\EndingBGM.mp3" />
+    <Content Include="Content\System\Music\IntroductionBGM.MP3" />
+    <Content Include="Content\System\Music\MidBGM.mp3" />
+    <Content Include="Content\System\Music\TitleScreenBGM.mp3" />
+    <Content Include="Content\System\Sounds\banditDeath.wav" />
+    <Content Include="Content\System\Sounds\banditShot.wav" />
+    <Content Include="Content\System\Sounds\bird.wav" />
+    <Content Include="Content\System\Sounds\explosion.wav" />
+    <Content Include="Content\System\Sounds\flintShot.wav" />
+    <Content Include="Content\System\Sounds\hBump.wav" />
+    <Content Include="Content\System\Sounds\hitTemp.wav" />
+    <Content Include="Content\System\Sounds\mgkidLaugh1.wav" />
+    <Content Include="Content\System\Sounds\mgkidLaugh2.wav" />
+    <Content Include="Content\System\Sounds\mgkidShot.wav" />
+    <Content Include="Content\System\Sounds\nogoodHit.wav" />
+    <Content Include="Content\System\Sounds\takeOff.wav" />
+    <Content Include="Content\System\Sounds\transform.wav" />
+    <Content Include="Content\System\Sounds\wBump.wav" />
+    <Content Include="Content\System\Window Skin\GameOverImage.png" />
+    <Content Include="Content\System\Window Skin\TitleImage.png" />
+    <Content Include="Content\System\Window Skin\windowSkin.png" />
+    <Content Include="Content\Textures\cavesheet.png" />
+    <Content Include="Content\Textures\Cutscenes\BlankStoryboard.png" />
+    <Content Include="Content\Textures\Cutscenes\End01.png" />
+    <Content Include="Content\Textures\Cutscenes\End02.png" />
+    <Content Include="Content\Textures\Cutscenes\End03.png" />
+    <Content Include="Content\Textures\Cutscenes\Intro1.png" />
+    <Content Include="Content\Textures\Cutscenes\Intro2.png" />
+    <Content Include="Content\Textures\Cutscenes\Intro3.png" />
+    <Content Include="Content\Textures\Cutscenes\Intro4.png" />
+    <Content Include="Content\Textures\Cutscenes\Intro5.png" />
+    <Content Include="Content\Textures\Cutscenes\Intro6.png" />
+    <Content Include="Content\Textures\Cutscenes\Intro7.png" />
+    <Content Include="Content\Textures\Cutscenes\IntroTest.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid01.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid02.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid03.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid04.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid05.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid06.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid07.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid08.png" />
+    <Content Include="Content\Textures\Cutscenes\Mid09.png" />
+    <Content Include="Content\Textures\Cutscenes\RockSteelLogo.png" />
+    <Content Include="Content\Textures\desertSpriteSheet.png" />
+    <Content Include="Content\Textures\Enemies\BanditBullet.png" />
+    <Content Include="Content\Textures\Enemies\BanditDead.png" />
+    <Content Include="Content\Textures\Enemies\BanditIdle.png" />
+    <Content Include="Content\Textures\Enemies\BanditShoot.png" />
+    <Content Include="Content\Textures\Enemies\LargeCactus1.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunDead.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunHit.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunIdle.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunJumpAscent.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunJumpDescent.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunJumpLand.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunLaugh.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunRun.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunRunShoot.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunShoot.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunShootDown.png" />
+    <Content Include="Content\Textures\Enemies\MachineGunShootUp.png" />
+    <Content Include="Content\Textures\Enemies\SmallCactus.png" />
+    <Content Include="Content\Textures\Enemies\SpaceBossEnter.png" />
+    <Content Include="Content\Textures\Enemies\SpaceBossExtend.png" />
+    <Content Include="Content\Textures\Enemies\SpaceBossTakeOff.png" />
+    <Content Include="Content\Textures\Enemies\TopHatFall.png" />
+    <Content Include="Content\Textures\Enemies\VultureDead.png" />
+    <Content Include="Content\Textures\Enemies\VultureFlying.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintBullet.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintDead.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintDeadAir.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintDeadAirGround.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintFall.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintFallShoot.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintHit.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintIdle.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintJump1.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintJump2.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintJumpShoot1.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintJumpShoot2.png" />
+    <Content Include="Content\Textures\FlintIronstag\flintRun.png" />
+    <Content Include="Content\Textures\FlintIronstag\FlintRunShoot.png" />
+    <Content Include="Content\Textures\FlintIronstag\flintShoot.png" />
+    <Content Include="Content\Textures\FlintIronstag\HatFall.png" />
+    <Content Include="Content\Textures\floppy.png" />
+    <Content Include="Content\Textures\RocksteelLogo.png" />
+    <Content Include="Content\Textures\sandzonesheet.png" />
+    <Content Include="Content\Textures\Sheets.xml" />
+    <Content Include="Content\Textures\stolenExplosion.png" />
+    <Content Include="Content\Textures\TestSheet.png" />
+    <Content Include="Content\Textures\TNTBarrel.png" />
+    <Content Include="Content\Textures\VultureFlying.png" />
+    <Content Include="Content\Textures\wallspikeleft.png" />
+    <Content Include="Content\Textures\wallspikeright.png" />
+    <Content Include="Content\TileMapXML\back_parallaxlayer.xml" />
+    <Content Include="Content\TileMapXML\BigTileMap.xml" />
+    <Content Include="Content\TileMapXML\parallaxlayer.xml" />
+    <Content Include="Content\TileMapXML\TestTileMap.xml" />
+    <Content Include="Content\UIGraphics\HealthBar.png" />
+    <Content Include="Content\UIGraphics\LifeStrip.png" />
+    <Content Include="Content\WorldXML\TestWorld.xml" />
+  </ItemGroup>
+
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

@@ -255,7 +255,7 @@ namespace WesternSpace.Screens
 
             // Where all the magic happens:
             tileSelector = new TileSelector(this, sb, 
-                                               new RectangleF(40, 0, 600, 480),
+                                               new RectangleF2(40, 0, 600, 480),
                                                world.interactiveLayers.Values.First<TileMapLayer>(),
                                                inputMonitor);
             tileSelector.DrawOrder = 0;
@@ -285,7 +285,7 @@ namespace WesternSpace.Screens
                 this.Components.Add(wom);
             }
 
-            RectangleF tmp = ((SubTextureSelector)tileSelector.TilePropertyComponents.Last<ITilePropertyComponent>()).Bounds;
+            RectangleF2 tmp = ((SubTextureSelector)tileSelector.TilePropertyComponents.Last<ITilePropertyComponent>()).Bounds;
             tmp.Y += 20 + world.Map.TileHeight;
             this.edgeToggler = new EdgeToggler(this, sb, tmp, TileSelector);
             EdgeToggler.DrawOrder = 25;
@@ -299,11 +299,11 @@ namespace WesternSpace.Screens
             this.Components.Add(DestructableToggler);
 
 
-            SaveButton saveButton = new SaveButton(this, sb, new RectangleF(5, 400, 30, 15), World);
+            SaveButton saveButton = new SaveButton(this, sb, new RectangleF2(5, 400, 30, 15), World);
             saveButton.DrawOrder = 20;
             this.Components.Add(saveButton);
 
-            worldObjectPlacer = new WorldObjectPlacer(this, sb, new RectangleF(40, 0, 600, 480), World);
+            worldObjectPlacer = new WorldObjectPlacer(this, sb, new RectangleF2(40, 0, 600, 480), World);
             worldObjectPlacer.DrawOrder = 25;
             this.Components.Add(worldObjectPlacer);
 
@@ -316,7 +316,7 @@ namespace WesternSpace.Screens
             switch (Mode)
             {
                 case EditMode.TileEdit:
-                    Console.Out.WriteLine("Switching to SpriteEdit mode..");
+                   // Console.Out.WriteLine("Switching to SpriteEdit mode..");
                     Mode = EditMode.SpriteEdit;
                     Game.IsMouseVisible = false;
                     tileSelector.Enabled = false;
@@ -339,7 +339,7 @@ namespace WesternSpace.Screens
                     playerMover.Visible = true;
                     break;
                 case EditMode.SpriteEdit:
-                    Console.Out.WriteLine("Switching to TileEdit mode..");
+                   // Console.Out.WriteLine("Switching to TileEdit mode..");
                     Mode = EditMode.TileEdit;
                     Game.IsMouseVisible = true;
                     playerMover.Enabled = false;

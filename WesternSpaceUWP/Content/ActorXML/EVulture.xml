@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Vulture>
+  <Health MaxHealth="5"></Health>
+  <Roles>
+    <Role RoleKey="Vulture" RoleXML="ActorXML\\RoleXML\\VultureEnemy"></Role>
+  </Roles>
+</Vulture>

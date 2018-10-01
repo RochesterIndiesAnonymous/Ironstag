@@ -23,7 +23,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         private Texture2D icon;
 
-        public SaveButton(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, World world)
+        public SaveButton(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF2 bounds, World world)
             : base(parentScreen, spriteBatch, bounds)
         {
             this.world = world;
@@ -33,7 +33,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
         public override void Initialize()
         {
             icon = ParentScreen.Game.Content.Load<Texture2D>("Textures\\floppy");
-            this.Bounds = new RectangleF(Bounds.X, Bounds.Y, icon.Width, icon.Height);
+            this.Bounds = new RectangleF2(Bounds.X, Bounds.Y, icon.Width, icon.Height);
             base.Initialize();
         }
 
@@ -65,9 +65,9 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 world.ShiftWorldObjects(-EditorScreen.Offset);
                 
                 XDocument tileDoc = new XDocument(copy.ToXElement());
-                tileDoc.Save("..\\..\\..\\Content\\"+orig.FileName+".xml");
+               // tileDoc.Save("..\\..\\..\\Content\\"+orig.FileName+".xml");
                 XDocument worldDoc = new XDocument(world.ToXElement());
-                worldDoc.Save("..\\..\\..\\Content\\WorldXML\\TestWorld.xml");
+               // worldDoc.Save("..\\..\\..\\Content\\WorldXML\\TestWorld.xml");
                 world.ShiftWorldObjects(EditorScreen.Offset);
             }
             base.OnMouseUnclick(button);

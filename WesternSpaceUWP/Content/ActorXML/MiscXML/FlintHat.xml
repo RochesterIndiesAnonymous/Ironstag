@@ -1,0 +1,10 @@
+﻿<FlintHat>
+  <Animations>
+    <Animation AnimationKey="Fall" IsLoop="0" SpriteSheet="Textures\\FlintIronstag\\HatFall" FrameWidth="24" FrameHeight="24" CenterOffsetX="13" CenterOffsetY="7" Parent="None">
+      <Frame DisplayTime="150" SheetIndex="0" />
+      <Frame DisplayTime="150" SheetIndex="1" />
+      <Frame DisplayTime="150" SheetIndex="2" />
+      <Frame DisplayTime="150" SheetIndex="3" />
+    </Animation>
+  </Animations>
+</FlintHat>

@@ -215,7 +215,7 @@ namespace WesternSpace.Screens
         {
          
             XDocument xdoc = ScreenManager.Instance.Content.Load<XDocument>(assetPath);
-            System.Console.Write("{0}\n", xdoc.Root.Attribute("Song").Value);
+            //System.Console.Write("{0}\n", xdoc.Root.Attribute("Song").Value);
 
             //storyboardSong = ScreenManager.Instance.Content.Load<Song>(xdoc.Root.Attribute("Song").Value);
             String songFilename = @"Content/" + xdoc.Root.Attribute("Song").Value.Replace("\\","/") + ".ogg";

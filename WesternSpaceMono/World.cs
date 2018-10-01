@@ -181,27 +181,41 @@ namespace WesternSpace
         }
 
 
-        private void LoadCtorInfos()
+       /* private void LoadCtorInfos()
         {
             Type[] expectedCharacterArguments = new Type[] { typeof(World), typeof(SpriteBatch), typeof(Vector2) };
 
+            // IEnumerable<Type> types = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
+
+
+            IEnumerable<Type> types = from type in this.GetType().GetTypeInfo().Assembly.GetTypes()
+            where type.IsSubclassOf(typeof(WorldObject)) &&
+                                           !(type.Name == "Player") &&
+                                            type.GetConstructor(expectedCharacterArguments) != null &&
+                                           !type.IsAbstract
+                                      select type;
+
+//
             IEnumerable<Type> types = from type in System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
                                       where type.IsSubclassOf(typeof(WorldObject)) &&
                                            !(type.Name == "Player") &&
                                             type.GetConstructor(expectedCharacterArguments) != null &&
                                            !type.IsAbstract
                                       select type;
+
+
+
             worldObjectCtorInfos = new ConstructorInfo[types.Count<Type>()];
 
-            Console.Out.WriteLine("World object type count: " + types.Count<Type>() + "\nTypes:\n");
+           // Console.Out.WriteLine("World object type count: " + types.Count<Type>() + "\nTypes:\n");
             int index = 0;
             foreach (Type type in types)
             {
                 worldObjectCtorInfos[index] = (type.GetConstructor(expectedCharacterArguments));
                 ++index;
-                Console.Out.WriteLine(index + " " + type.Name);
+               // Console.Out.WriteLine(index + " " + type.Name);
             }
-        }
+        }*/
 
         /// <summary>
         /// Create an empty world.
@@ -233,7 +247,7 @@ namespace WesternSpace
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(bgm);
 
-            LoadCtorInfos();
+           // LoadCtorInfos();
         }
 
         /// <summary>
@@ -267,7 +281,7 @@ namespace WesternSpace
 
             // The spritebatch to be used when creating all of our worldObjects:
             spriteBatch = batchService.GetSpriteBatch(Character.SpriteBatchName);
-            LoadCtorInfos();
+            //LoadCtorInfos();
 
             // Load the contents of the world from the specified XML file:
             LoadWorldXmlFile(fileName);

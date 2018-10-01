@@ -78,9 +78,9 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         // This element is used to represent the interactive area of 
         //  this UI component.
-        private RectangleF bounds;
+        private RectangleF2 bounds;
 
-        virtual public RectangleF Bounds
+        virtual public RectangleF2 Bounds
         {
             get { return bounds; }
             set { bounds = value; }
@@ -185,10 +185,10 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         virtual protected bool MouseIsInside()
         {
-            return Bounds.Contains(new PointF(inputManager.BetterMouse.ScaledPosition.X, inputManager.BetterMouse.ScaledPosition.Y));
+            return Bounds.Contains(new Microsoft.Xna.Framework.Vector2(inputManager.BetterMouse.ScaledPosition.X, inputManager.BetterMouse.ScaledPosition.Y));
         }
 
-        public EditorUIComponent(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF bounds)
+        public EditorUIComponent(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF2 bounds)
             :base(parentScreen, spriteBatch, new Vector2(bounds.X, bounds.Y))
         {
             this.Color = Microsoft.Xna.Framework.Color.White;
@@ -213,7 +213,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
         {
             if (draggable[0] || draggable[1] || draggable[2])
             {
-                Bounds = new RectangleF(Bounds.X + Mouse.ScaledMotion.X, Bounds.Y + Mouse.ScaledMotion.Y, Bounds.Width, Bounds.Height);
+                Bounds = new RectangleF2(Bounds.X + Mouse.ScaledMotion.X, Bounds.Y + Mouse.ScaledMotion.Y, Bounds.Width, Bounds.Height);
                 // Move our bounds if we're a draggable and
                 //  the mouse is inside and a draggable 
                 //  button is held.
@@ -231,7 +231,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 }
                 if (!anyHeldDown)
                 {
-                    Bounds = new RectangleF(Bounds.X - Mouse.ScaledMotion.X, Bounds.Y - Mouse.ScaledMotion.Y, Bounds.Width, Bounds.Height);
+                    Bounds = new RectangleF2(Bounds.X - Mouse.ScaledMotion.X, Bounds.Y - Mouse.ScaledMotion.Y, Bounds.Width, Bounds.Height);
                 }
             }
 

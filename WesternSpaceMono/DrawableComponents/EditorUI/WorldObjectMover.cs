@@ -23,7 +23,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
         /// top-left corner is defined as the centerpoint of the worldObject that we're moving
         /// in the constructor.
         /// </summary>
-        public static RectangleF MIN_BOUNDS = new RectangleF(0,0, 10, 10);
+        public static RectangleF2 MIN_BOUNDS = new RectangleF2(0,0, 10, 10);
 
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         public WorldObjectMover(EditorScreen parentScreen, SpriteBatch spriteBatch, WorldObject worldObject)
             : base(parentScreen, spriteBatch, 
-            new RectangleF(worldObject.ScreenPosition.X, worldObject.ScreenPosition.Y, MIN_BOUNDS.Width, MIN_BOUNDS.Height))
+            new RectangleF2(worldObject.ScreenPosition.X, worldObject.ScreenPosition.Y, MIN_BOUNDS.Width, MIN_BOUNDS.Height))
         {
             this.worldObject = worldObject;
             base.Draggable[0] = true; // Draggable with the left mouse button!
@@ -54,11 +54,11 @@ namespace WesternSpace.DrawableComponents.EditorUI
             removable = !(worldObject is Player);
         }
 
-        public override RectangleF Bounds
+        public override RectangleF2 Bounds
         {
             get
             {
-                return new RectangleF(WorldObject.ScreenPosition.X, WorldObject.ScreenPosition.Y, base.Bounds.Width, base.Bounds.Height);
+                return new RectangleF2(WorldObject.ScreenPosition.X, WorldObject.ScreenPosition.Y, base.Bounds.Width, base.Bounds.Height);
             }
             set 
             {

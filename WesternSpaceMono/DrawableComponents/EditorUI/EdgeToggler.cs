@@ -24,7 +24,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         private ITextureService textureService;
 
-        public EdgeToggler(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, TileSelector tileSelector)
+        public EdgeToggler(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF2 bounds, TileSelector tileSelector)
             : base(parentScreen, spriteBatch, bounds)
         {
             this.tileSelector = tileSelector;

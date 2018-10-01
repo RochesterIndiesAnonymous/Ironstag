@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
 namespace WesternSpace.Utility
 {
     public class RectangleF2
@@ -72,6 +73,9 @@ namespace WesternSpace.Utility
             this.width = width;
             this.height = height;
         }
-
+        public bool Contains(Microsoft.Xna.Framework.Vector2 value)
+        {
+            return ((((this.X <= value.X) && (value.X < (this.X + this.Width))) && (this.Y <= value.Y)) && (value.Y < (this.Y + this.Height)));
+        }
     }
 }

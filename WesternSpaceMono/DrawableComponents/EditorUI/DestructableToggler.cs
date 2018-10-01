@@ -22,7 +22,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         private ITextureService textureService;
 
-        public DestructableToggler(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, TileSelector tileSelector)
+        public DestructableToggler(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF2 bounds, TileSelector tileSelector)
             : base(parentScreen, spriteBatch, bounds)
         {
             this.tileSelector = tileSelector;

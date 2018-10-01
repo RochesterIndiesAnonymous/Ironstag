@@ -426,7 +426,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
         #endregion
 
-        public TileSelector(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, TileMapLayer tileMapLayer, InputMonitor inputMonitor)
+        public TileSelector(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF2 bounds, TileMapLayer tileMapLayer, InputMonitor inputMonitor)
             : base(parentScreen, spriteBatch, bounds)
         {
             this.tileMapLayer = tileMapLayer;

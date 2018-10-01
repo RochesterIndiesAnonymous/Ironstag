@@ -154,7 +154,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 this.sheetIndex = (int)MathHelper.Clamp((this.sheetIndex + (amount > 0 ? 1 : -1)),
                                                                  0,
                                                                  textureService.SheetsArray.Count<SubTextureSheet>() - 1);
-                Bounds = new RectangleF(Position.X, Position.Y, selectingSheet.Texture.Width, selectingSheet.Texture.Height);
+                Bounds = new RectangleF2(Position.X, Position.Y, selectingSheet.Texture.Width, selectingSheet.Texture.Height);
             }
             base.OnMouseScroll(amount);
         }
@@ -181,16 +181,16 @@ namespace WesternSpace.DrawableComponents.EditorUI
                 // We're now selecting a texture.
                 if (subTexture != null)
                     this.selectingSheet = subTexture.Sheet;
-                this.Bounds = new RectangleF(Position.X, Position.Y, selectingSheet.Rectangle.Width, selectingSheet.Rectangle.Height);
+                this.Bounds = new RectangleF2(Position.X, Position.Y, selectingSheet.Rectangle.Width, selectingSheet.Rectangle.Height);
             }
             else
             {
-                this.Bounds = new RectangleF(Position.X, Position.Y, TileMap.TileWidth, TileMap.TileWidth);
+                this.Bounds = new RectangleF2(Position.X, Position.Y, TileMap.TileWidth, TileMap.TileWidth);
             }
         }
 
         public SubTextureSelector(EditorScreen parentScreen, SpriteBatch spriteBatch, TileSelector tileSelector, int layerIndex, int subLayerIndex)
-            :base(parentScreen, spriteBatch, new RectangleF())
+            :base(parentScreen, spriteBatch, new RectangleF2())
         {
             this.Color = Microsoft.Xna.Framework.Color.White;
             textureService = (ITextureService)Game.Services.GetService(typeof(ITextureService));
@@ -212,7 +212,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
 
             Microsoft.Xna.Framework.Rectangle rect =
                 new Microsoft.Xna.Framework.Rectangle(0, 0, TileMap.TileWidth, TileMap.TileHeight);
-            this.Bounds = new RectangleF(Position.X, Position.Y, rect.Width, rect.Height);
+            this.Bounds = new RectangleF2(Position.X, Position.Y, rect.Width, rect.Height);
         }
 
         public override void Draw(GameTime gameTime)

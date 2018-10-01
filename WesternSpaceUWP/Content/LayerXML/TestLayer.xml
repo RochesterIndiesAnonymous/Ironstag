@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Layer>
+  <Textures>
+    <Texture FileName="Textures\\TestSheetInfo" Index="0" ColorRed="255" ColorGreen="0" ColorBlue="0" />
+    <Texture FileName="Textures\\TestSheetInfo" Index="1" ColorRed="0" ColorGreen="255" ColorBlue="0" />
+    <Texture FileName="Textures\\TestSheetInfo" Index="2" ColorRed="0" ColorGreen="0" ColorBlue="255" />
+    <Texture FileName="Textures\\TestSheetInfo" Index="4" ColorRed="0" ColorGreen="255" ColorBlue="255" />
+    <Texture FileName="Textures\\TestSheetInfo" Index="5" ColorRed="255" ColorGreen="255" ColorBlue="0" />
+  </Textures>
+</Layer>

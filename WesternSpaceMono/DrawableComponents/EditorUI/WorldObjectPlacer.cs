@@ -44,7 +44,7 @@ namespace WesternSpace.DrawableComponents.EditorUI
             set { drawObjectCursor = value; }
         }
 
-        public WorldObjectPlacer(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF bounds, World world)
+        public WorldObjectPlacer(EditorScreen parentScreen, SpriteBatch spriteBatch, RectangleF2 bounds, World world)
             : base(parentScreen, spriteBatch, bounds)
         {
             this.index = 1;
