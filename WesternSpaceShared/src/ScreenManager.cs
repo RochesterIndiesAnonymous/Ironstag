@@ -79,7 +79,7 @@ namespace WesternSpace
         /// <summary>
         /// The resolution settings to use when the game is running in windowed mode
         /// </summary>
-        private static ResolutionSettings windowedSettings = new ResolutionSettings(320, 240, 640, 480, false);
+        private static ResolutionSettings windowedSettings = new ResolutionSettings(320, 240, 1920, 1080, false);
 
         public static ResolutionSettings WindowedSettings
         {

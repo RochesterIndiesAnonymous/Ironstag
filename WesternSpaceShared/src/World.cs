@@ -260,7 +260,7 @@ namespace WesternSpace
             waveBank = new WaveBank(audioEngine, "Content\\System\\Sounds\\Win\\GameWavs.xwb");
 
             // bgm = this.Game.Content.Load<Song>("System\\Music\\DesertBGM");
-            String songFilename = @"Content/System/Music/DesertBGM.mp3"; //replaced ogg with mp3 for monogame 9/6/22
+            String songFilename = @"Content/System/Music/DesertBGM.ogg"; //replaced ogg with mp3 for monogame 9/6/22
             bgm = Song.FromUri(songFilename, new Uri(songFilename, UriKind.Relative));
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(bgm);
