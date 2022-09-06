@@ -1374,11 +1374,11 @@
 #begin System/Sounds/Win/SoundFX.xgs
 /copy:System/Sounds/Win/SoundFX.xgs
 
-#begin System/Effects/SetAlphaValue.mgfxo
-#/copy:System/Effects/SetAlphaValue.mgfxo
+#begin System/Effects/SetSepiaFilter.mgfxd
+#/copy:System/Effects/SetSepiaFilter.mgfxd
 
 #begin System/Effects/SetAlphaValue.mgfxd
-#/copy:System/Effects/SetAlphaValue.mgfxd
+/copy:System/Effects/SetAlphaValue.mgfxd
 
 #begin System/Music/DesertBGM.ogg
 /copy:System/Music/DesertBGM.ogg
