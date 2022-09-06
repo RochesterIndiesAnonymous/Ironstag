@@ -10,7 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\XnaXmlContentPipeline\bin\Debug\net6.0\SharpFont.dll
+#/reference:..\..\XnaXmlContentPipeline\bin\Debug\net6.0\SharpFont.dll
 /reference:..\..\XnaXmlContentPipeline\bin\Debug\net6.0\XnaXmlContentPipeline.dll
 /reference:..\..\XnaXmlContentPipeline\bin\Debug\net6.0\XnaXmlContentReader.dll
 
@@ -1338,6 +1338,18 @@
 /processorParam:TextureFormat=Color
 /build:System/Fonts/WesternSpaceFont.bmp
 
+#begin System\Effects\SetAlphaValue.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:Profile=OpenGL
+/processorParam:Debug
+/build:System\Effects\SetAlphaValue.fx
+
+#begin System\Effects\SetSepiaFilter.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/build:System\Effects\SetSepiaFilter.fx
+
 #begin System/Music/DesertBGM.mp3
 /copy:System/Music/DesertBGM.mp3
 
@@ -1363,10 +1375,10 @@
 /copy:System/Sounds/Win/SoundFX.xgs
 
 #begin System/Effects/SetAlphaValue.mgfxo
-/copy:System/Effects/SetAlphaValue.mgfxo
+#/copy:System/Effects/SetAlphaValue.mgfxo
 
 #begin System/Effects/SetAlphaValue.mgfxd
-/copy:System/Effects/SetAlphaValue.mgfxd
+#/copy:System/Effects/SetAlphaValue.mgfxd
 
 #begin System/Music/DesertBGM.ogg
 /copy:System/Music/DesertBGM.ogg

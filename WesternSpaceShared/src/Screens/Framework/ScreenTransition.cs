@@ -76,8 +76,8 @@ namespace WesternSpace.Screens
 
             //alphaEffect = ScreenManager.Instance.Content.Load<Effect>("System\\Effects\\SetAlphaValue");
             // need to recompile shaders for mongame3.8 brett 9/6/22
-            //byte[] bytecode = File.ReadAllBytes("Content/System/Effects/SetAlphaValue.mgfxd");
-            //alphaEffect = new Effect(ScreenManager.Instance.GraphicsDevice, bytecode);
+            byte[] bytecode = File.ReadAllBytes("Content/System/Effects/SetAlphaValue.mgfxd");
+            alphaEffect = new Effect(ScreenManager.Instance.GraphicsDevice, bytecode);
         }
 
         public void Update()

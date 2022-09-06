@@ -188,8 +188,9 @@ namespace WesternSpace
             sb = new SpriteBatch(GraphicsDevice);
 
             // need to compile shaders first brett 9/6/22 for monogame 3.8
-            //byte[] bytecode = File.ReadAllBytes("Content/System/Effects/SetAlphaValue.mgfxd");
-            //this.alphaEffect = new Effect(this.graphics.GraphicsDevice, bytecode);
+            //Effect r = Content.Load<Effect>("Content/System/Effects/SetAlphaValue");
+            byte[] bytecode = File.ReadAllBytes("Content/System/Effects/SetAlphaValue.mgfxd");
+            this.alphaEffect = new Effect(this.graphics.GraphicsDevice, bytecode);
       
             //For profiling:
             /*

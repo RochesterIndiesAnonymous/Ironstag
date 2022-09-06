@@ -50,8 +50,8 @@ namespace WesternSpace.Screens
         
             // alphaEffect = ScreenManager.Instance.Content.Load<Effect>("System\\Effects\\SetAlphaValue");
             // need to recompile shaders for mongame3.8 brett 9/6/22
-            //byte[] bytecode = File.ReadAllBytes( "Content/System/Effects/SetAlphaValue.mgfxd");
-            //alphaEffect = new Effect(screen.GraphicsDevice, bytecode);
+            byte[] bytecode = File.ReadAllBytes( "Content/System/Effects/SetAlphaValue.mgfxd");
+            alphaEffect = new Effect(screen.GraphicsDevice, bytecode);
         }
 
         public void Update()
@@ -73,7 +73,7 @@ namespace WesternSpace.Screens
         public void BeginTransition()
         {
             
-          // alphaEffect.Parameters["AlphaValue"].SetValue(this.currentAlphaValue); disabled for shaders btm 9/6/22
+          alphaEffect.Parameters["AlphaValue"].SetValue(this.currentAlphaValue);
            // alphaEffect.CurrentTechnique.Passes[0].Apply();
             //  alphaEffect.Begin();
             //alphaEffect.CurrentTechnique.Passes[0].Begin();

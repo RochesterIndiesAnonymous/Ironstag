@@ -1,0 +1,9 @@
+#install tools
+#dotnet tool install --global dotnet-mgcb-editor --version 3.8.1.303
+dotnet tool install --global dotnet-mgcb --version 3.8.1.303
+dotnet tool install --global dotnet-mgfxc --version 3.8.1.303
+
+#compile shaders
+mgfxc SetAlphaValue.fx SetAlphaValue.mgfxd /Profile:OpenGL
+mgfxc SetSepiaFilter.fx SetSepiaFilter.mgfxd /Profile:OpenGL
+

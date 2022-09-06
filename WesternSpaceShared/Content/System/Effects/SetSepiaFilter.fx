@@ -23,10 +23,15 @@ float4 PixelShaderFunction(float4 pos : SV_POSITION, float4 color1 : COLOR0, flo
 
 //-------------------------- TECHNIQUES ----------------------------------------
 // This technique is pretty simple - only one pass, and only a pixel shader
+#if OPENGL
+	#define PS_SHADERMODEL ps_3_0
+#else
+	#define PS_SHADERMODEL ps_4_0_level_9_3
+#endif
 technique BlackAndWhite
 {
 	pass Pass1
 	{
-		PixelShader = compile ps_4_0_level_9_3  PixelShaderFunction();
+		PixelShader = compile ps_3_0  PixelShaderFunction();
 	}
 }
