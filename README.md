@@ -11,7 +11,7 @@ Created by students at RIT for a beginner's game development class.
 
 ## TODO
 
-- Port to MonoGame (Done)
+- Port to MonoGame 3.8 and .NetCore6.0 (Done)
 - Build instructions
 - Conquer the world
 - Update [author info](https://help.github.com/articles/changing-author-info) with the correct github profiles (where applicable)
