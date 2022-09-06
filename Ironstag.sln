@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XnaXmlContentPipeline", "Xn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XnaXmlContentReader", "XnaXmlContentReader\XnaXmlContentReader.csproj", "{8E7CDE28-7F4B-44DD-BC80-B27DC198F85F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternSpaceX", "WesternSpaceX\WesternSpaceX.csproj", "{640C3500-78C7-4DA5-B6AF-8D615B0B367D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{8E7CDE28-7F4B-44DD-BC80-B27DC198F85F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E7CDE28-7F4B-44DD-BC80-B27DC198F85F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E7CDE28-7F4B-44DD-BC80-B27DC198F85F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{640C3500-78C7-4DA5-B6AF-8D615B0B367D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{640C3500-78C7-4DA5-B6AF-8D615B0B367D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{640C3500-78C7-4DA5-B6AF-8D615B0B367D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{640C3500-78C7-4DA5-B6AF-8D615B0B367D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +44,7 @@ Global
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		WesternSpaceShared\WesternSpaceShared.projitems*{26adb3f8-c685-459a-89f6-944ff73a9994}*SharedItemsImports = 5
+		WesternSpaceShared\WesternSpaceShared.projitems*{640c3500-78c7-4da5-b6af-8d615b0b367d}*SharedItemsImports = 5
 		WesternSpaceShared\WesternSpaceShared.projitems*{a0cdbd0e-3a41-42b7-9425-a838bc2c7383}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

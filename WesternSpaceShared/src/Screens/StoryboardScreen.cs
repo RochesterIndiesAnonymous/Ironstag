@@ -218,7 +218,7 @@ namespace WesternSpace.Screens
             System.Console.Write("{0}\n", xdoc.Root.Attribute("Song").Value);
 
             //storyboardSong = ScreenManager.Instance.Content.Load<Song>(xdoc.Root.Attribute("Song").Value);
-            String songFilename = @"Content/" + xdoc.Root.Attribute("Song").Value.Replace("\\","/") + ".mp3"; //changes to ogg to mp3 to work with desktop gl
+            String songFilename = @"Content/" + xdoc.Root.Attribute("Song").Value.Replace("\\","/") + ".ogg"; //changes to ogg to mp3 to work with desktop gl
             //String songFilename = "Content/System/Music/TitleScreenBGM.ogg";
             storyboardSong = Song.FromUri(songFilename, new Uri(songFilename, UriKind.Relative));
 
