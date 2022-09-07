@@ -2,7 +2,7 @@ Ironstag
 ========
 
 <p align="center">
-  <img src="raw.githubusercontent.com/RochesterIndiesAnonymous/Ironstag/master/WesternSpaceShared/Content/Textures/Cutscenes/Intro7.png" />
+  <img src="https://raw.githubusercontent.com/RochesterIndiesAnonymous/Ironstag/master/WesternSpaceShared/Content/Textures/Cutscenes/Intro7.png" />
 </p>
 
 XNA/MonoGame-based, megamanesque platformer with a space-western theme.
