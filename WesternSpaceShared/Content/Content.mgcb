@@ -11,8 +11,8 @@
 #-------------------------------- References --------------------------------#
 
 #/reference:..\..\XnaXmlContentPipeline\bin\$(Configuration)\net6.0\SharpFont.dll
-/reference:..\..\XnaXmlContentPipeline\bin\$(Configuration)\net6.0\XnaXmlContentPipeline.dll
-/reference:..\..\XnaXmlContentPipeline\bin\$(Configuration)\net6.0\XnaXmlContentReader.dll
+/reference:..\..\XnaXmlContentPipeline\bin\Release\net6.0\XnaXmlContentPipeline.dll
+/reference:..\..\XnaXmlContentPipeline\bin\Release\net6.0\XnaXmlContentReader.dll
 
 #---------------------------------- Content ---------------------------------#
 
