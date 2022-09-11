@@ -10,6 +10,8 @@ Task("Clean")
     .Does(() =>
 {
     CleanDirectory($"./WesternSpace/bin/{configuration}");
+    CleanDirectory($"./XnaXmlContentPipeline/bin/{configuration}");
+    CleanDirectory($"./XnaXmlContentReader/bin/{configuration}");
 });
 
 Task("Build")
