@@ -21,18 +21,18 @@ jobs:
         run: dotnet tool restore
 #       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
 #       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }} -R
-#       - run: echo "🍏 This job's status is ${{ job.status }}."
+#       - name: List files in the repository
+#         run: |
+#           ls ${{ github.workspace }} -R
+# #       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Run the build script
         uses: cake-build/cake-action@v1
         with:
           target: Build
-      - name: List files in the repository
-        if: always()
-        run: |
-          ls ${{ github.workspace }} -R
+      # - name: List files in the repository
+      #   if: always()
+      #   run: |
+      #     ls ${{ github.workspace }} -R
           
           
           
