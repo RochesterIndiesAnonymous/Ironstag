@@ -19,7 +19,7 @@ Task("BuildXnaXmlContentReaderDesktopGL")
     .Does(() =>
 {
     DotNetRestore("./XnaXmlContentReader/.csproj");
-    PackDotnet(".XnaXmlContentReader/XnaXmlContentReader.csproj");
+    //PackDotnet(".XnaXmlContentReader/XnaXmlContentReader.csproj");
 });
 
 Task("BuildXnaXmlContentPipelineDesktopGL")
@@ -27,7 +27,7 @@ Task("BuildXnaXmlContentPipelineDesktopGL")
     .Does(() =>
 {
     DotNetRestore("./XnaXmlContentPipeline/XnaXmlContentPipeline.csproj.csproj");
-    PackDotnet("./XnaXmlContentPipeline/XnaXmlContentPipeline.csproj.csproj");
+    //PackDotnet("./XnaXmlContentPipeline/XnaXmlContentPipeline.csproj.csproj");
 });
 
 // Task("Build")
