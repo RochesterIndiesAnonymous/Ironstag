@@ -30,5 +30,9 @@ jobs:
         with:
           target: Build
       - name: List files in the repository
+        if: always()
         run: |
           ls ${{ github.workspace }} -R
+          
+          
+          
