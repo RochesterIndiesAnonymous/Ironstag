@@ -1,11 +1,11 @@
-name: Ironstag (Build Pipeline)
+name: Build
 on: [push]
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-2019]
+        os: [windows-latest]
 #         os: [windows-2019, macOS-latest, ubuntu-latest]
     env:
       BUILD: Release

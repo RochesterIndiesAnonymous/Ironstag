@@ -12,9 +12,22 @@ Task("Clean")
     CleanDirectory("./WesternSpace/bin");
     CleanDirectory("./XnaXmlContentPipeline/bin");
     CleanDirectory("./XnaXmlContentReader/bin");
-    //CleanDirectory($"./WesternSpace/bin/{configuration}");
-    //CleanDirectory($"./XnaXmlContentPipeline/bin/{configuration}");
-    //CleanDirectory($"./XnaXmlContentReader/bin/{configuration}");
+});
+
+Task("DownloadDependencies")
+    .WithCriteria(() => IsRunningOnMacOs())
+    .Does(() =>
+{
+    StartProcess("sh", new ProcessSettings{
+        Arguments = "./mgfxc_build_dependencies.sh"
+    });
+
+    StartProcess("sh", new ProcessSettings{
+        Arguments = "./mgfxc_wine_setup.sh"
+    });
+
+    // Set MGFXC_WINE_PATH for building shaders on macOS and Linux
+    System.Environment.SetEnvironmentVariable("MGFXC_WINE_PATH", EnvironmentVariable("HOME") + "/.winemonogame");
 });
 
 Task("BuildXnaXmlContentReader")
@@ -42,7 +55,8 @@ Task("BuildXnaXmlContentPipeline")
 });
 
 Task("Build")
-.IsDependentOn("BuildXnaXmlContentReader")
+    .IsDependentOn("DownloadDependencies")
+    .IsDependentOn("BuildXnaXmlContentReader")
     .IsDependentOn("BuildXnaXmlContentPipeline")
     .Does(() =>
 {
