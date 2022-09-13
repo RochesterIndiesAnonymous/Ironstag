@@ -7,6 +7,8 @@ jobs:
       matrix:
         os: [windows-2019]
 #         os: [windows-2019, macOS-latest, ubuntu-latest]
+    env:
+      BUILD: Release
     steps:
       - name: Get the sources
         uses: actions/checkout@v3
@@ -21,7 +23,7 @@ jobs:
         with:
           target: Build
           arguments: |
-            configuration: Release
+            configuration: ${{env.BUILD}}
       - name: Zip Release
         # You may pin to the exact commit or the version.
         # uses: TheDoctor0/zip-release@09336613be18a8208dfa66bd57efafd9e2685657
@@ -30,15 +32,9 @@ jobs:
           # Filename for archive
           filename: ironstag-${{runner.os}}-artifact.zip
           # Base path for archive files
-          path: ./WesternSpace/bin
+          path: ./WesternSpace/bin/${{env.BUILD}}/net6.0
           # Working directory before zipping
           directory: .
-          # List of excluded files / directories
-          #exclusions: # optional, default is 
-          # List of excluded files / directories with recursive wildcards (only applies on Windows with `zip` type)
-          #recursive_exclusions: # optional, default is 
-          # Tool to use for archiving
-          #type: # optional, default is zip
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
