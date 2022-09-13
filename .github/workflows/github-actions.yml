@@ -20,9 +20,26 @@ jobs:
         uses: cake-build/cake-action@v1
         with:
           target: Build
-      - name: Build project # This would actually build your project, using zip for an example artifact
-        run: |
-          zip --junk-paths my-artifact README.md
+      - name: Zip Release
+        # You may pin to the exact commit or the version.
+        # uses: TheDoctor0/zip-release@09336613be18a8208dfa66bd57efafd9e2685657
+        uses: TheDoctor0/zip-release@0.6.2
+        with:
+          # Filename for archive
+          filename: my-artifact.zip
+          # Base path for archive files
+          path: ./WesternSpace/WesternSpace/bin
+          # Working directory before zipping
+          directory: .
+          # List of excluded files / directories
+          #exclusions: # optional, default is 
+          # List of excluded files / directories with recursive wildcards (only applies on Windows with `zip` type)
+          #recursive_exclusions: # optional, default is 
+          # Tool to use for archiving
+          #type: # optional, default is zip
+#       - name: Build project # This would actually build your project, using zip for an example artifact
+#         run: |
+#           zip --junk-paths my-artifact README.md
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
