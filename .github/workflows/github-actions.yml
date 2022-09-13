@@ -26,7 +26,7 @@ jobs:
         uses: TheDoctor0/zip-release@0.6.2
         with:
           # Filename for archive
-          filename: ironstag-artifact.zip
+          filename: ironstag-${{runner.os}}-artifact.zip
           # Base path for archive files
           path: ./WesternSpace/bin
           # Working directory before zipping
@@ -43,7 +43,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: ${{ github.ref }}
+          tag_name: Ironstag/${{ github.ref }}
           release_name: Ironstag ${{ github.ref }}
           body: |
             Changes in this Release
@@ -58,8 +58,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ironstag-artifact.zip
-          asset_name: ironstag-artifact.zip
+          asset_path: ./ironstag-${{runner.os}}-artifact.zip
+          asset_name: ironstag-${{runner.os}}-artifact.zip
           asset_content_type: artifact/zip
           
           
