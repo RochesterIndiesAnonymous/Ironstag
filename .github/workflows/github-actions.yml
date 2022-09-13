@@ -28,9 +28,9 @@ jobs:
           # Filename for archive
           filename: ironstag-artifact.zip
           # Base path for archive files
-          path: .
+          path: ./WesternSpace
           # Working directory before zipping
-          directory: ./WesternSpace/Debug
+          directory: .
           # List of excluded files / directories
           #exclusions: # optional, default is 
           # List of excluded files / directories with recursive wildcards (only applies on Windows with `zip` type)
