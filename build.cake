@@ -19,7 +19,7 @@ Task("DownloadDependencies")
     .Does(() =>
 {
     StartProcess("sh", new ProcessSettings{
-        Arguments = "./mgfxc-build-dependencies.sh"
+        Arguments = "./mgfxc_build_dependencies.sh"
     });
 
     StartProcess("sh", new ProcessSettings{
