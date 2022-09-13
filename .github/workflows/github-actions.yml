@@ -28,7 +28,7 @@ jobs:
           # Filename for archive
           filename: my-artifact.zip
           # Base path for archive files
-          path: ./WesternSpace/WesternSpace/bin
+          path: .
           # Working directory before zipping
           directory: .
           # List of excluded files / directories
