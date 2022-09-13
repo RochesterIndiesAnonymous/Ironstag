@@ -26,20 +26,17 @@ jobs:
         uses: TheDoctor0/zip-release@0.6.2
         with:
           # Filename for archive
-          filename: my-artifact.zip
+          filename: ironstag-artifact.zip
           # Base path for archive files
           path: .
           # Working directory before zipping
-          directory: .
+          directory: ./WesternSpace/Debug
           # List of excluded files / directories
           #exclusions: # optional, default is 
           # List of excluded files / directories with recursive wildcards (only applies on Windows with `zip` type)
           #recursive_exclusions: # optional, default is 
           # Tool to use for archiving
           #type: # optional, default is zip
-#       - name: Build project # This would actually build your project, using zip for an example artifact
-#         run: |
-#           zip --junk-paths my-artifact README.md
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -47,7 +44,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          release_name: Ironstag ${{ github.ref }}
           body: |
             Changes in this Release
             - First Change
@@ -61,8 +58,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./my-artifact.zip
-          asset_name: my-artifact.zip
+          asset_path: ./ironstag-artifact.zip
+          asset_name: ironstag-artifact.zip
           asset_content_type: artifact/zip
           
           
