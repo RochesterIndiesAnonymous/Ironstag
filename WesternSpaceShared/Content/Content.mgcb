@@ -9,10 +9,19 @@
 /compress:False
 
 #-------------------------------- References --------------------------------#
-
-#/reference:..\..\XnaXmlContentPipeline\bin\Debug\net6.0\SharpFont.dll
+$if Test=Debug
 /reference:..\..\XnaXmlContentPipeline\bin\Debug\net6.0\XnaXmlContentPipeline.dll
 /reference:..\..\XnaXmlContentPipeline\bin\Debug\net6.0\XnaXmlContentReader.dll
+$endif
+
+$if Test=Release
+/reference:..\..\XnaXmlContentPipeline\bin\Release\net6.0\XnaXmlContentPipeline.dll
+/reference:..\..\XnaXmlContentPipeline\bin\Release\net6.0\XnaXmlContentReader.dll
+$endif
+
+#/reference:..\..\XnaXmlContentPipeline\bin\Debug\net6.0\SharpFont.dll
+#/reference:..\..\XnaXmlContentPipeline\bin\$(Test)\net6.0\XnaXmlContentPipeline.dll
+#/reference:..\..\XnaXmlContentPipeline\bin\$(Test)\net6.0\XnaXmlContentReader.dll
 
 #---------------------------------- Content ---------------------------------#
 
