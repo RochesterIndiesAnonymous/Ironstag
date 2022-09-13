@@ -21,52 +21,52 @@ jobs:
     - name: Get the sources
       uses: actions/checkout@v3
     - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.x'
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
     - name: Restore dotnet tools
-        run: dotnet tool restore
+      run: dotnet tool restore
     - name: Run the build script
-        uses: cake-build/cake-action@v1
-        with:
-          target: Build
-          arguments: |
-            configuration: ${{env.BUILD}}
+      uses: cake-build/cake-action@v1
+      with:
+        target: Build
+        arguments: |
+          configuration: ${{env.BUILD}}
     - name: Zip Release
         # You may pin to the exact commit or the version.
         # uses: TheDoctor0/zip-release@09336613be18a8208dfa66bd57efafd9e2685657
-        uses: TheDoctor0/zip-release@0.6.2
-        with:
-          # Filename for archive
-          filename: ironstag-${{runner.os}}-artifact.zip
-          # Base path for archive files
-          path: ./WesternSpace/bin/${{env.BUILD}}/net6.0
-          # Working directory before zipping
-          directory: .
+      uses: TheDoctor0/zip-release@0.6.2
+      with:
+        # Filename for archive
+        filename: ironstag-${{runner.os}}-artifact.zip
+        # Base path for archive files
+        path: ./WesternSpace/bin/${{env.BUILD}}/net6.0
+        # Working directory before zipping
+        directory: .
     - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        with:
-          tag_name: ${{ steps.release-version.outputs.next-version }}
-          release_name: Version ${{ steps.release-version.outputs.next-version }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
-          draft: false
-          prerelease: false
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+        tag_name: ${{ steps.release-version.outputs.next-version }}
+        release_name: Version ${{ steps.release-version.outputs.next-version }}
+        body: |
+          Changes in this Release
+          - First Change
+          - Second Change
+        draft: false
+        prerelease: false
     - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ironstag-${{runner.os}}-artifact.zip
-          asset_name: ironstag-${{runner.os}}-artifact.zip
-          asset_content_type: artifact/zip
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./ironstag-${{runner.os}}-artifact.zip
+        asset_name: ironstag-${{runner.os}}-artifact.zip
+        asset_content_type: artifact/zip
 
     # # Create GitHub Release
     # - name: Create GitHub Release
