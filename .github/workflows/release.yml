@@ -9,7 +9,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-2019]
+        os: [windows-2019, macOS-latest]
+#         os: [windows-2019, macOS-latest, ubuntu-latest]
     env:
       BUILD: Release
     steps:
