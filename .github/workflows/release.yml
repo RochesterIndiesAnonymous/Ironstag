@@ -13,11 +13,6 @@ jobs:
     env:
       BUILD: Release
     steps:
-    # - uses: wemogy/next-version-action@1.0.2
-    #   id: release-version
-    #   with:
-    #     token: ${{ secrets.GITHUB_TOKEN }}
-    #     projects: 'Single'
     - name: Get the sources
       uses: actions/checkout@v3
     - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
@@ -38,7 +33,7 @@ jobs:
       uses: TheDoctor0/zip-release@0.6.2
       with:
         # Filename for archive
-        filename: ironstag-${{runner.os}}-artifact.zip
+        filename: ironstag-${{runner.os}}-${{github.run_number}}-artifact.zip
         # Base path for archive files
         path: ./WesternSpace/bin/${{env.BUILD}}/net6.0
         # Working directory before zipping
@@ -78,15 +73,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./ironstag-${{runner.os}}-artifact.zip
-        asset_name: ironstag-${{runner.os}}-artifact.zip
+        asset_path: ./ironstag-${{runner.os}}-${{github.run_number}}-artifact.zip
+        asset_name: ironstag-${{runner.os}}-${{github.run_number}}-artifact.zip
         asset_content_type: artifact/zip
-
-    # # Create GitHub Release
-    # - name: Create GitHub Release
-    #   uses: softprops/action-gh-release@v1
-    #   with:
-    #     tag_name: ${{ steps.release-version.outputs.next-version }}
-    #     name: Version ${{ steps.release-version.outputs.next-version }}
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
