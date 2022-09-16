@@ -16,27 +16,15 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
-      # - name: Restore dotnet tools
-      #   run: dotnet tool restore
-      # - name: Run the build script
-      #   uses: cake-build/cake-action@v1
-      #   with:
-      #     target: Build
-      #     arguments: |
-      #       configuration: ${{env.BUILD}}
-      - name: Get version and version code
-        uses: xom9ikk/version-by-tag@v1
-        id: version_by_tag
+      - name: Restore dotnet tools
+        run: dotnet tool restore
+      - name: Run the build script
+        uses: cake-build/cake-action@v1
         with:
-          path: ./
-          isUseGithubRunNumber: false
-          offset: 77
-
-      - name: Some other action
-        run: |
-          echo "Tag: ${{ steps.version_by_tag.outputs.tag }}"
-          echo "Semver: ${{ steps.version_by_tag.outputs.semver }}"
-          echo "Version code: ${{ steps.version_by_tag.outputs.versionCode }}"
+          target: Build
+          arguments: |
+            configuration: ${{env.BUILD}}
+     
 #       - name: Zip Release
 #         # You may pin to the exact commit or the version.
 #         # uses: TheDoctor0/zip-release@09336613be18a8208dfa66bd57efafd9e2685657
