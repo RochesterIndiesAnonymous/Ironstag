@@ -18,18 +18,6 @@ jobs:
     #   with:
     #     token: ${{ secrets.GITHUB_TOKEN }}
     #     projects: 'Single'
-    - name: Get version and version code
-      uses: xom9ikk/version-by-tag@v1
-      id: version_by_tag
-      with:
-        path: ./
-        isUseGithubRunNumber: false
-        offset: 0
-    - name: Some other action
-      run: |
-        echo "Tag: ${{ steps.version_by_tag.outputs.tag }}"
-        echo "Semver: ${{ steps.version_by_tag.outputs.semver }}"
-        echo "Version code: ${{ steps.version_by_tag.outputs.versionCode }}"
     - name: Get the sources
       uses: actions/checkout@v3
     - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
@@ -55,6 +43,18 @@ jobs:
         path: ./WesternSpace/bin/${{env.BUILD}}/net6.0
         # Working directory before zipping
         directory: .
+    - name: Get version and version code
+      uses: xom9ikk/version-by-tag@v1
+      id: version_by_tag
+      with:
+        path: ./
+        isUseGithubRunNumber: false
+        offset: 0
+    - name: Some other action
+      run: |
+        echo "Tag: ${{ steps.version_by_tag.outputs.tag }}"
+        echo "Semver: ${{ steps.version_by_tag.outputs.semver }}"
+        echo "Version code: ${{ steps.version_by_tag.outputs.versionCode }}"
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
