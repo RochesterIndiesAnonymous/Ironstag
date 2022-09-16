@@ -43,13 +43,15 @@ jobs:
         path: ./WesternSpace/bin/${{env.BUILD}}/net6.0
         # Working directory before zipping
         directory: .
+    - name: Calculate offset and set env
+      run: echo OFFSET=`echo $((123 + ${{ github.run_number }}))` >> $GITHUB_ENV
     - name: Get version and version code
       uses: xom9ikk/version-by-tag@v1
       id: version_by_tag
       with:
         path: ./
         isUseGithubRunNumber: false
-        offset: 5
+        offset: ${{ env.OFFSET }}
     - name: Some other action
       run: |
         echo "Tag: ${{ steps.version_by_tag.outputs.tag }}"
