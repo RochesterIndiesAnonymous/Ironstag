@@ -49,7 +49,7 @@ jobs:
       with:
         path: ./
         isUseGithubRunNumber: false
-        offset: 0
+        offset: 5
     - name: Some other action
       run: |
         echo "Tag: ${{ steps.version_by_tag.outputs.tag }}"
