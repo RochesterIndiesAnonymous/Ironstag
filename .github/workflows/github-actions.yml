@@ -16,8 +16,8 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
-      - name: Restore dotnet tools
-        run: dotnet tool restore
+      # - name: Restore dotnet tools
+      #   run: dotnet tool restore
       # - name: Run the build script
       #   uses: cake-build/cake-action@v1
       #   with:
@@ -28,7 +28,7 @@ jobs:
         uses: xom9ikk/version-by-tag@v1
         id: version_by_tag
         with:
-          path: custom_path_to_repo
+          path: ./
           isUseGithubRunNumber: false
           offset: 77
 
