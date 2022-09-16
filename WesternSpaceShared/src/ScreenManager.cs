@@ -149,11 +149,10 @@ namespace WesternSpace
         public void Window_ClientSizeChanged(Object sender, System.EventArgs e)
         {
             Window.ClientSizeChanged -= Window_ClientSizeChanged;
-            //graphics.PreferredBackBufferWidth = Window.ClientBounds.Width < 100 ? 100 : Window.ClientBounds.Width;
-            //graphics.PreferredBackBufferHeight = Window.ClientBounds.Height < 100 ? 100 : Window.ClientBounds.Height;
-            //resolutionService.StartTextureHeight
-            //graphics.ApplyChanges();
-            ResolutionService.CurrentResolutionSettings = new ResolutionSettings(320, 240, Window.ClientBounds.Width, Window.ClientBounds.Height, false);
+            if (!this.isFullScreen)
+            {
+                ResolutionService.CurrentResolutionSettings = new ResolutionSettings(320, 240, Window.ClientBounds.Width, Window.ClientBounds.Height, false);
+            }
             Window.ClientSizeChanged += Window_ClientSizeChanged;
         }
 
