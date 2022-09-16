@@ -43,28 +43,28 @@ jobs:
         path: ./WesternSpace/bin/${{env.BUILD}}/net6.0
         # Working directory before zipping
         directory: .
-    - name: Calculate offset and set env
-      run: echo OFFSET=`echo $((123 + ${{ github.run_number }}))` >> $GITHUB_ENV
-    - name: Get version and version code
-      uses: xom9ikk/version-by-tag@v1
-      id: version_by_tag
-      with:
-        path: ./
-        isUseGithubRunNumber: false
-        offset: ${{ env.OFFSET }}
-    - name: Some other action
-      run: |
-        echo "Tag: ${{ steps.version_by_tag.outputs.tag }}"
-        echo "Semver: ${{ steps.version_by_tag.outputs.semver }}"
-        echo "Version code: ${{ steps.version_by_tag.outputs.versionCode }}"
+#     - name: Calculate offset and set env
+#       run: echo OFFSET=`echo $((123 + ${{ github.run_number }}))` >> $GITHUB_ENV
+#     - name: Get version and version code
+#       uses: xom9ikk/version-by-tag@v1
+#       id: version_by_tag
+#       with:
+#         path: ./
+#         isUseGithubRunNumber: false
+#         offset: ${{ env.OFFSET }}
+#     - name: Some other action
+#       run: |
+#         echo "Tag: ${{ steps.version_by_tag.outputs.tag }}"
+#         echo "Semver: ${{ steps.version_by_tag.outputs.semver }}"
+#         echo "Version code: ${{ steps.version_by_tag.outputs.versionCode }}"
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
       with:
-        tag_name: ${{ steps.version_by_tag.outputs.tag }}
-        release_name: Version ${{ steps.version_by_tag.outputs.semver }}
+        tag_name: ${{ github.run_number }}
+        release_name: Version ${{ github.run_number }}
         body: |
           Changes in this Release
           - First Change
