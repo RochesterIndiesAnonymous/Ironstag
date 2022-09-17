@@ -16,7 +16,11 @@ Created by students at RIT for a beginner's game development class.
 - Conquer the world
 - Update [author info](https://help.github.com/articles/changing-author-info) with the correct github profiles (where applicable)
 
-## How to dowload a prebuilt version of this application
+## Available Platforms
+- Windows
+- MacOS Monterey (Intel)
+
+## How to dowload the latest version of this application
 
 Its available on github release page
 
