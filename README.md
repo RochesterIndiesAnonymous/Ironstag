@@ -18,7 +18,7 @@ Created by students at RIT for a beginner's game development class.
 
 ## Available Platforms
 - Windows
-- MacOS Monterey (Intel)
+- MacOS Monterey (Intel) (Works in VS Code, Binary doesnt work yet)
 
 ## How to dowload the latest version of this application
 
@@ -29,3 +29,8 @@ https://github.com/RochesterIndiesAnonymous/Ironstag/releases
 ## How to build this application
 
 Right now this project is buildable within Visual Studio Code 2022 and directly from the command line/terminal with Cake Build (https://cakebuild.net/). We also have automated build pipelines with build/release github action(s) the post the built project on the github releases page. We are still working on symversioning our releases.
+
+## What are the dependencies for the current version
+
+- Monogame 3.8
+- NET Core 6.0
