@@ -17,7 +17,7 @@ Created by students at RIT for a beginner's game development class.
 
 ## Available Platforms
 - Windows
-- MacOS Monterey (Intel) (Works in VS Code, Binary doesnt work yet)
+- MacOS Monterey (Intel) (Works in Visual Studio, Binary doesnt work yet)
 
 ## How to dowload the latest version of this application
 
