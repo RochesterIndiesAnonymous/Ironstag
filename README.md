@@ -11,7 +11,6 @@ Created by students at RIT for a beginner's game development class.
 
 ## TODO
 
-- Port to MonoGame 3.8 and .NetCore6.0 (Done)
 - Build instructions
 - Conquer the world
 - Update [author info](https://help.github.com/articles/changing-author-info) with the correct github profiles (where applicable)
@@ -29,6 +28,17 @@ https://github.com/RochesterIndiesAnonymous/Ironstag/releases
 ## How to build this application
 
 Right now this project is buildable within Visual Studio Code 2022 and directly from the command line/terminal with Cake Build (https://cakebuild.net/). We also have automated build pipelines with build/release github action(s) the post the built project on the github releases page. We are still working on symversioning our releases.
+
+### Visual Studio 2022
+
+- NET Core 6.0 (DesktopGL)
+- Monogame 3.8
+- MGCB - Builds Content Files
+- MGCBFX - Builds Shaders
+
+### Cake Build
+
+dotnet cake
 
 ## What are the dependencies for the current version
 
